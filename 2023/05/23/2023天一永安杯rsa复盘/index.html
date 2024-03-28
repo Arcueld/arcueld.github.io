@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>2023天一永安杯rsa复盘 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>2023天一永安杯rsa复盘</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/5/23
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ff7d73">数学建模</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="原题"><a href="#原题" class="headerlink" title="原题"></a>原题</h1><pre><code class="c">from Crypto.Util.number import *
+from math import gcd
+from secret import flag
+
+def gen_key(nbits, gamma):
+    g = getPrime(int(nbits * gamma)) 
+    alpha = 0.5 - gamma
+    while True:
+        a = getPrime(int(alpha * nbits))
+        p = 2 * g * a + 1 
+        if isPrime(p):
+            break
+    while True:
+        b = getRandomNBitInteger(int(alpha * nbits))
+        q = 2 * g * b + 1
+        h = 2 * g * a * b + a + b
+        if isPrime(q) and isPrime(h) and gcd(a, b) == 1:
+            return p*q,a,g
+        else:
+            continue
+        
+n,a,g = gen_key(1024, 0.05)
+e = 65537
+c = pow(bytes_to_long(flag),e,a*g)
+print(n,c,a)
+
+&#39;&#39;&#39;
+n=36535558847082719901201561031181835346574576610950713924924272947759193576365817762980927638691696601293089537315055413746788190208875234794229119049056299551864869870291634941246362436491006904347559559494705922259007299126640817275929491680601926404543198957206717290905220235571289759182878331893962038379
+c=532997872940452282189043430008002793694788439822465302532208754231005799057972378308576109082463996551992533174546386979606697890310597738637156771564229
+a=2694858406312563434474553988904403597551484373358339092528913028454100111881368126493990657117571672510331411186745639563619323775673115439
+&#39;&#39;&#39;
+</code></pre>
+<h1 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h1><p>其实挺简单的,当初一看500分,觉得不是我能动的题,下来复盘了一下后悔没细看</p>
+<p>过程如下<br><code>p*q = 2g(a+b) + 4ab*g**2 +1 </code><br>而<code>a+b+2gab == h</code><br>化简得到<br><code>p*q-1 = 2gh</code></p>
+<p>本题的公钥是<code>(e,a*g)</code><br>我们可以考虑用<code>p*q-1 = 2gh</code><br>分解得到g<br><code>n = (n-1) // 2</code></p>
+<p>因为g是<code>51位</code>的<br>h是约为<code>972位</code>的<br>相差很大可以用yafu分解或者factordb查一下<br>得到</p>
+<pre><code class="c">g = 1346104232461691
+
+h = 13570850594633462506426369052182298554140635599543685835372377476383038708650421475723391142118956001358520246769650699398490037618758005241062608387057439283872260149565854577827352267289963736282502923131251179400580891491236925451166755184695335564693793568286112036468975877609637392241679
+</code></pre>
+<p>于是脚本如下</p>
+<pre><code class="python">from Crypto.Util.number import *
+import gmpy2
+
+c = 532997872940452282189043430008002793694788439822465302532208754231005799057972378308576109082463996551992533174546386979606697890310597738637156771564229
+a = 2694858406312563434474553988904403597551484373358339092528913028454100111881368126493990657117571672510331411186745639563619323775673115439
+g = 1346104232461691
+e = 65537
+
+d = gmpy2.invert(e,(g-1)*(a-1))
+print(long_to_bytes(pow(c,d,a*g)))
+# b&#39;flag&#123;p01la4d_rHo_a1gOr1thM_r1gh4&#125;&#39;
+</code></pre>
+<p>后来做到了羊城杯2021的一道类似的rsa<br>才知道这是<code>Common Prime RSA</code><br>常见的攻击方法有<br>1.修改Pollard’s rho方法分解n<br>2.知道a,b<br>3.知道g<br>4.分解n-1</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>痛失线下赛,要哭哭惹</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

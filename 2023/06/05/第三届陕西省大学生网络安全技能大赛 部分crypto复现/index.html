@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>第三届陕西省大学生网络安全技能大赛 部分crypto复现 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>第三届陕西省大学生网络安全技能大赛 部分crypto复现</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/6/5
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00a596">数学建模</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="奇怪的sar"><a href="#奇怪的sar" class="headerlink" title="奇怪的sar"></a>奇怪的sar</h1><p>lcg拿种子<br>爆破p的所有满足<code>p^q = seed</code>的可能然后求解<br>或者类似<code>第五空间signin</code>那题,不爆破所有可能(因为我爆破的脚本用的别人的,他用递归实现,1024位会超上限),只爆破低位<br><img src="https://img-blog.csdnimg.cn/ec3e4a87ca034b50af2fd58b28e8322c.png" alt="在这里插入图片描述"></p>
+<pre><code class="python">from Crypto.Util.number import *
+from tqdm import trange
+import gmpy2
+
+c = 14883053247652228283811442762780942186987432684268901119544211089991663825267989728286381980568977804079766160707988623895155236079459150322336701772385709429870215701045797411519212730389048862111088898917402253368572002593328131895422933030329446097639972123501482601377059155708292321789694103528266681104521268192526745361895856566384239849048923482217529011549596939269967690907738755747213669693953769070736092857407573675987242774763239531688324956444305397953424851627349331117467417542814921554060612622936755420459029769026126293588814831034143264949347763031994934813475762839410192390466491651507733968227
+e = 65537
+n =  24044063028844014127418595700558729326190738802687551098858513077613750188240082663594575453404975706225242363463089392757425008423696150244560748490108425645064339883915929498539109384801415313004805586193044292137299902797522618277016789979196782551492020031695781792205215671106103568559626617762521687128199445018651010056934305055040748892733145467040663073395258760159451903432330506383025685265502086582538667772105057401245864822281535425692919273252955571196166824113519446568745718898654447958192533288063735350717599092500158028352667339959012630051251024677881674246253876293205648190626145653304572328397
+
+seed = 39428646082513135314545544161912595458975375891528176714825766497155482031976852156313956476772023258684487799640179241987139554034654104867011313090105438798561154654679825702410748780286094326639330840289843154525176685892323447168072417654823748596238888125898914210332775882916911771786984574407163323116
+
+def findp(p,plist):
+    l=len(p)
+    if l==600:
+        plist.append(int(p,2))
+    else:
+        pp=int(p,2)
+        qq=(seed^^pp)%2**l
+        if pp*qq%2**l==n%2**l:
+            findp(&#39;1&#39;+p,plist)
+            findp(&#39;0&#39;+p,plist)
+
+plist=[]
+findp(&#39;1&#39;,plist)
+print(plist)
+
+
+
+for i in trange(len(plist)):
+    PR.&lt;x&gt; = PolynomialRing(Zmod(n))
+    f = x*2^600 + plist[i]
+    f = f.monic()
+    r = f.small_roots(X=2^424, beta=0.4)
+    if r:
+        p = int(plist[i]+r[0]* 2^600)
+        if n%p == 0:
+            break
+
+q = n // p
+d = gmpy2.invert(e, (p-1)*(q-1))
+print(long_to_bytes(power_mod(c, d, n)))
+</code></pre>
+<h1 id="M3"><a href="#M3" class="headerlink" title="M3"></a>M3</h1><pre><code class="c">from Crypto.Util.number import *
+from rsaAttack import rsaATTACK
+from itertools import product
+from string import digits
+import gmpy2
+
+c = 35771468551700967499031290145813826705314774357494021918317304230766070868171631520643911378972522363861624359732252684003796428570328730483253546904382041
+n = 142672086626283587048017713116658568907056287246536918432205313755474498483915485435443731126588499776739329317569276048159601495493064346081295993762052633
+e = 65537
+
+pqh = str(n)[:19]
+pql = str(n)[-18:]
+
+# for i,j in product(digits,repeat=2):
+#     pq = pqh + i + j + pql
+#     tp = rsaATTACK.factor_n(int(pq))
+#     if tp and len(tp) == 2 and tp[0].bit_length() == 64:
+#         p, q = tp
+#         break
+# print(p,q)
+p = 9937378783676979077 
+q = 14357114660923972229
+P = int(str(p) + str(q)) #128 
+Q = int(str(q) + str(p)) #128 
+PP = int(str(P) + str(Q)) #256 
+QQ = int(str(Q) + str(P)) #256 
+
+d = gmpy2.invert(e,(PP-1)*(QQ-1))
+print(long_to_bytes(pow(c,d,n)))
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

