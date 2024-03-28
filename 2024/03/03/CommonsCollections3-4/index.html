@@ -174,7 +174,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/java/" style="color: #00bcd4">java</a>
+                <a href="/tags/java/" style="color: #00a596">java</a>
             </span>
             
         </span>
@@ -198,6 +198,8 @@
 <pre><code class="java">        Transformer instance = InstantiateTransformer.getInstance(new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;hahaha&quot;&#125;);
         System.out.println(instance.transform(String.class));
 </code></pre>
+<span id="more"></span> 
+
 <p>然后正式开始跟链子</p>
 <p>cc3是靠defineClass加载字节码来触发的</p>
 <p>触发点在Classloader#definClass()</p>
