@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>OLLVM | Arcueid&#39;s BLOG</title>
+    <title>2023-04-Unit42-Wireshark-quiz | Arcueid&#39;s BLOG</title>
     <meta name="author" content="Arcueid" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -155,14 +155,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>OLLVM</h1>
+        <h1>2023-04-Unit42-Wireshark-quiz</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2024/3/19
+            2024/4/8
         </span>
         
         
@@ -174,7 +174,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/evasion/" style="color: #00bcd4">evasion</a>
+                <a href="/tags/flowanalysis/" style="color: #ffa2c4">flowanalysis</a>
             </span>
             
         </span>
@@ -182,81 +182,87 @@
     </div>
     
     <div class="content" v-pre>
-        <p>虚拟机配置: 4g 40g</p>
-<h2 id="增加源"><a href="#增加源" class="headerlink" title="增加源"></a>增加源</h2><pre><code>deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main universe
-</code></pre>
-<span id="more"></span> 
+        <h1 id="2023-04-Unit42-Wireshark-quiz"><a href="#2023-04-Unit42-Wireshark-quiz" class="headerlink" title="2023-04-Unit42-Wireshark-quiz"></a>2023-04-Unit42-Wireshark-quiz</h1><p>下载pcap包</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/pan-unit42/Wireshark-quizzes/blob/main/2023-04-Unit42-Wireshark-quiz.pcap.zip">https://github.com/pan-unit42/Wireshark-quizzes/blob/main/2023-04-Unit42-Wireshark-quiz.pcap.zip</a></p>
+<blockquote>
+<p>  Quiz Questions</p>
+<ul>
+<li>What is the date and time in UTC the infection started?</li>
+<li>What is the IP address of the infected Windows client?</li>
+<li>What is the MAC address of the infected Windows client?</li>
+<li>What is the hostname of the infected Windows client?</li>
+<li>What is the user account name from the infected Windows host?</li>
+<li>Is there any follow-up activity from other malware?</li>
+</ul>
+</blockquote>
+<h1 id="事件链流程图"><a href="#事件链流程图" class="headerlink" title="事件链流程图"></a>事件链流程图</h1><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081231222.png" alt="Image 1 is a flowchart of the chain of events in the April 2023 IcedID infection. It starts with email and or web-based delivery methods, continues to the IcedID installer, HTTP traffic for the gzip binary, malware created from that binary, and then command and control traffic from the IcedID infection. The initial follow-up activity can include Cobalt sStrike, VNC traffic, and BackConnect."></p>
+<h1 id="分析流程"><a href="#分析流程" class="headerlink" title="分析流程"></a>分析流程</h1><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081228633.png" alt="image-20240408122852449"></p>
+<span id="more"></span>
 
-<h2 id="安装cmake"><a href="#安装cmake" class="headerlink" title="安装cmake"></a>安装cmake</h2><pre><code class="bash">sudo apt-get install cmake -y
-</code></pre>
-<h2 id="安装gcc8"><a href="#安装gcc8" class="headerlink" title="安装gcc8"></a>安装gcc8</h2><pre><code class="bash">sudo apt-get install gcc-8 g++-8 -y
-</code></pre>
-<h2 id="切换为默认版本"><a href="#切换为默认版本" class="headerlink" title="切换为默认版本"></a>切换为默认版本</h2><pre><code>sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 100 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
-</code></pre>
-<h2 id="ollvm"><a href="#ollvm" class="headerlink" title="ollvm"></a>ollvm</h2><pre><code>git clone -b llvm-4.0  https://github.com/obfuscator-llvm/obfuscator.git
-cd obfuscator/
-</code></pre>
-<pre><code class="bash">vim include/llvm/ExecutionEngine/Orc/OrcRemoteTargetClient.h
-修改源码 char为uint8_t
-Expected&lt;std::vector&lt;uint8_t&gt;&gt; readMem(char *Dst, JITTargetAddress Src,
-                                      uint64_t Size) &#123;
-    // Check for an &#39;out-of-band&#39; error, e.g. from an MM destructor.
-    if (ExistingError)
-      return std::move(ExistingError);
-
-    return callB&lt;ReadMem&gt;(Src, Size);
-  &#125;
-</code></pre>
-<p>编译</p>
-<pre><code class="bash">mkdir build
-cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_INCLUDE_TESTS=OFF ../
-make -j4
-sudo make install 
-</code></pre>
-<p>make失败了多试几次 内存拉大点</p>
-<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><pre><code class="cpp">#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-int encryptFunc(int inputNum_1,int inputNum_2)&#123;
-    int tmpNum_1 = 666, tmpNum_2 = 888, tmpNum_3 = 777;
-    return tmpNum_1 ^ tmpNum_2 + tmpNum_3 * inputNum_1 - inputNum_2;
-&#125;
-
-int main(int argc,char *argv[])&#123;
-
-    int printNum = 55;
-    if (argc &gt; 1)
-    &#123;
-        printNum = encryptFunc(printNum, atoi(argv[1]));
-    &#125;else&#123;
-        printNum = encryptFunc(printNum, argc);
-    &#125;
-    
-    printf(&quot;Hello OLLVM %d\r\n&quot;, printNum);
-
-    return 0;
-&#125;
-</code></pre>
-<pre><code class="bash">clang -mllvm -sub -mllvm -sub_loop=3  -mllvm -bcf -mllvm -bcf_loop=3 -mllvm -bcf_prob=40 -mllvm -fla -mllvm -split -mllvm -split_num=3 a.cpp -o a.exe
-</code></pre>
-<p>这样就实现了linux下elf文件的编译</p>
-<p>那么假如我们想要windows的呢</p>
-<p>​	windows OLLVM太鸡巴难配了 系统恢复之后就没配成功过了</p>
-<p>那么我们需要minGW交叉编译</p>
-<pre><code class="bash">sudo apt-get install mingw-w64
-</code></pre>
-<p>安装完再次测试</p>
-<pre><code class="bash"> clang -target x86_64-w64-windows-gnu  -mllvm -sub -mllvm -sub_loop=3  -mllvm -bcf -mllvm -bcf_loop=3 -mllvm -bcf_prob=40 -mllvm -fla -mllvm -split -mllvm -split_num=3 a.cpp -o a.exe
-</code></pre>
-<p>报错 找不到啥几把路径</p>
-<p>指定一下就好了</p>
-<pre><code class="bash">clang -target x86_64-w64-mingw32  -mllvm -sub -mllvm -sub_loop=3  -mllvm -bcf -mllvm -bcf_loop=3 -mllvm -bcf_prob=40 -mllvm -fla -mllvm -split -mllvm -split_num=3  -L /usr/lib/gcc/x86_64-w64-mingw32/10-posix/ a.cpp -o a.exe 
-</code></pre>
-<p>混淆效果如下</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403192209481.png" alt="image-20240319220917273"></p>
-<p>证实可运行</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403192209559.png" alt="image-20240319220950472"></p>
+<p>注意到向main.php发送了一个http请求</p>
+<p>给我们重定向到</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081240181.png" alt="image-20240408124022114"></p>
+<p><code>https://firebasestorage.googleapis.com/v0/b/serene-cathode-377701.appspot.com/o/XSjwp6O0pq%2FScan_Inv.zip?alt=media&amp;token=a716bdce-1373-44ed-ae89-fdabafa31c61</code></p>
+<p>该连接已经被google ban了</p>
+<p>只能知道下载了一个zip包</p>
+<p>进一步过滤web</p>
+<p><code>(tls.handshake.type == 1 || http.request) &amp;&amp; (!ssdp) &amp;&amp; ip.addr==10.4.19.136</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081250983.png" alt="image-20240408125015918"></p>
+<p>追踪和firebasestorage交互的数据流</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081251566.png" alt="image-20240408125113496"></p>
+<p>根据数据大小 我们可以推断出应该是把zip包下下来了</p>
+<p>我们可以在urlhaus上下载样本</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081253104.png" alt="image-20240408125300013"></p>
+<p>根据icedID的特性 受害主机先会向某域名的80端口发送无参数的GET请求gzip</p>
+<p>排除微软等url 发现可疑域名</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081257085.png" alt="image-20240408125730016"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081258573.png" alt="image-20240408125809508"></p>
+<p>确实请求了gzip</p>
+<p>受害主机的cookie中包含了主机相关信息</p>
+<p>__gads IcedID 活动标识符和来自受感染主机的信息</p>
+<p>_gid 使用受感染主机的 MAC 地址计算的值</p>
+<p>_u ASCII 文本，表示受害者主机名、Windows 用户帐户名和另一个未确定值的十六进制值</p>
+<p>__io 来自受感染主机安全标识符 (SID) 的域标识符</p>
+<p>_ga 基于受感染主机CPU的信息</p>
+<p>_gat windows版本</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081305034.png" alt="image-20240408130520969"></p>
+<p>主机名和用户名都出了</p>
+<p>解压gzip后IcedId installer向C2回连 走HTTPS</p>
+<p>我们注意到</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081434813.png" alt="image-20240408143411773"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081447941.png" alt="image-20240408144737847"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081713286.png" alt="image-20240408171339246"></p>
+<p>这几个都是恶意url</p>
+<p>查看他们的证书</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081718994.png" alt="image-20240408171809949"></p>
+<p>发现组织名是默认的 Internet Widgits Pty Ltd</p>
+<p>我们可以用wireshark过滤</p>
+<p><code>x509sat.uTF8String eq &quot;Internet Widgits Pty Ltd&quot;</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081722285.png" alt="image-20240408172204240"></p>
+<p>很多恶意软件的自签名证书都是默认的数值 可以特别关注一下</p>
+<p>uint42上指出IcedID常见后门ip为193.149.176.100</p>
+<p>过滤查看</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081751918.png"></p>
+<p>一逐一查看 </p>
+<p>第一个加密的没什么看的</p>
+<p>第二个显示域控下所有主机 针对boogienights.live域</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081752809.png" alt="image-20240408175200761"></p>
+<p>第三个列了一下磁盘</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081753412.png" alt="image-20240408175333338"></p>
+<p>针对受害主机进行过滤 拿到受害主机用户名</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081730228.png" alt="image-20240408173021178"></p>
+<p>拿主机名</p>
+<p><code>ip.addr eq 10.4.19.136 and ip contains &quot;DESKTOP-&quot;</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081759020.png" alt="image-20240408175953955"></p>
+<p>拿mac地址 随便找个一个和10.4.19.136相关的帧查看</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081800142.png" alt="image-20240408180055105"></p>
+<h1 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h1><p>2023-04-19 15:31:08</p>
+<p>10.4.19.136 </p>
+<p>14:58:d0:2e:c5:ae</p>
+<p>csilva</p>
+<p>Desktop</p>
+<p>DESKTOP-SFF9LJF</p>
+<p>BackConnect traffic</p>
 
     </div>
     

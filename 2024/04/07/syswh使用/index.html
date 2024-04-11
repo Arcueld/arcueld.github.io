@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>源码混淆 | Arcueid&#39;s BLOG</title>
+    <title>syswh使用 | Arcueid&#39;s BLOG</title>
     <meta name="author" content="Arcueid" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -155,14 +155,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>源码混淆</h1>
+        <h1>syswh使用</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2024/3/26
+            2024/4/7
         </span>
         
         
@@ -174,7 +174,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/evasion/" style="color: #ff7d73">evasion</a>
+                <a href="/tags/evasion/" style="color: #03a9f4">evasion</a>
             </span>
             
         </span>
@@ -182,45 +182,23 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="c-源码混淆"><a href="#c-源码混淆" class="headerlink" title="c++源码混淆"></a>c++源码混淆</h1><p>ollvm VT 14 &#x2F; 72</p>
-<p>直接编译  10 &#x2F; 72 </p>
-<p>是ollvm特征太明显了还是什么原因吗?</p>
-<p>那么研究研究手动混淆 </p>
-<h2 id="函数名及变量名的混淆"><a href="#函数名及变量名的混淆" class="headerlink" title="函数名及变量名的混淆"></a>函数名及变量名的混淆</h2><p>使用宏替换（#define）就可以了</p>
-<pre><code class="cpp">#ifndef _OBFUS_H_
-#define _OBFUS_H_
+        <h1 id="syswh-使用"><a href="#syswh-使用" class="headerlink" title="syswh 使用"></a>syswh 使用</h1><p><a target="_blank" rel="noopener" href="https://github.com/jthuraisamy/SysWhispers2">https://github.com/jthuraisamy/SysWhispers2</a></p>
+<p><code>python syswhispers.py -p all -a all -l all -o example-output/Syscalls</code></p>
+<p>生成脚本</p>
+<p>然后去配置vs</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404070943705.png" alt="image-20240407094304622"></p>
+<p>启用MASM</p>
+<span id="more"></span>
 
-#define OBFUSCATION_CODE
-#ifdef OBFUSCATION_CODE
-
-//main.cpp
-#define md5sum                            l1o
-#define md5_value                         l10
-#define func_val                          l11
-#define func_val                          l12
-#define func_val                          l13
-#define func_val                          l14
-#define func_val                          l15
-#define func_val                          l16
-#define func_val                          l17
-#define func_val                          l18
-#define func_val                          l19
-//other.cpp
-#define func_val                          l1lo
-#define func_val                          l1l0
-#define func_val                          l1l1
-#define func_val                          l1l2
-#define func_val                          l1l3
-#define func_val                          l1l4
-#define func_val                          l1l5
-#define func_val                          l1l6
-#define func_val                          l1l7
-#define func_val                          l1l8
-#define func_val                          l1l9
-
-#endif //OBFUSCATION_CODE
-#endif //_OBFUS_H_
-</code></pre>
+<p>然后导入相应的头文件和asm文件</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404070944440.png" alt="image-20240407094411391"></p>
+<p>确保项类型是 MMA</p>
+<p>至此配置完毕</p>
+<p>想要什么函数就去.h文件里搜</p>
+<p>MSDN上没有的API可以去<a target="_blank" rel="noopener" href="http://undocumented.ntinternals.net/%E4%B8%8A%E7%9C%8B%E7%9C%8B">http://undocumented.ntinternals.net/上看看</a></p>
+<p>但实际上看头文件的函数原型也能猜的差不多</p>
+<p>例子如下</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404070946878.png" alt="image-20240407094613840"></p>
 
     </div>
     

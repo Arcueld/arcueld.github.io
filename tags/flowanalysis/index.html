@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>OLLVM | Arcueid&#39;s BLOG</title>
+    <title>Tags: flowanalysis | Arcueid&#39;s BLOG</title>
     <meta name="author" content="Arcueid" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -36,10 +36,6 @@
 
 
 <script src="/js/lib/preview.js"></script>
-
-
-
-
 
 
 
@@ -153,118 +149,74 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div class="article">
-    <div>
-        <h1>OLLVM</h1>
-    </div>
-    <div class="info">
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/3/19
+            <div id="archives">
+    
+    <div class="categories-tags">
+        
+        
+        
+        <span>
+            <a href="/tags/flowanalysis/" style="background: linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                flowanalysis
+            </a>
         </span>
         
         
-        <span class="tags">
-            <span class="icon">
-                <i class="fa-solid fa-tags fa-fw"></i>
-            </span>
-            
-            
-            <span class="tag">
+        
+        
+        
+        <span>
+            <a href="/tags/java/" style="background: #00a596">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        
+        
+        <span>
+            <a href="/tags/evasion/" style="background: #03a9f4">
+                <span class="icon">
+                    <i class="fa-solid fa-tags fa-fw"></i>
+                </span>
+                evasion
+            </a>
+        </span>
+        
+        
+    </div>
+    
+    <div class="timeline">
+        <div class="timeline-tail"></div>
+        <div class="timeline-content">
+            <div class="item-time">2024/4/8</div>
+            <a href="/2024/04/08/2023-04-Unit42-Wireshark-quiz/">
+                <h3>2023-04-Unit42-Wireshark-quiz</h3>
+            </a>
+            <div class="info">
                 
-                <a href="/tags/evasion/" style="color: #00bcd4">evasion</a>
-            </span>
-            
-        </span>
-        
+                
+                <span class="tags">
+                    <span class="icon">
+                        <i class="fa-solid fa-tags fa-fw"></i>
+                    </span>
+                    
+                    
+                    <span class="tag">
+                        
+                        <a href="/tags/flowanalysis/" style="color: #00bcd4">flowanalysis</a>
+                    </span>
+                    
+                </span>
+                
+            </div>
+        </div>
     </div>
-    
-    <div class="content" v-pre>
-        <p>虚拟机配置: 4g 40g</p>
-<h2 id="增加源"><a href="#增加源" class="headerlink" title="增加源"></a>增加源</h2><pre><code>deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main universe
-</code></pre>
-<span id="more"></span> 
-
-<h2 id="安装cmake"><a href="#安装cmake" class="headerlink" title="安装cmake"></a>安装cmake</h2><pre><code class="bash">sudo apt-get install cmake -y
-</code></pre>
-<h2 id="安装gcc8"><a href="#安装gcc8" class="headerlink" title="安装gcc8"></a>安装gcc8</h2><pre><code class="bash">sudo apt-get install gcc-8 g++-8 -y
-</code></pre>
-<h2 id="切换为默认版本"><a href="#切换为默认版本" class="headerlink" title="切换为默认版本"></a>切换为默认版本</h2><pre><code>sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 100 --slave /usr/bin/g++ g++ /usr/bin/g++-8 --slave /usr/bin/gcov gcov /usr/bin/gcov-8
-</code></pre>
-<h2 id="ollvm"><a href="#ollvm" class="headerlink" title="ollvm"></a>ollvm</h2><pre><code>git clone -b llvm-4.0  https://github.com/obfuscator-llvm/obfuscator.git
-cd obfuscator/
-</code></pre>
-<pre><code class="bash">vim include/llvm/ExecutionEngine/Orc/OrcRemoteTargetClient.h
-修改源码 char为uint8_t
-Expected&lt;std::vector&lt;uint8_t&gt;&gt; readMem(char *Dst, JITTargetAddress Src,
-                                      uint64_t Size) &#123;
-    // Check for an &#39;out-of-band&#39; error, e.g. from an MM destructor.
-    if (ExistingError)
-      return std::move(ExistingError);
-
-    return callB&lt;ReadMem&gt;(Src, Size);
-  &#125;
-</code></pre>
-<p>编译</p>
-<pre><code class="bash">mkdir build
-cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_INCLUDE_TESTS=OFF ../
-make -j4
-sudo make install 
-</code></pre>
-<p>make失败了多试几次 内存拉大点</p>
-<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><pre><code class="cpp">#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-int encryptFunc(int inputNum_1,int inputNum_2)&#123;
-    int tmpNum_1 = 666, tmpNum_2 = 888, tmpNum_3 = 777;
-    return tmpNum_1 ^ tmpNum_2 + tmpNum_3 * inputNum_1 - inputNum_2;
-&#125;
-
-int main(int argc,char *argv[])&#123;
-
-    int printNum = 55;
-    if (argc &gt; 1)
-    &#123;
-        printNum = encryptFunc(printNum, atoi(argv[1]));
-    &#125;else&#123;
-        printNum = encryptFunc(printNum, argc);
-    &#125;
-    
-    printf(&quot;Hello OLLVM %d\r\n&quot;, printNum);
-
-    return 0;
-&#125;
-</code></pre>
-<pre><code class="bash">clang -mllvm -sub -mllvm -sub_loop=3  -mllvm -bcf -mllvm -bcf_loop=3 -mllvm -bcf_prob=40 -mllvm -fla -mllvm -split -mllvm -split_num=3 a.cpp -o a.exe
-</code></pre>
-<p>这样就实现了linux下elf文件的编译</p>
-<p>那么假如我们想要windows的呢</p>
-<p>​	windows OLLVM太鸡巴难配了 系统恢复之后就没配成功过了</p>
-<p>那么我们需要minGW交叉编译</p>
-<pre><code class="bash">sudo apt-get install mingw-w64
-</code></pre>
-<p>安装完再次测试</p>
-<pre><code class="bash"> clang -target x86_64-w64-windows-gnu  -mllvm -sub -mllvm -sub_loop=3  -mllvm -bcf -mllvm -bcf_loop=3 -mllvm -bcf_prob=40 -mllvm -fla -mllvm -split -mllvm -split_num=3 a.cpp -o a.exe
-</code></pre>
-<p>报错 找不到啥几把路径</p>
-<p>指定一下就好了</p>
-<pre><code class="bash">clang -target x86_64-w64-mingw32  -mllvm -sub -mllvm -sub_loop=3  -mllvm -bcf -mllvm -bcf_loop=3 -mllvm -bcf_prob=40 -mllvm -fla -mllvm -split -mllvm -split_num=3  -L /usr/lib/gcc/x86_64-w64-mingw32/10-posix/ a.cpp -o a.exe 
-</code></pre>
-<p>混淆效果如下</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403192209481.png" alt="image-20240319220917273"></p>
-<p>证实可运行</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403192209559.png" alt="image-20240319220950472"></p>
-
-    </div>
-    
-    
-    
-    
-    
-    
     
 </div>
 
@@ -296,12 +248,6 @@ int main(int argc,char *argv[])&#123;
         
     </div>
     <script src="/js/main.js"></script>
-    
-    
-
-
-
-
     
 </body>
 </html>

@@ -172,6 +172,103 @@
         
 
 <div class="post">
+    <a href="/2024/04/08/2023-04-Unit42-Wireshark-quiz/">
+        <h2 class="post-title">2023-04-Unit42-Wireshark-quiz</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/4/8
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="2023-04-Unit42-Wireshark-quiz"><a href="#2023-04-Unit42-Wireshark-quiz" class="headerlink" title="2023-04-Unit42-Wireshark-quiz"></a>2023-04-Unit42-Wireshark-quiz</h1><p>下载pcap包</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/pan-unit42/Wireshark-quizzes/blob/main/2023-04-Unit42-Wireshark-quiz.pcap.zip">https://github.com/pan-unit42/Wireshark-quizzes/blob/main/2023-04-Unit42-Wireshark-quiz.pcap.zip</a></p>
+<blockquote>
+<p>  Quiz Questions</p>
+<ul>
+<li>What is the date and time in UTC the infection started?</li>
+<li>What is the IP address of the infected Windows client?</li>
+<li>What is the MAC address of the infected Windows client?</li>
+<li>What is the hostname of the infected Windows client?</li>
+<li>What is the user account name from the infected Windows host?</li>
+<li>Is there any follow-up activity from other malware?</li>
+</ul>
+</blockquote>
+<h1 id="事件链流程图"><a href="#事件链流程图" class="headerlink" title="事件链流程图"></a>事件链流程图</h1><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081231222.png" alt="Image 1 is a flowchart of the chain of events in the April 2023 IcedID infection. It starts with email and or web-based delivery methods, continues to the IcedID installer, HTTP traffic for the gzip binary, malware created from that binary, and then command and control traffic from the IcedID infection. The initial follow-up activity can include Cobalt sStrike, VNC traffic, and BackConnect."></p>
+<h1 id="分析流程"><a href="#分析流程" class="headerlink" title="分析流程"></a>分析流程</h1><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081228633.png" alt="image-20240408122852449"></p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/flowanalysis/" style="color: #00bcd4">flowanalysis</a>
+        </span>
+        
+    </div>
+    <a href="/2024/04/08/2023-04-Unit42-Wireshark-quiz/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2024/04/07/syswh%E4%BD%BF%E7%94%A8/">
+        <h2 class="post-title">syswh使用</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/4/7
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="syswh-使用"><a href="#syswh-使用" class="headerlink" title="syswh 使用"></a>syswh 使用</h1><p><a target="_blank" rel="noopener" href="https://github.com/jthuraisamy/SysWhispers2">https://github.com/jthuraisamy/SysWhispers2</a></p>
+<p><code>python syswhispers.py -p all -a all -l all -o example-output/Syscalls</code></p>
+<p>生成脚本</p>
+<p>然后去配置vs</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404070943705.png" alt="image-20240407094304622"></p>
+<p>启用MASM</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/evasion/" style="color: #00bcd4">evasion</a>
+        </span>
+        
+    </div>
+    <a href="/2024/04/07/syswh%E4%BD%BF%E7%94%A8/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2024/04/01/SpringMemShell/">
         <h2 class="post-title">SpringMemShell</h2>
     </a>
@@ -214,84 +311,6 @@
 </div>
 
 <div class="post">
-    <a href="/2024/03/26/%E6%BA%90%E7%A0%81%E6%B7%B7%E6%B7%86/">
-        <h2 class="post-title">源码混淆</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/3/26
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="c-源码混淆"><a href="#c-源码混淆" class="headerlink" title="c++源码混淆"></a>c++源码混淆</h1><p>ollvm VT 14 &#x2F; 72</p>
-<p>直接编译  10 &#x2F; 72 </p>
-<p>是ollvm特征太明显了还是什么原因吗?</p>
-<p>那么研究研究手动混淆 </p>
-<h2 id="函数名及变量名的混淆"><a href="#函数名及变量名的混淆" class="headerlink" title="函数名及变量名的混淆"></a>函数名及变量名的混淆</h2><p>使用宏替换（#define）就可以了</p>
-<pre><code class="cpp">#ifndef _OBFUS_H_
-#define _OBFUS_H_
-
-#define OBFUSCATION_CODE
-#ifdef OBFUSCATION_CODE
-
-//main.cpp
-#define md5sum                            l1o
-#define md5_value                         l10
-#define func_val                          l11
-#define func_val                          l12
-#define func_val                          l13
-#define func_val                          l14
-#define func_val                          l15
-#define func_val                          l16
-#define func_val                          l17
-#define func_val                          l18
-#define func_val                          l19
-//other.cpp
-#define func_val                          l1lo
-#define func_val                          l1l0
-#define func_val                          l1l1
-#define func_val                          l1l2
-#define func_val                          l1l3
-#define func_val                          l1l4
-#define func_val                          l1l5
-#define func_val                          l1l6
-#define func_val                          l1l7
-#define func_val                          l1l8
-#define func_val                          l1l9
-
-#endif //OBFUSCATION_CODE
-#endif //_OBFUS_H_
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/evasion/" style="color: #ff7d73">evasion</a>
-        </span>
-        
-    </div>
-    <a href="/2024/03/26/%E6%BA%90%E7%A0%81%E6%B7%B7%E6%B7%86/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
     <a href="/2024/03/19/Ubuntu20.04%20%E9%85%8D%E7%BD%AEOLLVM%E7%8E%AF%E5%A2%83/">
         <h2 class="post-title">OLLVM</h2>
     </a>
@@ -325,7 +344,7 @@
         
         <span class="tag">
             
-            <a href="/tags/evasion/" style="color: #00a596">evasion</a>
+            <a href="/tags/evasion/" style="color: #ff7d73">evasion</a>
         </span>
         
     </div>
@@ -351,7 +370,7 @@
         <div class="content" v-pre>
             
             <h1 id="MemShell"><a href="#MemShell" class="headerlink" title="MemShell"></a>MemShell</h1><p>一句话</p>
-<p><code>利用类加载或Agent机制在JavaEE、框架或中间件的API中动态注册一个可访问的后门</code></p>
+<p><code>利用类加载或Agent机制在JavaEE、.框架或中间件的API中动态注册一个可访问的后门</code></p>
 <h2 id="基础认知"><a href="#基础认知" class="headerlink" title="基础认知"></a>基础认知</h2><p>内存马又名无文件马，见名知意，指的是无文件落地的webshell</p>
 <p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202401211532045.png" alt="图片"></p>
             
@@ -367,7 +386,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
@@ -431,7 +450,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
@@ -485,7 +504,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00a596">java</a>
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
         </span>
         
     </div>
@@ -538,7 +557,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
+            <a href="/tags/java/" style="color: #00a596">java</a>
         </span>
         
     </div>
@@ -586,7 +605,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
