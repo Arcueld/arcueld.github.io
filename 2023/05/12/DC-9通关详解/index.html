@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>DC-9通关详解 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>DC-9通关详解</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/5/12
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00a596">开发语言</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/php/" style="color: #ffa2c4">php</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/56a20a36ac8e480b82e5d18851b3a945.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/b658620582e5411c962472ea67afb604.png" alt="在这里插入图片描述"></p>
+<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p><img src="https://img-blog.csdnimg.cn/b32f811cd6d24014ab4115035753b5c6.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/9e30c2bbd0cb43feac7a5b141588db74.png" alt="在这里插入图片描述"><br><code>result.php</code>处存在sql注入<br>sqlmap跑信息<br><code>python sqlmap.py -u http://192.168.45.146/results.php --data search=1 -D users -T UserDetails --dump</code><br><img src="https://img-blog.csdnimg.cn/edf34e037bbd47bca778564800424bd0.png" alt="在这里插入图片描述"><br>拿了几个尝试登录都无效<br>ssh尝试登录直接拒绝了<br>再看Staff表<br><img src="https://img-blog.csdnimg.cn/a7cc08d1f6574e4982ef50808830850b.png" alt="在这里插入图片描述"><br>查哈希<br><img src="https://img-blog.csdnimg.cn/8eafce750f1049f28a357448e42c48d0.png" alt="在这里插入图片描述"><br>进后台<br>多了一个添加记录的功能<br>没啥用,不能–os-shell</p>
+<p>发现一个细节<br><img src="https://img-blog.csdnimg.cn/9c19a2dbbb374a6eacd49ab4272be15a.png" alt="在这里插入图片描述"><br>猜测是文件包含<br>猜传的值,或者bp爆破<br><img src="https://img-blog.csdnimg.cn/ba0bd48eae8b49c9b3d1119079030f0d.png" alt="在这里插入图片描述"><br>尝试php:&#x2F;&#x2F;input和日志文件包含均无果<br>然后没辙了</p>
+<p>看wp得知有knock服务</p>
+<p>正常应该先读<code>proc/sched_debug</code> 得知存在该服务<br><img src="https://img-blog.csdnimg.cn/5eef7917b3c040fd8bb046b15cc7f8e1.png" alt="在这里插入图片描述"><br>再读该服务的配置<br><code>/etc/knockd.conf</code><br><img src="https://img-blog.csdnimg.cn/76582fc6308547658112b614c2f99ee9.png" alt="在这里插入图片描述"></p>
+<p>得知需要以此向<br>7469 8475 9842端口发syn包</p>
+<p><img src="https://img-blog.csdnimg.cn/6f0b665f2a4a463d82ddf5f64eaa9c32.png" alt="在这里插入图片描述"><br>这就算打开了ssh服务了<br>再去比较之前sql注入得到的用户名和etc&#x2F;passwd下的用户名看看能否登录一个进去</p>
+<p>写一个user.txt和pass.txt用hydra爆破<br>user.txt是&#x2F;etc&#x2F;passwd的下半部分<br><img src="https://img-blog.csdnimg.cn/48353f283a10492fac7c2bc80644ab11.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/94cddcbbb74140be9d77bb1167b97bf3.png" alt="在这里插入图片描述"></p>
+<p><code>hydra -L user.txt  -P pass.txt ssh://192.168.45.146  -t 32</code></p>
+<p><img src="https://img-blog.csdnimg.cn/99c87a30f6ae40cfb5a7646cfa127ffc.png" alt="在这里插入图片描述"></p>
+<p>账号<code>janitor</code><br>密码<code>Ilovepeepee</code></p>
+<p>账号<code>chandlerb</code><br>密码<code>UrAG0D!</code></p>
+<p>账号<code>joeyt</code><br>密码<code>Passw0rd</code></p>
+<p>登录</p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>传个LinEnum.sh过来枚举脆弱性<br>没什么可利用的<br>那一个个账户看</p>
+<p>都没有sudo权限</p>
+<p>在janitor下发现隐藏文件<br><img src="https://img-blog.csdnimg.cn/c90092002a5443ebb531aae3a86d9988.png" alt="在这里插入图片描述"><br>一堆密码,尝试ssh爆</p>
+<p><img src="https://img-blog.csdnimg.cn/633739844e2343488f257989bfa21e4e.png" alt="在这里插入图片描述"><br>上fredf用户<br><img src="https://img-blog.csdnimg.cn/1c373a3aae174954901dc7a6b7399339.png" alt="在这里插入图片描述"><br>发现可以以root身份运行<code>/opt/devstuff/dist/test/test</code><br>那么去读源文件<br><img src="https://img-blog.csdnimg.cn/af8ed8bde084422493d27aac522004b1.png" alt="在这里插入图片描述"><br>将第一个参数的值写到第二个参数里<br>那么我们可以尝试给 当前用户所有权限<br><code>echo &#39;fredf ALL=(ALL:ALL) ALL&#39; &gt;/tmp/a.txt</code><br><code>sudo ./test /tmp/a.txt /etc/sudoers</code></p>
+<p>这里我写错了给文件干烂了,直接不能sudo了</p>
+<p>看了下wp后面就结束了</p>
+<p>这里运行完之后执行<code>sudo su -</code>就行了<br>难顶</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

