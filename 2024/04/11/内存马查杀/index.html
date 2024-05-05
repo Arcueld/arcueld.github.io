@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>DRIFTINGBLUES-1靶机通关详解 | Arcueid&#39;s BLOG</title>
+    <title>内存马查杀 | Arcueid&#39;s BLOG</title>
     <meta name="author" content="Arcueid" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -155,14 +155,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>DRIFTINGBLUES-1靶机通关详解</h1>
+        <h1>内存马查杀</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2023/7/30
+            2024/4/11
         </span>
         
         
@@ -174,12 +174,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+                <a href="/tags/java/" style="color: #03a9f4">java</a>
             </span>
             
         </span>
@@ -187,18 +182,54 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/bdba99ff6ab34b9abe568ec00a1cda10.png" alt="在这里插入图片描述"></p>
-<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>进web看源码发现 <img src="https://img-blog.csdnimg.cn/cc2e0d34c93c412498c03d013c551c53.png" alt="在这里插入图片描述"><br>解码得到 <code>/noteforkingfish.txt</code><br>访问发现是ook 解得<br><img src="https://img-blog.csdnimg.cn/283ce3edb77b4aff85b34c20d503ceab.png" alt="在这里插入图片描述"><br>先把这个名字记下来 说不定之后要ssh爆破有用<br>然后他说要用 host file <img src="https://img-blog.csdnimg.cn/00de8faccf31481e90dfaf4f8b976f1b.png" alt="在这里插入图片描述"><br>注意到域名可能是<code>driftingblues.box</code><br>加到hosts里试试<br>没啥用 看别人wp知道还得爆破子域名 那kali也添加个hosts然后爆破子域名<br><img src="https://img-blog.csdnimg.cn/f223ade9342140e69f9c14237ef4c260.png" alt="在这里插入图片描述"></p>
-<p>所以添加<code>test.driftingblues.box</code>进去 然后访问<br><img src="https://img-blog.csdnimg.cn/9577716640c447129dc31630217c95bb.png" alt="在这里插入图片描述"><br>扫个目录<br><img src="https://img-blog.csdnimg.cn/684704a72e26485c8e8f7a5832c4a353.png" alt="在这里插入图片描述"><br><code>robots.txt</code>中有<code>ssh_cred.txt</code><br><img src="https://img-blog.csdnimg.cn/090746838644466abdc249afcb0c0d01.png" alt="在这里插入图片描述"><br>说密码最后要加一位数字<br><img src="https://img-blog.csdnimg.cn/65dcb046a9a34f8ab467c7b416a8b2ce.png" alt="在这里插入图片描述"><br>登录上去</p>
-<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p><img src="https://img-blog.csdnimg.cn/909dce890c9840a99c9b95fd56507631.png" alt="在这里插入图片描述"><br>看看有哪些可能有用的账户 <img src="https://img-blog.csdnimg.cn/90b1d163dbd34d3780c84630ffed7623.png" alt="在这里插入图片描述"><br>进<code>home</code>目录 发现没有db用户<br>那再看看eric有没有sudo权限<br><img src="https://img-blog.csdnimg.cn/8322dacb5c394f30af00a1b645c7ce9a.png" alt="在这里插入图片描述"><br>去&#x2F;tmp看看有没有什么临时文件<br><img src="https://img-blog.csdnimg.cn/3cc271c7c50a4d5f8e52429174ba9171.png" alt="在这里插入图片描述"><br>有备份 去&#x2F;var&#x2F;backups看看</p>
-<p><img src="https://img-blog.csdnimg.cn/8b05a202f5ac491293e8c3484649fbc9.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/bbcabdc2252e493db134115ff419d787.png" alt="在这里插入图片描述"><br>去tmp下看emergency文件 发现没有<br>那么我们可以自己创一个利用<br>手动执行backup.sh 提示没权限<br><img src="https://img-blog.csdnimg.cn/ab1554d084114415b7709d4e0ccf800e.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/192a81b6bf7b4e2ba4b61405570fc767.png" alt="在这里插入图片描述"><br>发现其实他自己隔一段时间会自动执行backup.sh<br>那么等一会就行</p>
-<pre><code class="bash">echo &quot;cp /bin/bash /tmp/rootbash;chmod +xs /tmp/rootbash&quot; &gt; emergency
-chmod +x emergency
+        <h1 id="内存马查杀"><a href="#内存马查杀" class="headerlink" title="内存马查杀"></a>内存马查杀</h1><h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>arthas下载</p>
+<pre><code>curl -O https://arthas.aliyun.com/arthas-boot.jar
 </code></pre>
-<p>等rootbash创建了之后 </p>
-<pre><code class="bash">./rootbash -p
-</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/05d611f5bc9a46da9ee2652324ba14bb.png" alt="在这里插入图片描述"></p>
+<p>启动一个tomcat的项目</p>
+<p>哥斯拉生成内存马</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121157369.png" alt="image-20240412115718218"></p>
+<p>初始化失败 但是能弹计算器</p>
+<p>将session换为application 连接成功</p>
+<h2 id="哥斯拉filter型内存马"><a href="#哥斯拉filter型内存马" class="headerlink" title="哥斯拉filter型内存马"></a>哥斯拉filter型内存马</h2><p><code> mbean | grep &quot;name=/&quot;</code></p>
+<p>植入内存马前</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121158341.png" alt="image-20240412115845309"></p>
+<p>植入filter类型的内存马</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121242650.png" alt="image-20240412124259580"></p>
+<span id="more"></span>
+
+<p>sc *.Filter 找到可疑的类</p>
+<p>sc -d 查看</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121251013.png" alt="image-20240412125154945"></p>
+<p>用jad 反编译可疑类</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121252825.png" alt="image-20240412125239766"></p>
+<p>很明显的特征</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121253636.png" alt="image-20240412125316574"></p>
+<h2 id="哥斯拉servlet内存马"><a href="#哥斯拉servlet内存马" class="headerlink" title="哥斯拉servlet内存马"></a>哥斯拉servlet内存马</h2><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404122016469.png" alt="image-20240412201628439"></p>
+<p>添加memshell后</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404122016912.png" alt="image-20240412201611704"></p>
+<p>可以看见多了servlet</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404122017483.png" alt="image-20240412201705447"></p>
+<p><code>sc -d org.apache.coyote.ser.impl.BeanAsArraySerializer</code>  </p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404122017436.png" alt="image-20240412201758385"></p>
+<p>用jad反编译</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404122018984.png" alt="image-20240412201834893"></p>
+<h2 id="冰蝎内存马"><a href="#冰蝎内存马" class="headerlink" title="冰蝎内存马"></a>冰蝎内存马</h2><p>这里用的冰蝎3.0 上传内存马后</p>
+<p>mbean中无异常</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404122321757.png" alt="image-20240412232144556"></p>
+<p><code>classloader</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404122322470.png" alt="image-20240412232234435"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404122323342.png" alt="image-20240412232314309"></p>
+<p>可以看见冰蝎的内存马是servlet型的</p>
+<p>jad反编译</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404122324622.png" alt="image-20240412232416533"></p>
+<h2 id="heapdump"><a href="#heapdump" class="headerlink" title="heapdump"></a>heapdump</h2><p>heapdump后用工具 spring_heapdumper 提取字符串</p>
+<p>搜关键词</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404122330808.png" alt="image-20240412233026714"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404122331015.png" alt="image-20240412233102904"></p>
+<h2 id="Tomcat-MemShell-scanner"><a href="#Tomcat-MemShell-scanner" class="headerlink" title="Tomcat MemShell scanner"></a>Tomcat MemShell scanner</h2><p>冰蝎扫不出来</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404130726517.png" alt="image-20240413072623285"></p>
+<p>哥斯拉可以扫</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404130733863.png" alt="image-20240413073356768"></p>
 
     </div>
     

