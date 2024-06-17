@@ -209,12 +209,12 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
         </span>
         
     </div>
@@ -557,12 +557,12 @@ public class CC3 &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
         </span>
         
     </div>
@@ -612,12 +612,12 @@ public class CC3 &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
         </span>
         
     </div>
@@ -943,7 +943,7 @@ if(!isset($_GET[&#39;file&#39;])) &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
@@ -996,72 +996,16 @@ if(!isset($_GET[&#39;file&#39;])) &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
         </span>
         
     </div>
     <a href="/2023/08/01/HackSudo2%E9%9D%B6%E6%9C%BA%20%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/07/30/DRIFTINGBLUES-1%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
-        <h2 class="post-title">DRIFTINGBLUES-1靶机通关详解</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/7/30
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/bdba99ff6ab34b9abe568ec00a1cda10.png" alt="在这里插入图片描述"></p>
-<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>进web看源码发现 <img src="https://img-blog.csdnimg.cn/cc2e0d34c93c412498c03d013c551c53.png" alt="在这里插入图片描述"><br>解码得到 <code>/noteforkingfish.txt</code><br>访问发现是ook 解得<br><img src="https://img-blog.csdnimg.cn/283ce3edb77b4aff85b34c20d503ceab.png" alt="在这里插入图片描述"><br>先把这个名字记下来 说不定之后要ssh爆破有用<br>然后他说要用 host file <img src="https://img-blog.csdnimg.cn/00de8faccf31481e90dfaf4f8b976f1b.png" alt="在这里插入图片描述"><br>注意到域名可能是<code>driftingblues.box</code><br>加到hosts里试试<br>没啥用 看别人wp知道还得爆破子域名 那kali也添加个hosts然后爆破子域名<br><img src="https://img-blog.csdnimg.cn/f223ade9342140e69f9c14237ef4c260.png" alt="在这里插入图片描述"></p>
-<p>所以添加<code>test.driftingblues.box</code>进去 然后访问<br><img src="https://img-blog.csdnimg.cn/9577716640c447129dc31630217c95bb.png" alt="在这里插入图片描述"><br>扫个目录<br><img src="https://img-blog.csdnimg.cn/684704a72e26485c8e8f7a5832c4a353.png" alt="在这里插入图片描述"><br><code>robots.txt</code>中有<code>ssh_cred.txt</code><br><img src="https://img-blog.csdnimg.cn/090746838644466abdc249afcb0c0d01.png" alt="在这里插入图片描述"><br>说密码最后要加一位数字<br><img src="https://img-blog.csdnimg.cn/65dcb046a9a34f8ab467c7b416a8b2ce.png" alt="在这里插入图片描述"><br>登录上去</p>
-<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p><img src="https://img-blog.csdnimg.cn/909dce890c9840a99c9b95fd56507631.png" alt="在这里插入图片描述"><br>看看有哪些可能有用的账户 <img src="https://img-blog.csdnimg.cn/90b1d163dbd34d3780c84630ffed7623.png" alt="在这里插入图片描述"><br>进<code>home</code>目录 发现没有db用户<br>那再看看eric有没有sudo权限<br><img src="https://img-blog.csdnimg.cn/8322dacb5c394f30af00a1b645c7ce9a.png" alt="在这里插入图片描述"><br>去&#x2F;tmp看看有没有什么临时文件<br><img src="https://img-blog.csdnimg.cn/3cc271c7c50a4d5f8e52429174ba9171.png" alt="在这里插入图片描述"><br>有备份 去&#x2F;var&#x2F;backups看看</p>
-<p><img src="https://img-blog.csdnimg.cn/8b05a202f5ac491293e8c3484649fbc9.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/bbcabdc2252e493db134115ff419d787.png" alt="在这里插入图片描述"><br>去tmp下看emergency文件 发现没有<br>那么我们可以自己创一个利用<br>手动执行backup.sh 提示没权限<br><img src="https://img-blog.csdnimg.cn/ab1554d084114415b7709d4e0ccf800e.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/192a81b6bf7b4e2ba4b61405570fc767.png" alt="在这里插入图片描述"><br>发现其实他自己隔一段时间会自动执行backup.sh<br>那么等一会就行</p>
-<pre><code class="bash">echo &quot;cp /bin/bash /tmp/rootbash;chmod +xs /tmp/rootbash&quot; &gt; emergency
-chmod +x emergency
-</code></pre>
-<p>等rootbash创建了之后 </p>
-<pre><code class="bash">./rootbash -p
-</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/05d611f5bc9a46da9ee2652324ba14bb.png" alt="在这里插入图片描述"></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
-        </span>
-        
-    </div>
-    <a href="/2023/07/30/DRIFTINGBLUES-1%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
 </div>
 
 <div class="post">
@@ -1205,16 +1149,72 @@ public class Main &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
         </span>
         
     </div>
     <a href="/2023/07/30/CommonCollections6%E9%93%BE%E5%88%86%E6%9E%90/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/07/30/DRIFTINGBLUES-1%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
+        <h2 class="post-title">DRIFTINGBLUES-1靶机通关详解</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/7/30
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/bdba99ff6ab34b9abe568ec00a1cda10.png" alt="在这里插入图片描述"></p>
+<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>进web看源码发现 <img src="https://img-blog.csdnimg.cn/cc2e0d34c93c412498c03d013c551c53.png" alt="在这里插入图片描述"><br>解码得到 <code>/noteforkingfish.txt</code><br>访问发现是ook 解得<br><img src="https://img-blog.csdnimg.cn/283ce3edb77b4aff85b34c20d503ceab.png" alt="在这里插入图片描述"><br>先把这个名字记下来 说不定之后要ssh爆破有用<br>然后他说要用 host file <img src="https://img-blog.csdnimg.cn/00de8faccf31481e90dfaf4f8b976f1b.png" alt="在这里插入图片描述"><br>注意到域名可能是<code>driftingblues.box</code><br>加到hosts里试试<br>没啥用 看别人wp知道还得爆破子域名 那kali也添加个hosts然后爆破子域名<br><img src="https://img-blog.csdnimg.cn/f223ade9342140e69f9c14237ef4c260.png" alt="在这里插入图片描述"></p>
+<p>所以添加<code>test.driftingblues.box</code>进去 然后访问<br><img src="https://img-blog.csdnimg.cn/9577716640c447129dc31630217c95bb.png" alt="在这里插入图片描述"><br>扫个目录<br><img src="https://img-blog.csdnimg.cn/684704a72e26485c8e8f7a5832c4a353.png" alt="在这里插入图片描述"><br><code>robots.txt</code>中有<code>ssh_cred.txt</code><br><img src="https://img-blog.csdnimg.cn/090746838644466abdc249afcb0c0d01.png" alt="在这里插入图片描述"><br>说密码最后要加一位数字<br><img src="https://img-blog.csdnimg.cn/65dcb046a9a34f8ab467c7b416a8b2ce.png" alt="在这里插入图片描述"><br>登录上去</p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p><img src="https://img-blog.csdnimg.cn/909dce890c9840a99c9b95fd56507631.png" alt="在这里插入图片描述"><br>看看有哪些可能有用的账户 <img src="https://img-blog.csdnimg.cn/90b1d163dbd34d3780c84630ffed7623.png" alt="在这里插入图片描述"><br>进<code>home</code>目录 发现没有db用户<br>那再看看eric有没有sudo权限<br><img src="https://img-blog.csdnimg.cn/8322dacb5c394f30af00a1b645c7ce9a.png" alt="在这里插入图片描述"><br>去&#x2F;tmp看看有没有什么临时文件<br><img src="https://img-blog.csdnimg.cn/3cc271c7c50a4d5f8e52429174ba9171.png" alt="在这里插入图片描述"><br>有备份 去&#x2F;var&#x2F;backups看看</p>
+<p><img src="https://img-blog.csdnimg.cn/8b05a202f5ac491293e8c3484649fbc9.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/bbcabdc2252e493db134115ff419d787.png" alt="在这里插入图片描述"><br>去tmp下看emergency文件 发现没有<br>那么我们可以自己创一个利用<br>手动执行backup.sh 提示没权限<br><img src="https://img-blog.csdnimg.cn/ab1554d084114415b7709d4e0ccf800e.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/192a81b6bf7b4e2ba4b61405570fc767.png" alt="在这里插入图片描述"><br>发现其实他自己隔一段时间会自动执行backup.sh<br>那么等一会就行</p>
+<pre><code class="bash">echo &quot;cp /bin/bash /tmp/rootbash;chmod +xs /tmp/rootbash&quot; &gt; emergency
+chmod +x emergency
+</code></pre>
+<p>等rootbash创建了之后 </p>
+<pre><code class="bash">./rootbash -p
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/05d611f5bc9a46da9ee2652324ba14bb.png" alt="在这里插入图片描述"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/07/30/DRIFTINGBLUES-1%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
 </div>
 
 <div class="post">
@@ -1395,17 +1395,17 @@ public class App
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
@@ -1633,7 +1633,7 @@ echo urlencode(serialize($pop));
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
     </div>
@@ -1854,7 +1854,7 @@ echo urlencode(serialize($p)).&quot;\n&quot;;
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #ff7d73">python</a>
+            <a href="/tags/python/" style="color: #ffa2c4">python</a>
         </span>
         
         <span class="tag">
@@ -1864,12 +1864,12 @@ echo urlencode(serialize($p)).&quot;\n&quot;;
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%89%8D%E7%AB%AF/" style="color: #00bcd4">前端</a>
+            <a href="/tags/%E5%89%8D%E7%AB%AF/" style="color: #00a596">前端</a>
         </span>
         
     </div>
