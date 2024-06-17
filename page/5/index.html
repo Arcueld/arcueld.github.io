@@ -172,6 +172,127 @@
         
 
 <div class="post">
+    <a href="/2023/06/05/%E7%AC%AC%E4%B8%89%E5%B1%8A%E9%99%95%E8%A5%BF%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B%20%E9%83%A8%E5%88%86crypto%E5%A4%8D%E7%8E%B0/">
+        <h2 class="post-title">第三届陕西省大学生网络安全技能大赛 部分crypto复现</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/6/5
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="奇怪的sar"><a href="#奇怪的sar" class="headerlink" title="奇怪的sar"></a>奇怪的sar</h1><p>lcg拿种子<br>爆破p的所有满足<code>p^q = seed</code>的可能然后求解<br>或者类似<code>第五空间signin</code>那题,不爆破所有可能(因为我爆破的脚本用的别人的,他用递归实现,1024位会超上限),只爆破低位<br><img src="https://img-blog.csdnimg.cn/ec3e4a87ca034b50af2fd58b28e8322c.png" alt="在这里插入图片描述"></p>
+<pre><code class="python">from Crypto.Util.number import *
+from tqdm import trange
+import gmpy2
+
+c = 14883053247652228283811442762780942186987432684268901119544211089991663825267989728286381980568977804079766160707988623895155236079459150322336701772385709429870215701045797411519212730389048862111088898917402253368572002593328131895422933030329446097639972123501482601377059155708292321789694103528266681104521268192526745361895856566384239849048923482217529011549596939269967690907738755747213669693953769070736092857407573675987242774763239531688324956444305397953424851627349331117467417542814921554060612622936755420459029769026126293588814831034143264949347763031994934813475762839410192390466491651507733968227
+e = 65537
+n =  24044063028844014127418595700558729326190738802687551098858513077613750188240082663594575453404975706225242363463089392757425008423696150244560748490108425645064339883915929498539109384801415313004805586193044292137299902797522618277016789979196782551492020031695781792205215671106103568559626617762521687128199445018651010056934305055040748892733145467040663073395258760159451903432330506383025685265502086582538667772105057401245864822281535425692919273252955571196166824113519446568745718898654447958192533288063735350717599092500158028352667339959012630051251024677881674246253876293205648190626145653304572328397
+
+seed = 39428646082513135314545544161912595458975375891528176714825766497155482031976852156313956476772023258684487799640179241987139554034654104867011313090105438798561154654679825702410748780286094326639330840289843154525176685892323447168072417654823748596238888125898914210332775882916911771786984574407163323116
+
+def findp(p,plist):
+    l=len(p)
+    if l==600:
+        plist.append(int(p,2))
+    else:
+        pp=int(p,2)
+        qq=(seed^^pp)%2**l
+        if pp*qq%2**l==n%2**l:
+            findp(&#39;1&#39;+p,plist)
+            findp(&#39;0&#39;+p,plist)
+
+plist=[]
+findp(&#39;1&#39;,plist)
+print(plist)
+
+
+
+for i in trange(len(plist)):
+    PR.&lt;x&gt; = PolynomialRing(Zmod(n))
+    f = x*2^600 + plist[i]
+    f = f.monic()
+    r = f.small_roots(X=2^424, beta=0.4)
+    if r:
+        p = int(plist[i]+r[0]* 2^600)
+        if n%p == 0:
+            break
+
+q = n // p
+d = gmpy2.invert(e, (p-1)*(q-1))
+print(long_to_bytes(power_mod(c, d, n)))
+</code></pre>
+<h1 id="M3"><a href="#M3" class="headerlink" title="M3"></a>M3</h1><pre><code class="c">from Crypto.Util.number import *
+from rsaAttack import rsaATTACK
+from itertools import product
+from string import digits
+import gmpy2
+
+c = 35771468551700967499031290145813826705314774357494021918317304230766070868171631520643911378972522363861624359732252684003796428570328730483253546904382041
+n = 142672086626283587048017713116658568907056287246536918432205313755474498483915485435443731126588499776739329317569276048159601495493064346081295993762052633
+e = 65537
+
+pqh = str(n)[:19]
+pql = str(n)[-18:]
+
+# for i,j in product(digits,repeat=2):
+#     pq = pqh + i + j + pql
+#     tp = rsaATTACK.factor_n(int(pq))
+#     if tp and len(tp) == 2 and tp[0].bit_length() == 64:
+#         p, q = tp
+#         break
+# print(p,q)
+p = 9937378783676979077 
+q = 14357114660923972229
+P = int(str(p) + str(q)) #128 
+Q = int(str(q) + str(p)) #128 
+PP = int(str(P) + str(Q)) #256 
+QQ = int(str(Q) + str(P)) #256 
+
+d = gmpy2.invert(e,(PP-1)*(QQ-1))
+print(long_to_bytes(pow(c,d,n)))
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00bcd4">数学建模</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/06/05/%E7%AC%AC%E4%B8%89%E5%B1%8A%E9%99%95%E8%A5%BF%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B%20%E9%83%A8%E5%88%86crypto%E5%A4%8D%E7%8E%B0/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2023/06/04/Round#13%20web%E4%B8%93%E9%A1%B9%E9%83%A8%E5%88%86wp/">
         <h2 class="post-title">Round#13 web专项部分wp</h2>
     </a>
@@ -513,17 +634,17 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #00bcd4">python</a>
+            <a href="/tags/python/" style="color: #03a9f4">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00bcd4">开发语言</a>
         </span>
         
         <span class="tag">
@@ -622,12 +743,12 @@ print(long_to_bytes(pow(c,d,a*g)))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ffa2c4">数学建模</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ff7d73">数学建模</a>
         </span>
         
     </div>
@@ -795,27 +916,27 @@ print(hashlib.md5(flag.encode(&quot;utf-8&quot;)).hexdigest())
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ffa2c4">数学建模</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00a596">数学建模</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00a596">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/php/" style="color: #00bcd4">php</a>
+            <a href="/tags/php/" style="color: #ffa2c4">php</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/linux/" style="color: #03a9f4">linux</a>
+            <a href="/tags/linux/" style="color: #00a596">linux</a>
         </span>
         
     </div>
@@ -1092,17 +1213,17 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #ffa2c4">python</a>
+            <a href="/tags/python/" style="color: #ff7d73">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #00a596">java</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/javascript/" style="color: #03a9f4">javascript</a>
+            <a href="/tags/javascript/" style="color: #ffa2c4">javascript</a>
         </span>
         
     </div>
@@ -1497,22 +1618,22 @@ print(flag)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ff7d73">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00bcd4">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/php/" style="color: #00bcd4">php</a>
+            <a href="/tags/php/" style="color: #ff7d73">php</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/linux/" style="color: #ffa2c4">linux</a>
+            <a href="/tags/linux/" style="color: #03a9f4">linux</a>
         </span>
         
     </div>
@@ -1565,7 +1686,7 @@ print(flag)
         
         <span class="tag">
             
-            <a href="/tags/php/" style="color: #03a9f4">php</a>
+            <a href="/tags/php/" style="color: #00a596">php</a>
         </span>
         
         <span class="tag">
@@ -1575,7 +1696,7 @@ print(flag)
         
         <span class="tag">
             
-            <a href="/tags/%E8%BF%90%E7%BB%B4/" style="color: #03a9f4">运维</a>
+            <a href="/tags/%E8%BF%90%E7%BB%B4/" style="color: #00bcd4">运维</a>
         </span>
         
         <span class="tag">
@@ -2032,12 +2153,12 @@ print(&#39;LitCTF&#123;&#39;+res+&#39;&#125;&#39;)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
         </span>
         
         <span class="tag">
@@ -2052,7 +2173,7 @@ print(&#39;LitCTF&#123;&#39;+res+&#39;&#125;&#39;)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BC%96%E8%BE%91%E5%99%A8/" style="color: #00bcd4">编辑器</a>
+            <a href="/tags/%E7%BC%96%E8%BE%91%E5%99%A8/" style="color: #ff7d73">编辑器</a>
         </span>
         
     </div>
@@ -2112,7 +2233,7 @@ print(&#39;LitCTF&#123;&#39;+res+&#39;&#125;&#39;)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
         <span class="tag">
@@ -2122,79 +2243,11 @@ print(&#39;LitCTF&#123;&#39;+res+&#39;&#125;&#39;)
         
         <span class="tag">
             
-            <a href="/tags/php/" style="color: #ffa2c4">php</a>
+            <a href="/tags/php/" style="color: #ff7d73">php</a>
         </span>
         
     </div>
     <a href="/2023/05/12/DC-9%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/05/07/DC-8%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
-        <h2 class="post-title">DC-8通关详解</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/5/7
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/ad9c6d1a5a0647a8a98d8a70d8fccaf9.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/667d4b31d6ed48a0a0cca960bbf1889e.png" alt="在这里插入图片描述"></p>
-<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p><img src="https://img-blog.csdnimg.cn/2d6db0eb12ea487ca8ef7ec6c561dde8.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/24d21b2114fd44108dc73d5c99b3384d.png" alt="在这里插入图片描述"><br>找个扫描器扫一下<br><img src="https://img-blog.csdnimg.cn/0f9064d91cde4a948291fd57b68c31f4.png" alt="在这里插入图片描述"><br>msf试了几个exp都没用<br>那么手动找找<br>发现传参nid出存在sql注入</p>
-<p><code>python sqlmap -u &quot;http://192.168.45.144:80/?nid=1&quot; --union-cols=1 -D d7db -T users -C name,pass --columns --tables --dump</code></p>
-<p><img src="https://img-blog.csdnimg.cn/915f1dd9d05b49529852b506ff4b12d5.png" alt="在这里插入图片描述"><br>用john爆密码<br>admin爆了20分钟没爆出来</p>
-<p>john的密码<img src="https://img-blog.csdnimg.cn/43be3dbb4c534c05b95bf4657e132f1e.png" alt="在这里插入图片描述"><br>尝试ssh和后台登录<br>ssh进不去<br><img src="https://img-blog.csdnimg.cn/19ae6ed9931e41fcaf793252b3aa3edb.png" alt="在这里插入图片描述"><br>这里一直没打成功(当时没试着去提交),然后我就手贱给他删了…<br>自己再添加一个,提交执行<br><img src="https://img-blog.csdnimg.cn/856fd984a695448db973c2a85ad4ef5a.png" alt="在这里插入图片描述"><br>拿到shell<br><img src="https://img-blog.csdnimg.cn/dbe547d559da44d284b21ce60ab76483.png" alt="在这里插入图片描述"></p>
-<h1 id="提取"><a href="#提取" class="headerlink" title="提取"></a>提取</h1><p>优化shell</p>
-<pre><code class="bash">python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;
-ctrl+z
-stty -echo raw;fg
-</code></pre>
-<p>cd到&#x2F;tmp目录下<br>从vps上下载LinEnum.sh枚举脆弱性<br><img src="https://img-blog.csdnimg.cn/e3ddc9f624a74a478a2fa2dfa9ab3a43.png" alt="在这里插入图片描述"><br>发现存在exim4 看看能否尝试用这个提权<br><img src="https://img-blog.csdnimg.cn/939996e4d8d74ddf885814c42a04a948.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/5783be96cc4a4fd59de7c2124b935410.png" alt="在这里插入图片描述"><br>试了一下<code>linux/local/46996.sh</code>,失败了,返回的还是www-data<br>找了一圈没发现什么办法,看看wp<br>发现别46996.sh成功了?</p>
-<p>那么再尝试一遍,scp传到vps<br>wget下载<br>发现运行报错<br><img src="https://img-blog.csdnimg.cn/44af06483f294d03a6f55490b7460d5a.png" alt="在这里插入图片描述"><br>kali用<code>dos2unix</code>转换完文件再传过去,执行<br>还是www-data</p>
-<p>发现是操作问题导致的,这个默认的用法不行<br>得<code>-m netcat</code><br><img src="https://img-blog.csdnimg.cn/6969b93f7b8741d8bdd3c7443e992e84.png" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/f7d015dda6e2401484844a7d73ae6e3a.png" alt="在这里插入图片描述"></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/linux/" style="color: #03a9f4">linux</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E8%BF%90%E7%BB%B4/" style="color: #ff7d73">运维</a>
-        </span>
-        
-    </div>
-    <a href="/2023/05/07/DC-8%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
 </div>
 
 

@@ -205,7 +205,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E6%89%93%E9%9D%B6/" style="color: #00bcd4">打靶</a>
+            <a href="/tags/%E6%89%93%E9%9D%B6/" style="color: #ffa2c4">打靶</a>
         </span>
         
     </div>
@@ -254,7 +254,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/" style="color: #03a9f4">应急响应</a>
+            <a href="/tags/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/" style="color: #00bcd4">应急响应</a>
         </span>
         
     </div>
@@ -304,11 +304,53 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
     <a href="/2024/04/22/CB%E9%93%BE/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2024/04/16/Shiro/">
+        <h2 class="post-title">Shiro</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/4/16
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>版本<code>TOMCAT 8.5.98 jdk8u65</code></p>
+<h1 id="分析小技巧"><a href="#分析小技巧" class="headerlink" title="分析小技巧"></a>分析小技巧</h1><p>通过diff来快速查看修复了哪儿 以确定漏洞出现点</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/compare/shiro-root-1.7.0...shiro-root-1.7.1">https://github.com/apache/shiro/compare/shiro-root-1.7.0...shiro-root-1.7.1</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/[xxxx]/compare/[xxx]...[xxx]">https://github.com/[xxxx]/compare/[xxx]...[xxx]</a></p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #ffa2c4">java</a>
+        </span>
+        
+    </div>
+    <a href="/2024/04/16/Shiro/" class="go-post">阅读全文</a>
 </div>
 
 <div class="post">
@@ -355,7 +397,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
         </span>
         
     </div>
@@ -408,7 +450,7 @@
         
         <span class="tag">
             
-            <a href="/tags/flowanalysis/" style="color: #ffa2c4">flowanalysis</a>
+            <a href="/tags/flowanalysis/" style="color: #ff7d73">flowanalysis</a>
         </span>
         
     </div>
@@ -452,7 +494,7 @@
         
         <span class="tag">
             
-            <a href="/tags/evasion/" style="color: #00bcd4">evasion</a>
+            <a href="/tags/evasion/" style="color: #ffa2c4">evasion</a>
         </span>
         
     </div>
@@ -494,7 +536,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
         </span>
         
     </div>
@@ -535,7 +577,7 @@
         
         <span class="tag">
             
-            <a href="/tags/evasion/" style="color: #ffa2c4">evasion</a>
+            <a href="/tags/evasion/" style="color: #00bcd4">evasion</a>
         </span>
         
     </div>
@@ -577,75 +619,11 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
-        </span>
-        
-    </div>
-    <a href="/2024/03/14/TomcatMemShell/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/03/03/CommonsCollections5-6/">
-        <h2 class="post-title">CommonsCollections5 6</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/3/3
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="cc5"><a href="#cc5" class="headerlink" title="cc5"></a>cc5</h1><pre><code class="ini">Gadget chain:
-        ObjectInputStream.readObject()
-            BadAttributeValueExpException.readObject()
-                TiedMapEntry.toString()
-                    LazyMap.get()
-                        ChainedTransformer.transform()
-                            ConstantTransformer.transform()
-                            InvokerTransformer.transform()
-                                Method.invoke()
-                                    Class.getMethod()
-                            InvokerTransformer.transform()
-                                Method.invoke()
-                                    Runtime.getRuntime()
-                            InvokerTransformer.transform()
-                                Method.invoke()
-                                    Runtime.exec()
-</code></pre>
-<p>相较于cc1 把LazyMap的上层改了 没有使用动态代理</p>
-<p>拼一下先</p>
-<p>然后去找调用get的</p>
-<p>调用get的非常多 这里选择的是<code>TiedMapEntry.toString()</code></p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030807002.png" alt="image-20240303080650311"></p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030807992.png" alt="image-20240303080733554"></p>
-<p>toString也非常多</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030809346.png" alt="image-20240303080955216"></p>
-<p>这里用的BadAttributeValueExpException#ReadObject</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
             <a href="/tags/java/" style="color: #00bcd4">java</a>
         </span>
         
     </div>
-    <a href="/2024/03/03/CommonsCollections5-6/" class="go-post">阅读全文</a>
+    <a href="/2024/03/14/TomcatMemShell/" class="go-post">阅读全文</a>
 </div>
 
 
