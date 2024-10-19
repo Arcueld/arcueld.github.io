@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Arcueid&#39;s BLOG</title>
+    <title>RingZer0Js_wp | Arcueid&#39;s BLOG</title>
     <meta name="author" content="Arcueid" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -41,7 +41,9 @@
 
 
 
-<script src="/js/lib/home.js"></script>
+
+
+
 
 <link rel="stylesheet" href="/css/main.css" />
 
@@ -151,32 +153,11 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="home-head">
-    <div id="home-background" ref="homeBackground" data-images="/images/background.jpg"></div>
-    <div id="home-info" @click="homeClick">
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="info">
-            <div class="wrap">
-                <h1>Arcueid&#39;s BLOG</h1>
-                <h3></h3>
-                <h5></h5>
-            </div>
-        </span>
+            <div class="article">
+    <div>
+        <h1>RingZer0Js_wp</h1>
     </div>
-</div>
-<div id="home-posts-wrap" true ref="homePostsWrap">
-    <div id="home-posts">
-        
-
-<div class="post">
-    <a href="/2024/10/19/RingZer0Js-wp/">
-        <h2 class="post-title">RingZer0Js_wp</h2>
-    </a>
-    <div class="category-and-date">
-        
+    <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
@@ -185,11 +166,23 @@
         </span>
         
         
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
             
-            <h1 id="1-Client-side-validation-is-so-secure"><a href="#1-Client-side-validation-is-so-secure" class="headerlink" title="1. Client side validation is so secure?"></a>1. Client side validation is so secure?</h1><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410191536946.png" alt="image-20240929174826544"></p>
+            
+            <span class="tag">
+                
+                <a href="/tags/writeup/" style="color: #ffa2c4">writeup</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="1-Client-side-validation-is-so-secure"><a href="#1-Client-side-validation-is-so-secure" class="headerlink" title="1. Client side validation is so secure?"></a>1. Client side validation is so secure?</h1><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410191536946.png" alt="image-20240929174826544"></p>
 <p>前端校验密码 密码硬编码在了js中</p>
 <p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410191536958.png" alt="image-20240929174946474"></p>
 <h1 id="2-Is-hashing-more-secure"><a href="#2-Is-hashing-more-secure" class="headerlink" title="2. Is hashing more secure?"></a>2. Is hashing more secure?</h1><p>随便输入密码 没有发请求 依旧是前端验证</p>
@@ -1035,468 +1028,13 @@ var dummy = new Challenge(&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://www.anquanke.com//post/id/97730">https://www.anquanke.com//post/id/97730</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/bu19akov/CTF-Challenge-Solutions/blob/61e5b2aeb8954d8f2f9d200cf3b58be058bb68fa/RingZer0_CTF/java_script/WTF%20Lol!%20(6p)/solution.md">https://github.com/bu19akov/CTF-Challenge-Solutions/blob/61e5b2aeb8954d8f2f9d200cf3b58be058bb68fa/RingZer0_CTF/java_script/WTF%20Lol!%20(6p)/solution.md</a></p>
 
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/writeup/" style="color: #03a9f4">writeup</a>
-        </span>
-        
-    </div>
-    <a href="/2024/10/19/RingZer0Js-wp/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/07/31/JDBC%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
-        <h2 class="post-title">JDBC反序列化</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/7/31
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2024/07/31/JDBC%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/06/06/VulnTarget-A%E6%89%93%E9%9D%B6/">
-        <h2 class="post-title">VulnTarget-A打靶</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/6/6
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="靶机搭建"><a href="#靶机搭建" class="headerlink" title="靶机搭建"></a>靶机搭建</h1><h2 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h2><p>拓扑图如下</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405240759634.webp" alt="图片"></p>
-<p>其它东西作者都配好了 自己整一下网卡就行了</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%89%93%E9%9D%B6/" style="color: #03a9f4">打靶</a>
-        </span>
-        
-    </div>
-    <a href="/2024/06/06/VulnTarget-A%E6%89%93%E9%9D%B6/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/05/14/%E7%9F%A5%E6%94%BB%E5%96%84%E9%98%B2web2/">
-        <h2 class="post-title">知攻善防web2</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/5/14
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>先打开web路径</p>
-<p>在路径下发现3389.bat 说明攻击者有做远程连接</p>
-<p>按修改日期排序</p>
-<p>发现system.php</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405141442201.png" alt="image-20240514144210960"></p>
-<p>pass是hack6618</p>
-<p>这俩是显而易见的 我们传个d盾上来扫扫看看还有没有</p>
-<p>没扫到</p>
-<p>现在开始获取攻击者的ip</p>
-<p>找到web日志</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405141446691.png" alt="image-20240514144628602"></p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/" style="color: #ffa2c4">应急响应</a>
-        </span>
-        
-    </div>
-    <a href="/2024/05/14/%E7%9F%A5%E6%94%BB%E5%96%84%E9%98%B2web2/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/04/22/CB%E9%93%BE/">
-        <h2 class="post-title">CB链 分析</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/4/22
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="CB链"><a href="#CB链" class="headerlink" title="CB链"></a>CB链</h1><p>PropertyUtils.getProperty 可以进行一个对属性的get</p>
-<p>其中这个属性是可控的</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404300912126.png" alt="image-20240430091219035"></p>
-<p>当复合规范的javaBean (实现了getName方法) 存在的时候 就可以正常调用</p>
-<p>不存在时报错</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404300913040.png" alt="image-20240430091341958"></p>
-<p>那么针对这个传入的beans 如果是某个精心构造对象 其存在getXxxxx这样的方法 我们就可以</p>
-<p>考虑TemplatesImpl#getOutputProperties</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404300923905.png" alt="image-20240430092310829"></p>
-<p>其内调用了newTransformer</p>
-<p>而我们在cc的学习中知道newTransformer是可以动态加载类的</p>
-<p>也就是可以代码执行</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
-        </span>
-        
-    </div>
-    <a href="/2024/04/22/CB%E9%93%BE/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/04/16/Shiro/">
-        <h2 class="post-title">Shiro</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/4/16
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>版本<code>TOMCAT 8.5.98 jdk8u65</code></p>
-<h1 id="分析小技巧"><a href="#分析小技巧" class="headerlink" title="分析小技巧"></a>分析小技巧</h1><p>通过diff来快速查看修复了哪儿 以确定漏洞出现点</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/compare/shiro-root-1.7.0...shiro-root-1.7.1">https://github.com/apache/shiro/compare/shiro-root-1.7.0...shiro-root-1.7.1</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/[xxxx]/compare/[xxx]...[xxx]">https://github.com/[xxxx]/compare/[xxx]...[xxx]</a></p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
-        </span>
-        
-    </div>
-    <a href="/2024/04/16/Shiro/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/04/11/%E5%86%85%E5%AD%98%E9%A9%AC%E6%9F%A5%E6%9D%80/">
-        <h2 class="post-title">内存马查杀</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/4/11
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="内存马查杀"><a href="#内存马查杀" class="headerlink" title="内存马查杀"></a>内存马查杀</h1><h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>arthas下载</p>
-<pre><code>curl -O https://arthas.aliyun.com/arthas-boot.jar
-</code></pre>
-<p>启动一个tomcat的项目</p>
-<p>哥斯拉生成内存马</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121157369.png" alt="image-20240412115718218"></p>
-<p>初始化失败 但是能弹计算器</p>
-<p>将session换为application 连接成功</p>
-<h2 id="哥斯拉filter型内存马"><a href="#哥斯拉filter型内存马" class="headerlink" title="哥斯拉filter型内存马"></a>哥斯拉filter型内存马</h2><p><code> mbean | grep &quot;name=/&quot;</code></p>
-<p>植入内存马前</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121158341.png" alt="image-20240412115845309"></p>
-<p>植入filter类型的内存马</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121242650.png" alt="image-20240412124259580"></p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #00a596">java</a>
-        </span>
-        
-    </div>
-    <a href="/2024/04/11/%E5%86%85%E5%AD%98%E9%A9%AC%E6%9F%A5%E6%9D%80/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/04/08/2023-04-Unit42-Wireshark-quiz/">
-        <h2 class="post-title">2023-04-Unit42-Wireshark-quiz</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/4/8
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="2023-04-Unit42-Wireshark-quiz"><a href="#2023-04-Unit42-Wireshark-quiz" class="headerlink" title="2023-04-Unit42-Wireshark-quiz"></a>2023-04-Unit42-Wireshark-quiz</h1><p>下载pcap包</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/pan-unit42/Wireshark-quizzes/blob/main/2023-04-Unit42-Wireshark-quiz.pcap.zip">https://github.com/pan-unit42/Wireshark-quizzes/blob/main/2023-04-Unit42-Wireshark-quiz.pcap.zip</a></p>
-<blockquote>
-<p>  Quiz Questions</p>
-<ul>
-<li>What is the date and time in UTC the infection started?</li>
-<li>What is the IP address of the infected Windows client?</li>
-<li>What is the MAC address of the infected Windows client?</li>
-<li>What is the hostname of the infected Windows client?</li>
-<li>What is the user account name from the infected Windows host?</li>
-<li>Is there any follow-up activity from other malware?</li>
-</ul>
-</blockquote>
-<h1 id="事件链流程图"><a href="#事件链流程图" class="headerlink" title="事件链流程图"></a>事件链流程图</h1><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081231222.png" alt="Image 1 is a flowchart of the chain of events in the April 2023 IcedID infection. It starts with email and or web-based delivery methods, continues to the IcedID installer, HTTP traffic for the gzip binary, malware created from that binary, and then command and control traffic from the IcedID infection. The initial follow-up activity can include Cobalt sStrike, VNC traffic, and BackConnect."></p>
-<h1 id="分析流程"><a href="#分析流程" class="headerlink" title="分析流程"></a>分析流程</h1><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081228633.png" alt="image-20240408122852449"></p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/flowanalysis/" style="color: #00bcd4">flowanalysis</a>
-        </span>
-        
-    </div>
-    <a href="/2024/04/08/2023-04-Unit42-Wireshark-quiz/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/04/07/syswh%E4%BD%BF%E7%94%A8/">
-        <h2 class="post-title">syswh使用</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/4/7
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="syswh-使用"><a href="#syswh-使用" class="headerlink" title="syswh 使用"></a>syswh 使用</h1><p><a target="_blank" rel="noopener" href="https://github.com/jthuraisamy/SysWhispers2">https://github.com/jthuraisamy/SysWhispers2</a></p>
-<p><code>python syswhispers.py -p all -a all -l all -o example-output/Syscalls</code></p>
-<p>生成脚本</p>
-<p>然后去配置vs</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404070943705.png" alt="image-20240407094304622"></p>
-<p>启用MASM</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/evasion/" style="color: #ffa2c4">evasion</a>
-        </span>
-        
-    </div>
-    <a href="/2024/04/07/syswh%E4%BD%BF%E7%94%A8/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/04/01/SpringMemShell/">
-        <h2 class="post-title">SpringMemShell</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/4/1
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="SpringDemo"><a href="#SpringDemo" class="headerlink" title="SpringDemo"></a>SpringDemo</h1><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049845.png" alt="image-20240314170159798"></p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049827.png" alt="image-20240314170500146"></p>
-<p>直接run 里面内置了一个BasicController</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049838.png" alt="image-20240314170936452"></p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
-        </span>
-        
-    </div>
-    <a href="/2024/04/01/SpringMemShell/" class="go-post">阅读全文</a>
-</div>
-
-
-        <div class="page-current">
-    
-    <span class="current">1</span>
-    
-    <a class="page-num" href="/page/2">2</a>
-    
-    
-    <a class="page-num" href="/page/3">3</a>
-    
-    
-    <span class="page-omit">...</span>
-    <a class="page-num" href="/page/7">7</a>
-    
-    
-    <a class="page-num" href="/page/2/">
-        <i class="fa-solid fa-caret-right fa-fw"></i>
-    </a>
-    
-</div>
-
     </div>
     
-    <div id="home-card">
-        <div id="card-style">
-    <div id="card-div">
-        <div class="avatar">
-            <img src="/images/Arcueid.jpg" alt="avatar" />
-        </div>
-        <div class="name">Arcueid</div>
-        <div class="description">
-            <p>Web + Crypto 苦手</p>
-
-        </div>
-        
-        
-    </div>
-</div>
-
-    </div>
+    
+    
+    
+    
+    
     
 </div>
 
@@ -1528,6 +1066,12 @@ var dummy = new Challenge(&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>

