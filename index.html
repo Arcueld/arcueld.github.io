@@ -172,6 +172,81 @@
         
 
 <div class="post">
+    <a href="/2024/10/23/FastJson/">
+        <h2 class="post-title">fastjson</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/10/23
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>fastjson可以将javaBean转json json转javaBean</p>
+<p>实际上就是序列化反序列化</p>
+<p><a target="_blank" rel="noopener" href="https://javasec.org/java-vuls/FastJson.html">https://javasec.org/java-vuls/FastJson.html</a></p>
+<h1 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h1><pre><code class="xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+    &lt;artifactId&gt;fastjson&lt;/artifactId&gt;
+    &lt;version&gt;1.2.23&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>通过Json.toJsonString进行序列化</p>
+<p>parseObject进行反序列化</p>
+<pre><code class="java">package com.Arcueid;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+
+
+public class App 
+&#123;
+    public static void main( String[] args )
+    &#123;
+        Person person = new Person(&quot;Arcueid&quot;,&quot;114514&quot;);
+
+        String jsonString = JSON.toJSONString(person, SerializerFeature.WriteClassName);
+        System.out.println(jsonString);
+        Person res = JSON.parseObject(jsonString,Person.class);
+        System.out.println(res);
+    &#125;
+&#125;
+</code></pre>
+<p><code>SerializerFeature.WriteClassName</code>属性会自动在序列化后添加<code>@type</code> 即写上序列化对象的类名</p>
+<p>运行发现private的id并没有反序列化出来</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202405121048258.png" alt="image-20240512104809690"></p>
+<p>这需要加上<code>Feature.SupportNonPublicField</code>参数</p>
+<pre><code class="java">        Person res = JSON.parseObject(jsonString,Person.class, Feature.SupportNonPublicField);
+</code></pre>
+<p>parseObject 不指定类则反序列化得到的都是JSONObject对象</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
+        </span>
+        
+    </div>
+    <a href="/2024/10/23/FastJson/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2024/10/19/RingZer0Js-wp/">
         <h2 class="post-title">RingZer0Js_wp</h2>
     </a>
@@ -205,7 +280,7 @@
         
         <span class="tag">
             
-            <a href="/tags/writeup/" style="color: #03a9f4">writeup</a>
+            <a href="/tags/writeup/" style="color: #00a596">writeup</a>
         </span>
         
     </div>
@@ -252,7 +327,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
         </span>
         
     </div>
@@ -293,7 +368,7 @@
         
         <span class="tag">
             
-            <a href="/tags/%E6%89%93%E9%9D%B6/" style="color: #03a9f4">打靶</a>
+            <a href="/tags/%E6%89%93%E9%9D%B6/" style="color: #00a596">打靶</a>
         </span>
         
     </div>
@@ -392,7 +467,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
@@ -434,7 +509,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
@@ -485,7 +560,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
@@ -587,48 +662,6 @@
         
     </div>
     <a href="/2024/04/07/syswh%E4%BD%BF%E7%94%A8/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/04/01/SpringMemShell/">
-        <h2 class="post-title">SpringMemShell</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/4/1
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="SpringDemo"><a href="#SpringDemo" class="headerlink" title="SpringDemo"></a>SpringDemo</h1><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049845.png" alt="image-20240314170159798"></p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049827.png" alt="image-20240314170500146"></p>
-<p>直接run 里面内置了一个BasicController</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404012049838.png" alt="image-20240314170936452"></p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
-        </span>
-        
-    </div>
-    <a href="/2024/04/01/SpringMemShell/" class="go-post">阅读全文</a>
 </div>
 
 
