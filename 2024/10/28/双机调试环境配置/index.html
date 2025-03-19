@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>双机调试环境配置 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>双机调试环境配置</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/10/28
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/kernel/" style="color: #ffa2c4">kernel</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="双机调试环境配置"><a href="#双机调试环境配置" class="headerlink" title="双机调试环境配置"></a>双机调试环境配置</h1><p>win7 32位家庭版</p>
+<p>虚拟机创建完毕后删除打印机 添加串行端口</p>
+<p>使用命名管道<code>//./pipe/com_1</code></p>
+<p>重新打开虚拟机</p>
+<pre><code class="cmd">bcdedit /copy &#123;current&#125; /d debug
+
+
+bcdedit /displayorder &#123;1450cf64-94e3-11ef-bc55-e2fbc5e24e22&#125; /addlast
+
+bcdedit /dbgsettings SERIAL DEBUGPORT:1 BAUDRATE:115200
+
+bcdedit /bootdebug &#123;1450cf64-94e3-11ef-bc55-e2fbc5e24e22&#125; ON
+
+
+bcdedit /debug &#123;1450cf64-94e3-11ef-bc55-e2fbc5e24e22&#125; ON
+
+bcdedit /timeout 30
+</code></pre>
+<p>管理员权限下以此运行即可</p>
+<h1 id="排错"><a href="#排错" class="headerlink" title="排错"></a>排错</h1><h2 id="vmtools"><a href="#vmtools" class="headerlink" title="vmtools"></a>vmtools</h2><p>首先由于安装的win7没带sp</p>
+<p>需要打补丁</p>
+<p><a target="_blank" rel="noopener" href="https://catalog.update.microsoft.com/Search.aspx?q=976932">https://catalog.update.microsoft.com/Search.aspx?q=976932</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.catalog.update.microsoft.com/ScopedViewInline.aspx?updateid=3589375e-8147-4d21-b3ad-fc27bd126d6c">https://www.catalog.update.microsoft.com/ScopedViewInline.aspx?updateid=3589375e-8147-4d21-b3ad-fc27bd126d6c</a></p>
+<h2 id="vs2010"><a href="#vs2010" class="headerlink" title="vs2010"></a>vs2010</h2><p>首先是iso文件打不开 这里使用<code>DAEMON Tools Lite</code></p>
+<p>安装<code>DAEMON Tools Lite</code>需要.net 4.0 </p>
+<p>.net4.0相关证书</p>
+<p><a target="_blank" rel="noopener" href="http://download.microsoft.com/download/2/4/8/248D8A62-FCCD-475C-85E7-6ED59520FC0F/MicrosoftRootCertificateAuthority2011.cer">http://download.microsoft.com/download/2/4/8/248D8A62-FCCD-475C-85E7-6ED59520FC0F/MicrosoftRootCertificateAuthority2011.cer</a></p>
+<p><a target="_blank" rel="noopener" href="https://soft.wsyhn.com/soft/net.framework472.zip">https://soft.wsyhn.com/soft/net.framework472.zip</a></p>
+<p>安装完毕vs后 随便写个demo</p>
+<p>发现link报错<code>LINK : fatal error LNK1123: 转换到 COFF 期间失败: 文件无效或损坏</code></p>
+<p>删除<code>cvtres.exe</code>即可</p>
+<h1 id="windbg配置"><a href="#windbg配置" class="headerlink" title="windbg配置"></a>windbg配置</h1><p>​	</p>
+<pre><code class="cmd">&quot;D:\Windows Kits\10\Debuggers\x64\windbg.exe&quot; -y SRV*E:\symbol*http://msdl.microsoft.com/download/symbols -b -k com:port=//./pipe/com_1,baud=115200,pipe
+</code></pre>
+<p>指定符号位置和串口</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

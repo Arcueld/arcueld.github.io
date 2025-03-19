@@ -172,6 +172,205 @@
         
 
 <div class="post">
+    <a href="/2025/03/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%B0%8F%E6%B8%B8%E6%88%8F%E9%80%86%E5%90%91/">
+        <h2 class="post-title">记一次小游戏逆向</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/3/19
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>记一次小游戏逆向破解过程</p>
+<p>很简单的小游戏 python写的</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503191947588.png" alt="image-20250318230224228"></p>
+<p><code>pyinstxtractor</code>反编译出pyc</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503182303067.png" alt="image-20250318230318981"></p>
+<p>pycdc反编译不出完整的源码</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/reverse/" style="color: #00a596">reverse</a>
+        </span>
+        
+    </div>
+    <a href="/2025/03/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%B0%8F%E6%B8%B8%E6%88%8F%E9%80%86%E5%90%91/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2024/11/17/hello-java-sec%E6%89%93%E9%9D%B6/">
+        <h2 class="post-title">hello-java-sec打靶</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/11/17
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h1><h2 id="jdbc"><a href="#jdbc" class="headerlink" title="jdbc"></a>jdbc</h2><h3 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h3><p>SQL注入是因为程序未能正确对用户的输入进行检查，将用户的输入以拼接的方式带入SQL语句，导致了SQL语句可控 从而获取数据库信息，造成信息泄漏</p>
+<p>对于提供的例子 漏洞的成因都是先拼接的字符串 然后传入statement</p>
+<p>由于错误的使用预编译 在此还是导致了sql注入</p>
+<p>正确的做法是占位符 加set </p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202411170723960.png" alt="image-20241117072316828"></p>
+<p>靶场提供的安全解决方案是 黑名单 预编译 使用ESAPI框架 jdbctemplate使用强制数据类型</p>
+<p>注意jdbctemplate也要正确使用才安全</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202411170725317.png" alt="image-20241117072528240"></p>
+<h3 id="安全编码"><a href="#安全编码" class="headerlink" title="安全编码"></a>安全编码</h3><p>正确使用预编译 分离语句和数据 从本质上避免sql注入</p>
+<p>出现异常时禁止返回堆栈 sql语句等敏感信息 统一返回错误页面 屏蔽异常栈</p>
+<h2 id="mybatis"><a href="#mybatis" class="headerlink" title="mybatis"></a>mybatis</h2><p>使用<code>$&#123;&#125;</code>表示拼接字符串 会直接将接受到参数的内容不加任何修饰符拼接在 SQL 中 从而导致sql注入</p>
+<p>而<code>#&#123;&#125;</code>使用预编译，通过 PreparedStatement 和占位符来实现，会把参数部分用一个占位符 <code>?</code> 替代</p>
+<p>强制使用Integer或long类型 可以在一定程度上解决<code>$&#123;&#125;</code>导致的sql注入 但是还是不建议用<code>$&#123;&#125;</code></p>
+<pre><code class="java">@Select(&quot;select * from users where id = $&#123;id&#125;&quot;)
+List&lt;User&gt; queryById2(@Param(&quot;id&quot;) Integer id);
+</code></pre>
+<p>模糊搜索时，直接使用’%#{q}%’ 会报错，部分研发图方便直接改成’%${q}%’从而造成注入</p>
+<pre><code class="java">@Select(&quot;select * from users where user like &#39;%$&#123;q&#125;%&#39;&quot;)
+List&lt;User&gt; search(String q);
+
+// 安全代码,采用concat
+@Select(&quot;select * from users where user like concat(&#39;%&#39;,#&#123;q&#125;,&#39;%&#39;)&quot;)
+List&lt;User&gt; search(String q);
+                    
+</code></pre>
+<h3 id="安全编码-1"><a href="#安全编码-1" class="headerlink" title="安全编码"></a>安全编码</h3><p>使用<code>#&#123;&#125;</code>进行参数绑定</p>
+<p>针对order by注入 进行排序映射</p>
+<pre><code class="java">&lt;select id=&quot;orderBySafe&quot; resultType=&quot;com.best.hello.entity.User&quot;&gt;
+    select * from users
+    &lt;choose&gt;
+        &lt;when test=&quot;field == &#39;id&#39;&quot;&gt;
+            order by id desc
+        &lt;/when&gt;
+        &lt;when test=&quot;field == &#39;user&#39;&quot;&gt;
+            order by user desc
+        &lt;/when&gt;
+        &lt;otherwise&gt;
+            order by id desc
+        &lt;/otherwise&gt;
+    &lt;/choose&gt;
+&lt;/select&gt;
+                    
+</code></pre>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
+        </span>
+        
+    </div>
+    <a href="/2024/11/17/hello-java-sec%E6%89%93%E9%9D%B6/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2024/10/28/%E5%8F%8C%E6%9C%BA%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+        <h2 class="post-title">双机调试环境配置</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/10/28
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="双机调试环境配置"><a href="#双机调试环境配置" class="headerlink" title="双机调试环境配置"></a>双机调试环境配置</h1><p>win7 32位家庭版</p>
+<p>虚拟机创建完毕后删除打印机 添加串行端口</p>
+<p>使用命名管道<code>//./pipe/com_1</code></p>
+<p>重新打开虚拟机</p>
+<pre><code class="cmd">bcdedit /copy &#123;current&#125; /d debug
+
+
+bcdedit /displayorder &#123;1450cf64-94e3-11ef-bc55-e2fbc5e24e22&#125; /addlast
+
+bcdedit /dbgsettings SERIAL DEBUGPORT:1 BAUDRATE:115200
+
+bcdedit /bootdebug &#123;1450cf64-94e3-11ef-bc55-e2fbc5e24e22&#125; ON
+
+
+bcdedit /debug &#123;1450cf64-94e3-11ef-bc55-e2fbc5e24e22&#125; ON
+
+bcdedit /timeout 30
+</code></pre>
+<p>管理员权限下以此运行即可</p>
+<h1 id="排错"><a href="#排错" class="headerlink" title="排错"></a>排错</h1><h2 id="vmtools"><a href="#vmtools" class="headerlink" title="vmtools"></a>vmtools</h2><p>首先由于安装的win7没带sp</p>
+<p>需要打补丁</p>
+<p><a target="_blank" rel="noopener" href="https://catalog.update.microsoft.com/Search.aspx?q=976932">https://catalog.update.microsoft.com/Search.aspx?q=976932</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.catalog.update.microsoft.com/ScopedViewInline.aspx?updateid=3589375e-8147-4d21-b3ad-fc27bd126d6c">https://www.catalog.update.microsoft.com/ScopedViewInline.aspx?updateid=3589375e-8147-4d21-b3ad-fc27bd126d6c</a></p>
+<h2 id="vs2010"><a href="#vs2010" class="headerlink" title="vs2010"></a>vs2010</h2><p>首先是iso文件打不开 这里使用<code>DAEMON Tools Lite</code></p>
+<p>安装<code>DAEMON Tools Lite</code>需要.net 4.0 </p>
+<p>.net4.0相关证书</p>
+<p><a target="_blank" rel="noopener" href="http://download.microsoft.com/download/2/4/8/248D8A62-FCCD-475C-85E7-6ED59520FC0F/MicrosoftRootCertificateAuthority2011.cer">http://download.microsoft.com/download/2/4/8/248D8A62-FCCD-475C-85E7-6ED59520FC0F/MicrosoftRootCertificateAuthority2011.cer</a></p>
+<p><a target="_blank" rel="noopener" href="https://soft.wsyhn.com/soft/net.framework472.zip">https://soft.wsyhn.com/soft/net.framework472.zip</a></p>
+<p>安装完毕vs后 随便写个demo</p>
+<p>发现link报错<code>LINK : fatal error LNK1123: 转换到 COFF 期间失败: 文件无效或损坏</code></p>
+<p>删除<code>cvtres.exe</code>即可</p>
+<h1 id="windbg配置"><a href="#windbg配置" class="headerlink" title="windbg配置"></a>windbg配置</h1><p>​	</p>
+<pre><code class="cmd">&quot;D:\Windows Kits\10\Debuggers\x64\windbg.exe&quot; -y SRV*E:\symbol*http://msdl.microsoft.com/download/symbols -b -k com:port=//./pipe/com_1,baud=115200,pipe
+</code></pre>
+<p>指定符号位置和串口</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/kernel/" style="color: #ff7d73">kernel</a>
+        </span>
+        
+    </div>
+    <a href="/2024/10/28/%E5%8F%8C%E6%9C%BA%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2024/10/23/FastJson/">
         <h2 class="post-title">fastjson</h2>
     </a>
@@ -280,7 +479,7 @@ public class App
         
         <span class="tag">
             
-            <a href="/tags/writeup/" style="color: #00a596">writeup</a>
+            <a href="/tags/writeup/" style="color: #ffa2c4">writeup</a>
         </span>
         
     </div>
@@ -327,7 +526,7 @@ public class App
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
         </span>
         
     </div>
@@ -368,7 +567,7 @@ public class App
         
         <span class="tag">
             
-            <a href="/tags/%E6%89%93%E9%9D%B6/" style="color: #00a596">打靶</a>
+            <a href="/tags/%E6%89%93%E9%9D%B6/" style="color: #00bcd4">打靶</a>
         </span>
         
     </div>
@@ -417,7 +616,7 @@ public class App
         
         <span class="tag">
             
-            <a href="/tags/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/" style="color: #ffa2c4">应急响应</a>
+            <a href="/tags/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/" style="color: #00bcd4">应急响应</a>
         </span>
         
     </div>
@@ -467,7 +666,7 @@ public class App
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
+            <a href="/tags/java/" style="color: #00a596">java</a>
         </span>
         
     </div>
@@ -514,154 +713,6 @@ public class App
         
     </div>
     <a href="/2024/04/16/Shiro/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/04/11/%E5%86%85%E5%AD%98%E9%A9%AC%E6%9F%A5%E6%9D%80/">
-        <h2 class="post-title">内存马查杀</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/4/11
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="内存马查杀"><a href="#内存马查杀" class="headerlink" title="内存马查杀"></a>内存马查杀</h1><h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>arthas下载</p>
-<pre><code>curl -O https://arthas.aliyun.com/arthas-boot.jar
-</code></pre>
-<p>启动一个tomcat的项目</p>
-<p>哥斯拉生成内存马</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121157369.png" alt="image-20240412115718218"></p>
-<p>初始化失败 但是能弹计算器</p>
-<p>将session换为application 连接成功</p>
-<h2 id="哥斯拉filter型内存马"><a href="#哥斯拉filter型内存马" class="headerlink" title="哥斯拉filter型内存马"></a>哥斯拉filter型内存马</h2><p><code> mbean | grep &quot;name=/&quot;</code></p>
-<p>植入内存马前</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121158341.png" alt="image-20240412115845309"></p>
-<p>植入filter类型的内存马</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404121242650.png" alt="image-20240412124259580"></p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
-        </span>
-        
-    </div>
-    <a href="/2024/04/11/%E5%86%85%E5%AD%98%E9%A9%AC%E6%9F%A5%E6%9D%80/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/04/08/2023-04-Unit42-Wireshark-quiz/">
-        <h2 class="post-title">2023-04-Unit42-Wireshark-quiz</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/4/8
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="2023-04-Unit42-Wireshark-quiz"><a href="#2023-04-Unit42-Wireshark-quiz" class="headerlink" title="2023-04-Unit42-Wireshark-quiz"></a>2023-04-Unit42-Wireshark-quiz</h1><p>下载pcap包</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/pan-unit42/Wireshark-quizzes/blob/main/2023-04-Unit42-Wireshark-quiz.pcap.zip">https://github.com/pan-unit42/Wireshark-quizzes/blob/main/2023-04-Unit42-Wireshark-quiz.pcap.zip</a></p>
-<blockquote>
-<p>  Quiz Questions</p>
-<ul>
-<li>What is the date and time in UTC the infection started?</li>
-<li>What is the IP address of the infected Windows client?</li>
-<li>What is the MAC address of the infected Windows client?</li>
-<li>What is the hostname of the infected Windows client?</li>
-<li>What is the user account name from the infected Windows host?</li>
-<li>Is there any follow-up activity from other malware?</li>
-</ul>
-</blockquote>
-<h1 id="事件链流程图"><a href="#事件链流程图" class="headerlink" title="事件链流程图"></a>事件链流程图</h1><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081231222.png" alt="Image 1 is a flowchart of the chain of events in the April 2023 IcedID infection. It starts with email and or web-based delivery methods, continues to the IcedID installer, HTTP traffic for the gzip binary, malware created from that binary, and then command and control traffic from the IcedID infection. The initial follow-up activity can include Cobalt sStrike, VNC traffic, and BackConnect."></p>
-<h1 id="分析流程"><a href="#分析流程" class="headerlink" title="分析流程"></a>分析流程</h1><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404081228633.png" alt="image-20240408122852449"></p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/flowanalysis/" style="color: #ff7d73">flowanalysis</a>
-        </span>
-        
-    </div>
-    <a href="/2024/04/08/2023-04-Unit42-Wireshark-quiz/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/04/07/syswh%E4%BD%BF%E7%94%A8/">
-        <h2 class="post-title">syswh使用</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/4/7
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="syswh-使用"><a href="#syswh-使用" class="headerlink" title="syswh 使用"></a>syswh 使用</h1><p><a target="_blank" rel="noopener" href="https://github.com/jthuraisamy/SysWhispers2">https://github.com/jthuraisamy/SysWhispers2</a></p>
-<p><code>python syswhispers.py -p all -a all -l all -o example-output/Syscalls</code></p>
-<p>生成脚本</p>
-<p>然后去配置vs</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202404070943705.png" alt="image-20240407094304622"></p>
-<p>启用MASM</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/evasion/" style="color: #03a9f4">evasion</a>
-        </span>
-        
-    </div>
-    <a href="/2024/04/07/syswh%E4%BD%BF%E7%94%A8/" class="go-post">阅读全文</a>
 </div>
 
 
@@ -711,7 +762,7 @@ public class App
     <div id="footer-wrap">
         <div>
             &copy;
-            2022 - 2024 Arcueid&#39;s BLOG
+            2022 - 2025 Arcueid&#39;s BLOG
             <span id="footer-icon">
                 <i class="fa-solid fa-font-awesome fa-fw"></i>
             </span>

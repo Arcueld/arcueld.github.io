@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>记一次小游戏逆向 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>记一次小游戏逆向</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/3/19
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/reverse/" style="color: #03a9f4">reverse</a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>记一次小游戏逆向破解过程</p>
+<p>很简单的小游戏 python写的</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503191947588.png" alt="image-20250318230224228"></p>
+<p><code>pyinstxtractor</code>反编译出pyc</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503182303067.png" alt="image-20250318230318981"></p>
+<p>pycdc反编译不出完整的源码</p>
+<span id="more"></span>
+
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503190003011.png" alt="image-20250319000337919"></p>
+<p>基本上是没啥用 但是可以看见存档位置 后缀enc 猜测是加密了</p>
+<p>利用<code>pycdas</code> 反编译出opcode</p>
+<p>注意到加解密这块</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503190003233.png" alt="image-20250319000313119"></p>
+<p>用的异或 俩参数名分别是</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503190004126.png" alt="image-20250319000435093"></p>
+<p>找该函数的调用</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503190010053.png" alt="image-20250319001058939"></p>
+<p>发现用的全局变量密钥进行解密</p>
+<p>那么找这个全局变量</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503191947768.png" alt="image-20250319001523049"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503191947720.png" alt="image-20250319001511670"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503191947670.png" alt="image-20250319001606263"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503191947700.png" alt="image-20250319081158857"></p>
+<p>基于配置文件 直接修改金币 加密替换 返回游戏</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503191948288.png" alt="image-20250319081438584"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503191947745.png" alt="image-20250319081613835"></p>
+<p>然后崩溃了</p>
+<p>原因是什么呢? 在线转UNICODE的把大写AI转小写了 导致无法识别</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202503190925314.png" alt="image-20250319092507833"></p>
+<p>成功</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
