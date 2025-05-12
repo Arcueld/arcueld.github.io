@@ -172,6 +172,61 @@
         
 
 <div class="post">
+    <a href="/2025/05/12/win10%E6%98%A0%E5%B0%84%E7%89%A9%E7%90%86%E9%A1%B5/">
+        <h2 class="post-title">win10映射物理页</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/12
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h2 id="常规MmMapIoSpace"><a href="#常规MmMapIoSpace" class="headerlink" title="常规MmMapIoSpace"></a>常规MmMapIoSpace</h2><pre><code class="cpp">EXTERN_C NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)&#123;
+
+    DriverObject-&gt;DriverUnload = (PDRIVER_UNLOAD)UnloadDriver;
+    // 001ad000
+    PHYSICAL_ADDRESS phyAddr = &#123; 0 &#125;;
+    phyAddr.QuadPart = 0x001ad000;
+    ULONG64 lpMem = (ULONG64)MmMapIoSpace(phyAddr, PAGE_SIZE, MmNonCached);
+    DbgPrintEx(77, 0, &quot;lpMem: %llx\n&quot;, lpMem);
+
+
+
+
+    return STATUS_SUCCESS;
+&#125;
+</code></pre>
+<p>win10下映射不了 可以映射常规的物理页 但是不能映射cr3相关 直接返回0</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202505121516356.png" alt="image-20250512143411850"></p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/kernel/" style="color: #00a596">kernel</a>
+        </span>
+        
+    </div>
+    <a href="/2025/05/12/win10%E6%98%A0%E5%B0%84%E7%89%A9%E7%90%86%E9%A1%B5/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/03/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%B0%8F%E6%B8%B8%E6%88%8F%E9%80%86%E5%90%91/">
         <h2 class="post-title">记一次小游戏逆向</h2>
     </a>
@@ -208,7 +263,7 @@
         
         <span class="tag">
             
-            <a href="/tags/reverse/" style="color: #00a596">reverse</a>
+            <a href="/tags/reverse/" style="color: #ffa2c4">reverse</a>
         </span>
         
     </div>
@@ -363,7 +418,7 @@ bcdedit /timeout 30
         
         <span class="tag">
             
-            <a href="/tags/kernel/" style="color: #ff7d73">kernel</a>
+            <a href="/tags/kernel/" style="color: #00a596">kernel</a>
         </span>
         
     </div>
@@ -438,7 +493,7 @@ public class App
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
+            <a href="/tags/java/" style="color: #00a596">java</a>
         </span>
         
     </div>
@@ -479,7 +534,7 @@ public class App
         
         <span class="tag">
             
-            <a href="/tags/writeup/" style="color: #ffa2c4">writeup</a>
+            <a href="/tags/writeup/" style="color: #03a9f4">writeup</a>
         </span>
         
     </div>
@@ -616,7 +671,7 @@ public class App
         
         <span class="tag">
             
-            <a href="/tags/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/" style="color: #00bcd4">应急响应</a>
+            <a href="/tags/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/" style="color: #03a9f4">应急响应</a>
         </span>
         
     </div>
@@ -666,53 +721,11 @@ public class App
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00a596">java</a>
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
         </span>
         
     </div>
     <a href="/2024/04/22/CB%E9%93%BE/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/04/16/Shiro/">
-        <h2 class="post-title">Shiro</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/4/16
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>版本<code>TOMCAT 8.5.98 jdk8u65</code></p>
-<h1 id="分析小技巧"><a href="#分析小技巧" class="headerlink" title="分析小技巧"></a>分析小技巧</h1><p>通过diff来快速查看修复了哪儿 以确定漏洞出现点</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/compare/shiro-root-1.7.0...shiro-root-1.7.1">https://github.com/apache/shiro/compare/shiro-root-1.7.0...shiro-root-1.7.1</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/[xxxx]/compare/[xxx]...[xxx]">https://github.com/[xxxx]/compare/[xxx]...[xxx]</a></p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
-        </span>
-        
-    </div>
-    <a href="/2024/04/16/Shiro/" class="go-post">阅读全文</a>
 </div>
 
 

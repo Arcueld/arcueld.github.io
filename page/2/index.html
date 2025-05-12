@@ -172,6 +172,48 @@
         
 
 <div class="post">
+    <a href="/2024/04/16/Shiro/">
+        <h2 class="post-title">Shiro</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/4/16
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>版本<code>TOMCAT 8.5.98 jdk8u65</code></p>
+<h1 id="分析小技巧"><a href="#分析小技巧" class="headerlink" title="分析小技巧"></a>分析小技巧</h1><p>通过diff来快速查看修复了哪儿 以确定漏洞出现点</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/apache/shiro/compare/shiro-root-1.7.0...shiro-root-1.7.1">https://github.com/apache/shiro/compare/shiro-root-1.7.0...shiro-root-1.7.1</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/[xxxx]/compare/[xxx]...[xxx]">https://github.com/[xxxx]/compare/[xxx]...[xxx]</a></p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
+        </span>
+        
+    </div>
+    <a href="/2024/04/16/Shiro/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2024/04/11/%E5%86%85%E5%AD%98%E9%A9%AC%E6%9F%A5%E6%9D%80/">
         <h2 class="post-title">内存马查杀</h2>
     </a>
@@ -215,7 +257,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
         </span>
         
     </div>
@@ -268,7 +310,7 @@
         
         <span class="tag">
             
-            <a href="/tags/flowanalysis/" style="color: #00bcd4">flowanalysis</a>
+            <a href="/tags/flowanalysis/" style="color: #ff7d73">flowanalysis</a>
         </span>
         
     </div>
@@ -312,7 +354,7 @@
         
         <span class="tag">
             
-            <a href="/tags/evasion/" style="color: #00bcd4">evasion</a>
+            <a href="/tags/evasion/" style="color: #00a596">evasion</a>
         </span>
         
     </div>
@@ -354,7 +396,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
+            <a href="/tags/java/" style="color: #00a596">java</a>
         </span>
         
     </div>
@@ -395,7 +437,7 @@
         
         <span class="tag">
             
-            <a href="/tags/evasion/" style="color: #00a596">evasion</a>
+            <a href="/tags/evasion/" style="color: #03a9f4">evasion</a>
         </span>
         
     </div>
@@ -445,7 +487,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
+            <a href="/tags/java/" style="color: #00a596">java</a>
         </span>
         
     </div>
@@ -487,7 +529,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
         </span>
         
     </div>
@@ -551,7 +593,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
         </span>
         
     </div>
@@ -605,64 +647,11 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ff7d73">java</a>
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
         </span>
         
     </div>
     <a href="/2024/03/03/CommonsCollections3-4/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/02/25/CommonCollections2/">
-        <h2 class="post-title">CommonCollections2</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/2/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="cc2"><a href="#cc2" class="headerlink" title="cc2"></a>cc2</h1><pre><code class="ini">Gadget chain:
-    ObjectInputStream.readObject()
-        PriorityQueue.readObject()
-            ...
-                TransformingComparator.compare()
-                    InvokerTransformer.transform()
-                        Method.invoke()
-                            Runtime.exec()
-</code></pre>
-<p>可以发现 TransformingComparator之后都和之前一样 那么原样照抄之前的</p>
-<p>然后跟进TransformingComparator#compare</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202402231949456.png" alt="image-20240223194926819"></p>
-<p>往上PriorityQueue#siftDownUsingComparator</p>
-<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202402251757329.png" alt="image-20240224093144503"></p>
-<p>在PriorityQueue#readObject中调用了heapify heapify调用siftDown siftDown调用siftDownUsingComparator</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
-        </span>
-        
-    </div>
-    <a href="/2024/02/25/CommonCollections2/" class="go-post">阅读全文</a>
 </div>
 
 

