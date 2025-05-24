@@ -172,6 +172,60 @@
         
 
 <div class="post">
+    <a href="/2024/03/03/CommonsCollections3-4/">
+        <h2 class="post-title">CommonsCollections3 4</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/3/3
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="cc3"><a href="#cc3" class="headerlink" title="cc3"></a>cc3</h1><p>ysoserial上写到</p>
+<pre><code> * Variation on CommonsCollections1 that uses InstantiateTransformer instead of
+ * InvokerTransformer.
+</code></pre>
+<p>在cc1的基础上 将InstantiateTransformer替换InvokerTransformer</p>
+<p>那么别的地方照抄</p>
+<p>我们看看InstantiateTransformer是怎么回事</p>
+<p>InstantiateTransformer#transform</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202402241039413.png" alt="image-20240224103945270"></p>
+<p>实例化input</p>
+<p>其中的iParamTypes 和 iArgs 通过</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030755274.png" alt="image-20240224104055577"></p>
+<p>写个demo</p>
+<pre><code class="java">        Transformer instance = InstantiateTransformer.getInstance(new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;hahaha&quot;&#125;);
+        System.out.println(instance.transform(String.class));
+</code></pre>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
+        </span>
+        
+    </div>
+    <a href="/2024/03/03/CommonsCollections3-4/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2024/02/25/CommonCollections2/">
         <h2 class="post-title">CommonCollections2</h2>
     </a>
@@ -217,7 +271,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
         </span>
         
     </div>
@@ -265,7 +319,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
+            <a href="/tags/java/" style="color: #00a596">java</a>
         </span>
         
     </div>
@@ -563,12 +617,12 @@ public class NativeExec &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ff7d73">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
         </span>
         
         <span class="tag">
@@ -704,12 +758,12 @@ print(res.text)
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/node-js/" style="color: #03a9f4">node.js</a>
+            <a href="/tags/node-js/" style="color: #00a596">node.js</a>
         </span>
         
     </div>
@@ -751,12 +805,12 @@ print(res.text)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
     </div>
@@ -1018,17 +1072,17 @@ Unsafe unsafe = (Unsafe)field.get(null);
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00a596">开发语言</a>
-        </span>
-        
-        <span class="tag">
-            
             <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00bcd4">安全</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
         </span>
         
         <span class="tag">
@@ -1311,12 +1365,12 @@ for pl in plist:
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #03a9f4">python</a>
+            <a href="/tags/python/" style="color: #00bcd4">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00a596">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
         </span>
         
     </div>
@@ -1448,22 +1502,22 @@ for pl in plist:
         
         <span class="tag">
             
-            <a href="/tags/linux/" style="color: #ffa2c4">linux</a>
+            <a href="/tags/linux/" style="color: #ff7d73">linux</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #00bcd4">服务器</a>
+            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #00a596">服务器</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #03a9f4">数据库</a>
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #ffa2c4">数据库</a>
         </span>
         
     </div>
@@ -1558,213 +1612,21 @@ for pl in plist:
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #ffa2c4">java</a>
-        </span>
-        
-        <span class="tag">
-            
             <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #03a9f4">服务器</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #ffa2c4">数据库</a>
+            <a href="/tags/java/" style="color: #00bcd4">java</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #00a596">数据库</a>
         </span>
         
     </div>
     <a href="/2023/12/25/PortSwigger%20Access%20Control/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/12/23/PortSwigger%20Business%20Logic%20Vulnerabilities/">
-        <h2 class="post-title">PortSwigger Business Logic Vulnerabilities</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/12/23
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h3 id="lab1-Excessive-trust-in-client-side-controls"><a href="#lab1-Excessive-trust-in-client-side-controls" class="headerlink" title="lab1: Excessive trust in client-side controls"></a>lab1: Excessive trust in client-side controls</h3><p>给了100块 买价值1337的货</p>
-<p>在历史包里发现</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/fb90840e4205d4b0371e4175d6c2b352.png" alt="image-20231221161650403"></p>
-<p>尝试直接修改价格</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/7db0933e0da92f374fb74c3e6d5c1930.png" alt="image-20231221161858007"></p>
-<h3 id="lab2-High-level-logic-vulnerability"><a href="#lab2-High-level-logic-vulnerability" class="headerlink" title="lab2: High-level logic vulnerability"></a>lab2: High-level logic vulnerability</h3><p>这里把加入购物车时价格可控的点修复了</p>
-<p>但是数量可控 我们可以买负数的东西来加钱</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/a95ca8587546ed36721b5ec9bfd703a1.png" alt="image-20231221195033804"></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/c5b0aa5bbb460b9303ea7f008592064a.png" alt="image-20231221195026120"></p>
-<p>但是返回<code>Cart total price cannot be less than zero</code></p>
-<p>那么控制一下价格 大于0即可</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/6151265ff32b92d60daff8cd3f1159a8.png" alt="image-20231221195234260"></p>
-<h3 id="lab3-Low-level-logic-flaw"><a href="#lab3-Low-level-logic-flaw" class="headerlink" title="lab3: Low-level logic flaw"></a>lab3: Low-level logic flaw</h3><p>买大量的货 溢出上限即可</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/164ce7acff1b616a63f53627affc78ec.png" alt="image-20231221200558320"></p>
-<p>但是还是卡了我们 必须花钱</p>
-<p>由于这里限制了一次最多加99 大概估计整数的上限是20M左右</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/68a5134dbe70e86ea82b1fbcb0aa6716.png" alt="image-20231221201444558"></p>
-<h3 id="lab4-Inconsistent-handling-of-exceptional-input"><a href="#lab4-Inconsistent-handling-of-exceptional-input" class="headerlink" title="lab4: Inconsistent handling of exceptional input"></a>lab4: Inconsistent handling of exceptional input</h3><p>需求: 删除carlos</p>
-<p>访问admin路由</p>
-<p><code>Admin interface only available if logged in as a DontWannaCry user</code></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/f6dee7a5ea454d346471e3b405e361d2.png" alt="image-20231221202658065"></p>
-<p>我们可以接收任何 以@exploit-0a2300c90469cc9d80ea5232011200d0.exploit-server.net结尾的邮箱</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/76942b60f3a1c98e02088e8cf801bb1e.png" alt="image-20231221203451674"></p>
-<p>在这里超过255的字符会被截断</p>
-<p>我们卡一下长度</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/bb87871540a53b08cfc4151c6baba83f.png" alt="image-20231221204405162"></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/1f551abb364dd05517b6c0e7cb5f351f.png" alt="image-20231221204508364"></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/7dd8349f5dba5e1bcbdd6fc5f7cf9ff2.png" alt="image-20231221204639955"></p>
-<h3 id="lab5-Inconsistent-security-controls"><a href="#lab5-Inconsistent-security-controls" class="headerlink" title="lab5: Inconsistent security controls"></a>lab5: Inconsistent security controls</h3><p>注册完后直接更新邮箱</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/2c3f89746fb632f5fdeda377c7a19ca7.png" alt="image-20231222081215947"></p>
-<h3 id="lab6-Weak-isolation-on-dual-use-endpoint"><a href="#lab6-Weak-isolation-on-dual-use-endpoint" class="headerlink" title="lab6: Weak isolation on dual-use endpoint"></a>lab6: Weak isolation on dual-use endpoint</h3><p>直接不提交旧密码</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/583f3fdbc6296d61a50bb8e054ab9fd1.png" alt="image-20231222082355525"></p>
-<h3 id="lab7-Insufficient-workflow-validation"><a href="#lab7-Insufficient-workflow-validation" class="headerlink" title="lab7: Insufficient workflow validation"></a>lab7: Insufficient workflow validation</h3><p>先跟一个正常的购买流程 </p>
-<p>&#x2F;cart 添加进购物车 -&gt; &#x2F;cart&#x2F;checkout 清算 -&gt; &#x2F;cart&#x2F;order-confirmation?order-confirmed&#x3D;true 结算</p>
-<p>每个流程都重复发包 然后刷新观察</p>
-<p>我们发现在checkout的时候就已经进扣钱了</p>
-<p>尝试跳过checkout 添加购物车后直接confirm</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/86321374a1a5befcdd38c047d62ca547.png" alt="image-20231222090150331"></p>
-<p>这里false和true没影响好像</p>
-<p>一开始是想看看能不能反悔</p>
-<h3 id="lab8-Authentication-bypass-via-flawed-state-machine"><a href="#lab8-Authentication-bypass-via-flawed-state-machine" class="headerlink" title="lab8: Authentication bypass via flawed state machine"></a>lab8: Authentication bypass via flawed state machine</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/97fa36f695dae221dbdc64d7c168c3f9.png" alt="image-20231222091018797"></p>
-<p>改administrator 和 admin 都没用</p>
-<p>尝试login 然后drop掉role-selector</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/f111591016f07fee8af7241d74b3e92a.png" alt="image-20231222092405290"></p>
-<h3 id="lab9-Flawed-enforcement-of-business-rules"><a href="#lab9-Flawed-enforcement-of-business-rules" class="headerlink" title="lab9: Flawed enforcement of business rules"></a>lab9: Flawed enforcement of business rules</h3><p><code>New customers use code at checkout: NEWCUST5</code></p>
-<p>注册能领30 off 检测是否重复只检测上一个</p>
-<p>然后俩折扣来回叠加</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/9f40b7e68c8311dcaa44ccde2b01f05e.png" alt="image-20231222103930811"></p>
-<h3 id="lab10-Infinite-money-logic-flaw"><a href="#lab10-Infinite-money-logic-flaw" class="headerlink" title="lab10: Infinite money logic flaw"></a>lab10: Infinite money logic flaw</h3><p>注册送券 <code>SIGNUP30</code></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/523f92546b698bfd0cd2558bca7d1b0c.png" alt="image-20231222105437164"></p>
-<p>买giftcart 赚3块 无限薅</p>
-<p>现在需要实现自动化</p>
-<p>添加购物车 -&gt; 加券 -&gt; 兑换</p>
-<pre><code class="py">import requests
-import re
-
-csrfPartten = re.compile(&#39;&lt;input required type=&quot;hidden&quot; name=&quot;csrf&quot; value=&quot;.*&quot;&gt;&#39;)
-codePartten = re.compile(&#39;&lt;td&gt;.*&lt;/td&gt;&#39;)
-url = &quot;https://0add00500314e8f081b017cf00d400a0.web-security-academy.net/&quot;
-Cookie = &quot;VpVhq6vKnkAwKWFRosMkSD8TFaaVJP27&quot;
-sess = requests.Session()
-
-def do_cart():
-    data = &#123;
-        &quot;productId&quot;: 2,
-        &quot;redir&quot;: &quot;PRODUCT&quot;,
-        &quot;quantity&quot;: 1
-    &#125;
-    
-    res = sess.post(url+&quot;cart&quot;, data=data,cookies=&#123;&quot;session&quot;:Cookie&#125;)
-    
-    return res
-
-
-
-def getCsrf():
-    res = sess.get(url+&quot;my-account?id=wiener&quot;,
-              cookies=&#123;&quot;session&quot;: Cookie&#125;)
-    csrf = re.findall(csrfPartten, res.text)[0]
-    return(csrf.split(&quot;=&quot;)[3].replace(&#39;&quot;&#39;, &quot;&quot;).replace(&quot;&gt;&quot;, &quot;&quot;))
-
-csrf = getCsrf()
-
-def do_coupon():
-    
-    data = &#123;
-        &quot;coupon&quot;:&quot;SIGNUP30&quot;,
-        &quot;csrf&quot;:csrf
-    &#125;
-    res = sess.post(url+&quot;cart/coupon&quot;, data=data,cookies=&#123;&quot;session&quot;:Cookie&#125;)
-    
-    return res
-def do_checkout():
-    data = &#123;
-        &quot;csrf&quot;: csrf
-    &#125;
-    res = sess.post(url+&quot;cart/checkout&quot;, data=data,
-                    cookies=&#123;&quot;session&quot;: Cookie&#125;)
-    code = re.findall(codePartten, res.text)
-    return code[2:]
-    
-
-    
-
-def do_redeem(code):
-    data = &#123;
-        &quot;gift-card&quot;: code[0].replace(&quot;&lt;td&gt;&quot;,&quot;&quot;).replace(&quot;&lt;/td&gt;&quot;,&quot;&quot;),
-        &quot;csrf&quot;: csrf
-    &#125;
-    res = sess.post(url+&quot;gift-card&quot;, data=data,
-                    cookies=&#123;&quot;session&quot;: Cookie&#125;)
-
-while True:
-
-    do_cart()
-    do_coupon()
-    do_redeem(do_checkout())
-</code></pre>
-<p>不考虑效率 跑个半个小时左右就好了</p>
-<p>主要还是交互太慢了</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/4491a98ec8a252a62e15a6ac986d3e8a.png" alt="image-20231222130923509"></p>
-<h3 id="lab11-Authentication-bypass-via-encryption-oracle"><a href="#lab11-Authentication-bypass-via-encryption-oracle" class="headerlink" title="lab11: Authentication bypass via encryption oracle"></a>lab11: Authentication bypass via encryption oracle</h3><p>post&#x2F;comment处会将emil加密</p>
-<p>猜测和stay-logged-in是同种方式</p>
-<p>尝试将stay-logged-in的值解密</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/7a701350bdef91c9a72efa03a9225800.png" alt="image-20231222133525271"></p>
-<p>可以看见是用户名加时间戳 将其在emil处提交加密</p>
-<p><code>administrator:1703222719341</code></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/afef0a78fe6208a1432a228ffcefa31b.png" alt="image-20231222134653363"></p>
-<p>前面还有<code>Invalid email address:</code> 23个字符</p>
-<p>考虑到一般这种都是块加密 补齐至32个字符</p>
-<p>然后把cipher的前32位删了<img src="https://img-blog.csdnimg.cn/img_convert/6a18119d50b9fe092fe0036493ab30b3.png" alt="image-20231222140616052"></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/521c6f53392bfa9502a7746681fcffe0.png" alt="image-20231222140333592"></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/6a059bb27e677feadc78fbd1cc8a9620.png" alt="image-20231222140522765"></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ff7d73">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #00a596">服务器</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #00bcd4">数据库</a>
-        </span>
-        
-    </div>
-    <a href="/2023/12/23/PortSwigger%20Business%20Logic%20Vulnerabilities/" class="go-post">阅读全文</a>
 </div>
 
 
@@ -1785,7 +1647,7 @@ while True:
     
     
     <span class="page-omit">...</span>
-    <a class="page-num" href="/page/7">7</a>
+    <a class="page-num" href="/page/8">8</a>
     
     
     <a class="page-num" href="/page/4/">
