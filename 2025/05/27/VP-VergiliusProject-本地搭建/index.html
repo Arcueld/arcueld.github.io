@@ -1,0 +1,503 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>VP(VergiliusProject)本地搭建 | Arcueid&#39;s BLOG</title>
+    <meta name="author" content="Arcueid" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="icon" href="/images/Arcueid.jpg" />
+    <link rel="preconnect" href="https://cdn.staticfile.net" />
+<script src="https://cdn.staticfile.net/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.loli.net" />
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" />
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.staticfile.net/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.staticfile.net/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdn.staticfile.net/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ARCUEID&#39;S BLOG</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ARCUEID&#39;S BLOG</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>VP(VergiliusProject)本地搭建</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/27
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>有些时候梯子不太好 访问VP比较卡 很影响思路, 打算在VPS上搭建一个</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/VergiliusProject/vergilius-project">https://github.com/VergiliusProject/vergilius-project</a></p>
+<h1 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h1><p>安装java21</p>
+<pre><code class="bash">sudo yum -y update
+wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.8.1+1/OpenJDK17U-jdk_x64_linux_hotspot_17.0.8.1_1.tar.gz
+sudo tar xzf OpenJDK17U-jdk_x64_linux_hotspot_17.0.8.1_1.tar.gz -C /usr/local/
+
+
+# 切换JAVA_HOME
+sudo vim /etc/profile
+export JAVA_HOME=/usr/local/jdk-17.0.8.1+1
+export PATH=$JAVA_HOME/bin:$PATH
+
+
+
+
+wget https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.rpm
+rpm -ivh jdk-21_linux-x64_bin.rpm
+vim /etc/profile
+export JAVA_HOME=/usr/java/jdk-21/
+</code></pre>
+<p>在build.gradle中添加dependency 删除原来那个pug4j</p>
+<span id="more"></span>
+
+<pre><code class="ini">implementation &#39;de.neuland-bfi:pug4j:2.2.0&#39;
+implementation &#39;org.springframework.boot:spring-boot-starter-cache&#39;
+</code></pre>
+<p>修改gradle的下载地址</p>
+<pre><code class="bash">vim gradle-wrapper.properties 
+distributionUrl=https\://mirrors.cloud.tencent.com/gradle/gradle-8.7-bin.zip
+</code></pre>
+<p>修改mysql配置 并禁用缓存</p>
+<pre><code class="bash">vim src/main/resources/application.properties 
+
+spring.datasource.url=jdbc:mysql://localhost:3306/dbvergilius?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;rewriteBatchedStatements=true&amp;jdbcCompliantTruncation=false
+spring.datasource.username=root
+spring.datasource.password=xxxxxxxxx
+
+spring.jpa.properties.hibernate.cache.use_second_level_cache=false
+spring.jpa.properties.hibernate.cache.use_query_cache=false
+</code></pre>
+<pre><code class="sql">mysql -u root -p 
+
+CREATE DATABASE dbvergilius CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202505280921089.png" alt="image-20250528092129479"></p>
+<h1 id="添加数据"><a href="#添加数据" class="headerlink" title="添加数据"></a>添加数据</h1><p>generate.sh会自动添加 如果exit <code>137</code>的话 多给点内存</p>
+<p>修改一下build.gradle</p>
+<pre><code class="ini">bootRun &#123;
+    systemProperty &quot;GIT_HASH&quot;, getCheckedOutGitCommitHash()
+    jvmArgs = [&#39;-Xmx1024m&#39;, &#39;-Xms512m&#39;]
+&#125;
+</code></pre>
+<pre><code class="bash">#!/bin/bash
+set -e
+
+./gradlew bootRun &amp;
+sleep 15s
+
+# 判断目录是否存在，如果不存在才 clone
+if [ ! -d &quot;kernels-data&quot; ]; then
+    git clone https://github.com/VergiliusProject/kernels-data.git
+else
+    echo &quot;kernels-data 已存在，跳过 clone&quot;
+fi
+
+for f in kernels-data/yml/*.yml
+do
+    echo importing $f
+    curl -s -F &quot;file=@$f&quot; http://localhost:8080/admin
+done
+
+set +e
+
+(while true; do echo &#39;[sending keep alive]&#39;; sleep 60s; done;) &amp;
+
+wget -q --mirror --page-requisites -E http://localhost:8080/
+wget -q --mirror http://localhost:8080/BingSiteAuth.xml
+wget -q --mirror http://localhost:8080/CNAME
+echo &gt; localhost:8080/.nojekyll
+
+wget -q --mirror --page-requisites --content-on-error -E http://localhost:8080/404
+
+jobs -p | xargs kill -9
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202505280932013.png" alt="image-20250528093242972"></p>
+<p>现在有个问题 访问不到具体页面</p>
+<p>创建<code>vergilius-project/src/main/java/com/vergiliusproject/utils/KindEnumConverter.java</code></p>
+<pre><code class="java">package com.vergiliusproject.utils;
+
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
+import com.vergiliusproject.entities.Ttype.Kind;
+
+@Converter(autoApply = true)
+public class KindEnumConverter implements AttributeConverter&lt;Kind, String&gt; &#123;
+
+    @Override
+    public String convertToDatabaseColumn(Kind attribute) &#123;
+        if (attribute == null) &#123;
+            return null;
+        &#125;
+
+        return attribute.name().toLowerCase();
+    &#125;
+
+    @Override
+    public Kind convertToEntityAttribute(String dbData) &#123;
+        if (dbData == null) &#123;
+            return null;
+        &#125;
+
+        return Kind.valueOf(dbData.toUpperCase());
+    &#125;
+&#125;
+</code></pre>
+<p>修改<code>vergilius-project/src/main/java/com/vergiliusproject/entities/Ttype.java</code></p>
+<pre><code class="java">package com.vergiliusproject.entities;
+
+import lombok.ToString;
+import jakarta.persistence.*;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
+import jakarta.persistence.Convert;
+import com.vergiliusproject.utils.KindEnumConverter;
+@Table(indexes = &#123;
+    @Index(columnList = &quot;id, os_id&quot;),
+    @Index(columnList = &quot;tname&quot;),
+    @Index(columnList = &quot;kind&quot;),
+&#125;)
+@Entity
+public class Ttype &#123;
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator=&quot;ttype_seq&quot;)
+    @SequenceGenerator(name=&quot;ttype_seq&quot;, allocationSize=500)
+    private Integer idtype;
+
+    @Column(name=&quot;tname&quot;)
+    private String name;
+
+    private Integer id;
+
+    @Column(name=&quot;size&quot;)
+    private Integer sizeof;
+
+    public enum Kind &#123;
+        STRUCT, ENUM, UNION, ARRAY, BASE, POINTER, FUNCTION;
+
+        @Override
+        public String toString() &#123;
+            String lowercase = name().toLowerCase(java.util.Locale.US);
+            return lowercase;
+        &#125;
+    &#125;
+    
+    @Column(name=&quot;kind&quot;)
+    // @Enumerated(EnumType.STRING)
+    @Convert(converter = KindEnumConverter.class)
+    private Kind kind;
+
+    @Column(name=&quot;const&quot;)
+    private Boolean isConst = false;
+
+    @Column(name=&quot;volatile&quot;)
+    private Boolean isVolatile = false;
+
+    //relationship with Os
+    @ManyToOne
+    @JoinColumn(name = &quot;os_id&quot;)
+    private Os opersys;
+
+    //relationship with Tdata
+    @OneToMany(mappedBy=&quot;ttype&quot;, cascade = CascadeType.ALL)
+    private Set&lt;Tdata&gt; data;
+    
+    @PrePersist
+    protected void onCreation() &#123;
+        // Trasfrorm various unnamed type names to null
+        if (Stream.of(&quot;__unnamed&quot;, &quot;&lt;unnamed-tag&gt;&quot;).anyMatch(x -&gt; x.equals(name))) &#123;
+            name = null;
+        &#125;
+    &#125;
+
+    public Integer getIdtype() &#123;
+        return idtype;
+    &#125;
+
+    public void setIdtype(Integer idtype) &#123;
+        this.idtype = idtype;
+    &#125;
+
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    public Integer getId() &#123;
+        return id;
+    &#125;
+
+    public void setId(Integer id) &#123;
+        this.id = id;
+    &#125;
+
+    public Integer getSizeof() &#123;
+        return sizeof;
+    &#125;
+
+    public void setSizeof(Integer sizeof) &#123;
+        this.sizeof = sizeof;
+    &#125;
+
+    public Kind getKind() &#123;
+       return kind;
+    &#125;
+
+    public void setKind(Kind kind) &#123;
+
+        this.kind = kind;
+    &#125;
+
+    public Os getOpersys() &#123;
+        return opersys;
+    &#125;
+
+    public void setOpersys(Os opersys) &#123;
+        this.opersys = opersys;
+    &#125;
+
+    public void setData(Set&lt;Tdata&gt; data) &#123;
+        this.data = data;
+    &#125;
+
+    public Set&lt;Tdata&gt; getData() &#123;
+        return data;
+    &#125;
+
+    public boolean isIsConst() &#123;
+        return (isConst != null &amp;&amp; isConst != false);
+    &#125;
+
+    public boolean isIsVolatile() &#123;
+       return (isVolatile != null &amp;&amp; isVolatile != false);
+    &#125;
+
+    public static List&lt;Ttype&gt; filterByTypes(List&lt;Ttype&gt; list, Kind param) &#123;
+        return list.stream().filter(x -&gt; x.getName() != null &amp;&amp; x.getKind() == param).toList();
+    &#125;
+&#125;
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202505281305591.png" alt="image-20250528130553405"></p>
+<p>至此搭建完毕 但是出现了新的问题 – 数据全是小写的</p>
+<h1 id="修改为大写"><a href="#修改为大写" class="headerlink" title="修改为大写"></a>修改为大写</h1><p>修改<code>vergilius-project/src/main/java/com/vergiliusproject/dto/TypeEntry.java </code></p>
+<pre><code class="java">@AllArgsConstructor
+public class TypeEntry &#123;
+    private String name;
+    private boolean isNew;
+
+    public String getName() &#123;
+        return name == null ? null : name.toUpperCase();
+    &#125;
+
+    public boolean isNew() &#123;
+        return isNew;
+    &#125;
+
+&#125;
+</code></pre>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202505281316427.png" alt="image-20250528131624305"></p>
+<p>这样外面就大写了</p>
+<p>现在来修改里面</p>
+<p>后面发现直接修改数据库的话更方便(</p>
+<p>修改<code>/etc/my.conf </code></p>
+<pre><code class="ini">lower_case_table_names = 2  # 存储时保留大小写，但比较时不区分大小写
+</code></pre>
+<pre><code class="sql">UPDATE dbvergilius.ttype SET tname = UPPER(tname);
+</code></pre>
+<p>就不管访问不到具体页面的事了 那个也可以用修改数据库解决 <code>kind</code>全转大写就行</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202505281342379.png" alt="image-20250528134253178"></p>
+<p>enjoy</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 Arcueid&#39;s BLOG
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;Arcueid
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

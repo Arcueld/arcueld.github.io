@@ -172,6 +172,70 @@
         
 
 <div class="post">
+    <a href="/2024/03/03/CommonsCollections5-6/">
+        <h2 class="post-title">CommonsCollections5 6</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/3/3
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="cc5"><a href="#cc5" class="headerlink" title="cc5"></a>cc5</h1><pre><code class="ini">Gadget chain:
+        ObjectInputStream.readObject()
+            BadAttributeValueExpException.readObject()
+                TiedMapEntry.toString()
+                    LazyMap.get()
+                        ChainedTransformer.transform()
+                            ConstantTransformer.transform()
+                            InvokerTransformer.transform()
+                                Method.invoke()
+                                    Class.getMethod()
+                            InvokerTransformer.transform()
+                                Method.invoke()
+                                    Runtime.getRuntime()
+                            InvokerTransformer.transform()
+                                Method.invoke()
+                                    Runtime.exec()
+</code></pre>
+<p>相较于cc1 把LazyMap的上层改了 没有使用动态代理</p>
+<p>拼一下先</p>
+<p>然后去找调用get的</p>
+<p>调用get的非常多 这里选择的是<code>TiedMapEntry.toString()</code></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030807002.png" alt="image-20240303080650311"></p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030807992.png" alt="image-20240303080733554"></p>
+<p>toString也非常多</p>
+<p><img src="https://img-host-arcueid.oss-cn-hangzhou.aliyuncs.com/img202403030809346.png" alt="image-20240303080955216"></p>
+<p>这里用的BadAttributeValueExpException#ReadObject</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/java/" style="color: #00a596">java</a>
+        </span>
+        
+    </div>
+    <a href="/2024/03/03/CommonsCollections5-6/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2024/03/03/CommonsCollections3-4/">
         <h2 class="post-title">CommonsCollections3 4</h2>
     </a>
@@ -218,7 +282,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #00a596">java</a>
         </span>
         
     </div>
@@ -271,7 +335,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
+            <a href="/tags/java/" style="color: #00a596">java</a>
         </span>
         
     </div>
@@ -319,7 +383,7 @@
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #00a596">java</a>
+            <a href="/tags/java/" style="color: #03a9f4">java</a>
         </span>
         
     </div>
@@ -617,17 +681,17 @@ public class NativeExec &#123;
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ff7d73">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
+            <a href="/tags/java/" style="color: #00a596">java</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E4%BB%A3%E7%A0%81%E5%A4%8D%E5%AE%A1/" style="color: #ff7d73">代码复审</a>
+            <a href="/tags/%E4%BB%A3%E7%A0%81%E5%A4%8D%E5%AE%A1/" style="color: #03a9f4">代码复审</a>
         </span>
         
     </div>
@@ -753,17 +817,17 @@ print(res.text)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/node-js/" style="color: #00a596">node.js</a>
+            <a href="/tags/node-js/" style="color: #03a9f4">node.js</a>
         </span>
         
     </div>
@@ -805,12 +869,12 @@ print(res.text)
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00bcd4">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
         </span>
         
     </div>
@@ -1072,22 +1136,22 @@ Unsafe unsafe = (Unsafe)field.get(null);
         
         <span class="tag">
             
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #03a9f4">网络安全</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #00a596">网络安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ffa2c4">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #00bcd4">开发语言</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ff7d73">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/java/" style="color: #03a9f4">java</a>
+            <a href="/tags/java/" style="color: #ff7d73">java</a>
         </span>
         
     </div>
@@ -1365,12 +1429,12 @@ for pl in plist:
         
         <span class="tag">
             
-            <a href="/tags/python/" style="color: #00bcd4">python</a>
+            <a href="/tags/python/" style="color: #ffa2c4">python</a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">开发语言</a>
+            <a href="/tags/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/" style="color: #ff7d73">开发语言</a>
         </span>
         
     </div>
@@ -1507,7 +1571,7 @@ for pl in plist:
         
         <span class="tag">
             
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">安全</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #03a9f4">安全</a>
         </span>
         
         <span class="tag">
@@ -1517,116 +1581,11 @@ for pl in plist:
         
         <span class="tag">
             
-            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #ffa2c4">数据库</a>
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #03a9f4">数据库</a>
         </span>
         
     </div>
     <a href="/2023/12/26/PortSwigger%20Authentication/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/12/25/PortSwigger%20Access%20Control/">
-        <h2 class="post-title">PortSwigger Access Control</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/12/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h3 id="lab1-Unprotected-admin-functionality"><a href="#lab1-Unprotected-admin-functionality" class="headerlink" title="lab1: Unprotected admin functionality"></a>lab1: Unprotected admin functionality</h3><p>访问robots.txt</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/eda69987a85fbed2911cfc3a6fe4ef4f.png" alt="image-20231222143713595"></p>
-<p>进了删除即可</p>
-<h3 id="lab2-Unprotected-admin-functionality-with-unpredictable-URL"><a href="#lab2-Unprotected-admin-functionality-with-unpredictable-URL" class="headerlink" title="lab2: Unprotected admin functionality with unpredictable URL"></a>lab2: Unprotected admin functionality with unpredictable URL</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/a5fc5632f4334fb6cc9fb84bfc3b7072.png" alt="image-20231222143927627"></p>
-<p>访问<code>admin-d0qwj5</code></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/b503e96f5d868c533247972684b44d9f.png" alt="image-20231222144030104"></p>
-<h3 id="lab3-User-role-controlled-by-request-parameter"><a href="#lab3-User-role-controlled-by-request-parameter" class="headerlink" title="lab3: User role controlled by request parameter"></a>lab3: User role controlled by request parameter</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/d2233fc1d034dbc7838c6bf7c485d626.png" alt="image-20231222144600582"></p>
-<p>发现Cookie中存在判断是否为admin</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/3a1b65a3759516c34600532db5b4935c.png" alt="image-20231222144646624"></p>
-<h3 id="lab4-User-role-can-be-modified-in-user-profile"><a href="#lab4-User-role-can-be-modified-in-user-profile" class="headerlink" title="lab4: User role can be modified in user profile"></a>lab4: User role can be modified in user profile</h3><p>在change emil处发现可能可以修改role id</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/8b1635dc0e22603a0803ab5f69349b74.png" alt="image-20231222151454217"></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/737165b88ebad275614cc8169b090ce2.png" alt="image-20231222151526848"></p>
-<h3 id="lab5-URL-based-access-control-can-be-circumvented"><a href="#lab5-URL-based-access-control-can-be-circumvented" class="headerlink" title="lab5: URL-based access control can be circumvented"></a>lab5: URL-based <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/access-control">access control</a> can be circumvented</h3><p>如果框架支持用请求头重写请求行 就可能导致访问控制的绕过</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/6f1d7f1b80834455755a9cf87993ce8f.png" alt="image-20231223103843359"></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/9f7d4f5ac25eade1efedb03508b1f392.png" alt="image-20231223104445748"></p>
-<p>此时点击删除 报access denied</p>
-<p>考虑重写</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/065ee10c5308060fd5f45906382df27e.png" alt="image-20231223104628656"></p>
-<h3 id="lab6-Method-based-access-control-can-be-circumvented"><a href="#lab6-Method-based-access-control-can-be-circumvented" class="headerlink" title="lab6: Method-based access control can be circumvented"></a>lab6: Method-based <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/access-control">access control</a> can be circumvented</h3><p>先用admin的账号抓包</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/ad0981517c1e4ca30cc90e081990af41.png" alt="image-20231223105120745"></p>
-<p>切换为GET方式访问 回显缺少参数 补全</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/a4e55b0780dc0a6518c0228389b5b054.png" alt="image-20231223105231925"></p>
-<p>这里的Cookie是wiener的 回去看 发现wiener已经是admin了</p>
-<p>还有一些访问控制出现在匹配严格问题上</p>
-<p>如大小写 后缀是否有&#x2F; 任意扩展名</p>
-<h3 id="lab7-User-ID-controlled-by-request-parameter"><a href="#lab7-User-ID-controlled-by-request-parameter" class="headerlink" title="lab7: User ID controlled by request parameter"></a>lab7: User ID controlled by request parameter</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/9d644af0d8baec45122f697b316d75df.png" alt="image-20231223105901644"></p>
-<h3 id="lab8-User-ID-controlled-by-request-parameter-with-unpredictable-user-IDs"><a href="#lab8-User-ID-controlled-by-request-parameter-with-unpredictable-user-IDs" class="headerlink" title="lab8: User ID controlled by request parameter, with unpredictable user IDs"></a>lab8: User ID controlled by request parameter, with unpredictable user IDs</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/837f3ae6b4371715358eef71aa738b91.png" alt="image-20231223110407135"></p>
-<p>通过carlos的文章得到其uuid</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/e1b12f1e6412d7cc8d1d7fd584ffe569.png" alt="image-20231223110428202"></p>
-<h3 id="lab9-User-ID-controlled-by-request-parameter-with-data-leakage-in-redirect"><a href="#lab9-User-ID-controlled-by-request-parameter-with-data-leakage-in-redirect" class="headerlink" title="lab9: User ID controlled by request parameter with data leakage in redirect"></a>lab9: User ID controlled by request parameter with data leakage in redirect</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/7ffeba746650eb74bbd925db45e1a670.png" alt="image-20231223110639864"></p>
-<p>通过id传carlos 发现先访问到该页面 然后再重定向回登录界面</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/e6beb8c3f20b509c8113c2bdd41122ee.png" alt="image-20231223110720772"></p>
-<h3 id="lab10-User-ID-controlled-by-request-parameter-with-password-disclosure"><a href="#lab10-User-ID-controlled-by-request-parameter-with-password-disclosure" class="headerlink" title="lab10: User ID controlled by request parameter with password disclosure"></a>lab10: User ID controlled by request parameter with password disclosure</h3><p>user account处改id可以查看admin信息</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/93d4e540b9c2fefefc894951f44911bd.png" alt="image-20231223112746340"></p>
-<p>在修改密码出有明文密码传输</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/7109718b40e5d694632b519a81ce28ee.png" alt="image-20231223112808249"></p>
-<h3 id="lab11-Insecure-direct-object-references"><a href="#lab11-Insecure-direct-object-references" class="headerlink" title="lab11: Insecure direct object references"></a>lab11: <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/access-control/idor">Insecure direct object references</a></h3><p>提供了一个下载聊天记录的功能 发现当前下载的是2.txt</p>
-<p>尝试直接下载1.txt</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/d293ad3a0e5a855f48419a0eac3b80a6.png" alt="image-20231223113236517"></p>
-<h3 id="lab12-Multi-step-process-with-no-access-control-on-one-step"><a href="#lab12-Multi-step-process-with-no-access-control-on-one-step" class="headerlink" title="lab12: Multi-step process with no access control on one step"></a>lab12: Multi-step process with no <a target="_blank" rel="noopener" href="https://portswigger.net/web-security/access-control">access control</a> on one step</h3><p>多步的访问控制 忽略了其中一步</p>
-<p>在提升等级的时候需要二次验证 </p>
-<p>在第二步的时候访问控制没做好 可以直接提升用户等级</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/c60f204d8c1d1052a189d5d299acfad9.png" alt="image-20231223113811084"></p>
-<h3 id="lab13-Referer-based-access-control"><a href="#lab13-Referer-based-access-control" class="headerlink" title="lab13: Referer-based access control"></a>lab13: Referer-based access control</h3><p>基于referer的访问控制 只验证了是否来自xxx</p>
-<p>例如nacos</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/5e17f057a6475a1ed7db287f565f3b2c.png" alt="image-20231223114336212"></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="color: #ffa2c4">网络安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E5%AE%89%E5%85%A8/" style="color: #00a596">安全</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #03a9f4">服务器</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/java/" style="color: #00bcd4">java</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="color: #00a596">数据库</a>
-        </span>
-        
-    </div>
-    <a href="/2023/12/25/PortSwigger%20Access%20Control/" class="go-post">阅读全文</a>
 </div>
 
 
